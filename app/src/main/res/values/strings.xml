@@ -1,0 +1,352 @@
+<resources>
+    <string name="app_name">M<sup>2</sup></string>
+    <string name="support_text">создано с поддержкой</string>
+    <string name="support_company">CrowdSale Network</string>
+    <string name="intro_title_01">Теперь цену \n предлагаете Вы</string>
+    <string name="intro_description_01">Самые выгодные цены \n на недвижимость</string>
+    <string name="intro_title_02">Предложи свою цену \n на недвижимость</string>
+    <string name="intro_description_02">Укажите город и цену, \n мы предложим вашу заявку \n всем владельцам недвижимости</string>
+    <string name="intro_title_03">Ответ на Ваши заявки \n от 5 минут</string>
+    <string name="intro_description_03">Больше не надо обзванивать \n всех владельцев, \n они сами позвонят и напишут Вам</string>
+    <string name="intro_next">Далее</string>
+    <string name="intro_start">Начать</string>
+    <string name="login_title">Вход</string>
+    <string name="login_email">Email или телефон</string>
+    <string name="login_pass">Пароль</string>
+    <string name="login_forgot_password">Забыли пароль?</string>
+    <string name="login_text">Войти</string>
+    <string name="login_register_title">Еше нет аккаунта?</string>
+    <string name="login_register">Регистрация</string>
+    <string name="register_title">Введите номер</string>
+    <string name="register_title_01">Номер Вашего телефона будет использоваться для авторизации</string>
+    <string name="already_had_account">Уже есть аккаунт?</string>
+    <string name="get_code">Получить код</string>
+
+    <string-array name="countries_array">
+        <item>Афганистан</item>
+        <item>Албания</item>
+        <item>Алжир</item>
+        <item>Американское Самоа</item>
+        <item>Андорра</item>
+        <item>Ангола</item>
+        <item>Ангилья</item>
+        <item>Антарктида</item>
+        <item>Антигуа и Барбуда</item>
+        <item>Аргентина</item>
+        <item>Армения</item>
+        <item>Aruba</item>
+        <item>Австралия</item>
+        <item>Австрия</item>
+        <item>Азербайджан</item>
+        <item>Бахрейн</item>
+        <item>Бангладеш</item>
+        <item>Барбадос</item>
+        <item>Беларусь</item>
+        <item>Бельгия</item>
+        <item>Белиз</item>
+        <item>Бенин</item>
+        <item>Бермудский</item>
+        <item>Бутан</item>
+        <item>Боливия</item>
+        <item>Босния и Герцеговина</item>
+        <item>Ботсвана</item>
+        <item>Остров Буве</item>
+        <item>Бразилия</item>
+        <item>Британская территория в Индийском океане</item>
+        <item>Британские Виргинские острова</item>
+        <item>Бруней</item>
+        <item>Болгария</item>
+        <item>Буркина-Фасо</item>
+        <item>Бурунди</item>
+        <item>Камбоджа</item>
+        <item>Камерун</item>
+        <item>Канада</item>
+        <item>Кабо-Верде</item>
+        <item>Каймановы острова</item>
+        <item>Центральноафриканская Республика</item>
+        <item>Чад</item>
+        <item>Чили</item>
+        <item>Китай</item>
+        <item>Остров Рождества</item>
+        <item>Кокосовые (Килинг) острова</item>
+        <item>Колумбия</item>
+        <item>Коморские острова</item>
+        <item>Конго</item>
+        <item>Острова Кука</item>
+        <item>Коста-Рика</item>
+        <item>Кот-д\'Ивуар</item>
+        <item>Хорватия</item>
+        <item>Куба</item>
+        <item>Кипр</item>
+        <item>Чешская Республика</item>
+        <item>Демократическая Республика Конго</item>
+        <item>Дания</item>
+        <item>Джибути</item>
+        <item>Dominica</item>
+        <item>Доминиканская Республика</item>
+        <item>Восточный Тимор</item>
+        <item>Эквадор</item>
+        <item>Египет</item>
+        <item>Сальвадор</item>
+        <item>Экваториальная Гвинея</item>
+        <item>Эритрея</item>
+        <item>Эстония</item>
+        <item>Эфиопия</item>
+        <item>Фарерские острова</item>
+        <item>Фолклендские острова</item>
+        <item>Фиджи</item>
+        <item>Финляндия</item>
+        <item>Бывшая югославская Республика Македония</item>
+        <item>Франция</item>
+        <item>Французская Гвиана</item>
+        <item>Французская Полинезия</item>
+        <item>Французские южные территории</item>
+        <item>Габон</item>
+        <item>Грузия</item>
+        <item>Германия</item>
+        <item>Гана</item>
+        <item>Гибралтар</item>
+        <item>Греция</item>
+        <item>Greenland</item>
+        <item>Гренада</item>
+        <item>Гваделупа</item>
+        <item>Guam</item>
+        <item>Гватемала</item>
+        <item>Guinea</item>
+        <item>Гвинея-Бисау</item>
+        <item>Гайана</item>
+        <item>Гаити</item>
+        <item>Острова Херд и Макдональд</item>
+        <item>Гондурас</item>
+        <item>Гонконг</item>
+        <item>Венгрия</item>
+        <item>Исландия</item>
+        <item>Индия</item>
+        <item>Индонезия</item>
+        <item>Иран</item>
+        <item>Ирак</item>
+        <item>Ирландия</item>
+        <item>Израиль</item>
+        <item>Италия</item>
+        <item>Ямайка</item>
+        <item>Япония</item>
+        <item>Иордания</item>
+        <item>Казахстан</item>
+        <item>Кения</item>
+        <item>Кирибати</item>
+        <item>Кувейт</item>
+        <item>Кыргызстан</item>
+        <item>Лаос</item>
+        <item>Латвия</item>
+        <item>Ливан</item>
+        <item>Лесото</item>
+        <item>Либерия</item>
+        <item>Ливия</item>
+        <item>Лихтенштейн</item>
+        <item>Литва</item>
+        <item>Люксембург</item>
+        <item>Макао</item>
+        <item>Мадагаскар</item>
+        <item>Малави</item>
+        <item>Малайзия</item>
+        <item>Мальдивы</item>
+        <item>Mali</item>
+        <item>Мальта</item>
+        <item>Маршалловы Острова</item>
+        <item>Мартиники</item>
+        <item>Мавритания</item>
+        <item>Маврикий</item>
+        <item>Майотта</item>
+        <item>Мексика</item>
+        <item>Микронезия</item>
+        <item>Молдова</item>
+        <item>Монако</item>
+        <item>Монголия</item>
+        <item>Черногория</item>
+        <item>Montserrat</item>
+        <item>Марокко</item>
+        <item>Мозамбик</item>
+        <item>Мьянма</item>
+        <item>Намибия</item>
+        <item>науру</item>
+        <item>Непал</item>
+        <item>Нидерланды</item>
+        <item>Нидерландские Антильские острова</item>
+        <item>Новая Каледония</item>
+        <item>Новая Зеландия</item>
+        <item>Никарагуа</item>
+        <item>Нигер</item>
+        <item>Нигерия</item>
+        <item>Niue</item>
+        <item>Остров Норфолк</item>
+        <item>Северная Корея</item>
+        <item>Северные Марианские острова</item>
+        <item>Норвегия</item>
+        <item>Оман</item>
+        <item>Пакистан</item>
+        <item>Palau</item>
+        <item>Панама</item>
+        <item>Папуа-Новая Гвинея</item>
+        <item>Парагвай</item>
+        <item>Перу</item>
+        <item>Филиппины</item>
+        <item>Острова Питкэрн</item>
+        <item>Польша</item>
+        <item>Португалия</item>
+        <item>Пуэрто-Рико</item>
+        <item>Катар</item>
+        <item>Реюньон</item>
+        <item>Румыния</item>
+        <item>Россия</item>
+        <item>Руанда</item>
+        <item>Sqo Tome and Principe</item>
+        <item>Святой Елены</item>
+        <item>Сент-Китс и Невис</item>
+        <item>Сент-Люсия</item>
+        <item>Сен-Пьер и Микелон</item>
+        <item>Сент-Винсент и Гренадины</item>
+        <item>Самоа</item>
+        <item>Сан-Марино</item>
+        <item>Саудовская Аравия</item>
+        <item>Сенегал</item>
+        <item>Сербия</item>
+        <item>Сейшелы</item>
+        <item>Сьерра-Леоне</item>
+        <item>Сингапур</item>
+        <item>Словакия</item>
+        <item>Словения</item>
+        <item>Соломоновы Острова</item>
+        <item>Сомали</item>
+        <item>Южная Африка</item>
+        <item>Южная Георгия и Южные Сандвичевы острова</item>
+        <item>Южная Корея</item>
+        <item>Южный Судан</item>
+        <item>Испания</item>
+        <item>Шри-Ланка</item>
+        <item>Судан</item>
+        <item>Суринам</item>
+        <item>Шпицберген и Ян Майен</item>
+        <item>Свазиленд</item>
+        <item>Швеция</item>
+        <item>Швейцария</item>
+        <item>Сирия</item>
+        <item>Тайвань</item>
+        <item>Таджикистан</item>
+        <item>Танзания</item>
+        <item>Таиланд</item>
+        <item>Багамские Острова</item>
+        <item>Гамбия</item>
+        <item>Того</item>
+        <item>Tokelau</item>
+        <item>Tonga</item>
+        <item>Тринидад и Тобаго</item>
+        <item>Тунис</item>
+        <item>Турция</item>
+        <item>Туркменистан</item>
+        <item>Острова Теркс и Кайкос</item>
+        <item>Тувалу</item>
+        <item>Виргинские острова</item>
+        <item>Уганда</item>
+        <item>Украина</item>
+        <item>Объединенные Арабские Эмираты</item>
+        <item>Великобритания</item>
+        <item>Соединенные Штаты</item>
+        <item>Малые отдаленные острова США</item>
+        <item>Уругвай</item>
+        <item>Узбекистан</item>
+        <item>Вануату</item>
+        <item>Ватикан</item>
+        <item>Венесуэла</item>
+        <item>Вьетнам</item>
+        <item>Уоллис и Футуна</item>
+        <item>Западная Сахара</item>
+        <item>Йемен</item>
+        <item>Югославия</item>
+        <item>Замбия</item>
+        <item>Зимбабве</item>
+    </string-array>
+
+    <string-array name="list_of_services">
+        <item>Квартиру</item>
+        <item>Дом</item>
+    </string-array>
+
+    <string-array name="days">
+        <item>Посуточно</item>
+        <item>Помесячно</item>
+        <item>По часам</item>
+    </string-array>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sample_message_text">Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…</string>
+    <string name="profile_username">Александра</string>
+    <string name="view_profile">Посмотреть профиль</string>
+    <string name="user_mode_owner">Режим хозяина</string>
+    <string name="user_mode_guest">Режим гостя</string>
+    <string name="user_mode_hint_guest">нажмите, чтобы перейти в режим гостя</string>
+    <string name="user_mode_hint_owner">нажмите, чтобы перейти в режим хозяина</string>
+    <string name="header_parameters">Параметры</string>
+    <string name="profile_info">Личная информация</string>
+    <string name="payments">Платежи и способы оплаты</string>
+    <string name="partnership">Партнерство</string>
+    <string name="realty_info">Узнайте о сдаче недвижимости</string>
+    <string name="realty_info_hint">Зарабатывайте до 850$ в месяц</string>
+    <string name="invite_friend">Пригласите хозяина</string>
+    <string name="invite_friend_hint">Заработайте до 4500 тенге за каждого приглашенного хозяина</string>
+    <string name="to_be_partner">Стать партнером по VR</string>
+    <string name="profile_avatar">Profile Avatar</string>
+    <string name="card">Card</string>
+    <string name="profile_home">Profile Home</string>
+    <string name="profile_case">Profile Case</string>
+    <string name="profile_partner">Profile Partner</string>
+    <string name="search_flats">Поиск Квартиры</string>
+    <string name="messages">Сообщения</string>
+    <string name="booking">Бронирования</string>
+    <string name="search_text_hint">Нажмите кнопку начать поиск, \n чтобы указать зону поиска и \n параметры интересующего \n вас жилья</string>
+    <string name="search_text_title">Найдите ваше\nпервое жилье</string>
+    <string name="search_start">Начать поиск</string>
+    <string name="discussion">Обсуждение</string>
+    <string name="message_hint">Напишите что-нибудь…</string>
+    <string name="country_coude">+7</string>
+    <string name="enter_phone">(XXX) XXX-XX-XX</string>
+    <string name="current_position">current position</string>
+
+    <array name="material_calendar_months_array">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </array>
+
+    <string name="body_message">Квартира-студия  с просторной лоджией и приятным видом на двор. Кухня-гостиная со встроенной бытовой техникой (холодильник, варочная панель) и кондиционером. Из мебели: кухонный гарнитур, круглый обеденный стол, двухспальный раскладной диван, тумбы с плоским телевизором. В коридоре расположен вместительный шкаф с зеркальной поверхностью. Санузел с душевой кабиной и стиральной машиной.</string>
+    <string name="house_area">28,6 м<sup><small>2</small></sup></string>
+    <string name="total_area">36,1 м<sup><small>2</small></sup></string>
+    <string name="square_meter"> м<sup><small>2</small></sup></string>
+    <string name="offer_text">Предложение для Вас: <b>310 000 ₸</b> в сутки</string>
+    <string name="arrival_date">Дата заезда</string>
+    <string name="departure_date">Дата выезда</string>
+    <string name="booking_request_text">Возможно моментальное бронирование при стоимости в сутки: <b>300 000 ₸</b></string>
+    <string name="empty_booking_title">Ваши планы \nу Вас под рукой</string>
+    <string name="not_full_profile_text">Мы просим всех заполнить кое-какую информация, прежде чем начать пользоваться сервисом. Она необходима, чтобы обеспечить безопасность и удобство для всех пользователей</string>
+    <string name="card_type">Кредитная или \nдебетовая карта</string>
+    <string name="term_of_use">Я ознакомлен с <u><b>правилами</b></u> и <u><b>политикой</b></u> <u><b>конфиденциальности</b></u> и принимаю их условия</string>
+    <string name="photo_count">Количество фото: \n(обычно соответствует котоличеству комнат)</string>
+    <string name="offer_price">330 000 ₸ / сутки</string>
+
+    <string name="room_coun_01">1</string>
+    <string name="room_coun_02">2</string>
+    <string name="room_coun_03">3</string>
+    <string name="room_coun_04">4</string>
+    <string name="room_coun_05">5</string>
+    <string name="room_coun_06">6+</string>
+    <string name="default_login">test@test.com</string>
+    <string name="default_password">superPassword</string>
+
+</resources>

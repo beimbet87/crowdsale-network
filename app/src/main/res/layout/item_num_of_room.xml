@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:paddingLeft="24dp"
+    android:paddingTop="16dp"
+    android:paddingRight="24dp"
+    android:paddingBottom="8dp"
+    android:elevation="0dp">
+
+    <TextView
+        android:id="@+id/tv_rent_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="#7F7F7F"
+        android:textSize="13sp"
+        tools:ignore="RtlSymmetry"
+        tools:text="указать" />
+</RelativeLayout>

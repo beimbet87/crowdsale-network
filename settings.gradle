@@ -1,0 +1,2 @@
+rootProject.name='Crowdsale Network'
+include ':app'

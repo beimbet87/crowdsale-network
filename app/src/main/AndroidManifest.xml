@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="www.kaznu.kz.projects.m2">
+
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Default"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+
+        <activity android:name=".activities.SearchIntroActivity" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".activities.SlideActivity" />
+        <activity android:name=".activities.ProfileActivity" />
+        <activity
+            android:name=".activities.DiscussionActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+
+        <activity
+            android:name=".activities.DiscussionAdminActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+
+        <activity android:name=".activities.RealtyAddActivity" />
+        <activity android:name=".activities.OfferActivity" />
+        <activity android:name=".activities.SearchActivity" />
+        <activity
+            android:name=".activities.IntroScreenActivity"
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".activities.RealtyActivity" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:parentActivityName=".activities.LoginActivity" />
+        <activity android:name=".MainActivity" />
+
+        <activity android:name=".activities.UploadAvatarActivity" />
+
+        <activity android:name=".activities.Add3DActivity" />
+
+        <service
+            android:name=".services.SignalRService"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
+
+</manifest>

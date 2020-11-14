@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/action_ads_admin"
+        android:enabled="true"
+        android:icon="@drawable/ic_location"
+        android:title=""
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/action_messages_admin"
+        android:enabled="true"
+        android:icon="@drawable/ic_message"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_schedules_admin"
+        android:enabled="true"
+        android:icon="@drawable/ic_agenda"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_account_admin"
+        android:enabled="true"
+        android:icon="@drawable/ic_person"
+        android:title=""
+        app:showAsAction="ifRoom" />
+</menu>

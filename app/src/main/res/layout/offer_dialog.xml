@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@drawable/dialog_background">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="28dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_remove"
+        android:padding="3dp"
+        android:background="@drawable/remove_shadow"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Принимайте или отклоняйте предложения"
+        android:textColor="@color/color_primary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/search_dialog_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Смахните вправо, чтобы сразу отклонить заявку или нажмите, чтобы посмотреть подробности предложения"
+        android:textColor="#7f7f7f"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        style="?android:borderlessButtonStyle"
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background_light_blue"
+        android:textAllCaps="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Понятно"/>
+
+</LinearLayout>

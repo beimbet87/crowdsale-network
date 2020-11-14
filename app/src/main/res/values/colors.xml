@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#00B0EC</color>
+    <color name="color_primary_dark">#0B476C</color>
+    <color name="color_primary_hint">#7F7F7F</color>
+    <color name="color_primary_transparent">#107F7F7F</color>
+    <color name="color_primary_error">#BA0952</color>
+    <color name="color_primary_gray">#F2F2F2</color>
+    <color name="color_primary_border">#F4F4F4</color>
+    <color name="color_primary_disable">#C2C5CC</color>
+    <color name="color_primary_message">#E8F7FC</color>
+    <color name="color_primary_splash_hint">#95D2F7</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="color_gradient_end">#00D3ED</color>
+    <color name="color_gradient_start">#008EEC</color>
+    <color name="registerTextColor">#00B0EC</color>
+    <color name="searchButtonColor">#00A4EC</color>
+    <color name="registerButtonColor">#0B476C</color>
+    <color name="color_primary_button_intro">#107BBE</color>
+    <color name="white">#FFFFFF</color>
+    <color name="whiteWithAlpha">#11FFFFFF</color>
+    <color name="whiteWithAlpha50">#50FFFFFF</color>
+    <color name="blaclWithAlpha">#11000000</color>
+    <color name="colorRatingBarNormal">#E2E2E2</color>
+</resources>
