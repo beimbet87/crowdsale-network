@@ -348,5 +348,11 @@
     <string name="room_coun_06">6+</string>
     <string name="default_login">test@test.com</string>
     <string name="default_password">superPassword</string>
+    <string name="choose_profile">Выберите профиль</string>
+    <string name="guest_description">Режим можно будет сменить в любой момент в разделе профиль</string>
+    <string name="title_guest">Режим гостя</string>
+    <string name="title_master">Режим хозяина</string>
+    <string name="description_guest">Вы ищите квартиру для посуточной или помесячной аренды или покупки</string>
+    <string name="description_master">Вы владелец недвижимости, агент или риелтор и хотите сдать посуточно или помесячно или продать квартиру</string>
 
 </resources>

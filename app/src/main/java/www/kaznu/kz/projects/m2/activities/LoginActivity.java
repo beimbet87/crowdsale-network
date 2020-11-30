@@ -74,7 +74,7 @@ public class LoginActivity extends Activity {
                             editor.putInt("expires_in", jsonRoot.getInt("expires_in"));
                             editor.apply();
 
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, ProfileTypeActivity.class);
                             startActivity(intent);
 
                         } catch (JSONException e) {

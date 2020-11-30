@@ -85,7 +85,7 @@
 
     <Button
         android:id="@+id/btn_next"
-        style="@style/button_style_intro"
+        style="@style/Button.Style.Intro"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

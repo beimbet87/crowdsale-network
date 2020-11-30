@@ -56,12 +56,7 @@ public class MapsFragment extends Fragment implements InputListener {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        MapKitFactory.setApiKey("0c19b044-7b1e-4190-8682-4118f672110d");
-
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_maps, container, false);
-
-
-        MapKitFactory.initialize(rootView.getContext());
 
         RequestQueue queue = Volley.newRequestQueue(rootView.getContext());
 

@@ -124,7 +124,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/button_style_disabled"
+                    style="@style/Button.Style.Disabled"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:text="Далее" />

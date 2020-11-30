@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Default" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Default" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorAccent">@color/color_primary_dark</item>
@@ -10,7 +10,7 @@
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="radioButtonStyle">@style/radio_button_style</item>
+        <item name="radioButtonStyle">@style/RadioButton.Style</item>
     </style>
 
     <style name="Theme.Transparent" parent="Theme.MaterialComponents.NoActionBar">
@@ -67,17 +67,17 @@
     </style>
 
     <!-- Buttons style -->
-    <style name="button_style_dark_blue" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.DarkBlue" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/button_text_size2</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">normal</item>
         <item name="cornerRadius">16dp</item>
         <item name="android:background">@drawable/button_background_dark_blue</item>
         <item name="android:backgroundTint">@color/color_primary_dark</item>
     </style>
 
-    <style name="button_style_disabled" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.Disabled" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/button_text_size2</item>
@@ -86,7 +86,7 @@
         <item name="android:backgroundTint">#C2C5CC</item>
     </style>
 
-    <style name="radio_button_style" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="RadioButton.Style" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:button">@drawable/radio_selector</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/color_primary_dark</item>
@@ -94,7 +94,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="button_style_light_blue" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.LightBlue" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/button_text_size2</item>
@@ -107,7 +107,18 @@
         <item name="android:paddingEnd">@dimen/profile_rating_margin</item>
     </style>
 
-    <style name="button_style_intro" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.Back" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/button_text_size2</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:background">@drawable/back_button_background</item>
+        <item name="android:drawableEnd">@drawable/back_button</item>
+        <item name="android:paddingStart">@dimen/profile_rating_margin</item>
+        <item name="android:paddingEnd">@dimen/profile_rating_margin</item>
+    </style>
+
+    <style name="Button.Style.Intro" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/button_text_size1</item>
@@ -118,14 +129,14 @@
         <item name="android:paddingEnd">@dimen/profile_rating_margin</item>
     </style>
 
-    <style name="button_style_toggle" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.Toggle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/background_toggle</item>
         <item name="android:textColor">@color/color_toggle</item>
         <item name="android:textSize">16sp</item>
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="button_style_toggle_transparent" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.Toggle.Transparent" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/background_toggle_transparent</item>
         <item name="android:backgroundTint">@drawable/background_toggle_transparent</item>
         <item name="android:textColor">@color/color_toggle</item>
@@ -134,7 +145,7 @@
         <item name="android:padding">10dp</item>
     </style>
 
-    <style name="edittext_style_price" parent="Widget.AppCompat.EditText">
+    <style name="EditText.Style.Price" parent="Widget.AppCompat.EditText">
         <item name="background">@drawable/intro_input_phone_background</item>
         <item name="android:padding">10dp</item>
         <item name="android:paddingStart">18dp</item>
@@ -144,7 +155,7 @@
         <item name="android:inputType">phone</item>
     </style>
 
-    <style name="edittext_style_intro" parent="Widget.AppCompat.EditText">
+    <style name="EditText.Style.Intro" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/intro_input_background</item>
         <item name="android:ems">10</item>
         <item name="android:lines">1</item>
@@ -152,6 +163,8 @@
         <item name="android:paddingStart">24dp</item>
         <item name="android:paddingEnd">24dp</item>
         <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
     </style>
 
 </resources>

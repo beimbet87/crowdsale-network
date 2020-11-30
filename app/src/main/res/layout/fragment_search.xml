@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <com.google.android.material.button.MaterialButton
-        style="@style/button_style_light_blue"
+        style="@style/Button.Style.LightBlue"
         android:id="@+id/btn_search"
         android:layout_width="match_parent"
         android:layout_height="64dp"

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.pusher.client.Pusher;
@@ -18,24 +20,26 @@ import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class SplashActivity extends IntroActivity implements Constants {
 
-//    SharedPreferences introPreferences, countryPreferences;
+    SharedPreferences introPreferences;
     Logger Log;
     String socketId;
+    ProgressBar progressBar;
+    Intent intent;
 
     private final Handler waitHandler = new Handler();
     private final Runnable waitCallback = new Runnable() {
         @Override
         public void run() {
-//            introPreferences = getSharedPreferences("M2_INTRO", 0);
-//            boolean isIntro = introPreferences.getBoolean("isIntro", true);
-//            if(isIntro) {
-//                intent = new Intent(SplashActivity.this, IntroScreenActivity.class);
-//                Log.d("M2DEBUG", "introScreen" + isIntro);
-//            }
-//            else {
-//                intent = new Intent(SplashActivity.this, LoginActivity.class);
-//                Log.d("M2DEBUG", "loginScreen");
-//            }
+            introPreferences = getSharedPreferences("M2_INTRO", 0);
+            boolean isIntro = introPreferences.getBoolean("isIntro", true);
+            if(isIntro) {
+                intent = new Intent(SplashActivity.this, IntroScreenActivity.class);
+                Log.d("Intent ---> IntroScreenActivity");
+            }
+            else {
+                intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Log.d("Intent ---> LoginActivity");
+            }
 
             PusherOptions options = new PusherOptions();
             options.setCluster("ap2");
@@ -45,7 +49,7 @@ public class SplashActivity extends IntroActivity implements Constants {
             pusher.connect(new ConnectionEventListener() {
                 @Override
                 public void onConnectionStateChange(ConnectionStateChange change) {
-                    Log.d("State changed to " + change.getCurrentState() +
+                    Log.d("Pusher ---> State changed to " + change.getCurrentState() +
                             " from " + change.getPreviousState());
 
                     socketId = pusher.getConnection().getSocketId();
@@ -55,10 +59,7 @@ public class SplashActivity extends IntroActivity implements Constants {
                     editor.putString("socket_id", socketId);
                     editor.apply();
 
-                    Log.d("Socket ID: " + socketId);
-
-                    Intent intent = new Intent(SplashActivity.this, IntroScreenActivity.class);
-                    Log.d("Splash --> Intro: ");
+                    Log.d("Pusher ---> Socket ID: " + socketId);
 
                     startActivity(intent);
                     finish();
@@ -66,8 +67,8 @@ public class SplashActivity extends IntroActivity implements Constants {
 
                 @Override
                 public void onError(String message, String code, Exception e) {
-                    Log.d("Error message: " + message);
-                    Log.d("Error code: " + code);
+                    Log.d("Pusher ---> Error message: " + message);
+                    Log.d("Pusher ---> Error code: " + code);
                 }
             }, ConnectionState.ALL);
         }
@@ -78,9 +79,12 @@ public class SplashActivity extends IntroActivity implements Constants {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
         Log = new Logger(this, "M2TAG");
 
-        waitHandler.postDelayed(waitCallback, 2000);
+        waitHandler.postDelayed(waitCallback, 4000);
 
     }
 

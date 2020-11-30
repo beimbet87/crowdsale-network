@@ -29,6 +29,7 @@ import com.pusher.client.PusherOptions;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
+import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MapKitFactory.setApiKey("236b4b67-7f92-40a9-a018-f940db1db2dd");
+
+        MapKitFactory.initialize(this);
+
         setContentView(R.layout.activity_main);
 
         Logger Log = new Logger(this, "M2TAG");

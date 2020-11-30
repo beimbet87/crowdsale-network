@@ -136,7 +136,7 @@
 
                     <androidx.appcompat.widget.AppCompatToggleButton
                         android:id="@+id/btn_room_01"
-                        style="@style/button_style_toggle"
+                        style="@style/Button.Style.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_margin="3dp"
@@ -147,7 +147,7 @@
 
                     <androidx.appcompat.widget.AppCompatToggleButton
                         android:id="@+id/btn_room_02"
-                        style="@style/button_style_toggle"
+                        style="@style/Button.Style.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_margin="3dp"
@@ -159,7 +159,7 @@
 
                     <androidx.appcompat.widget.AppCompatToggleButton
                         android:id="@+id/btn_room_03"
-                        style="@style/button_style_toggle"
+                        style="@style/Button.Style.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_margin="3dp"
@@ -171,7 +171,7 @@
 
                     <androidx.appcompat.widget.AppCompatToggleButton
                         android:id="@+id/btn_room_04"
-                        style="@style/button_style_toggle"
+                        style="@style/Button.Style.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_margin="3dp"
@@ -183,7 +183,7 @@
 
                     <androidx.appcompat.widget.AppCompatToggleButton
                         android:id="@+id/btn_room_05"
-                        style="@style/button_style_toggle"
+                        style="@style/Button.Style.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_margin="3dp"
@@ -195,7 +195,7 @@
 
                     <androidx.appcompat.widget.AppCompatToggleButton
                         android:id="@+id/btn_room_06"
-                        style="@style/button_style_toggle"
+                        style="@style/Button.Style.Toggle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_margin="3dp"
@@ -228,7 +228,7 @@
 
                     <EditText
                         android:id="@+id/et_cost_lower_limit"
-                        style="@style/edittext_style_price"
+                        style="@style/EditText.Style.Price"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_marginEnd="6dp"
@@ -239,7 +239,7 @@
 
                     <EditText
                         android:id="@+id/et_cost_upper_limit"
-                        style="@style/edittext_style_price"
+                        style="@style/EditText.Style.Price"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="6dp"
@@ -280,7 +280,7 @@
 
                         <androidx.appcompat.widget.AppCompatToggleButton
                             android:id="@+id/btn_facility_01"
-                            style="@style/button_style_toggle_transparent"
+                            style="@style/Button.Style.Toggle.Transparent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"

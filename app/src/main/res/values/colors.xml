@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="color_back_button">#B4B4B4</color>
     <color name="color_primary">#00B0EC</color>
     <color name="color_primary_dark">#0B476C</color>
     <color name="color_primary_hint">#7F7F7F</color>

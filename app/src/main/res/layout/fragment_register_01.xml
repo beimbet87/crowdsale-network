@@ -9,7 +9,7 @@
     tools:context=".activities.RegisterActivity">
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/tv_choose_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register_title"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/tv_profiles_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -30,10 +30,10 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_choose_profile" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/linear_profiles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -41,7 +41,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11">
+        app:layout_constraintTop_toBottomOf="@+id/tv_profiles_description">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,7 +116,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+        app:layout_constraintTop_toBottomOf="@+id/linear_profiles">
 
         <CheckBox
             android:id="@+id/cb_term_of_use"
@@ -138,7 +138,7 @@
 
     <Button
         android:id="@+id/get_code"
-        style="@style/button_style_dark_blue"
+        style="@style/Button.Style.DarkBlue"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginTop="16dp"

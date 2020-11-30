@@ -6,7 +6,6 @@
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:apiKey="0c19b044-7b1e-4190-8682-4118f672110d" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

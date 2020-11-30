@@ -59,7 +59,7 @@
 
     <Button
         android:id="@+id/btn_add_ads"
-        style="@style/button_style_light_blue"
+        style="@style/Button.Style.LightBlue"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginTop="48dp"
