@@ -69,7 +69,7 @@ public class Registration implements Constants {
                         resultCode = root.getInt("ResultCode");
                         resultMessage = root.getString("ResultMessage");
 
-                        Log.d(String.valueOf(userID));
+                        // Log.d(String.valueOf(userID));
 
                         if(listener != null) {
                             listener.onComplete(resultCode, resultMessage, userID);
