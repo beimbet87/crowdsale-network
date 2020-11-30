@@ -62,7 +62,6 @@ public class ProfileTypeFragment extends Fragment implements View.OnClickListene
 
         rbGuest.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-
                 profileType = 0;
             }
         });

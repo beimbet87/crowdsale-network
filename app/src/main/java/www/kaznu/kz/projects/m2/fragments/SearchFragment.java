@@ -10,22 +10,11 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.button.MaterialButton;
-import com.yandex.mapkit.Animation;
-import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.mapview.MapView;
-
-import www.kaznu.kz.projects.m2.MainActivity;
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.activities.LoginActivity;
 import www.kaznu.kz.projects.m2.activities.SearchActivity;
 
 public class SearchFragment extends Fragment {
-    MaterialButton searchButton;
+    Button searchButton;
     public SearchFragment() {
         // Required empty public constructor
     }

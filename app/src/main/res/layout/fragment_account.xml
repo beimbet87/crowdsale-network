@@ -37,7 +37,7 @@
                         android:id="@+id/iv_profile_image"
                         android:layout_width="@dimen/profile_image_size"
                         android:layout_height="@dimen/profile_image_size"
-                        android:src="@drawable/avatar"
+                        android:src="@drawable/ic_default_avatar"
                         android:scaleType="centerCrop"
                         app:civ_border_width="0dp" />
 
@@ -50,7 +50,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:numStars="5"
-                        android:rating="4"
+                        android:rating="0"
                         android:theme="@style/customRatingBar" />
                 </LinearLayout>
 
@@ -72,14 +72,14 @@
                         android:textSize="@dimen/header_text_size"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/btn_view_profile"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:backgroundTint="#F2F2F2"
+                        android:background="@drawable/view_profile_button_background"
                         app:cornerRadius="16dp"
                         android:padding="@dimen/button_padding"
                         android:text="@string/view_profile"

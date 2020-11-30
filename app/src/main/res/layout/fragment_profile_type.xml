@@ -46,6 +46,7 @@
             style="@style/RadioButton.Style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:checked="true"
             android:text="@string/title_guest" />
 
         <TextView
@@ -62,7 +63,7 @@
             style="@style/RadioButton.Style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/title_master" />
 
         <TextView

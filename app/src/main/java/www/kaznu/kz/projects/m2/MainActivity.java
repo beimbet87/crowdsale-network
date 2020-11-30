@@ -45,6 +45,7 @@ import www.kaznu.kz.projects.m2.fragments.MessagesFragment;
 import www.kaznu.kz.projects.m2.fragments.ScheduleAdminFragment;
 import www.kaznu.kz.projects.m2.fragments.SearchFlatsFragment;
 import www.kaznu.kz.projects.m2.fragments.SearchFragment;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Search;
 import www.kaznu.kz.projects.m2.models.User;
 import www.kaznu.kz.projects.m2.utils.Logger;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public Location gpsNetworkLocation;
     private LocationManager locationManager;
     BottomNavigationView bottomNavigationView, bottomNavigationViewAdmin;
-    SharedPreferences token;
+    SharedPreferences token, sharedProfileType;
     MySearches mySearches;
 
     boolean isEmpty = false;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setContentView(R.layout.activity_main);
 
-        Logger Log = new Logger(this, "M2TAG");
+        Logger Log = new Logger(this, Constants.TAG);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationViewAdmin = findViewById(R.id.bottom_navigation_admin);
@@ -79,27 +80,42 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         intDrawerLayoutAdmin(bottomNavigationViewAdmin);
         bottomNavigationViewAdmin.setVisibility(View.INVISIBLE);
 
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.action_messages);
-        badge.setVisible(true);
-        badge.setNumber(99);
-        badge.setBackgroundColor(getResources().getColor(R.color.color_primary_error));
-        badge.setBadgeTextColor(getResources().getColor(android.R.color.white));
+        sharedProfileType = getSharedPreferences("M2_REG_INFO", 0);
+        int profileType = sharedProfileType.getInt("profileType", 0);
+
+        Log.d(profileType + "");
+
+        if (profileType == 1) {
+            bottomNavigationViewAdmin.setVisibility(View.VISIBLE);
+            bottomNavigationView.setVisibility(View.INVISIBLE);
+            bottomNavigationViewAdmin.setSelectedItemId(R.id.action_account_admin);
+        } else {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            bottomNavigationViewAdmin.setVisibility(View.INVISIBLE);
+            bottomNavigationView.setSelectedItemId(R.id.action_account);
+        }
+
+//        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.action_messages);
+//        badge.setVisible(true);
+//        badge.setNumber(99);
+//        badge.setBackgroundColor(getResources().getColor(R.color.color_primary_error));
+//        badge.setBadgeTextColor(getResources().getColor(android.R.color.white));
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         token = getSharedPreferences("M2_TOKEN", 0);
 
         mySearches = new MySearches(this, token.getString("access_token", ""));
 
-        mySearches.setOnLoadListener(new MySearches.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Search> searches) {
-                if (searches.size() > 0) {
-                    loadFragment(new SearchFlatsFragment());
-                } else {
-                    loadFragment(new SearchFragment());
-                }
-            }
-        });
+//        mySearches.setOnLoadListener(new MySearches.CustomOnLoadListener() {
+//            @Override
+//            public void onComplete(ArrayList<Search> searches) {
+//                if (searches.size() > 0) {
+//                    loadFragment(new SearchFlatsFragment());
+//                } else {
+//                    loadFragment(new SearchFragment());
+//                }
+//            }
+//        });
 
         SharedPreferences token = getSharedPreferences("M2_TOKEN", 0);
 
@@ -194,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.action_account_admin:
                 fragment = new AccountAdminFragment();
                 break;
-        }
+            }
         return loadFragment(fragment);
     }
 
