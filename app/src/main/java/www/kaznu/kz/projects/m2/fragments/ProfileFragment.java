@@ -1,6 +1,8 @@
 package www.kaznu.kz.projects.m2.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,9 +15,12 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,10 +41,15 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.activities.ChangeDataActivity;
 import www.kaznu.kz.projects.m2.adapters.GenderTypeAdapter;
 import www.kaznu.kz.projects.m2.api.user.UserInfo;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
@@ -53,11 +63,13 @@ import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
-    EditText etUserName, etUserSurname;
-    EditText etUserBirthday;
-    EditText etUserPhone, etUserEmail, etPassword;
+    TextView etUserName, etUserSurname;
+    TextView etUserBirthday;
+    EditText etUserPhone, etUserEmail;
+    EditText etPassword;
     ImageView ivAvatar;
     Spinner spGender;
+    LinearLayout llVerifyUser;
 
     private static final int REQUEST_PERMISSIONS = 100;
     private static final int PICK_IMAGE_REQUEST =1 ;
@@ -65,6 +77,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private String filePath;
     private Logger Log;
     UserInfo userInfo;
+    Calendar dateAndTime=Calendar.getInstance();
     String imageLinks;
 
     String[] gender = {"Мужской", "Женский"};
@@ -102,8 +115,45 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         etUserEmail = fv.findViewById(R.id.profile_email);
         etPassword = fv.findViewById(R.id.profile_password);
         ivAvatar = fv.findViewById(R.id.iv_profile_image);
+        llVerifyUser = fv.findViewById(R.id.verify_user);
 
         Log = new Logger(requireContext(), Constants.TAG);
+
+        etUserPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
+                intent.putExtra("fragment", 0);
+                startActivity(intent);
+            }
+        });
+
+        llVerifyUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
+                intent.putExtra("fragment", 1);
+                startActivity(intent);
+            }
+        });
+
+        etUserEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
+                intent.putExtra("fragment", 1);
+                startActivity(intent);
+            }
+        });
+
+        etPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
+                intent.putExtra("fragment", 2);
+                startActivity(intent);
+            }
+        });
 
         GenderTypeAdapter genderAdapter = new GenderTypeAdapter(requireContext(), gender);
 
@@ -128,6 +178,27 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         String birthday = sharedPreferences.getString("birth", "").replaceAll("T", " ");
         Log.d(birthday);
         etUserBirthday.setText(Utils.parseDate(birthday));
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+        try {
+            Date date = format.parse(Utils.parseDate(birthday));
+            assert date != null;
+            dateAndTime.setTime(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        etUserBirthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(requireContext(), R.style.Dialog_Style_DatePicker, d,
+                        dateAndTime.get(Calendar.YEAR),
+                        dateAndTime.get(Calendar.MONTH),
+                        dateAndTime.get(Calendar.DAY_OF_MONTH))
+                        .show();
+            }
+        });
 
         etUserPhone.setText(sharedPreferences.getString("phone", ""));
         etUserEmail.setText(sharedPreferences.getString("email", ""));
@@ -169,6 +240,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         return fv;
     }
+
+    DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            String monthString = String.valueOf(monthOfYear);
+            if (monthString.length() == 1) {
+                monthString = "0" + monthString;
+            }
+
+            String dayString = String.valueOf(dayOfMonth);
+            if (dayString.length() == 1) {
+                dayString = "0" + dayString;
+            }
+
+            String birthDate = dayString + "." + monthString + "." + year;
+
+            etUserBirthday.setText(birthDate);
+        }
+    };
 
     private void showFileChooser() {
         Intent intent = new Intent();

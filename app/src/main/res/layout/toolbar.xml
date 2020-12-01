@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@android:color/white"
+    android:background="@drawable/border_bottom"
     android:orientation="vertical"
     app:titleTextColor="@color/color_primary_dark">
 
@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:paddingEnd="56dp">
+        android:paddingEnd="56dp"
+        tools:ignore="RtlSymmetry">
 
         <Button
             android:id="@+id/toolbar_back"

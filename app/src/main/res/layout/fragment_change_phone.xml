@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="@dimen/activity_margin"
+    tools:context=".activities.ChangeDataActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:orientation="horizontal"
+                android:paddingBottom="18dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextView.Style.BigBlue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/enter_phone_number" />
+
+                    <TextView
+                        style="@style/TextView.Style.Hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/change_phone_hint" />
+
+
+                    <LinearLayout
+                        android:id="@+id/linear_profiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/intro_input_phone_background"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_profiles_description">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/border_spinner">
+
+                            <Spinner
+                                android:id="@+id/countries_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/spinner_icon"
+                                android:dividerHeight="0dp"
+                                android:dropDownWidth="match_parent"
+                                android:dropDownHeight="200dp"
+                                android:dropDownVerticalOffset="0dp"
+                                android:elevation="0dp"
+                                android:popupBackground="@drawable/intro_input_phone_background"
+                                android:spinnerMode="dropdown"
+                                android:textSize="16sp"
+                                tools:ignore="RtlSymmetry"
+                                tools:listitem="@layout/item_country" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:orientation="horizontal"
+                            android:paddingStart="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="8dp">
+
+                            <EditText
+                                android:id="@+id/country_code"
+                                android:layout_width="64dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="4dp"
+                                android:layout_marginBottom="4dp"
+                                android:background="@drawable/delimeter_spinner"
+                                android:enabled="false"
+                                android:paddingStart="24dp"
+                                android:text="@string/country_coude"
+                                android:textColor="@color/color_primary_dark"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                tools:ignore="RtlSymmetry" />
+
+                            <EditText
+                                android:id="@+id/et_phone_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:autofillHints=""
+                                android:background="@android:color/transparent"
+                                android:digits="0123456789+()-"
+                                android:hint="@string/enter_phone"
+                                android:inputType="phone"
+                                android:paddingStart="16dp"
+                                android:textColor="@color/color_primary_dark"
+                                android:textColorHint="#7F7F7F"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                tools:ignore="RtlSymmetry" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_get_code"
+            style="@style/Button.Style.DarkBlue"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="18dp"
+            android:text="@string/get_code"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

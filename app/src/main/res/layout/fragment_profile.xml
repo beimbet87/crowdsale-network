@@ -154,6 +154,9 @@
                         style="@style/EditText.Style.Profile"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:text="@string/birthday" />
                 </LinearLayout>
 
@@ -178,25 +181,28 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <EditText
                         android:id="@+id/profile_phone"
                         style="@style/EditText.Style.Profile"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:background="@drawable/view_profile_button_background"
-                        android:drawableEnd="@drawable/ic_arrow_next"
-                        android:text="@string/phone" />
+                        android:text="@string/phone"
+                        app:drawableEndCompat="@drawable/ic_arrow_next" />
 
                     <TextView
                         android:id="@+id/change_phone"
                         style="@style/TextView.Style.Hint"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="40dp"
                         android:layout_gravity="end"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="center_vertical"
                         android:text="@string/change_number" />
 
                 </FrameLayout>
@@ -217,6 +223,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/email_title" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -226,17 +233,20 @@
                         style="@style/EditText.Style.Profile"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
-                        android:drawableEnd="@drawable/ic_arrow_next"
-                        android:text="@string/email" />
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:text="@string/email"
+                        app:drawableEndCompat="@drawable/ic_arrow_next" />
 
                     <TextView
                         android:id="@+id/tv_change_email"
                         style="@style/TextView.Style.Hint"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="40dp"
                         android:layout_gravity="end"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="center_vertical"
                         android:text="@string/change_email" />
 
                 </FrameLayout>
@@ -320,6 +330,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/password_title" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -329,18 +340,21 @@
                         style="@style/EditText.Style.Profile"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
-                        android:drawableEnd="@drawable/ic_arrow_next"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:inputType="textPassword"
-                        android:text="@string/password" />
+                        android:text="@string/password"
+                        app:drawableEndCompat="@drawable/ic_arrow_next" />
 
                     <TextView
                         android:id="@+id/change_password"
                         style="@style/TextView.Style.Hint"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="40dp"
                         android:layout_gravity="end"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="center_vertical"
                         android:text="@string/change_password" />
 
                 </FrameLayout>
@@ -379,6 +393,39 @@
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:text="Для того, чтобы снять или купить жилье требуется поддтвердить свою личность" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/verify_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_square"/>
+
+            <TextView
+                style="@style/TextView.Style.Blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:text="@string/human_verification" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_next"/>
         </LinearLayout>
 
         <Button

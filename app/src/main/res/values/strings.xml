@@ -20,7 +20,6 @@
     <string name="register_title">Введите номер</string>
     <string name="register_title_01">Номер Вашего телефона будет использоваться для авторизации</string>
     <string name="already_had_account">Уже есть аккаунт?</string>
-    <string name="get_code">Получить код</string>
 
     <string-array name="countries_array">
         <item>Афганистан</item>
@@ -384,5 +383,16 @@
     <string name="change_number">сменить номер</string>
     <string name="change_email">сменить почту</string>
     <string name="change_password">сменить пароль</string>
+    <string name="human_verification">Верификация личности</string>
+    <string name="enter_phone_number">Введите номер</string>
+    <string name="change_phone_hint">Номер Вашего телефона будет использоваться для авторизации</string>
+    <string name="get_code">Получить код</string>
+    <string name="change_email_hint">Мы отправляем подтверждение бронирования на электронную почту по вашему запросу.</string>
+    <string name="enter_new_email">Укажите новый email</string>
+    <string name="enter_new_email_address">Введите новый email</string>
+    <string name="change_profile_password">Сменить пароль</string>
+    <string name="reenter_password">Повторите пароль</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="enter_old_password">Введите старый пароль</string>
 
 </resources>

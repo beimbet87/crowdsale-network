@@ -168,6 +168,16 @@
         <item name="android:inputType">phone</item>
     </style>
 
+    <style name="EditText.Style.Email" parent="Widget.AppCompat.EditText">
+        <item name="background">@drawable/intro_input_phone_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:paddingStart">18dp</item>
+        <item name="android:textColor">@color/color_primary_dark</item>
+        <item name="android:textColorHint">@color/color_primary_hint</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:inputType">phone</item>
+    </style>
+
     <style name="EditText.Style.Intro" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/intro_input_background</item>
         <item name="android:ems">10</item>
@@ -217,8 +227,39 @@
         <item name="android:textColor">@color/color_primary</item>
     </style>
 
+    <style name="TextView.Style.BigBlue" parent="Widget.AppCompat.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:textColor">@color/color_primary</item>
+    </style>
+
     <style name="Dialog.Style.Alert" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="android:background">@color/color_primary</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">@color/color_primary_dark</item>
+        <item name="android:textColorPrimary">@color/color_primary_dark</item>
+    </style>
+
+    <style name="Dialog.Style.DatePicker" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">@android:color/white</item>
+        <item name="colorAccent">@android:color/white</item>
+        <!--selected Item color-->
+        <item name="colorControlActivated">@color/color_primary_dark</item>
+        <!-- Highlight item color-->
+        <item name="colorControlHighlight">@android:color/white</item>
+        <!--Calender Background color -->
+        <item name="android:windowBackground">@color/color_primary_dark</item>
+        <!-- Ok Cancel Color-->
+        <item name="android:textColor">@color/color_primary_dark</item>
+        <!-- Week TextColor-->
+        <item name="android:textColorSecondary">@color/color_primary_dark</item>
+        <!-- Calender Number color arrow color (< >) -->
+        <item name="android:textColorPrimary">@color/color_primary_dark</item>
+        <!--day , month-->
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+        <!-- year-->
+        <item name="android:textColorSecondaryInverse">@color/color_primary_dark</item>
     </style>
 
 </resources>
