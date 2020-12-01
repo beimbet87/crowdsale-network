@@ -8,17 +8,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.models.Directory;
 
-public class RealtyTypeAdapter extends BaseAdapter {
+public class GenderTypeAdapter extends BaseAdapter {
     Context context;
-    ArrayList<Directory> data;
+    String[] data;
     LayoutInflater inflter;
 
-    public RealtyTypeAdapter(Context applicationContext, ArrayList<Directory> data) {
+    public GenderTypeAdapter(Context applicationContext, String [] data) {
         this.context = applicationContext;
         this.data = data;
         this.inflter = (LayoutInflater.from(this.context));
@@ -26,7 +23,7 @@ public class RealtyTypeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        return data.length;
     }
 
     @Override
@@ -42,9 +39,9 @@ public class RealtyTypeAdapter extends BaseAdapter {
     @SuppressLint("ViewHolder")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflter.inflate(R.layout.item_realty_type, null);
+        view = inflter.inflate(R.layout.item_gender_type, null);
         TextView names = (TextView) view.findViewById(R.id.tv_gender_type);
-        names.setText(data.get(i).getValue()); //realtyType.getDirectories().get(i).getValue()
+        names.setText(data[i]);
         return view;
     }
 }

@@ -13,6 +13,7 @@ import com.pusher.client.PusherOptions;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
+import com.yandex.mapkit.MapKitFactory;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
@@ -45,6 +46,8 @@ public class SplashActivity extends IntroActivity implements Constants {
             options.setCluster("ap2");
             options.buildUrl("8640a8f0befcab114411");
             Pusher pusher = new Pusher("0a0d35afd76319bf0b45", options);
+
+            MapKitFactory.setApiKey("236b4b67-7f92-40a9-a018-f940db1db2dd");
 
             pusher.connect(new ConnectionEventListener() {
                 @Override

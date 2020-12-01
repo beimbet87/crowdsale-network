@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.ProfileActivity;
+import www.kaznu.kz.projects.m2.activities.ProfileInfoActivity;
 import www.kaznu.kz.projects.m2.activities.UploadAvatarActivity;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 
@@ -96,7 +97,7 @@ public class AccountFragment extends Fragment implements Constants {
         btnViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), UploadAvatarActivity.class);
+                Intent intent = new Intent(getActivity(), ProfileInfoActivity.class);
                 startActivity(intent);
             }
         });

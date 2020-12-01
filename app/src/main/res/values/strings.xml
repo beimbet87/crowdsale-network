@@ -325,6 +325,12 @@
         <item>Декабрь</item>
     </array>
 
+
+    <string-array name="gender">
+        <item>Мужской</item>
+        <item>Женский</item>
+    </string-array>
+
     <string name="body_message">Квартира-студия  с просторной лоджией и приятным видом на двор. Кухня-гостиная со встроенной бытовой техникой (холодильник, варочная панель) и кондиционером. Из мебели: кухонный гарнитур, круглый обеденный стол, двухспальный раскладной диван, тумбы с плоским телевизором. В коридоре расположен вместительный шкаф с зеркальной поверхностью. Санузел с душевой кабиной и стиральной машиной.</string>
     <string name="house_area">28,6 м<sup><small>2</small></sup></string>
     <string name="total_area">36,1 м<sup><small>2</small></sup></string>
@@ -370,5 +376,13 @@
     <string name="about">Расскажите о себе</string>
     <string name="password">Пароль</string>
     <string name="password_title">Пароль:</string>
+    <string name="profile">Профиль</string>
+    <string name="profile_accept">Личность подтверждена</string>
+    <string name="default_star">4.1</string>
+    <string name="default_comment">24 человека оставили отзыв</string>
+    <string name="comment_string">В квартире оставил беспорядок. Разбил зеркало. Не оплатил штраф. <br/>Не рекомендую сдавать ему квартиру!!!</string>
+    <string name="change_number">сменить номер</string>
+    <string name="change_email">сменить почту</string>
+    <string name="change_password">сменить пароль</string>
 
 </resources>

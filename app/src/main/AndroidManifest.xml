@@ -38,6 +38,8 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".activities.SlideActivity" />
         <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.ProfileInfoActivity" />
+        <activity android:name=".activities.CommentsActivity" />
         <activity android:name=".activities.ProfileTypeActivity" />
         <activity
             android:name=".activities.DiscussionActivity"

@@ -117,12 +117,21 @@
                         android:layout_marginBottom="8dp"
                         android:text="@string/sex_title" />
 
-                    <EditText
-                        android:id="@+id/profile_sex"
-                        style="@style/EditText.Style.Profile"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/sex" />
+                        android:background="@drawable/intro_input_phone_background">
+
+                        <Spinner
+                            android:id="@+id/gender_type"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:background="@drawable/spinner_down_icon"
+                            android:popupBackground="@drawable/intro_input_phone_background"
+                            android:textSize="14sp"
+                            tools:listitem="@layout/item_gender_type" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -144,7 +153,7 @@
                         android:id="@+id/profile_birthday"
                         style="@style/EditText.Style.Profile"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="36dp"
                         android:text="@string/birthday" />
                 </LinearLayout>
 
@@ -167,13 +176,30 @@
                     android:layout_marginBottom="8dp"
                     android:text="@string/phone_title" />
 
-                <EditText
-                    android:id="@+id/profile_phone"
-                    style="@style/EditText.Style.Profile"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/view_profile_button_background"
-                    android:text="@string/phone" />
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/profile_phone"
+                        style="@style/EditText.Style.Profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:background="@drawable/view_profile_button_background"
+                        android:drawableEnd="@drawable/ic_arrow_next"
+                        android:text="@string/phone" />
+
+                    <TextView
+                        android:id="@+id/change_phone"
+                        style="@style/TextView.Style.Hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="40dp"
+                        android:layout_gravity="end"
+                        android:text="@string/change_number" />
+
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -191,13 +217,30 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/email_title" />
-
-                <EditText
-                    android:id="@+id/profile_email"
-                    style="@style/EditText.Style.Profile"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email" />
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/profile_email"
+                        style="@style/EditText.Style.Profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:drawableEnd="@drawable/ic_arrow_next"
+                        android:text="@string/email" />
+
+                    <TextView
+                        android:id="@+id/tv_change_email"
+                        style="@style/TextView.Style.Hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="40dp"
+                        android:layout_gravity="end"
+                        android:text="@string/change_email" />
+
+                </FrameLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -277,13 +320,31 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/password_title" />
-
-                <EditText
-                    style="@style/EditText.Style.Profile"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:text="@string/password" />
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/profile_password"
+                        style="@style/EditText.Style.Profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:drawableEnd="@drawable/ic_arrow_next"
+                        android:inputType="textPassword"
+                        android:text="@string/password" />
+
+                    <TextView
+                        android:id="@+id/change_password"
+                        style="@style/TextView.Style.Hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="40dp"
+                        android:layout_gravity="end"
+                        android:text="@string/change_password" />
+
+                </FrameLayout>
+
             </LinearLayout>
 
 
@@ -304,12 +365,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:gravity="top"
                 android:text="ВЕРИФИКАЦИЯ"
                 android:textAllCaps="true"
                 android:textColor="#7F7F7F"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp"
                 android:textStyle="bold" />
 
             <TextView

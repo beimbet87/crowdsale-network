@@ -76,6 +76,7 @@ public class LoginActivity extends Activity {
 
                             Intent intent = new Intent(LoginActivity.this, ProfileTypeActivity.class);
                             startActivity(intent);
+//                            finish();
 
                         } catch (JSONException e) {
                             final JSONObject jsonRoot;

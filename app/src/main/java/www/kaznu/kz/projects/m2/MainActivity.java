@@ -1,10 +1,13 @@
 package www.kaznu.kz.projects.m2;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -14,6 +17,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MapKitFactory.setApiKey("236b4b67-7f92-40a9-a018-f940db1db2dd");
+
 
         MapKitFactory.initialize(this);
 
@@ -305,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                Toast.makeText(getApplicationContext(), "Please, provide all necessary permissions!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Пожалуйста, предоставьте все разрешения!", Toast.LENGTH_SHORT).show();
                 //requestAllPermission();
                 return;
             }
@@ -325,7 +329,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Dialog_Style_Alert))
+                .setMessage("Вы действительно хотите выйти?")
+                .setCancelable(false)
+
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+//                        Intent a = new Intent(Intent.ACTION_MAIN);
+//                        a.addCategory(Intent.CATEGORY_HOME);
+//                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(a);
+                        finish();
+                    }
+                })
+                .setNegativeButton("Нет", null)
+                .show();
 
     }
 

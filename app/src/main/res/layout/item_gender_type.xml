@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="54dp"
     android:paddingLeft="24dp"
-    android:paddingTop="16dp"
+    android:paddingTop="8dp"
     android:paddingRight="24dp"
     android:paddingBottom="8dp"
     android:elevation="0dp">
@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:textColor="@color/color_primary_dark"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         tools:ignore="RtlSymmetry"
-        tools:text="Квартира" />
+        tools:text="Пол" />
 </RelativeLayout>

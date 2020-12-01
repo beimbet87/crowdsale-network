@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@android:color/white"
+    android:background="@drawable/border_bottom"
     android:orientation="vertical"
     app:titleTextColor="@color/color_primary_dark">
 
@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:paddingEnd="56dp">
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/toolbar_back"
@@ -22,14 +23,23 @@
 
         <TextView
             android:id="@+id/toolbar_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
-            android:text="@string/login_register"
+            android:text="@string/profile"
             android:textColor="@color/registerButtonColor"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="RtlSymmetry" />
+
+        <Button
+            android:id="@+id/toolbar_edit"
+            style="@style/Button.Style.Edit"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
     </LinearLayout>
 
 </androidx.appcompat.widget.Toolbar>

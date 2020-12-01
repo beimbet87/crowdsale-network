@@ -5,23 +5,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.api.RentPeriod;
 import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.Filter;
-import www.kaznu.kz.projects.m2.models.Message;
 import www.kaznu.kz.projects.m2.models.Search;
 
 public class SearchAdapter extends RecyclerView.Adapter {
@@ -33,7 +27,6 @@ public class SearchAdapter extends RecyclerView.Adapter {
         this.context = context;
         this.searchs = searchs;
     }
-
 
     @NonNull
     @Override
