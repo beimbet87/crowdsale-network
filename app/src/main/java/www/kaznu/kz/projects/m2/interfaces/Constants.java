@@ -28,7 +28,7 @@ public interface Constants {
     String URL_DELETE_REALTY = BASE_URL.concat("api/Realty/delete");
     String URL_PUSHER_AUTH = BASE_URL.concat("api/M2Pusher/authPusherChanel");
     String URL_PUSHER_GET_MY_CHATS = BASE_URL.concat("api/ChatPusher/getMyChats");
-    String URL_PUSHER_CONVERSATION = BASE_URL.concat("api/ChatPusher/ConversationWithContact");
+    String URL_PUSHER_CONVERSATION = BASE_URL.concat("api/ChatPusher/getConverstation");
     String URL_PUSHER_SEND_MESSAGE = BASE_URL.concat("api/ChatPusher/SendMessage");
 
     String SHARED_COUNTRIES = "SHARED_COUNTRY_INFO";

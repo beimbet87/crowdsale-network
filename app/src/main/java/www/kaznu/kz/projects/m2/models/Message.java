@@ -6,35 +6,38 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Message {
-    private String socket_id;
-    private int id;
-    private int sender_id;
-    private int receiver_id;
-    private String message;
-    private String created_at;
+    private String image;
     private int refRealty;
-    private Double price;
-    private String timeStart;
-    private String timeEnd;
+    private int messageType;
     private boolean mine;
-    private int type;
+    private int refSender;
+    private int refReceiver;
+    private int idBook;
+    private String created_at;
+    private String message;
+    private String dateFrom;
+    private String dateTo;
+    private Double price;
+    private String comment;
+    private int stars;
 
     public String getBody() {
         JSONObject jsonBody = new JSONObject();
 
         try {
-            jsonBody.put("id", this.getId());
-            jsonBody.put("sender_id", this.getSender_id());
-            jsonBody.put("receiver_id", this.getReceiver_id());
-            jsonBody.put("message", this.getMessage());
-            jsonBody.put("created_at", this.getCreated_at());
-            jsonBody.put("refRealty", this.getRefRealty());
-            jsonBody.put("price", this.getPrice());
-            jsonBody.put("timeStart", this.getTimeStart());
-            jsonBody.put("timeEnd", this.getTimeEnd());
+            jsonBody.put("image", this.getImage());
+            jsonBody.put("messageType", this.getMessageType());
             jsonBody.put("mine", this.isMine());
-            jsonBody.put("type", this.getType());
-            jsonBody.put("socket_id", this.getSocket_id());
+            jsonBody.put("refSender", this.getRefSender());
+            jsonBody.put("refReciever", this.getRefReceiver());
+            jsonBody.put("idbook", this.getIdBook());
+            jsonBody.put("tm", this.getCreated_at());
+            jsonBody.put("body", this.getMessage());
+            jsonBody.put("dateFrom", this.getDateFrom());
+            jsonBody.put("dateTo", this.getDateTo());
+            jsonBody.put("price", this.getPrice());
+            jsonBody.put("stars", this.getStars());
+            jsonBody.put("comment", this.getComment());
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("M2TAG", "Message Error: " + e);
@@ -43,44 +46,44 @@ public class Message {
         return jsonBody.toString();
     }
 
-    public String getSocket_id() {
-        return socket_id;
+    public String getImage() {
+        return image;
     }
 
-    public void setSocket_id(String socket_id) {
-        this.socket_id = socket_id;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public int getId() {
-        return id;
+    public int getIdBook() {
+        return idBook;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdBook(int idBook) {
+        this.idBook = idBook;
     }
 
-    public int getSender_id() {
-        return sender_id;
+    public int getRefSender() {
+        return refSender;
     }
 
-    public void setSender_id(int sender_id) {
-        this.sender_id = sender_id;
+    public void setRefSender(int refSender) {
+        this.refSender = refSender;
     }
 
-    public int getReceiver_id() {
-        return receiver_id;
+    public int getRefReceiver() {
+        return refReceiver;
     }
 
-    public void setReceiver_id(int receiver_id) {
-        this.receiver_id = receiver_id;
+    public void setRefReceiver(int refReceiver) {
+        this.refReceiver = refReceiver;
     }
 
-    public String getMessage() {
-        return message;
+    public String getComment() {
+        return comment;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getCreated_at() {
@@ -107,20 +110,20 @@ public class Message {
         this.price = price;
     }
 
-    public String getTimeStart() {
-        return timeStart;
+    public String getDateFrom() {
+        return dateFrom;
     }
 
-    public void setTimeStart(String timeStart) {
-        this.timeStart = timeStart;
+    public void setDateFrom(String dateFrom) {
+        this.dateFrom = dateFrom;
     }
 
-    public String getTimeEnd() {
-        return timeEnd;
+    public String getDateTo() {
+        return dateTo;
     }
 
-    public void setTimeEnd(String timeEnd) {
-        this.timeEnd = timeEnd;
+    public void setDateTo(String dateTo) {
+        this.dateTo = dateTo;
     }
 
     public boolean isMine() {
@@ -131,11 +134,27 @@ public class Message {
         this.mine = mine;
     }
 
-    public int getType() {
-        return type;
+    public int getMessageType() {
+        return messageType;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -1,23 +1,25 @@
 package www.kaznu.kz.projects.m2.models;
 
 public class Chat {
-    private String chanelReply;
+
+    private String companyName;
+    private String imageLink;
+    private int me;
+    private int company;
+    private int refRealty;
     private int count;
     private int countNew;
-    private String chatId;
-    private int userId;
-    private String userName;
+    private int meOwner;
     private String lastMessage;
-    private boolean hasOffer;
-    private int realty;
-    private String realtyImageLink;
+    private boolean haveRequest;
+    private String socket_id;
 
-    public String getChanelReply() {
-        return chanelReply;
+    public int getCompany() {
+        return company;
     }
 
-    public void setChanelReply(String chanelReply) {
-        this.chanelReply = chanelReply;
+    public void setCompany(int company) {
+        this.company = company;
     }
 
     public int getCount() {
@@ -36,28 +38,28 @@ public class Chat {
         this.countNew = countNew;
     }
 
-    public String getChatId() {
-        return chatId;
+    public String getSocket_id() {
+        return socket_id;
     }
 
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
+    public void setSocket_id(String socket_id) {
+        this.socket_id = socket_id;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getMe() {
+        return me;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setMe(int me) {
+        this.me = me;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getLastMessage() {
@@ -68,27 +70,35 @@ public class Chat {
         this.lastMessage = lastMessage;
     }
 
-    public boolean isHasOffer() {
-        return hasOffer;
+    public boolean isHaveRequest() {
+        return haveRequest;
     }
 
-    public void setHasOffer(boolean hasOffer) {
-        this.hasOffer = hasOffer;
+    public void setHaveRequest(boolean haveRequest) {
+        this.haveRequest = haveRequest;
     }
 
-    public int getRealty() {
-        return realty;
+    public int getRefRealty() {
+        return refRealty;
     }
 
-    public void setRealty(int realty) {
-        this.realty = realty;
+    public void setRefRealty(int refRealty) {
+        this.refRealty = refRealty;
     }
 
-    public String getRealtyImageLink() {
-        return realtyImageLink;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    public void setRealtyImageLink(String realtyImageLink) {
-        this.realtyImageLink = realtyImageLink;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
+    public int getMeOwner() {
+        return meOwner;
+    }
+
+    public void setMeOwner(int meOwner) {
+        this.meOwner = meOwner;
     }
 }

@@ -6,27 +6,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Chat;
+import www.kaznu.kz.projects.m2.models.Search;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
-public class MessagesAdapter extends BaseAdapter implements Constants {
+public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Constants {
 
     Context context;
     private ArrayList<Chat> chats;
+    private static ClickListener clickListener;
 
     public MessagesAdapter(Context context, ArrayList<Chat> chats){
         this.context = context;
@@ -36,14 +38,17 @@ public class MessagesAdapter extends BaseAdapter implements Constants {
     public MessagesAdapter() {
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return chats.size();
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_list_item, parent, false);
+        return new MessagesAdapter.ItemViewHolder(view);
     }
 
     @Override
-    public Object getItem(int i) {
-        return i;
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Chat chat = chats.get(position);
+        ((MessagesAdapter.ItemViewHolder) holder).bind(chat, this.context);
     }
 
     @Override
@@ -52,64 +57,76 @@ public class MessagesAdapter extends BaseAdapter implements Constants {
     }
 
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        ViewHolder viewHolder;
-
-        final View result;
-
-        if (convertView == null) {
-
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.message_list_item, parent, false);
-            viewHolder.userName = (TextView) convertView.findViewById(R.id.tv_address);
-            viewHolder.messages = (TextView) convertView.findViewById(R.id.tv_date);
-            viewHolder.messageCounts = (TextView) convertView.findViewById(R.id.tv_message_count);
-            viewHolder.icon = (ImageView) convertView.findViewById(R.id.iv_icon);
-
-
-            result=convertView;
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
-        }
-
-        if(this.chats.get(position).getCount() == 0) {
-            viewHolder.messageCounts.setBackgroundResource(R.drawable.message_count_background_zero);
-        }
-        else {
-            viewHolder.messageCounts.setBackgroundResource(R.drawable.message_count_background);
-        }
-
-
-        String header = chats.get(position).getUserName();
-        if(header.equals("")) {
-            header = "Имя и Фамилия";
-        }
-        String body = chats.get(position).getLastMessage();
-
-        viewHolder.userName.setText(header);
-        viewHolder.messages.setText(body);
-        viewHolder.messageCounts.setText(String.valueOf(chats.get(position).getCount()));
-        if(chats.get(position).getRealtyImageLink().equals("")) {
-            viewHolder.icon.setImageResource(R.drawable.default_appartment);
-        } else {
-            String url = BASE_URL + chats.get(position).getRealtyImageLink();
-            Glide.with(context).load(url).into(viewHolder.icon);
-        }
-        return convertView;
+    public int getItemCount() {
+        return chats == null ? 0 : chats.size();
     }
 
-    private static class ViewHolder {
+    private static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView userName;
         TextView messages;
         ImageView icon;
         TextView messageCounts;
 
+        public ItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+
+            userName = itemView.findViewById(R.id.tv_address);
+            messages = itemView.findViewById(R.id.tv_date);
+            messageCounts = itemView.findViewById(R.id.tv_message_count);
+            icon = itemView.findViewById(R.id.iv_icon);
+        }
+
+        void bind(Chat chat, Context context) {
+            Logger Log = new Logger(context, Constants.TAG);
+
+            Log.d(chat.getLastMessage());
+
+            if(chat.getCount() == 0) {
+                messageCounts.setBackgroundResource(R.drawable.message_count_background_zero);
+            }
+            else {
+                messageCounts.setBackgroundResource(R.drawable.message_count_background);
+            }
+
+            String header = chat.getCompanyName();
+            if(header.equals("")) {
+                header = "Имя и Фамилия";
+            }
+            String body = chat.getLastMessage();
+
+            userName.setText(header);
+            messages.setText(body);
+            messageCounts.setText(String.valueOf(chat.getCount()));
+            if(chat.getImageLink().equals("")) {
+                icon.setImageResource(R.drawable.default_appartment);
+            } else {
+                String url = BASE_URL + chat.getImageLink();
+                Glide.with(context).load(url).into(icon);
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            clickListener.onItemLongClick(getAdapterPosition(), v);
+            return false;
+        }
     }
 
+    public void setOnItemClickListener(ClickListener clickListener) {
+        MessagesAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+        void onItemLongClick(int position, View v);
+    }
 }

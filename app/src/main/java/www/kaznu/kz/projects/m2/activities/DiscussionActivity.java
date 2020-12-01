@@ -96,18 +96,18 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
                 Message message = new Message();
 
-                message.setId(1);
-                message.setMessage(etMessage.getText().toString());
-                message.setSender_id(spUser.getInt("id", 0));
-                message.setReceiver_id(82);
-                message.setSocket_id(spPusher.getString("socket_id", ""));
+                message.setIdBook(1);
+                message.setComment(etMessage.getText().toString());
+                message.setRefSender(spUser.getInt("id", 0));
+                message.setRefReceiver(82);
+                message.setImage(spPusher.getString("socket_id", ""));
                 message.setCreated_at(currentDate);
                 message.setRefRealty(6);
                 message.setPrice(100000.0);
-                message.setTimeStart("");
-                message.setTimeEnd("");
+                message.setDateFrom("");
+                message.setDateTo("");
                 message.setMine(true);
-                message.setType(1);
+                message.setMessageType(1);
 
                 etMessage.setText("");
                 sendMessage = new SendMessage(getApplicationContext(), message, token);

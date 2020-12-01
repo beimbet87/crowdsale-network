@@ -39,9 +39,9 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
     // Determines the appropriate ViewType according to the sender of the message.
     @Override
     public int getItemViewType(int position) {
-        Message message = mMessageList.get(position);
+        Message message = mMessageList.get(getItemCount() - position - 1);
 
-        if (message.getSender_id() == 1) { // Must change
+        if (message.getRefSender() == 1) { // Must change
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
@@ -69,7 +69,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
     // Passes the message object to a ViewHolder so that the contents can be bound to UI.
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Message message = mMessageList.get(position);
+        Message message = mMessageList.get(getItemCount() - position - 1);
 
         switch (holder.getItemViewType()) {
             case VIEW_TYPE_MESSAGE_SENT:
@@ -91,7 +91,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
         }
 
         void bind(Message message) {
-            messageText.setText(message.getMessage());
+            messageText.setText(message.getComment());
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             try {

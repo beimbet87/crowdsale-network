@@ -18,7 +18,7 @@ import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.Filter;
 import www.kaznu.kz.projects.m2.models.Search;
 
-public class SearchAdapter extends RecyclerView.Adapter {
+public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     public ArrayList<Search> searchs;
@@ -75,7 +75,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
                     tvAddress.setText("Адрес по умолчанию");
                     tvRoomCount.setText(getRoomCount(search.getFilter()));
-                    tvRentPeriod.setText(data.get(rentPeriod).getValue());
+                    //tvRentPeriod.setText(data.get(rentPeriod).getValue());
                     tvProperty.setText("Без мебели");
                     tvCost.setText(getCost(search.getFilter()));
                     tvCount.setText(String.valueOf(search.getCount()));

@@ -38,7 +38,7 @@ public class MyChats implements Constants {
         this.listener = listener;
     }
 
-    public MyChats(Context context, String token) {
+    public MyChats(Context context, int owner, String token) {
 
         Logger Log = new Logger(context, TAG);
 
@@ -46,7 +46,7 @@ public class MyChats implements Constants {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_PUSHER_GET_MY_CHATS, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_PUSHER_GET_MY_CHATS + "?asOwner=" + owner, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -58,16 +58,19 @@ public class MyChats implements Constants {
                     for (int i = 0; i < jsonChats.length(); i++) {
                         JSONObject data = jsonChats.getJSONObject(i);
                         Chat chat = new Chat();
-                        chat.setChanelReply(data.getString("chanelReply"));
+
+                        chat.setCompanyName(data.getString("companyName"));
+                        chat.setImageLink(data.getString("imagelink"));
+                        chat.setMe(data.getInt("me"));
+                        chat.setCompany(data.getInt("company"));
+                        chat.setRefRealty(data.getInt("refRealty"));
                         chat.setCount(data.getInt("count"));
                         chat.setCountNew(data.getInt("countNew"));
-                        chat.setChatId(data.getString("chatId"));
-                        chat.setUserId(data.getInt("userId"));
-                        chat.setUserName(data.getString("userName"));
+                        chat.setMeOwner(data.getInt("meOwner"));
                         chat.setLastMessage(data.getString("lastMessage"));
-                        chat.setHasOffer(data.getBoolean("hasOffer"));
-                        chat.setRealty(data.getInt("realty"));
-                        chat.setRealtyImageLink(data.getString("realtyImageLink"));
+                        chat.setHaveRequest(data.getBoolean("haveRequest"));
+                        chat.setSocket_id(data.getString("socket_id"));
+
                         chats.add(chat);
                     }
 

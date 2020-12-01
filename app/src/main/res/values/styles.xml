@@ -131,6 +131,17 @@
         <item name="android:paddingEnd">@dimen/profile_rating_margin</item>
     </style>
 
+    <style name="Button.Style.Like" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/button_text_size2</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:background">@drawable/back_button_background</item>
+        <item name="android:drawableEnd">@drawable/ic_heart</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">11dp</item>
+    </style>
+
     <style name="Button.Style.Intro" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
@@ -244,21 +255,13 @@
     <style name="Dialog.Style.DatePicker" parent="Theme.AppCompat.Dialog">
         <item name="android:background">@android:color/white</item>
         <item name="colorAccent">@android:color/white</item>
-        <!--selected Item color-->
         <item name="colorControlActivated">@color/color_primary_dark</item>
-        <!-- Highlight item color-->
         <item name="colorControlHighlight">@android:color/white</item>
-        <!--Calender Background color -->
         <item name="android:windowBackground">@color/color_primary_dark</item>
-        <!-- Ok Cancel Color-->
         <item name="android:textColor">@color/color_primary_dark</item>
-        <!-- Week TextColor-->
         <item name="android:textColorSecondary">@color/color_primary_dark</item>
-        <!-- Calender Number color arrow color (< >) -->
         <item name="android:textColorPrimary">@color/color_primary_dark</item>
-        <!--day , month-->
         <item name="android:textColorPrimaryInverse">@android:color/white</item>
-        <!-- year-->
         <item name="android:textColorSecondaryInverse">@color/color_primary_dark</item>
     </style>
 

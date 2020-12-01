@@ -56,24 +56,26 @@ public class Conversations implements Constants {
                 try {
                     final JSONObject root = new JSONObject(response);
 
-                    JSONArray jsonChats = root.getJSONArray("chats");
+                    JSONArray jsonChats = root.getJSONArray("chat");
 
                     for (int i = 0; i < jsonChats.length(); i++) {
                         JSONObject data = jsonChats.getJSONObject(i);
 
                         Message message = new Message();
 
-                        message.setId(data.getInt("id"));
-                        message.setSender_id(data.getInt("sender_id"));
-                        message.setReceiver_id(data.getInt("receiver_id"));
-                        message.setMessage(data.getString("message"));
-                        message.setCreated_at(data.getString("created_at"));
-                        message.setRefRealty(data.getInt("refRealty"));
-                        message.setPrice(data.getDouble("price"));
-                        message.setTimeStart(data.getString("timeStart"));
-                        message.setTimeEnd(data.getString("timeEnd"));
+                        message.setImage(data.getString("image"));
+                        message.setMessageType(data.getInt("messageType"));
                         message.setMine(data.getBoolean("mine"));
-                        message.setType(data.getInt("type"));
+                        message.setRefSender(data.getInt("refSender"));
+                        message.setRefReceiver(data.getInt("refReciever"));
+                        message.setIdBook(data.getInt("idbook"));
+                        message.setCreated_at(data.getString("tm"));
+                        message.setMessage(data.getString("body"));
+                        message.setDateFrom(data.getString("dateFrom"));
+                        message.setDateTo(data.getString("dateTo"));
+                        message.setPrice(data.getDouble("price"));
+                        message.setStars(data.getInt("stars"));
+                        message.setComment(data.getString("comment"));
 
                         messages.add(message);
                     }
