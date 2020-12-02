@@ -42,6 +42,7 @@ public class MessagesFragment extends Fragment {
     MessagesAdapter adapter;
 
     ProgressBar progressBar;
+    MyChats myChats;
 
     Logger Log;
 
@@ -67,9 +68,15 @@ public class MessagesFragment extends Fragment {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         lView.setItemAnimator(itemAnimator);
 
+        return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         SharedPreferences token = requireActivity().getSharedPreferences("M2_TOKEN", 0);
 
-        MyChats myChats = new MyChats(requireContext(), 0, token.getString("access_token", ""));
+        myChats = new MyChats(requireContext(), 0, token.getString("access_token", ""));
 
         myChats.setOnLoadListener(new MyChats.CustomOnLoadListener() {
             @Override
@@ -100,13 +107,6 @@ public class MessagesFragment extends Fragment {
                 });
             }
         });
-
-        return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override

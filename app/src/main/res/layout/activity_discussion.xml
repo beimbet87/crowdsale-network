@@ -14,7 +14,7 @@
             android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="92dp"
+            android:layout_marginBottom="72dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -22,11 +22,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 android:background="@drawable/border_bottom"
-                android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <Button
                     android:id="@+id/toolbar_back"
@@ -43,31 +43,42 @@
                     android:text="@string/discussion"
                     android:textColor="@color/registerButtonColor"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/toolbar_edit"
                     style="@style/Button.Style.Home"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
                     android:layout_width="40dp"
-                    android:layout_height="40dp" />
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reyclerview_message_list"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/reyclerview_message_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="48dp"/>
+
+                <include layout="@layout/message_booking" />
+            </FrameLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="92dp"
+            android:layout_height="72dp"
+            android:background="@drawable/border_top"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/activity_margin"
-            android:paddingTop="12dp"
+            android:paddingTop="8dp"
             android:paddingEnd="@dimen/activity_margin"
             android:paddingBottom="8dp"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
@@ -77,6 +88,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
+                android:autofillHints=""
                 android:background="@drawable/send_background"
                 android:hint="@string/message_hint"
                 android:maxLines="1"
@@ -92,8 +104,7 @@
                 android:id="@+id/btn_send_message"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:background="#F2F2F2"
+                android:background="@drawable/button_background_send"
                 android:elevation="0dp"
                 android:src="@drawable/ic_input_message_button" />
 

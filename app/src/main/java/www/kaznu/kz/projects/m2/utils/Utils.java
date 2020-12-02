@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -34,6 +35,30 @@ public class Utils {
         try {
             date = inputFormat.parse(time);
             str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public static String parseDateWithDot(String date) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd.MM.yyyy";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date data = null;
+        String str = null;
+
+        String today = outputFormat.format(Calendar.getInstance().getTime());
+
+        try {
+            data = inputFormat.parse(date);
+            str = outputFormat.format(data);
+
+            if (str.compareToIgnoreCase(today) == 0) {
+                str = "Сегодня";
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

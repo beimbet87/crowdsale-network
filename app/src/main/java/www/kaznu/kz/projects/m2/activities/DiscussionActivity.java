@@ -35,6 +35,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
     ImageView btnCloseBooking;
     ImageView btnSendMessage;
     Button backButton;
+    Conversations conversations;
 
     SendMessage sendMessage;
 
@@ -71,17 +72,19 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         spPusher = getSharedPreferences("M2_PUSHER_INFO", 0);
         spUser = getSharedPreferences("M2_USER_INFO", 0);
 
-
         token = spToken.getString("access_token", "");
 
-        Conversations conversations = new Conversations(this, contact, refRealty, token);
+        conversations = new Conversations(this, contact, refRealty, token);
+
+        mMessageRecycler = findViewById(R.id.reyclerview_message_list);
 
         conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
             @Override
             public void onComplete(int data, String message, ArrayList<Message> messages) {
-                mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
                 mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
-                mMessageRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                linearLayoutManager.setReverseLayout(true);
+                mMessageRecycler.setLayoutManager(linearLayoutManager);
                 mMessageRecycler.setAdapter(mMessageAdapter);
             }
         });
@@ -105,12 +108,23 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                 message.setRefRealty(refRealty);
                 message.setMessage(etMessage.getText().toString());
 
+                conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
+
                 etMessage.setText("");
                 sendMessage = new SendMessage(getApplicationContext(), message, token);
                 sendMessage.setOnLoadListener(new SendMessage.CustomOnLoadListener() {
                     @Override
                     public void onComplete(int code, String message) {
+                        conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
 
+                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                            @Override
+                            public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+                                mMessageAdapter.notifyDataSetChanged();
+                                mMessageRecycler.setAdapter(mMessageAdapter);
+                            }
+                        });
                     }
                 });
             }
