@@ -21,51 +21,40 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/border_bottom"
+                android:layout_height="72dp"
                 android:gravity="center_vertical"
-                android:paddingStart="24dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="24dp"
-                android:paddingBottom="15dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:background="@drawable/border_bottom"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/circle_button_shadow"
-                        android:padding="3dp"
-                        android:src="@drawable/ic_back" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/toolbar_back"
+                    style="@style/Button.Style.Back"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
 
                 <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="54dp"
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="@string/discussion"
                     android:textColor="@color/registerButtonColor"
-                    android:textSize="@dimen/header_text_size"
-                    android:textStyle="bold" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end|center">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/circle_button_shadow"
-                        android:padding="3dp"
-                        android:src="@drawable/ic_home" />
-
-                </LinearLayout>
+                <Button
+                    android:id="@+id/toolbar_edit"
+                    style="@style/Button.Style.Home"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
             </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reyclerview_message_list"
                 android:layout_width="match_parent"

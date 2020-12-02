@@ -34,6 +34,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
     Button btnBookingRequest;
     ImageView btnCloseBooking;
     ImageView btnSendMessage;
+    Button backButton;
 
     SendMessage sendMessage;
 
@@ -52,6 +53,10 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
+
+        backButton = findViewById(R.id.toolbar_back);
+
+        backButton.setOnClickListener(v -> finish());
 
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
@@ -96,18 +101,9 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
                 Message message = new Message();
 
-                message.setIdBook(1);
-                message.setComment(etMessage.getText().toString());
-                message.setRefSender(spUser.getInt("id", 0));
-                message.setRefReceiver(82);
-                message.setImage(spPusher.getString("socket_id", ""));
-                message.setCreated_at(currentDate);
-                message.setRefRealty(6);
-                message.setPrice(100000.0);
-                message.setDateFrom("");
-                message.setDateTo("");
-                message.setMine(true);
-                message.setMessageType(1);
+                message.setRefReceiver(contact);
+                message.setRefRealty(refRealty);
+                message.setMessage(etMessage.getText().toString());
 
                 etMessage.setText("");
                 sendMessage = new SendMessage(getApplicationContext(), message, token);

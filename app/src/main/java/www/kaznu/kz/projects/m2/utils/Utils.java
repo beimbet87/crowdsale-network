@@ -8,9 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class Utils {
     public static void replaceFragment(FragmentActivity activity, Fragment fragment, int resource) {
@@ -33,6 +38,68 @@ public class Utils {
             e.printStackTrace();
         }
         return str;
+    }
+
+    public static String parseDateText(String date) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd MMM yyyy";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date data = null;
+        String str = null;
+
+        try {
+            data = inputFormat.parse(date);
+            str = outputFormat.format(data);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public static String parsePrice(Double price, String currency) {
+        DecimalFormat format = (DecimalFormat) NumberFormat.getInstance();
+        format.applyPattern("#,###");
+
+        return format.format(price) + " ₸";
+    }
+
+    public static String parseTime(String time) {
+        String result = null;
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            Date date = format.parse(time);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            assert date != null;
+            result = dateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static long dateDiff(String start, String end) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        Date startDate, endDate;
+        long numberOfDays = 0;
+        try {
+            startDate = dateFormat.parse(start);
+            endDate = dateFormat.parse(end);
+            numberOfDays = getUnitBetweenDates(startDate, endDate, TimeUnit.DAYS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return numberOfDays + 1;
+    }
+
+    public static Double totalPrice(long days, Double price) {
+        return days * price;
+    }
+
+    private static long getUnitBetweenDates(Date startDate, Date endDate, TimeUnit unit) {
+        long timeDiff = endDate.getTime() - startDate.getTime();
+        return unit.convert(timeDiff, TimeUnit.MILLISECONDS);
     }
 
     public static class AsteriskPasswordTransformationMethod extends PasswordTransformationMethod {

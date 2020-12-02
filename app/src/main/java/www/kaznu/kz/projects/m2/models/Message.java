@@ -25,19 +25,9 @@ public class Message {
         JSONObject jsonBody = new JSONObject();
 
         try {
-            jsonBody.put("image", this.getImage());
-            jsonBody.put("messageType", this.getMessageType());
-            jsonBody.put("mine", this.isMine());
-            jsonBody.put("refSender", this.getRefSender());
-            jsonBody.put("refReciever", this.getRefReceiver());
-            jsonBody.put("idbook", this.getIdBook());
-            jsonBody.put("tm", this.getCreated_at());
+            jsonBody.put("to", this.getRefReceiver());
+            jsonBody.put("refRealty", this.getRefRealty());
             jsonBody.put("body", this.getMessage());
-            jsonBody.put("dateFrom", this.getDateFrom());
-            jsonBody.put("dateTo", this.getDateTo());
-            jsonBody.put("price", this.getPrice());
-            jsonBody.put("stars", this.getStars());
-            jsonBody.put("comment", this.getComment());
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("M2TAG", "Message Error: " + e);

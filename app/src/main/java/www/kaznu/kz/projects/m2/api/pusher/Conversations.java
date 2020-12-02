@@ -77,6 +77,8 @@ public class Conversations implements Constants {
                         message.setStars(data.getInt("stars"));
                         message.setComment(data.getString("comment"));
 
+                        Log.d(data.getBoolean("mine") + " is mine");
+
                         messages.add(message);
                     }
 
