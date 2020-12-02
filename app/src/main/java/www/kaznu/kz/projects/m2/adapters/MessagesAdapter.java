@@ -4,14 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +17,6 @@ import java.util.ArrayList;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Chat;
-import www.kaznu.kz.projects.m2.models.Search;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Constants {
@@ -74,8 +69,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            userName = itemView.findViewById(R.id.tv_address);
-            messages = itemView.findViewById(R.id.tv_date);
+            userName = itemView.findViewById(R.id.tv_message_title);
+            messages = itemView.findViewById(R.id.tv_last_message);
             messageCounts = itemView.findViewById(R.id.tv_message_count);
             icon = itemView.findViewById(R.id.iv_icon);
         }
@@ -93,7 +88,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
             String header = chat.getCompanyName();
-            if(header.equals("")) {
+            if(header.equals("") || header == null) {
                 header = "Имя и Фамилия";
             }
             String body = chat.getLastMessage();

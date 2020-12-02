@@ -53,7 +53,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         SearchHolder(View itemView) {
             super(itemView);
 
-            tvAddress = itemView.findViewById(R.id.tv_address);
+            tvAddress = itemView.findViewById(R.id.tv_message_title);
             tvRoomCount = itemView.findViewById(R.id.tv_room_count);
             tvRentPeriod = itemView.findViewById(R.id.tv_search_rent_period);
             tvProperty = itemView.findViewById(R.id.tv_property);

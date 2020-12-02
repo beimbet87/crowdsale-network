@@ -23,13 +23,10 @@ import www.kaznu.kz.projects.m2.R;
 
 public class DatePickerView extends LinearLayout
 {
-    // for logging
     private static final String LOGTAG = "Calendar View";
 
-    // how many days to show, defaults to six weeks, 42 days
     private static final int DAYS_COUNT = 42;
 
-    // default date format
     private static final String DATE_FORMAT = "M";
 
     public int start = 0, end = 0;
@@ -117,14 +114,20 @@ public class DatePickerView extends LinearLayout
     }
     private void assignUiElements()
     {
-        // layout is inflated, assign local variables to components
-        btnPrev = (TextView)findViewById(R.id.calendar_prev);
-        btnNext = (TextView)findViewById(R.id.calendar_next);
-        txtDate = (TextView)findViewById(R.id.calendar_current);
-        grid = (GridView)findViewById(R.id.calendar_grid);
+        btnPrev = findViewById(R.id.calendar_prev);
+        btnNext = findViewById(R.id.calendar_next);
+        txtDate = findViewById(R.id.calendar_current);
+        grid = findViewById(R.id.calendar_grid);
         tvStartDate = findViewById(R.id.tv_start_date);
         tvEndDate = findViewById(R.id.tv_end_date);
+    }
 
+    public String getStartDate() {
+        return tvStartDate.getText().toString();
+    }
+
+    public String getEndDate() {
+        return tvEndDate.getText().toString();
     }
 
     private void assignClickHandlers()
@@ -217,30 +220,21 @@ public class DatePickerView extends LinearLayout
         });
     }
 
-    /**
-     * Display dates correctly in grid
-     */
     public void updateCalendar()
     {
         updateCalendar(null);
     }
 
-    /**
-     * Display dates correctly in grid
-     */
     public void updateCalendar(HashSet<Date> events)
     {
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
 
-        // determine the cell for current month's beginning
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK)-2;
 
-        // move calendar backwards to the beginning of the week
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
 
-        // fill cells
         while (cells.size() < DAYS_COUNT)
         {
             cells.add(calendar.getTime());
@@ -265,10 +259,8 @@ public class DatePickerView extends LinearLayout
 
     private class CalendarAdapter extends ArrayAdapter<Date>
     {
-        // days with events
         private HashSet<Date> eventDays;
 
-        // for view inflation
         private LayoutInflater inflater;
 
         public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays)
@@ -281,21 +273,17 @@ public class DatePickerView extends LinearLayout
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-            // day in question
             Date date = getItem(position);
 
             int day = date.getDate();
             int month = date.getMonth();
             int year = date.getYear();
 
-            // today
             Date today = new Date();
 
-            // inflate item if it does not exist yet
             if (view == null)
                 view = inflater.inflate(R.layout.calendar_control_day, parent, false);
 
-            // if this day has an event, specify event image
             view.setBackgroundResource(0);
 
             ((TextView)view).setWidth(getResources().getDimensionPixelSize(R.dimen.calendar_date_size));
@@ -307,37 +295,27 @@ public class DatePickerView extends LinearLayout
 
             if (month == next.getTime().getMonth() || month == prev.getTime().getMonth())
             {
-                // if this day is outside current month, grey it out
                 ((TextView)view).setTextColor(getResources().getColor(R.color.color_primary_hint));
                 ((TextView)view).setVisibility(INVISIBLE);
             }
             else if (day == today.getDate() && month == today.getMonth() && year == today.getYear())
             {
-                // if it is today, set it to blue/bold
                 ((TextView)view).setTypeface(null, Typeface.BOLD);
                 ((TextView)view).setTextColor(getResources().getColor(R.color.color_primary_dark));
                 ((TextView)view).setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
             }
 
-            // set text
             ((TextView)view).setText(String.valueOf(date.getDate()));
 
             return view;
         }
     }
 
-    /**
-     * Assign event handler to be passed needed events
-     */
     public void setEventHandler(EventHandler eventHandler)
     {
         this.eventHandler = eventHandler;
     }
 
-    /**
-     * This interface defines what events to be reported to
-     * the outside world
-     */
     public interface EventHandler
     {
         void onDayLongPress(Date date);

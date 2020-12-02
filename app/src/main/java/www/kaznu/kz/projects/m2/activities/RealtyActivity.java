@@ -5,21 +5,15 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.SuperscriptSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -31,7 +25,6 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import www.kaznu.kz.projects.m2.R;
@@ -64,7 +57,7 @@ public class RealtyActivity extends IntroActivity {
         setContentView(R.layout.activity_realty);
         linearLayout = findViewById(R.id.realty_info);
         tvRealtyTitle = findViewById(R.id.realty_title);
-        tvAddress = findViewById(R.id.tv_address);
+        tvAddress = findViewById(R.id.tv_message_title);
         tvPrice = findViewById(R.id.tv_price);
         tvOwner = findViewById(R.id.tv_name);
         tvBody = findViewById(R.id.tv_body);

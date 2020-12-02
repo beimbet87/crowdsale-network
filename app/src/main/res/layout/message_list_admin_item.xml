@@ -28,7 +28,7 @@
         android:layout_weight="7">
 
         <TextView
-            android:id="@+id/tv_address"
+            android:id="@+id/tv_message_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -39,7 +39,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_date"
+            android:id="@+id/tv_last_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"

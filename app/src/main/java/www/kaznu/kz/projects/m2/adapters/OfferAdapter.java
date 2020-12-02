@@ -50,7 +50,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
             super(itemView);
 
             titles = itemView.findViewById(R.id.tv_title);
-            address = itemView.findViewById(R.id.tv_address);
+            address = itemView.findViewById(R.id.tv_message_title);
             price = itemView.findViewById(R.id.tv_price);
             rooms = itemView.findViewById(R.id.tv_rooms);
             furnitures = itemView.findViewById(R.id.tv_mebels);

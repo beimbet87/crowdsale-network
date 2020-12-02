@@ -61,8 +61,8 @@ public class MessagesAdminAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.message_list_admin_item, parent, false);
-            viewHolder.userName = (TextView) convertView.findViewById(R.id.tv_address);
-            viewHolder.messages = (TextView) convertView.findViewById(R.id.tv_date);
+            viewHolder.userName = (TextView) convertView.findViewById(R.id.tv_message_title);
+            viewHolder.messages = (TextView) convertView.findViewById(R.id.tv_last_message);
             viewHolder.messageCounts = (TextView) convertView.findViewById(R.id.tv_message_count);
             viewHolder.icon = (ImageView) convertView.findViewById(R.id.iv_icon);
 

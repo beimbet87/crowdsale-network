@@ -62,7 +62,7 @@ public class PublishedAdsAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.ads_published_list_item, parent, false);
             viewHolder.title = convertView.findViewById(R.id.tv_title);
-            viewHolder.address = convertView.findViewById(R.id.tv_address);
+            viewHolder.address = convertView.findViewById(R.id.tv_message_title);
             viewHolder.price = convertView.findViewById(R.id.tv_price);
             viewHolder.icon = convertView.findViewById(R.id.iv_icon);
 

@@ -80,6 +80,7 @@
                 android:layout_margin="12dp">
 
                 <EditText
+                    android:id="@+id/tv_price_per_day"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginEnd="6dp"
@@ -125,7 +126,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btn_booking_request"
+                android:id="@+id/btn_send_booking_request"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"

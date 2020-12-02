@@ -10,9 +10,11 @@ public class Message {
     private int refRealty;
     private int messageType;
     private boolean mine;
+    private boolean isGuest;
     private int refSender;
     private int refReceiver;
     private int idBook;
+    private int accept;
     private String created_at;
     private String message;
     private String dateFrom;
@@ -28,6 +30,59 @@ public class Message {
             jsonBody.put("to", this.getRefReceiver());
             jsonBody.put("refRealty", this.getRefRealty());
             jsonBody.put("body", this.getMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("M2TAG", "Message Error: " + e);
+        }
+
+        return jsonBody.toString();
+    }
+
+    public String getRequestBody() {
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            jsonBody.put("isGuest", this.isGuest());
+            jsonBody.put("to", this.getRefReceiver());
+            jsonBody.put("refRealty", this.getRefRealty());
+            jsonBody.put("dateFrom", this.getDateFrom());
+            jsonBody.put("dateTo", this.getDateTo());
+            jsonBody.put("price", this.getPrice());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("M2TAG", "Message Error: " + e);
+        }
+
+        return jsonBody.toString();
+    }
+
+    public String getResponseBody() {
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            jsonBody.put("isGuest", this.isGuest());
+            jsonBody.put("bookId", this.getIdBook());
+            jsonBody.put("accept", this.getAccept());
+            jsonBody.put("to", this.getRefReceiver());
+            jsonBody.put("refRealty", this.getRefRealty());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("M2TAG", "Message Error: " + e);
+        }
+
+        return jsonBody.toString();
+    }
+
+    public String getRateBookBody() {
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            jsonBody.put("isGuest", this.isGuest());
+            jsonBody.put("stars", this.getStars());
+            jsonBody.put("comment", this.getComment());
+            jsonBody.put("to", this.getRefReceiver());
+            jsonBody.put("bookId", this.getIdBook());
+            jsonBody.put("refRealty", this.getRefRealty());
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("M2TAG", "Message Error: " + e);
@@ -146,5 +201,21 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isGuest() {
+        return isGuest;
+    }
+
+    public void setGuest(boolean guest) {
+        isGuest = guest;
+    }
+
+    public int getAccept() {
+        return accept;
+    }
+
+    public void setAccept(int accept) {
+        this.accept = accept;
     }
 }

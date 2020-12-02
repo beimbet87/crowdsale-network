@@ -83,6 +83,25 @@ public class Utils {
         return str;
     }
 
+
+    public static String parseDateDefault(String date) {
+        String outputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String inputPattern = "dd MMM yyyy";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date data = null;
+        String str = null;
+
+        try {
+            data = inputFormat.parse(date);
+            str = outputFormat.format(data);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
     public static String parsePrice(Double price, String currency) {
         DecimalFormat format = (DecimalFormat) NumberFormat.getInstance();
         format.applyPattern("#,###");

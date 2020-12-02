@@ -23,23 +23,29 @@ import java.util.Locale;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.DiscussionListAdapter;
 import www.kaznu.kz.projects.m2.api.pusher.Conversations;
+import www.kaznu.kz.projects.m2.api.pusher.RequestMessage;
 import www.kaznu.kz.projects.m2.api.pusher.SendMessage;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Message;
 import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.Utils;
+import www.kaznu.kz.projects.m2.views.DatePickerView;
 
 public class DiscussionActivity extends AppCompatActivity implements Constants {
 
     LinearLayout linearLayout;
-    Button btnBookingRequest;
+    Button btnBookingRequest, btnSendBookingRequest;
     ImageView btnCloseBooking;
     ImageView btnSendMessage;
     Button backButton;
+
+    DatePickerView calendar;
     Conversations conversations;
 
     SendMessage sendMessage;
+    RequestMessage requestMessage;
 
-    EditText etMessage;
+    EditText etMessage, etPrice;
 
     SharedPreferences spToken, spPusher, spUser;
     String token;
@@ -91,10 +97,14 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
         linearLayout = findViewById(R.id.booking_request);
         btnBookingRequest = findViewById(R.id.btn_booking_request);
+        btnSendBookingRequest = findViewById(R.id.btn_send_booking_request);
         btnCloseBooking = findViewById(R.id.btn_close);
 
         btnSendMessage = findViewById(R.id.btn_send_message);
         etMessage = findViewById(R.id.et_message);
+
+        etPrice = findViewById(R.id.tv_price_per_day);
+        calendar = findViewById(R.id.calendar_view);
 
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +154,38 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
             @Override
             public void onClick(View v) {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        btnSendBookingRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Message message = new Message();
+                message.setGuest(true);
+                message.setRefReceiver(contact);
+                message.setRefRealty(refRealty);
+                message.setDateFrom(Utils.parseDateDefault(calendar.getStartDate()));
+                message.setDateTo(Utils.parseDateDefault(calendar.getEndDate()));
+                message.setPrice(Double.parseDouble(etPrice.getText().toString()));
+
+                requestMessage = new RequestMessage(getApplicationContext(), message, token);
+
+                requestMessage.setOnLoadListener(new RequestMessage.CustomOnLoadListener() {
+                    @Override
+                    public void onComplete(int code, String message) {
+                        conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
+
+                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                            @Override
+                            public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+                                mMessageAdapter.notifyDataSetChanged();
+                                mMessageRecycler.setAdapter(mMessageAdapter);
+                            }
+                        });
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    }
+                });
             }
         });
 

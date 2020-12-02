@@ -30,6 +30,9 @@ public interface Constants {
     String URL_PUSHER_GET_MY_CHATS = BASE_URL.concat("api/ChatPusher/getMyChats");
     String URL_PUSHER_CONVERSATION = BASE_URL.concat("api/ChatPusher/getConverstation");
     String URL_PUSHER_SEND_MESSAGE = BASE_URL.concat("api/ChatPusher/sendMessage");
+    String URL_PUSHER_REQUEST_MESSAGE = BASE_URL.concat("api/ChatPusher/request");
+    String URL_PUSHER_RESPONSE_MESSAGE = BASE_URL.concat("api/ChatPusher/response");
+    String URL_PUSHER_RATE_BOOK = BASE_URL.concat("aapi/ChatPusher/rateBook");
 
     String SHARED_COUNTRIES = "SHARED_COUNTRY_INFO";
     String SHARED_PUSHER = "SHARED_PUSHER_INFO";

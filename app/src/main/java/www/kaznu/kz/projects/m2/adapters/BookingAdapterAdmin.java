@@ -62,8 +62,8 @@ public class BookingAdapterAdmin extends BaseAdapter {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.booking_list_admin_item, parent, false);
-            viewHolder.address = convertView.findViewById(R.id.tv_address);
-            viewHolder.date = convertView.findViewById(R.id.tv_date);
+            viewHolder.address = convertView.findViewById(R.id.tv_message_title);
+            viewHolder.date = convertView.findViewById(R.id.tv_last_message);
             viewHolder.icon = convertView.findViewById(R.id.iv_icon);
             viewHolder.avatar = convertView.findViewById(R.id.account_avatar);
 
