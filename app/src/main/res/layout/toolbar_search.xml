@@ -18,18 +18,9 @@
 
             <Button
                 android:id="@+id/toolbar_back"
+                style="@style/Button.Style.Back"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/round_button_background"
-                android:drawableEnd="@drawable/back_button"
-                android:paddingEnd="8dp"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="40dp" />
         </LinearLayout>
 
         <LinearLayout

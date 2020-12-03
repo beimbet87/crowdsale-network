@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import www.kaznu.kz.projects.m2.MainActivity;
 import www.kaznu.kz.projects.m2.R;
 
 public class LoginActivity extends Activity {

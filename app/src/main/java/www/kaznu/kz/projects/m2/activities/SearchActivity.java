@@ -80,6 +80,7 @@ public class SearchActivity extends IntroActivity {
     Button btnFacility06, btnFacility07;
 
     Button btnAdditional01, btnAdditional02;
+    Button btnBack, btnOpenSearch;
 
     EditText etCostLowerLimit, etCostUpperLimit;
 
@@ -95,6 +96,9 @@ public class SearchActivity extends IntroActivity {
         etSearch = findViewById(R.id.et_search);
         etCostLowerLimit = findViewById(R.id.et_cost_lower_limit);
         etCostUpperLimit = findViewById(R.id.et_cost_upper_limit);
+
+        btnBack = findViewById(R.id.toolbar_back);
+        btnOpenSearch = findViewById(R.id.btn_open_search);
 
         Offers offers = new Offers();
 
@@ -153,6 +157,13 @@ public class SearchActivity extends IntroActivity {
 
         Spinner realtyTypeSpinner = findViewById(R.id.realty_type);
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         realtyType.setOnLoadListener(new RealtyType.CustomOnLoadListener() {
             @Override
             public void onComplete(ArrayList<Directory> data) {
@@ -209,7 +220,15 @@ public class SearchActivity extends IntroActivity {
         final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.setPeekHeight(1);
+
         etSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnOpenSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -218,6 +237,7 @@ public class SearchActivity extends IntroActivity {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
             }
         });
+
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

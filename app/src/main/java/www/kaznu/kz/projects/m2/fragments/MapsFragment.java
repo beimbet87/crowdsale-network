@@ -1,55 +1,47 @@
 package www.kaznu.kz.projects.m2.fragments;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.graphics.MaskFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.yandex.mapkit.Animation;
-import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.geometry.Polygon;
-import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.InputListener;
-import com.yandex.mapkit.map.Map;
-import com.yandex.mapkit.map.MapObject;
-import com.yandex.mapkit.map.MapObjectTapListener;
-import com.yandex.mapkit.map.PlacemarkMapObject;
-import com.yandex.mapkit.mapview.MapView;
-import com.yandex.runtime.ui_view.ViewProvider;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.models.Polygons;
 
-public class MapsFragment extends Fragment implements InputListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener {
 
-    private MapView mapview;
-    private Handler animationHandler;
-
-    public static final String LATITUDE = "latitude";
-    public static final String LONGITUDE = "longitude";
-    private List<Polygons> polygonsList;
-    Polygon polygon;
+    private GoogleMap map;
+    public LocationManager locationManager;
+    double longitude = 0, latitude = 0;
 
     public MapsFragment() {
         // Required empty public constructor
+    }
+
+    public static MapsFragment newInstance() {
+        return new MapsFragment();
     }
 
     @Override
@@ -58,60 +50,92 @@ public class MapsFragment extends Fragment implements InputListener {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_maps, container, false);
 
-        RequestQueue queue = Volley.newRequestQueue(rootView.getContext());
+        SupportMapFragment mapFragment = null;
 
-        polygon = new Polygon();
+        mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
 
-        mapview = rootView.findViewById(R.id.map_view);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
 
-        mapview.getMap().set2DMode(true);
-
-        animationHandler = new Handler();
-
-        if (getArguments() != null) {
-            mapview.getMap().move(
-                    new CameraPosition(
-                            new Point(
-                                    getArguments().getDouble(LATITUDE),
-                                    getArguments().getDouble(LONGITUDE)
-                            ), 17.0f, 0.0f, 0.0f),
-                    new Animation(Animation.Type.SMOOTH, 0),
-                    null
-            );
+        locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return null;
         }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
 
         return rootView;
-    }
-
-    public double round(double data) {
-        double roundOff = Math.round(data * 1000.0) / 1000.0;
-        return roundOff;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mapview.onStart();
-        MapKitFactory.getInstance().onStart();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mapview.onStop();
-        MapKitFactory.getInstance().onStop();
     }
 
     @Override
-    public void onMapTap(@NonNull Map map, @NonNull Point point) {
-        Polygons polygons = new Polygons();
-        polygons.setLatitude(point.getLatitude());
-        polygons.setLongitude(point.getLongitude());
-        polygonsList.add(polygons);
+    public void onLocationChanged(Location location) {
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
     }
 
     @Override
-    public void onMapLongTap(@NonNull Map map, @NonNull Point point) {
+    public void onStatusChanged(String provider, int status, Bundle extras) {
 
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+//        map.addMarker(new MarkerOptions().position(latLng)
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+//                .alpha(0.7f)
+//                .draggable(false)
+//                .title(latLng.latitude + " " + latLng.longitude));
+//
+//        PolygonOptions rectOptions = new PolygonOptions()
+//                .add(new LatLng(latLng.latitude, latLng.longitude))
+//                .add(new LatLng(latLng.latitude + 0.005, latLng.longitude))
+//                .add(new LatLng(latLng.latitude, latLng.longitude - 0.005));
+//        Polygon polyline = map.addPolygon(rectOptions);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        map.setOnMapClickListener(this);
+
+        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+
+        LatLng currentLocation = new LatLng(latitude, longitude);
+        com.google.android.gms.maps.model.CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation)
+                .zoom(14)
+                .build();
+
+        map.addMarker(new MarkerOptions().position(currentLocation)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                .alpha(0.5f)
+                .draggable(false)
+                .title("Текущее положение"));
+        map.setMinZoomPreference(6.0f);
+        map.setMaxZoomPreference(20.0f);
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 }
