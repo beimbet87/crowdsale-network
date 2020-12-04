@@ -4,76 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constraint_layout"
     android:background="#FFFFFF">
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="24dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_height="72dp"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/border_bottom"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/circle_button_shadow"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_back" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="54dp"
-                android:text="Предложения"
-                android:textColor="@color/registerButtonColor"
-                android:textSize="@dimen/header_text_size"
-                android:textStyle="bold" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end|center">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <ImageView
+                <Button
+                    android:id="@+id/btn_back"
+                    style="@style/Button.Style.Back"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+
+                <TextView
+                    android:id="@+id/tv_offer"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Предложение"
+                    android:textColor="@color/registerButtonColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
+
+                <Button
+                    android:id="@+id/btn_hide"
+                    style="@style/Button.Style.Hide"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/circle_button_shadow"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_hide" />
-
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center" />
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/properties_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:background="@drawable/border_bottom"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="24dp"
+            android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:paddingEnd="24dp"
+            android:paddingEnd="16dp"
             android:paddingBottom="15dp">
 
             <LinearLayout
@@ -95,7 +88,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/button_background_light_blue"
                         android:padding="8dp"
-                        android:text="Изменить поиск"
+                        android:text="@string/change_search"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         android:textSize="13sp"
@@ -115,96 +108,24 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <LinearLayout
+                <www.kaznu.kz.projects.m2.views.FlowLayout
+                    android:id="@+id/properties"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/view_profile_button_background"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="2,3 комнатная"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/view_profile_button_background"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="Посуточно"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:background="@drawable/view_profile_button_background"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="Без мебели"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/view_profile_button_background"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="От 230 000 Т  до  270 000 Т"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end|center">
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </LinearLayout>
 
-        <ScrollView
+        <FrameLayout
+            android:id="@+id/offer_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:text="@string/app_name"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lv_ads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-        </ScrollView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

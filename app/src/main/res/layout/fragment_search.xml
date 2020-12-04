@@ -61,7 +61,7 @@
         style="@style/Button.Style.LightBlue"
         android:id="@+id/btn_search"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="48dp"
         android:layout_marginTop="48dp"
         android:text="@string/search_start"
         app:layout_constraintEnd_toEndOf="parent"

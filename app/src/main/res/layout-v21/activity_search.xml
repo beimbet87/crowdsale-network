@@ -26,9 +26,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:gravity="center_vertical">
 
                 <LinearLayout
@@ -74,42 +74,45 @@
 
                 <ImageView
                     android:id="@+id/btn_filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="bottom|end"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@android:color/white"
                     android:contentDescription="@string/current_position"
                     android:src="@drawable/ic_current_position" />
 
                 <LinearLayout
-                    android:layout_width="82dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/polygon_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_gravity="end"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="48dp"
-                    android:background="@drawable/map_filter_background"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_polygon_off"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:padding="11dp">
 
                     <ImageView
+                        android:id="@+id/iv_polygon_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:layout_marginStart="0dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_edit_white" />
+                         />
 
                     <ImageView
+                        android:id="@+id/iv_polygon_delete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="24dp"
+                        android:visibility="gone"
                         android:src="@drawable/ic_trash_white" />
 
                 </LinearLayout>
@@ -119,10 +122,9 @@
                     style="@style/Button.Style.DarkBlue"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginBottom="32dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/create_search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -134,6 +136,5 @@
     </RelativeLayout>
 
     <include layout="@layout/search_properties" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,6 +3,7 @@ package www.kaznu.kz.projects.m2.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,7 +43,6 @@ import www.kaznu.kz.projects.m2.api.RentPeriod;
 import www.kaznu.kz.projects.m2.api.RequestOffers;
 import www.kaznu.kz.projects.m2.fragments.MapsFragment;
 import www.kaznu.kz.projects.m2.models.Directory;
-import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.SearchDialog;
 import www.kaznu.kz.projects.m2.services.GPSTracker;
 
@@ -53,6 +53,7 @@ public class SearchActivity extends IntroActivity {
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
+    boolean isRent = true;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -60,19 +61,27 @@ public class SearchActivity extends IntroActivity {
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
 
+    SharedPreferences shDialogs;
+
     double longitude;
     double latitude;
     GPSTracker gps;
 
+    ArrayList<String> rooms = new ArrayList<>();
+
     Button btnSearch;
     ImageView btnFilter;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout, polygonEdit;
+    ImageView ivEdit, ivDelete;
     EditText etSearch;
+
+    String rentPeriodText, realtyTypeText;
 
     Button btnRoom01, btnRoom02, btnRoom03, btnRoom04, btnRoom05, btnRoom06;
     ToggleButton isRoom01, isRoom02, isRoom03, isRoom04, isRoom05, isRoom06;
     ToggleButton isFacility01, isFacility02, isFacility03, isFacility04, isFacility05;
     ToggleButton isFacility06, isFacility07;
+    ToggleButton isEdit;
 
     ToggleButton isAdditional01, isAdditional02;
 
@@ -82,7 +91,12 @@ public class SearchActivity extends IntroActivity {
     Button btnAdditional01, btnAdditional02;
     Button btnBack, btnOpenSearch;
 
+    Spinner realtyTypeSpinner;
+    Spinner rentPeriodSpinner;
+
     EditText etCostLowerLimit, etCostUpperLimit;
+
+    Intent offerIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +114,7 @@ public class SearchActivity extends IntroActivity {
         btnBack = findViewById(R.id.toolbar_back);
         btnOpenSearch = findViewById(R.id.btn_open_search);
 
-        Offers offers = new Offers();
+        offerIntent = new Intent(SearchActivity.this, OfferActivity.class);
 
         btnRoom01 = findViewById(R.id.btn_room_01);
         btnRoom02 = findViewById(R.id.btn_room_02);
@@ -120,6 +134,10 @@ public class SearchActivity extends IntroActivity {
         btnAdditional01 = findViewById(R.id.btn_additional_params01);
         btnAdditional02 = findViewById(R.id.btn_additional_params02);
 
+        polygonEdit = findViewById(R.id.polygon_edit);
+        ivEdit = findViewById(R.id.iv_polygon_edit);
+        ivDelete = findViewById(R.id.iv_polygon_delete);
+
         isRoom01 = new ToggleButton(false);
         isRoom02 = new ToggleButton(false);
         isRoom03 = new ToggleButton(false);
@@ -138,10 +156,13 @@ public class SearchActivity extends IntroActivity {
         isAdditional01 = new ToggleButton(false);
         isAdditional02 = new ToggleButton(false);
 
+        isEdit = new ToggleButton(false);
+
         int disableDrawable = R.drawable.search_button_disable_background;
         int enableDrawable = R.drawable.button_background_light_blue;
 
         disableDrawable = android.R.color.transparent;
+
 
         toToggle(btnFacility02, isFacility02, disableDrawable, enableDrawable);
         toToggle(btnFacility03, isFacility03, disableDrawable, enableDrawable);
@@ -153,9 +174,18 @@ public class SearchActivity extends IntroActivity {
         toToggle(btnAdditional01, isAdditional01, disableDrawable, enableDrawable);
         toToggle(btnAdditional02, isAdditional02, disableDrawable, enableDrawable);
 
+        toToggle(btnRoom01, isRoom01);
+        toToggle(btnRoom02, isRoom02);
+        toToggle(btnRoom03, isRoom03);
+        toToggle(btnRoom04, isRoom04);
+        toToggle(btnRoom05, isRoom05);
+        toToggle(btnRoom06, isRoom06);
+
+        toToggle(polygonEdit, ivEdit, isEdit);
+
         RealtyType realtyType = new RealtyType(this);
 
-        Spinner realtyTypeSpinner = findViewById(R.id.realty_type);
+        realtyTypeSpinner = findViewById(R.id.realty_type);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +202,7 @@ public class SearchActivity extends IntroActivity {
                 realtyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                        realtyTypeText = data.get(position).getValue();
                     }
 
                     @Override
@@ -188,7 +218,7 @@ public class SearchActivity extends IntroActivity {
         requestOffers.setOnLoadListener(new RequestOffers.CustomOnLoadListener() {
             @Override
             public void onComplete(ArrayList<Directory> data) {
-                for(int i = 0; i < data.size(); i++) {
+                for (int i = 0; i < data.size(); i++) {
                     Log.d("M2TAG", "Request offers: " + data.get(i).getValue());
                 }
             }
@@ -198,7 +228,7 @@ public class SearchActivity extends IntroActivity {
         realtyProperties.setOnLoadListener(new RealtyProperties.CustomOnLoadListener() {
             @Override
             public void onComplete(ArrayList<Directory> data) {
-                for(int i = 0; i < data.size(); i++) {
+                for (int i = 0; i < data.size(); i++) {
                     Log.d("M2TAG", "Realty properties: " + data.get(i).getValue());
                 }
             }
@@ -208,14 +238,25 @@ public class SearchActivity extends IntroActivity {
         dealType.setOnLoadListener(new DealType.CustomOnLoadListener() {
             @Override
             public void onComplete(ArrayList<Directory> data) {
-                for(int i = 0; i < data.size(); i++) {
+                for (int i = 0; i < data.size(); i++) {
                     Log.d("M2TAG", "Deal type: " + data.get(i).getValue());
                 }
             }
         });
 
-        SearchDialog searchDialog = new SearchDialog(this);
-        searchDialog.show();
+        shDialogs = getSharedPreferences("M2DIALOGS", 0);
+
+        if (!shDialogs.getBoolean("search_dialog", false)) {
+
+            SearchDialog searchDialog = new SearchDialog(this);
+            searchDialog.show();
+
+            SharedPreferences.Editor editor = shDialogs.edit();
+
+            editor.putBoolean("search_dialog", true);
+            editor.apply();
+        }
+
 
         final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -224,7 +265,8 @@ public class SearchActivity extends IntroActivity {
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(SearchActivity.this, SearchAddressActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -241,15 +283,18 @@ public class SearchActivity extends IntroActivity {
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, SearchIntroActivity.class);
-                startActivity(intent);
+                Fragment fragment;
+                Bundle bundle = new Bundle();
+                if (gps != null) {
+                    bundle.putDouble(LATITUDE, latitude);
+                    bundle.putDouble(LONGITUDE, longitude);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Ошибка получения текущего положения",
+                            Toast.LENGTH_SHORT).show();
+                }
+                fragment = new MapsFragment();
+                fragment.setArguments(bundle);
+                loadFragment(fragment);
             }
         });
 
@@ -265,7 +310,7 @@ public class SearchActivity extends IntroActivity {
         paramsMonths.height = 0;
         llMonthly.setLayoutParams(paramsMonths);
 
-        Spinner rentPeriodSpinner = findViewById(R.id.rent_period);
+        rentPeriodSpinner = findViewById(R.id.rent_period);
         RentPeriod rentPeriod = new RentPeriod(this);
 
         rentPeriod.setOnLoadListener(new RentPeriod.CustomOnLoadListener() {
@@ -280,6 +325,7 @@ public class SearchActivity extends IntroActivity {
                 rentPeriodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        rentPeriodText = data.get(position).getValue();
 
                         switch (position) {
                             case 0:
@@ -388,6 +434,35 @@ public class SearchActivity extends IntroActivity {
                 requestPermissions(permissionsToRequest.toArray(new String[0]), ALL_PERMISSIONS_RESULT);
         }
 
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String loPrice = etCostLowerLimit.getText().toString();
+                String upPrice = etCostUpperLimit.getText().toString();
+
+                if (!loPrice.matches(""))
+                    offerIntent.putExtra("lo_price", loPrice);
+
+                if (!upPrice.matches(""))
+                    offerIntent.putExtra("up_price", upPrice);
+
+                if (isRent) {
+                    offerIntent.putExtra("is_rent", "Аренда");
+                } else {
+                    offerIntent.putExtra("is_rent", "Покупка");
+                }
+
+                offerIntent.putExtra("realty_type", realtyTypeText);
+                offerIntent.putExtra("rent_period", rentPeriodText);
+
+                if(getRooms(rooms) != null) {
+                    offerIntent.putExtra("rooms", getRooms(rooms));
+                }
+
+
+                startActivity(offerIntent);
+            }
+        });
 
         addFragment(new MapsFragment());
     }
@@ -518,6 +593,22 @@ public class SearchActivity extends IntroActivity {
         super.onBackPressed();
     }
 
+    private void toToggle(Button view, ToggleButton isSet) {
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSet.isButton()) {
+                    isSet.setButton(false);
+                    rooms.remove(view.getText().toString());
+                } else {
+                    isSet.setButton(true);
+                    rooms.add(view.getText().toString());
+                }
+            }
+        });
+    }
+
     private void toToggle(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable) {
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -531,6 +622,76 @@ public class SearchActivity extends IntroActivity {
                     isSet.setButton(true);
                     view.setTextColor(getResources().getColor(android.R.color.white));
                     view.setBackground(getResources().getDrawable(enableDrawable));
+                }
+            }
+        });
+    }
+
+    public String getRooms(ArrayList<String> data) {
+        Collections.sort(data);
+
+        if(data.isEmpty()) {
+            return null;
+        }
+        else {
+            StringBuilder result = new StringBuilder();
+
+            for(int i = 0; i < data.size() - 1; i++) {
+                result.append(data.get(i)).append(", ");
+            }
+
+            result.append(data.get(data.size() - 1)).append(" - комнат");
+
+            return result.toString();
+        }
+    }
+
+    private void toToggle(LinearLayout view, ImageView edit, ToggleButton isSet) {
+
+        if (isSet.isButton()) {
+            isSet.setButton(false);
+            view.setBackground(getDrawable(R.drawable.bg_polygon_on));
+            edit.setBackground(getDrawable(R.drawable.ic_edit_white));
+            ivDelete.setVisibility(View.VISIBLE);
+        } else {
+            isSet.setButton(true);
+            view.setBackground(getDrawable(R.drawable.bg_polygon_off));
+            edit.setBackground(getDrawable(R.drawable.ic_edit_blue));
+            ivDelete.setVisibility(View.GONE);
+        }
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSet.isButton()) {
+                    isSet.setButton(false);
+                    view.setBackground(getDrawable(R.drawable.bg_polygon_on));
+                    edit.setBackground(getDrawable(R.drawable.ic_edit_white));
+                    ivDelete.setVisibility(View.VISIBLE);
+
+                    Fragment fragment;
+
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isEdit", true);
+
+                    fragment = new MapsFragment();
+                    fragment.setArguments(bundle);
+                    loadFragment(fragment);
+
+                } else {
+                    isSet.setButton(true);
+                    view.setBackground(getDrawable(R.drawable.bg_polygon_off));
+                    edit.setBackground(getDrawable(R.drawable.ic_edit_blue));
+                    ivDelete.setVisibility(View.GONE);
+
+                    Fragment fragment;
+
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isEdit", false);
+
+                    fragment = new MapsFragment();
+                    fragment.setArguments(bundle);
+                    loadFragment(fragment);
                 }
             }
         });

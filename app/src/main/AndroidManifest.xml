@@ -61,6 +61,7 @@
         <activity android:name=".activities.RealtyAddActivity" />
         <activity android:name=".activities.OfferActivity" />
         <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.SearchAddressActivity" />
         <activity
             android:name=".activities.IntroScreenActivity"
             android:theme="@style/Theme.Transparent" />

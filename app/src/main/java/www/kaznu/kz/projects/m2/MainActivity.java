@@ -68,10 +68,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-        MapKitFactory.initialize(this);
-
         setContentView(R.layout.activity_main);
 
         Logger Log = new Logger(this, Constants.TAG);

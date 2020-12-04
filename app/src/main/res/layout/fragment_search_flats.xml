@@ -44,7 +44,7 @@
         android:id="@+id/btn_new_search"
         style="@style/Button.Style.LightBlue"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"

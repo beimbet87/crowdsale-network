@@ -1,14 +1,20 @@
 package www.kaznu.kz.projects.m2.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,28 +26,66 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.OfferAdapter;
 import www.kaznu.kz.projects.m2.api.realty.FilterOffers;
 import www.kaznu.kz.projects.m2.callbacks.SwipeToDeleteCallback;
+import www.kaznu.kz.projects.m2.fragments.OfferFragment;
+import www.kaznu.kz.projects.m2.fragments.SearchIntroFragment;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Filter;
 import www.kaznu.kz.projects.m2.models.OfferDialog;
 import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.views.FlowLayout;
 
 public class OfferActivity extends AppCompatActivity {
 
-    ConstraintLayout constraintLayout;
-
-    RecyclerView lView;
-    OfferAdapter lAdapter;
+    Button btnBack;
+    LinearLayout containter;
     SharedPreferences token;
 
+    FlowLayout flowLayout;
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer);
-        lView = findViewById(R.id.lv_ads);
-        constraintLayout = findViewById(R.id.constraint_layout);
 
-        OfferDialog offerDialog = new OfferDialog(this);
-        offerDialog.show();
+        Logger Log = new Logger(this, Constants.TAG);
+
+        SearchIntroFragment introFragment = new SearchIntroFragment();
+
+        addFragment(introFragment);
+        containter = findViewById(R.id.offers_buttons);
+        flowLayout = findViewById(R.id.properties);
+        containter.setVisibility(View.GONE);
+
+        Intent intent = getIntent();
+
+        if (intent.getStringExtra("lo_price") != null && intent.getStringExtra("up_price") == null)
+            addText("От " + intent.getStringExtra("lo_price") + " ₸");
+
+        if (intent.getStringExtra("lo_price") == null && intent.getStringExtra("up_price") != null)
+            addText("До " + intent.getStringExtra("up_price") + " ₸");
+
+        if (intent.getStringExtra("lo_price") != null && intent.getStringExtra("up_price") != null)
+            addText("От " + intent.getStringExtra("lo_price") + " ₸ до " + intent.getStringExtra("up_price") + " ₸");
+
+        if (intent.getStringExtra("is_rent") != null)
+            addText(intent.getStringExtra("is_rent"));
+
+        if (intent.getStringExtra("rent_period") != null)
+            addText(intent.getStringExtra("rent_period"));
+
+        if (intent.getStringExtra("realty_type") != null)
+            addText(intent.getStringExtra("realty_type"));
+
+        if (intent.getStringExtra("rooms") != null)
+            addText(intent.getStringExtra("rooms"));
+
+        Log.d(intent.getStringExtra("lo_price"));
+        Log.d(intent.getStringExtra("up_price"));
+
+
         Filter filter = new Filter();
 //        filter.setRealtyType(6);
 //        ArrayList<Integer> roomCount = new ArrayList<>();
@@ -58,77 +102,68 @@ public class OfferActivity extends AppCompatActivity {
 
         token = getSharedPreferences("M2_TOKEN", 0);
 
-        FilterOffers filterOffers = new FilterOffers(this, filter,  token.getString("access_token", ""));
+        FilterOffers filterOffers = new FilterOffers(this, filter, token.getString("access_token", ""));
 
-        filterOffers.setOnLoadListener(new FilterOffers.CustomOnLoadListener() {
+        filterOffers.setOnLoadListener(offers -> {
+            if (offers.size() > 0) {
+                OfferFragment fragment = new OfferFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("offers", offers);
+                fragment.setArguments(bundle);
+
+                loadFragment(fragment);
+                containter.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(this, "Поиск не дал результатов!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        btnBack = findViewById(R.id.btn_back);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(ArrayList<Offers> offers) {
-                
-                lAdapter = new OfferAdapter(OfferActivity.this, offers, 4, 5);
-
-                lView.setAdapter(lAdapter);
-
-                lAdapter.setOnCardClickListner(new OfferAdapter.OnCardClickListner() {
-                    @Override
-                    public void OnCardClicked(View view, int position) {
-                        Intent realtyIntent = new Intent(OfferActivity.this, RealtyActivity.class);
-                        realtyIntent.putExtra("images", offers.get(position).getImagesLink());
-                        realtyIntent.putExtra("title", offers.get(position).getRealty().getHeader());
-                        realtyIntent.putExtra("address", offers.get(position).getRealty().getAddress());
-                        realtyIntent.putExtra("price", offers.get(position).getRealty().getCost());
-                        realtyIntent.putExtra("owner", offers.get(position).getOwner().getName());
-                        realtyIntent.putExtra("avatar", offers.get(position).getOwner().getImageLink());
-                        if(offers.get(position).getRealty().getDescription() != null) {
-                            realtyIntent.putExtra("body", offers.get(position).getRealty().getDescription());
-                        }
-                        else {
-                            realtyIntent.putExtra("body", "null");
-                        }
-                        realtyIntent.putExtra("floor", offers.get(position).getRealty().getFloor());
-                        realtyIntent.putExtra("floorbuild", offers.get(position).getRealty().getFloorBuild());
-                        realtyIntent.putExtra("area", offers.get(position).getRealty().getArea());
-                        realtyIntent.putExtra("livingspace", offers.get(position).getRealty().getLivingSpace());
-
-                        startActivity(realtyIntent);
-                        finish();
-                    }
-                });
-
-                enableSwipeToDeleteAndUndo();
+            public void onClick(View v) {
+                finish();
             }
         });
     }
 
-    private void enableSwipeToDeleteAndUndo() {
-        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    private boolean loadFragment(Fragment fragment) {
 
-                final int position = viewHolder.getAdapterPosition();
-                Realty item;
-                item = lAdapter.getData().get(position).getRealty();
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.offer_container, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
+            return true;
+        }
+        return false;
+    }
 
-                lAdapter.removeItem(position);
+    public void addText(String data) {
+        int padding = getResources().getDimensionPixelSize(R.dimen.profile_rating_margin);
+        TextView textView = new TextView(this);
+        textView.setTextSize(13);
+        textView.setBackground(getDrawable(R.drawable.view_profile_button_background));
+        textView.setTextColor(getResources().getColor(R.color.color_primary_dark));
+        textView.setMaxLines(1);
+        textView.setPadding(padding, padding, padding, padding);
+        textView.setText(data);
+        flowLayout.addView(textView);
+    }
 
-                Snackbar snackbar = Snackbar
-                        .make(constraintLayout, "Предложние будет удалено.", Snackbar.LENGTH_LONG);
-                snackbar.setAction("Отмена", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+    private boolean addFragment(Fragment fragment) {
 
-                        lAdapter.restoreItem(item, position);
-                        lView.scrollToPosition(position);
-                    }
-                });
-
-                snackbar.setActionTextColor(Color.YELLOW);
-                snackbar.show();
-                snackbar.setBackgroundTint(getResources().getColor(R.color.color_primary_error));
-
-            }
-        };
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
-        itemTouchhelper.attachToRecyclerView(lView);
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.offer_container, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
+            return true;
+        }
+        return false;
     }
 }

@@ -1,8 +1,11 @@
 package www.kaznu.kz.projects.m2.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class Offers {
+public class Offers implements Parcelable {
 
     Realty realty;
     User owner;
@@ -17,6 +20,32 @@ public class Offers {
         properties = new ArrayList<>();
         imagesLink = new ArrayList<>();
     }
+
+    protected Offers(Parcel in) {
+        imagesLink = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringList(imagesLink);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Offers> CREATOR = new Creator<Offers>() {
+        @Override
+        public Offers createFromParcel(Parcel in) {
+            return new Offers(in);
+        }
+
+        @Override
+        public Offers[] newArray(int size) {
+            return new Offers[size];
+        }
+    };
 
     public Realty getRealty() {
         return realty;

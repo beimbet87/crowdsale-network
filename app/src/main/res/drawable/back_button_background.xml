@@ -6,7 +6,7 @@
             <item>
                 <shape android:shape="oval">
                     <gradient
-                        android:startColor="#33000000"
+                        android:startColor="#17000000"
                         android:endColor="#00000000"
                         android:gradientRadius="20dp"
                         android:type="radial"
@@ -15,8 +15,8 @@
             </item>
             <item android:top="4dp" android:left="4dp" android:right="4dp" android:bottom="4dp">
                 <shape android:shape="oval">
-                    <size android:width="55dp"
-                        android:height="55dp"/>
+                    <size android:width="40dp"
+                        android:height="40dp"/>
                     <solid android:color="@color/color_primary_gray" />
                 </shape>
             </item>
@@ -30,7 +30,7 @@
             <item>
                 <shape android:shape="oval">
                     <gradient
-                        android:startColor="#33000000"
+                        android:startColor="#17000000"
                         android:endColor="#00000000"
                         android:gradientRadius="20dp"
                         android:type="radial"
@@ -39,8 +39,8 @@
             </item>
             <item android:top="4dp" android:left="4dp" android:right="4dp" android:bottom="4dp">
                 <shape android:shape="oval">
-                    <size android:width="55dp"
-                        android:height="55dp"/>
+                    <size android:width="40dp"
+                        android:height="40dp"/>
                     <solid android:color="@android:color/white" />
                 </shape>
             </item>

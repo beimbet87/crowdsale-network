@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/booking_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/filter_layout_background">
 
         <LinearLayout
@@ -37,13 +36,11 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <ImageView
+                <Button
                     android:id="@+id/btn_close"
+                    style="@style/Button.Style.Close"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/circle_button_shadow"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_close" />
+                    android:layout_height="40dp" />
 
             </LinearLayout>
 

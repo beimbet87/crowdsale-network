@@ -44,34 +44,28 @@
             android:layout_marginEnd="24dp"
             android:gravity="center_vertical"
             android:layout_alignParentTop="true">
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/toolbar_back"
+                    style="@style/Button.Style.Back"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/round_button_background"
-                    android:drawableEnd="@drawable/back_button"
-                    android:paddingEnd="8dp" />
+                    android:layout_height="40dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end|center">
-                <ImageView
+                <Button
+                    android:id="@+id/toolbar_edit"
+                    style="@style/Button.Style.Like"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_like"/>
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center" />
             </LinearLayout>
         </LinearLayout>
 

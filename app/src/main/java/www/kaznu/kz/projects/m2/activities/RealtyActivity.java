@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,8 +36,6 @@ import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
 
 public class RealtyActivity extends IntroActivity {
     LinearLayout linearLayout;
-    private MapView mapview;
-    private Handler animationHandler;
     double longitude;
     double latitude;
     GPSTracker gps;
@@ -49,6 +48,8 @@ public class RealtyActivity extends IntroActivity {
     String title, address, owner, avatar, body;
     double price, area, livingSpace;
     int floor, floorBuild;
+
+    Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class RealtyActivity extends IntroActivity {
         tvFloor = findViewById(R.id.tv_floor);
         ivAvatar = findViewById(R.id.iv_profile_image);
 
+        btnBack = findViewById(R.id.toolbar_back);
+
         Intent intent = getIntent();
         images = intent.getStringArrayListExtra("images");
         title = intent.getStringExtra("title");
@@ -74,6 +77,13 @@ public class RealtyActivity extends IntroActivity {
         owner = intent.getStringExtra("owner");
 
         avatar = intent.getStringExtra("avatar");
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         assert avatar != null;
         if(!avatar.equals("null")) {
@@ -102,15 +112,6 @@ public class RealtyActivity extends IntroActivity {
         StringBuilder strFloor = new StringBuilder("");
         strFloor.append(floor).append(" и ").append(floorBuild);
         tvFloor.setText(strFloor.toString());
-        MapKitFactory.setApiKey("0c19b044-7b1e-4190-8682-4118f672110d");
-
-        MapKitFactory.initialize(this);
-
-        mapview = findViewById(R.id.tv_default_map);
-
-        mapview.getMap().set2DMode(true);
-
-        animationHandler = new Handler();
 
         gps = new GPSTracker(RealtyActivity.this);
         if (gps.canGetLocation()) {
@@ -119,16 +120,6 @@ public class RealtyActivity extends IntroActivity {
         } else {
             gps.showSettingsAlert();
         }
-
-        mapview.getMap().move(
-                new CameraPosition(
-                        new Point(
-                                latitude,
-                                longitude
-                        ), 17.0f, 0.0f, 0.0f),
-                new Animation(Animation.Type.SMOOTH, 0),
-                null
-        );
 
         viewPager = findViewById(R.id.vp_imageview);
         ViewGroup.LayoutParams layoutParams = viewPager.getLayoutParams();
