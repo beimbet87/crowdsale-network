@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -42,9 +42,14 @@ import www.kaznu.kz.projects.m2.api.RealtyType;
 import www.kaznu.kz.projects.m2.api.RentPeriod;
 import www.kaznu.kz.projects.m2.api.RequestOffers;
 import www.kaznu.kz.projects.m2.fragments.MapsFragment;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.SearchDialog;
 import www.kaznu.kz.projects.m2.services.GPSTracker;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.Utils;
+import www.kaznu.kz.projects.m2.views.DatePickerView;
+import www.kaznu.kz.projects.m2.views.FlowLayout;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -56,8 +61,10 @@ public class SearchActivity extends IntroActivity {
     boolean isRent = true;
 
     private ArrayList<String> permissionsToRequest;
-    private ArrayList<String> permissionsRejected = new ArrayList<>();
-    private ArrayList<String> permissions = new ArrayList<>();
+    private final ArrayList<String> permissionsRejected = new ArrayList<>();
+    private final ArrayList<String> permissions = new ArrayList<>();
+
+    DatePickerView datePickerView;
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
 
@@ -67,7 +74,8 @@ public class SearchActivity extends IntroActivity {
     double latitude;
     GPSTracker gps;
 
-    ArrayList<String> rooms = new ArrayList<>();
+    ArrayList<Integer> rooms = new ArrayList<>();
+    ArrayList<Integer> properties = new ArrayList<>();
 
     Button btnSearch;
     ImageView btnFilter;
@@ -76,6 +84,7 @@ public class SearchActivity extends IntroActivity {
     EditText etSearch;
 
     String rentPeriodText, realtyTypeText;
+    int rentPeriodInt, realtyTypeInt;
 
     Button btnRoom01, btnRoom02, btnRoom03, btnRoom04, btnRoom05, btnRoom06;
     ToggleButton isRoom01, isRoom02, isRoom03, isRoom04, isRoom05, isRoom06;
@@ -97,6 +106,10 @@ public class SearchActivity extends IntroActivity {
     EditText etCostLowerLimit, etCostUpperLimit;
 
     Intent offerIntent;
+    FlowLayout flowLayout;
+
+    int disableDrawable;
+    int enableDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +126,8 @@ public class SearchActivity extends IntroActivity {
 
         btnBack = findViewById(R.id.toolbar_back);
         btnOpenSearch = findViewById(R.id.btn_open_search);
+
+        flowLayout = findViewById(R.id.comfort_settings);
 
         offerIntent = new Intent(SearchActivity.this, OfferActivity.class);
 
@@ -145,31 +160,14 @@ public class SearchActivity extends IntroActivity {
         isRoom05 = new ToggleButton(false);
         isRoom06 = new ToggleButton(false);
 
-        isFacility01 = new ToggleButton(false);
-        isFacility02 = new ToggleButton(false);
-        isFacility03 = new ToggleButton(false);
-        isFacility04 = new ToggleButton(false);
-        isFacility05 = new ToggleButton(false);
-        isFacility06 = new ToggleButton(false);
-        isFacility07 = new ToggleButton(false);
 
         isAdditional01 = new ToggleButton(false);
         isAdditional02 = new ToggleButton(false);
 
         isEdit = new ToggleButton(false);
 
-        int disableDrawable = R.drawable.search_button_disable_background;
-        int enableDrawable = R.drawable.button_background_light_blue;
-
         disableDrawable = android.R.color.transparent;
-
-
-        toToggle(btnFacility02, isFacility02, disableDrawable, enableDrawable);
-        toToggle(btnFacility03, isFacility03, disableDrawable, enableDrawable);
-        toToggle(btnFacility04, isFacility04, disableDrawable, enableDrawable);
-        toToggle(btnFacility05, isFacility05, disableDrawable, enableDrawable);
-        toToggle(btnFacility06, isFacility06, disableDrawable, enableDrawable);
-        toToggle(btnFacility07, isFacility07, disableDrawable, enableDrawable);
+        enableDrawable = R.drawable.button_background_light_blue;
 
         toToggle(btnAdditional01, isAdditional01, disableDrawable, enableDrawable);
         toToggle(btnAdditional02, isAdditional02, disableDrawable, enableDrawable);
@@ -187,60 +185,45 @@ public class SearchActivity extends IntroActivity {
 
         realtyTypeSpinner = findViewById(R.id.realty_type);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnBack.setOnClickListener(v -> finish());
 
-        realtyType.setOnLoadListener(new RealtyType.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Directory> data) {
-                realtyTypeSpinner.setAdapter(new RealtyTypeAdapter(getApplicationContext(), data));
-                realtyTypeSpinner.setSelection(0);
-                realtyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        realtyTypeText = data.get(position).getValue();
-                    }
+        realtyType.setOnLoadListener(data -> {
+            realtyTypeSpinner.setAdapter(new RealtyTypeAdapter(getApplicationContext(), data));
+            realtyTypeSpinner.setSelection(0);
+            realtyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    realtyTypeText = data.get(position).getValue();
+                    realtyTypeInt = data.get(position).getCodeId();
+                }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-                    }
-                });
-            }
+                }
+            });
         });
 
         RequestOffers requestOffers = new RequestOffers(this);
 
-        requestOffers.setOnLoadListener(new RequestOffers.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Directory> data) {
-                for (int i = 0; i < data.size(); i++) {
-                    Log.d("M2TAG", "Request offers: " + data.get(i).getValue());
-                }
+        requestOffers.setOnLoadListener(data -> {
+            for (int i = 0; i < data.size(); i++) {
+                Log.d("M2TAG", "Request offers: " + data.get(i).getValue());
             }
         });
 
         RealtyProperties realtyProperties = new RealtyProperties(this);
-        realtyProperties.setOnLoadListener(new RealtyProperties.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Directory> data) {
-                for (int i = 0; i < data.size(); i++) {
-                    Log.d("M2TAG", "Realty properties: " + data.get(i).getValue());
-                }
+        realtyProperties.setOnLoadListener(data -> {
+            for (int i = 0; i < data.size(); i++) {
+                String upperString = data.get(i).getValue().substring(0, 1).toUpperCase() + data.get(i).getValue().substring(1).toLowerCase();
+                addButton(upperString, data.get(i).getCodeId());
             }
         });
 
         DealType dealType = new DealType(this);
-        dealType.setOnLoadListener(new DealType.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Directory> data) {
-                for (int i = 0; i < data.size(); i++) {
-                    Log.d("M2TAG", "Deal type: " + data.get(i).getValue());
-                }
+        dealType.setOnLoadListener(data -> {
+            for (int i = 0; i < data.size(); i++) {
+                Log.d("M2TAG", "Deal type: " + data.get(i).getValue());
             }
         });
 
@@ -257,45 +240,35 @@ public class SearchActivity extends IntroActivity {
             editor.apply();
         }
 
-
-        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        final BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.setPeekHeight(1);
 
-        etSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, SearchAddressActivity.class);
-                startActivity(intent);
-            }
+        etSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchActivity.this, SearchAddressActivity.class);
+            startActivity(intent);
         });
 
-        btnOpenSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+        btnOpenSearch.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
 
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
-            }
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
         });
 
-        btnFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment;
-                Bundle bundle = new Bundle();
-                if (gps != null) {
-                    bundle.putDouble(LATITUDE, latitude);
-                    bundle.putDouble(LONGITUDE, longitude);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Ошибка получения текущего положения",
-                            Toast.LENGTH_SHORT).show();
-                }
-                fragment = new MapsFragment();
-                fragment.setArguments(bundle);
-                loadFragment(fragment);
+        btnFilter.setOnClickListener(v -> {
+            Fragment fragment;
+            Bundle bundle = new Bundle();
+            if (gps != null) {
+                bundle.putDouble(LATITUDE, latitude);
+                bundle.putDouble(LONGITUDE, longitude);
+            } else {
+                Toast.makeText(getApplicationContext(), "Ошибка получения текущего положения",
+                        Toast.LENGTH_SHORT).show();
             }
+            fragment = new MapsFragment();
+            fragment.setArguments(bundle);
+            loadFragment(fragment);
         });
 
         LinearLayout llMonthly = findViewById(R.id.ll_monthly);
@@ -313,56 +286,56 @@ public class SearchActivity extends IntroActivity {
         rentPeriodSpinner = findViewById(R.id.rent_period);
         RentPeriod rentPeriod = new RentPeriod(this);
 
-        rentPeriod.setOnLoadListener(new RentPeriod.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Directory> data) {
+        rentPeriod.setOnLoadListener(data -> {
 
-                Collections.sort(data, Directory.StringComparator);
+            Collections.sort(data, Directory.StringComparator);
 
-                rentPeriodSpinner.setAdapter(new RentPeriodAdapter(getApplicationContext(), data));
-                rentPeriodSpinner.setSelection(0);
+            rentPeriodSpinner.setAdapter(new RentPeriodAdapter(getApplicationContext(), data));
+            rentPeriodSpinner.setSelection(0);
 
-                rentPeriodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        rentPeriodText = data.get(position).getValue();
+            rentPeriodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    rentPeriodText = data.get(position).getValue();
+                    rentPeriodInt = data.get(position).getCodeId();
 
-                        switch (position) {
-                            case 0:
-                            case 2:
-                                llMonthly.setVisibility(View.INVISIBLE);
+                    switch (position) {
+                        case 0:
+                        case 2:
+                            llMonthly.setVisibility(View.INVISIBLE);
 
-                                ViewGroup.LayoutParams paramsMonths = llMonthly.getLayoutParams();
-                                paramsMonths.height = 0;
-                                llMonthly.setLayoutParams(paramsMonths);
-                                llRangedDate.setVisibility(View.VISIBLE);
-                                ViewGroup.LayoutParams paramsRangedDate = llRangedDate.getLayoutParams();
-                                paramsRangedDate.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                                llRangedDate.setLayoutParams(paramsRangedDate);
-                                break;
-                            case 1:
-                                llMonthly.setVisibility(View.VISIBLE);
+                            ViewGroup.LayoutParams paramsMonths12 = llMonthly.getLayoutParams();
+                            paramsMonths12.height = 0;
+                            llMonthly.setLayoutParams(paramsMonths12);
+                            llRangedDate.setVisibility(View.VISIBLE);
+                            ViewGroup.LayoutParams paramsRangedDate12 = llRangedDate.getLayoutParams();
+                            paramsRangedDate12.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            llRangedDate.setLayoutParams(paramsRangedDate12);
+                            break;
+                        case 1:
+                            llMonthly.setVisibility(View.VISIBLE);
 
-                                ViewGroup.LayoutParams paramsMonths1 = llMonthly.getLayoutParams();
-                                paramsMonths1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                                llMonthly.setLayoutParams(paramsMonths1);
+                            ViewGroup.LayoutParams paramsMonths1 = llMonthly.getLayoutParams();
+                            paramsMonths1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            llMonthly.setLayoutParams(paramsMonths1);
 
-                                llRangedDate.setVisibility(View.INVISIBLE);
-                                ViewGroup.LayoutParams paramsRangedDate1 = llRangedDate.getLayoutParams();
-                                paramsRangedDate1.height = 0;
-                                llRangedDate.setLayoutParams(paramsRangedDate1);
-                                break;
-
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                            llRangedDate.setVisibility(View.INVISIBLE);
+                            ViewGroup.LayoutParams paramsRangedDate1 = llRangedDate.getLayoutParams();
+                            paramsRangedDate1.height = 0;
+                            llRangedDate.setLayoutParams(paramsRangedDate1);
+                            break;
 
                     }
-                });
-            }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         });
+
+        datePickerView = findViewById(R.id.calendar_view);
 
         RadioButton rbSoon = findViewById(R.id.rb_soon_date);
         RadioButton rbDate = findViewById(R.id.rb_selected_date);
@@ -372,29 +345,23 @@ public class SearchActivity extends IntroActivity {
         params.height = 0;
         llCheckedDate.setLayoutParams(params);
 
-        rbSoon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    rbDate.setChecked(false);
-                    llCheckedDate.setVisibility(View.INVISIBLE);
-                    params.height = 0;
-                    llCheckedDate.setLayoutParams(params);
-                    tvCheckedDate.setBackground(getResources().getDrawable(R.drawable.date_not_selected_background));
-                }
+        rbSoon.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rbDate.setChecked(false);
+                llCheckedDate.setVisibility(View.INVISIBLE);
+                params.height = 0;
+                llCheckedDate.setLayoutParams(params);
+                tvCheckedDate.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.date_not_selected_background));
             }
         });
 
-        rbDate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    rbSoon.setChecked(false);
-                    llCheckedDate.setVisibility(View.VISIBLE);
-                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    llCheckedDate.setLayoutParams(params);
-                    tvCheckedDate.setBackground(getResources().getDrawable(R.drawable.button_background_light_blue));
-                }
+        rbDate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rbSoon.setChecked(false);
+                llCheckedDate.setVisibility(View.VISIBLE);
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                llCheckedDate.setLayoutParams(params);
+                tvCheckedDate.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.button_background_light_blue));
             }
         });
 
@@ -404,23 +371,17 @@ public class SearchActivity extends IntroActivity {
         EditText etMonths = findViewById(R.id.et_months);
         etMonths.setEnabled(false);
 
-        rbMonths.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    rbLongTime.setChecked(false);
-                    etMonths.setEnabled(true);
-                }
+        rbMonths.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rbLongTime.setChecked(false);
+                etMonths.setEnabled(true);
             }
         });
 
-        rbLongTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    rbMonths.setChecked(false);
-                    etMonths.setEnabled(false);
-                }
+        rbLongTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rbMonths.setChecked(false);
+                etMonths.setEnabled(false);
             }
         });
 
@@ -434,34 +395,46 @@ public class SearchActivity extends IntroActivity {
                 requestPermissions(permissionsToRequest.toArray(new String[0]), ALL_PERMISSIONS_RESULT);
         }
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String loPrice = etCostLowerLimit.getText().toString();
-                String upPrice = etCostUpperLimit.getText().toString();
+        btnSearch.setOnClickListener(v -> {
 
-                if (!loPrice.matches(""))
-                    offerIntent.putExtra("lo_price", loPrice);
+            new Logger(this, Constants.TAG).d(properties.size() + " <---- size");
+            String loPrice = etCostLowerLimit.getText().toString();
+            String upPrice = etCostUpperLimit.getText().toString();
 
-                if (!upPrice.matches(""))
-                    offerIntent.putExtra("up_price", upPrice);
+            if (!loPrice.matches(""))
+                offerIntent.putExtra("lo_price", loPrice);
 
-                if (isRent) {
-                    offerIntent.putExtra("is_rent", "Аренда");
-                } else {
-                    offerIntent.putExtra("is_rent", "Покупка");
-                }
+            if (!upPrice.matches(""))
+                offerIntent.putExtra("up_price", upPrice);
 
-                offerIntent.putExtra("realty_type", realtyTypeText);
-                offerIntent.putExtra("rent_period", rentPeriodText);
-
-                if(getRooms(rooms) != null) {
-                    offerIntent.putExtra("rooms", getRooms(rooms));
-                }
-
-
-                startActivity(offerIntent);
+            if (isRent) {
+                offerIntent.putExtra("is_rent", "Аренда");
+            } else {
+                offerIntent.putExtra("is_rent", "Покупка");
             }
+
+            offerIntent.putExtra("realty_type", realtyTypeText);
+            offerIntent.putExtra("realty_type_int", realtyTypeInt);
+            offerIntent.putExtra("rent_period", rentPeriodText);
+            offerIntent.putExtra("rent_period_int", rentPeriodInt);
+
+            offerIntent.putExtra("date_from", Utils.parseDateDefault(datePickerView.getStartDate()));
+            offerIntent.putExtra("date_to", Utils.parseDateDefault(datePickerView.getEndDate()));
+
+            if(getRooms(rooms) != null) {
+                offerIntent.putExtra("rooms", getRooms(rooms));
+                offerIntent.putIntegerArrayListExtra("rooms_array", rooms);
+            }
+
+            if(properties.size() > 0) {
+                offerIntent.putIntegerArrayListExtra("properties", properties);
+            }
+
+            for(int i = 0; i < rooms.size(); i++) {
+                Log.d("M2TAG", rooms.get(i).toString());
+            }
+
+            startActivity(offerIntent);
         });
 
         addFragment(new MapsFragment());
@@ -559,12 +532,7 @@ public class SearchActivity extends IntroActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
                         showMessageOKCancel(
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        requestPermissions(permissionsRejected.toArray(new String[0]), ALL_PERMISSIONS_RESULT);
-                                    }
-                                });
+                                (dialog, which) -> requestPermissions(permissionsRejected.toArray(new String[0]), ALL_PERMISSIONS_RESULT));
                     }
                 }
 
@@ -595,39 +563,57 @@ public class SearchActivity extends IntroActivity {
 
     private void toToggle(Button view, ToggleButton isSet) {
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSet.isButton()) {
-                    isSet.setButton(false);
-                    rooms.remove(view.getText().toString());
-                } else {
-                    isSet.setButton(true);
-                    rooms.add(view.getText().toString());
+        view.setOnClickListener(v -> {
+            if (isSet.isButton()) {
+                isSet.setButton(false);
+                if(view.getText().toString().compareTo("6+") == 0)
+                    rooms.remove(rooms.indexOf(6));
+                else
+                    rooms.remove(rooms.indexOf(Integer.parseInt(view.getText().toString())));
+            } else {
+                isSet.setButton(true);
+                if(view.getText().toString().compareTo("6+") == 0) {
+                    rooms.add(6);
                 }
+                else {
+                    rooms.add(Integer.parseInt(view.getText().toString()));
+                }
+            }
+        });
+    }
+
+    private void toToggle(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable, int props) {
+
+        view.setOnClickListener(v -> {
+            if (isSet.isButton()) {
+                isSet.setButton(false);
+                view.setTextColor(getResources().getColor(R.color.color_primary_dark));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), disableDrawable));
+                properties.remove(properties.indexOf(props));
+            } else {
+                isSet.setButton(true);
+                view.setTextColor(getResources().getColor(android.R.color.white));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), enableDrawable));
+                properties.add(props);
             }
         });
     }
 
     private void toToggle(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable) {
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSet.isButton()) {
-                    isSet.setButton(false);
-                    view.setTextColor(getResources().getColor(R.color.color_primary_dark));
-                    view.setBackground(getResources().getDrawable(disableDrawable));
-                } else {
-                    isSet.setButton(true);
-                    view.setTextColor(getResources().getColor(android.R.color.white));
-                    view.setBackground(getResources().getDrawable(enableDrawable));
-                }
+        view.setOnClickListener(v -> {
+            if (isSet.isButton()) {
+                isSet.setButton(false);
+                view.setTextColor(getResources().getColor(R.color.color_primary_dark));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), disableDrawable));
+            } else {
+                isSet.setButton(true);
+                view.setTextColor(getResources().getColor(android.R.color.white));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), enableDrawable));
             }
         });
     }
 
-    public String getRooms(ArrayList<String> data) {
+    public String getRooms(ArrayList<Integer> data) {
         Collections.sort(data);
 
         if(data.isEmpty()) {
@@ -640,59 +626,71 @@ public class SearchActivity extends IntroActivity {
                 result.append(data.get(i)).append(", ");
             }
 
-            result.append(data.get(data.size() - 1)).append(" - комнат");
+            result.append(data.get(data.size()-1)).append(" - комнат.");
 
             return result.toString();
         }
+    }
+
+    public void addButton(String data, int props) {
+        int padding = getResources().getDimensionPixelSize(R.dimen.activity_margin);
+        Button btnResult = new Button(this);
+        btnResult.setTextSize(16);
+        btnResult.setAllCaps(false);
+        btnResult.setBackground(ContextCompat.getDrawable(this, android.R.color.transparent));
+        btnResult.setTextColor(ContextCompat.getColor(this, R.color.color_primary_dark));
+        btnResult.setPadding(padding, padding, padding, padding);
+        btnResult.setText(data);
+
+        toToggle(btnResult, new ToggleButton(false), disableDrawable, enableDrawable, props);
+
+        flowLayout.addView(btnResult);
     }
 
     private void toToggle(LinearLayout view, ImageView edit, ToggleButton isSet) {
 
         if (isSet.isButton()) {
             isSet.setButton(false);
-            view.setBackground(getDrawable(R.drawable.bg_polygon_on));
-            edit.setBackground(getDrawable(R.drawable.ic_edit_white));
+            view.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_polygon_on));
+            edit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_edit_white));
             ivDelete.setVisibility(View.VISIBLE);
         } else {
             isSet.setButton(true);
-            view.setBackground(getDrawable(R.drawable.bg_polygon_off));
-            edit.setBackground(getDrawable(R.drawable.ic_edit_blue));
+            view.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_polygon_off));
+            edit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_edit_blue));
             ivDelete.setVisibility(View.GONE);
         }
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSet.isButton()) {
-                    isSet.setButton(false);
-                    view.setBackground(getDrawable(R.drawable.bg_polygon_on));
-                    edit.setBackground(getDrawable(R.drawable.ic_edit_white));
-                    ivDelete.setVisibility(View.VISIBLE);
+        view.setOnClickListener(v -> {
+            if (isSet.isButton()) {
+                isSet.setButton(false);
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_polygon_on));
+                edit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_edit_white));
+                ivDelete.setVisibility(View.VISIBLE);
 
-                    Fragment fragment;
+                Fragment fragment;
 
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("isEdit", true);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isEdit", true);
 
-                    fragment = new MapsFragment();
-                    fragment.setArguments(bundle);
-                    loadFragment(fragment);
+                fragment = new MapsFragment();
+                fragment.setArguments(bundle);
+                loadFragment(fragment);
 
-                } else {
-                    isSet.setButton(true);
-                    view.setBackground(getDrawable(R.drawable.bg_polygon_off));
-                    edit.setBackground(getDrawable(R.drawable.ic_edit_blue));
-                    ivDelete.setVisibility(View.GONE);
+            } else {
+                isSet.setButton(true);
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_polygon_off));
+                edit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_edit_blue));
+                ivDelete.setVisibility(View.GONE);
 
-                    Fragment fragment;
+                Fragment fragment;
 
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("isEdit", false);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isEdit", false);
 
-                    fragment = new MapsFragment();
-                    fragment.setArguments(bundle);
-                    loadFragment(fragment);
-                }
+                fragment = new MapsFragment();
+                fragment.setArguments(bundle);
+                loadFragment(fragment);
             }
         });
     }

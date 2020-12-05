@@ -26,7 +26,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -125,6 +127,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public void onMapClick(LatLng latLng) {
 
         if (isEdit) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            map.addMarker(new MarkerOptions().position(new LatLng(latLng.latitude, latLng.longitude))
+                    .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.round_button_background_blue))
+                    .draggable(false).anchor(0.5f,0.5f));
 
             if(markerClicked) {
                 if (polygon != null) {
@@ -135,6 +141,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 rectOptions.add(new LatLng(latLng.latitude, latLng.longitude));
                 rectOptions.strokeColor(getResources().getColor(R.color.color_primary));
                 rectOptions.fillColor(getResources().getColor(R.color.color_primary_blue_transparent));
+                rectOptions.strokeWidth(6);
+                rectOptions.strokeJointType(JointType.ROUND);
+
                 polygon = map.addPolygon(rectOptions);
             }
             else {
@@ -159,11 +168,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
         LatLng currentLocation = new LatLng(latitude, longitude);
         com.google.android.gms.maps.model.CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation)
-                .zoom(14)
+                .zoom(16)
                 .build();
 
         map.addMarker(new MarkerOptions().position(currentLocation)
-                .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_marker_current))
+                .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_current_marker))
                 .draggable(false)
                 .title("Текущее положение"));
         map.setMinZoomPreference(6.0f);

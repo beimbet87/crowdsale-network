@@ -178,6 +178,7 @@ public class DateView extends LinearLayout
         });
     }
 
+
     /**
      * Display dates correctly in grid
      */

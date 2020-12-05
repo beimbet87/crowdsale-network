@@ -15,6 +15,8 @@ public class User {
     private String phone;
     private String password;
     private int profileType;
+    private Double stars;
+    private String currency;
 
     public String getBody() {
         JSONObject jsonBody = new JSONObject();
@@ -121,5 +123,21 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Double getStars() {
+        return stars;
+    }
+
+    public void setStars(Double stars) {
+        this.stars = stars;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

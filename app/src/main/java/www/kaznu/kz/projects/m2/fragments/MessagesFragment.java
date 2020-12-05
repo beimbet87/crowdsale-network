@@ -33,10 +33,6 @@ import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class MessagesFragment extends Fragment {
 
-    final public String URL_GET_MY_CHATS = "http://someproject-001-site1.itempurl.com/api/Chat/getMyChats";
-
-    JSONArray chats;
-
     RecyclerView lView;
 
     MessagesAdapter adapter;

@@ -178,7 +178,7 @@
         <item name="android:textStyle">bold</item>
 
         <item name="android:background">@drawable/back_button_background</item>
-        <item name="android:drawableEnd">@drawable/ic_hide_inner</item>
+        <item name="android:drawableEnd">@drawable/ic_hide_inner_blue</item>
     </style>
 
     <style name="Button.Style.Intro" parent="Widget.AppCompat.Button.Borderless">

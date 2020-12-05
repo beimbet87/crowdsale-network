@@ -31,6 +31,7 @@ public class DatePickerView extends LinearLayout
 
     public int start = 0, end = 0;
     public int startIndex, endIndex;
+    public boolean isEnded = false;
 
     private String monthLabel [] = new String[] {
             "Январь",
@@ -130,6 +131,7 @@ public class DatePickerView extends LinearLayout
         return tvEndDate.getText().toString();
     }
 
+
     private void assignClickHandlers()
     {
         // add one month and refresh UI
@@ -212,6 +214,8 @@ public class DatePickerView extends LinearLayout
 //
 //                        dates.setLayoutParams(params);
                     }
+
+                    setSelected(true);
                 }
                 else if(start == 1 && end == 1) {
 
@@ -220,6 +224,16 @@ public class DatePickerView extends LinearLayout
         });
     }
 
+    public boolean isSelected() {
+        if(isEnded) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setSelected(boolean b) {
+        isEnded = b;
+    }
     public void updateCalendar()
     {
         updateCalendar(null);

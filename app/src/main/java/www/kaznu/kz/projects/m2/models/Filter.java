@@ -2,6 +2,8 @@ package www.kaznu.kz.projects.m2.models;
 
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,22 +44,35 @@ public class Filter {
                 }
                 jsonBody.put("polygone", jsonPolygons);
             }
+
             if(this.transactionType > 0)
                 jsonBody.put("transactionType", this.getTransactionType());
             if(this.getRealtyType() > 0)
                 jsonBody.put("realtyType", this.getRealtyType());
             if (this.getRoomCount().size() > 0) {
-                jsonBody.put("roomCount", this.getRoomCount());
+                JSONArray rooms = new JSONArray();
+                for(int i = 0; i < this.getRoomCount().size(); i++) {
+                    rooms.put(this.getRoomCount().get(i));
+                }
+                jsonBody.put("roomCount", rooms);
             }
             if(this.getCostLowerLimit() > 0.0)
                 jsonBody.put("costLowerLimit", this.getCostLowerLimit());
             if(this.getCostUpperLimit() > 0.0)
                 jsonBody.put("costUpperLimit", this.getCostUpperLimit());
             if (this.getOffersOptionsId().size() > 0) {
-                jsonBody.put("offersOptionsId", this.getOffersOptionsId());
+                JSONArray offersOption = new JSONArray();
+                for(int i = 0; i < this.getOffersOptionsId().size(); i++) {
+                    offersOption.put(this.getOffersOptionsId().get(i));
+                }
+                jsonBody.put("offersOptionsId", offersOption);
             }
             if (this.getPropertiesId().size() > 0) {
-                jsonBody.put("propertiesID", this.getPropertiesId());
+                JSONArray properties = new JSONArray();
+                for(int i = 0; i < this.getPropertiesId().size(); i++) {
+                    properties.put(this.getPropertiesId().get(i));
+                }
+                jsonBody.put("propertiesID", properties);
             }
             if(this.getRentPeriod() > 0)
                 jsonBody.put("rentPeriod", this.getRentPeriod());
