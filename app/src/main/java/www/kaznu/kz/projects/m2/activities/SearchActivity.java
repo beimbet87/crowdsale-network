@@ -5,9 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -24,13 +28,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.ToggleButton;
@@ -44,6 +51,7 @@ import www.kaznu.kz.projects.m2.api.RequestOffers;
 import www.kaznu.kz.projects.m2.fragments.MapsFragment;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Directory;
+import www.kaznu.kz.projects.m2.models.Polygons;
 import www.kaznu.kz.projects.m2.models.SearchDialog;
 import www.kaznu.kz.projects.m2.services.GPSTracker;
 import www.kaznu.kz.projects.m2.utils.Logger;
@@ -54,7 +62,7 @@ import www.kaznu.kz.projects.m2.views.FlowLayout;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class SearchActivity extends IntroActivity {
+public class SearchActivity extends IntroActivity implements MapsFragment.DataFromSearchArea {
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
@@ -63,6 +71,9 @@ public class SearchActivity extends IntroActivity {
     private ArrayList<String> permissionsToRequest;
     private final ArrayList<String> permissionsRejected = new ArrayList<>();
     private final ArrayList<String> permissions = new ArrayList<>();
+
+    ArrayList<Polygons> searchData;
+
 
     DatePickerView datePickerView;
 
@@ -114,6 +125,7 @@ public class SearchActivity extends IntroActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setFullscreen(true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
@@ -402,10 +414,10 @@ public class SearchActivity extends IntroActivity {
             String upPrice = etCostUpperLimit.getText().toString();
 
             if (!loPrice.matches(""))
-                offerIntent.putExtra("lo_price", loPrice);
+                offerIntent.putExtra("lo_price", Double.parseDouble(loPrice));
 
             if (!upPrice.matches(""))
-                offerIntent.putExtra("up_price", upPrice);
+                offerIntent.putExtra("up_price", Double.parseDouble(upPrice));
 
             if (isRent) {
                 offerIntent.putExtra("is_rent", "Аренда");
@@ -424,6 +436,10 @@ public class SearchActivity extends IntroActivity {
             if(getRooms(rooms) != null) {
                 offerIntent.putExtra("rooms", getRooms(rooms));
                 offerIntent.putIntegerArrayListExtra("rooms_array", rooms);
+            }
+
+            if(searchData.size() > 0) {
+                offerIntent.putParcelableArrayListExtra("polygons", searchData);
             }
 
             if(properties.size() > 0) {
@@ -589,11 +605,13 @@ public class SearchActivity extends IntroActivity {
                 isSet.setButton(false);
                 view.setTextColor(getResources().getColor(R.color.color_primary_dark));
                 view.setBackground(ContextCompat.getDrawable(getApplicationContext(), disableDrawable));
+                view.setStateListAnimator(null);
                 properties.remove(properties.indexOf(props));
             } else {
                 isSet.setButton(true);
                 view.setTextColor(getResources().getColor(android.R.color.white));
                 view.setBackground(ContextCompat.getDrawable(getApplicationContext(), enableDrawable));
+                view.setStateListAnimator(null);
                 properties.add(props);
             }
         });
@@ -641,6 +659,7 @@ public class SearchActivity extends IntroActivity {
         btnResult.setTextColor(ContextCompat.getColor(this, R.color.color_primary_dark));
         btnResult.setPadding(padding, padding, padding, padding);
         btnResult.setText(data);
+        btnResult.setStateListAnimator(null);
 
         toToggle(btnResult, new ToggleButton(false), disableDrawable, enableDrawable, props);
 
@@ -693,5 +712,10 @@ public class SearchActivity extends IntroActivity {
                 loadFragment(fragment);
             }
         });
+    }
+
+    @Override
+    public void SearchArea(ArrayList<Polygons> area) {
+        searchData = area;
     }
 }

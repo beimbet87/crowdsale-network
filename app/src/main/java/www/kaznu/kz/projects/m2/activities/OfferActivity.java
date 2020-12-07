@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.ToggleButton;
 import www.kaznu.kz.projects.m2.api.realty.FilterOffers;
@@ -42,12 +44,16 @@ public class OfferActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer);
+        Intent intent = getIntent();
 
         Logger Log = new Logger(this, Constants.TAG);
 
-        SearchIntroFragment introFragment = new SearchIntroFragment();
+        if(!intent.getBooleanExtra("is_search", false)) {
+            SearchIntroFragment introFragment = new SearchIntroFragment();
 
-        addFragment(introFragment);
+            addFragment(introFragment);
+        }
+
         container = findViewById(R.id.offers_buttons);
         all_buttons = findViewById(R.id.properties_container);
         flowLayout = findViewById(R.id.properties);
@@ -57,17 +63,15 @@ public class OfferActivity extends AppCompatActivity {
         toToggle(btnHide, new ToggleButton(false),
                 R.drawable.back_button_background, R.drawable.back_button_background_blue);
 
-        Intent intent = getIntent();
+        if (intent.getDoubleExtra("lo_price", 0.0) > 0.0 && intent.getDoubleExtra("up_price", 0.0) <= 0.0)
+            price = addText("От " + Utils.parsePrice(intent.getDoubleExtra("lo_price", 0.0), ""));
 
-        if (intent.getStringExtra("lo_price") != null && intent.getStringExtra("up_price") == null)
-            price = addText("От " + Utils.parsePrice(Double.parseDouble(intent.getStringExtra("lo_price")), ""));
+        else if (intent.getDoubleExtra("lo_price", 0.0) <= 0.0 && intent.getDoubleExtra("up_price", 0.0) > 0.0)
+            price = addText("До " + Utils.parsePrice(intent.getDoubleExtra("up_price", 0.0), ""));
 
-        if (intent.getStringExtra("lo_price") == null && intent.getStringExtra("up_price") != null)
-            price = addText("До " + Utils.parsePrice(Double.parseDouble(intent.getStringExtra("up_price")), ""));
-
-        if (intent.getStringExtra("lo_price") != null && intent.getStringExtra("up_price") != null)
-            price = addText("От " + Utils.parsePrice(Double.parseDouble(intent.getStringExtra("lo_price")), "")
-                    + " до " + Utils.parsePrice(Double.parseDouble(intent.getStringExtra("up_price")), ""));
+        else if (intent.getDoubleExtra("lo_price", 0.0) > 0.0 && intent.getDoubleExtra("up_price", 0.0) > 0.0)
+            price = addText("От " + Utils.parsePrice(intent.getDoubleExtra("lo_price", 0.0), "")
+                    + " до " + Utils.parsePrice(intent.getDoubleExtra("up_price", 0.0), ""));
 
         if (intent.getStringExtra("is_rent") != null)
             addText(intent.getStringExtra("is_rent"));
@@ -81,18 +85,18 @@ public class OfferActivity extends AppCompatActivity {
         if (intent.getStringExtra("rooms") != null)
             addText(intent.getStringExtra("rooms"));
 
-        Log.d(intent.getStringExtra("lo_price"));
-        Log.d(intent.getStringExtra("up_price"));
+        Log.d(intent.getIntExtra("realty_type_int", 5) + " <--- realty type");
+        Log.d(intent.getIntExtra("rent_period_int", 8) + " <--- rent period");
 
         Filter filter = new Filter();
         filter.setRealtyType(intent.getIntExtra("realty_type_int", 5));
         filter.setRentPeriod(intent.getIntExtra("rent_period_int", 8));
         if (intent.getIntegerArrayListExtra("rooms_array") != null)
             filter.setRoomCount(intent.getIntegerArrayListExtra("rooms_array"));
-        if (intent.getStringExtra("lo_price") != null)
-            filter.setCostLowerLimit(Double.parseDouble(intent.getStringExtra("lo_price")));
-        if (intent.getStringExtra("up_price") != null)
-            filter.setCostUpperLimit(Double.parseDouble(intent.getStringExtra("up_price")));
+        if (intent.getDoubleExtra("lo_price", 0.0) > 0.0)
+            filter.setCostLowerLimit(intent.getDoubleExtra("lo_price", 0.0));
+        if (intent.getDoubleExtra("up_price", 0.0) > 0.0)
+            filter.setCostUpperLimit(intent.getDoubleExtra("up_price", 0.0));
         if (intent.getIntegerArrayListExtra("properties") != null)
             filter.setPropertiesId(intent.getIntegerArrayListExtra("properties"));
 
@@ -102,8 +106,12 @@ public class OfferActivity extends AppCompatActivity {
         if (intent.getStringExtra("date_to") != null)
             filter.setEndDate(intent.getStringExtra("date_to"));
 
+        if (intent.getParcelableArrayListExtra("polygons") != null)
+            filter.setPolygons(intent.getParcelableArrayListExtra("polygons"));
+
         filter.setOffset(0);
         filter.setLimit(10);
+
 
         token = getSharedPreferences("M2_TOKEN", 0);
 
@@ -111,14 +119,22 @@ public class OfferActivity extends AppCompatActivity {
 
         filterOffers.setOnLoadListener(offers -> {
             if (offers.size() > 0) {
-                OfferFragment fragment = new OfferFragment();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("offers", offers);
-                bundle.putString("price", price);
-                fragment.setArguments(bundle);
 
-                loadFragment(fragment);
-                container.setVisibility(View.VISIBLE);
+                    OfferFragment fragment = new OfferFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("offers", offers);
+                    bundle.putString("price", price);
+                    fragment.setArguments(bundle);
+                if(!intent.getBooleanExtra("is_search", false)) {
+                    loadFragment(fragment);
+                    container.setVisibility(View.VISIBLE);
+                }
+                else {
+                    container.setVisibility(View.VISIBLE);
+                    addFragment(fragment);
+                }
+
+
             } else {
                 Toast.makeText(this, "Поиск не дал результатов!", Toast.LENGTH_SHORT).show();
                 finish();

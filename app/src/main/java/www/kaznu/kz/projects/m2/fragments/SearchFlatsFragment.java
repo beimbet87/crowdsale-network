@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -90,64 +91,57 @@ public class SearchFlatsFragment extends Fragment {
                 lAdapter.setOnItemClickListener(new MessagesAdapter.ClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
-                        Intent offerIntent = new Intent(requireActivity(), OfferActivity.class);
                         Search search = searches.get(position);
-                        Double loPrice = search.getFilter().getCostLowerLimit();
-                        Double upPrice = search.getFilter().getCostUpperLimit();
 
-                        if (loPrice > 0.0)
-                            offerIntent.putExtra("lo_price", loPrice);
+                        if (search.getCount() > 0) {
+                            Intent offerIntent = new Intent(requireActivity(), OfferActivity.class);
 
-                        if (upPrice > 0.0)
-                            offerIntent.putExtra("up_price", upPrice);
+                            double loPrice = search.getFilter().getCostLowerLimit();
+                            double upPrice = search.getFilter().getCostUpperLimit();
 
-                        if (isRent) {
-                            offerIntent.putExtra("is_rent", "Аренда");
+                            offerIntent.putExtra("is_search", true);
+
+                            Log.d(Constants.TAG, "Price: " + loPrice + " and " + upPrice);
+
+                            if (loPrice > 0.0)
+                                offerIntent.putExtra("lo_price", loPrice);
+
+                            if (upPrice > 0.0)
+                                offerIntent.putExtra("up_price", upPrice);
+
+                            if (isRent) {
+                                offerIntent.putExtra("is_rent", "Аренда");
+                            } else {
+                                offerIntent.putExtra("is_rent", "Покупка");
+                            }
+
+                            offerIntent.putExtra("realty_type_int", search.getFilter().getRealtyType());
+
+                            offerIntent.putExtra("rent_period_int", search.getFilter().getRentPeriod());
+
+                            offerIntent.putExtra("date_from", search.getFilter().getStartDate());
+                            offerIntent.putExtra("date_to", search.getFilter().getEndDate());
+
+                            //Log.d(Constants.TAG, "Realty type: " + search.getFilter().getStartDate() + " and " + search.getFilter().getEndDate());
+
+                            if (getRooms(search.getFilter().getRoomCount()) != null) {
+                                offerIntent.putExtra("rooms", getRooms(search.getFilter().getRoomCount()));
+                                offerIntent.putIntegerArrayListExtra("rooms_array", search.getFilter().getRoomCount());
+
+                                Log.d(Constants.TAG, "Room count: " + getRooms(search.getFilter().getRoomCount()));
+                            }
+
+                            if (search.getFilter().getPropertiesId().size() > 0) {
+                                offerIntent.putIntegerArrayListExtra("properties", search.getFilter().getPropertiesId());
+                                for (int i = 0; i < search.getFilter().getPropertiesId().size(); i++) {
+                                    Log.d(Constants.TAG, "Properties: " + search.getFilter().getPropertiesId().get(i));
+                                }
+                            }
+
+                            startActivity(offerIntent);
                         } else {
-                            offerIntent.putExtra("is_rent", "Покупка");
+                            Toast.makeText(requireContext(), "Поиск не дал результатов!", Toast.LENGTH_SHORT).show();
                         }
-
-                        RealtyType realtyType = new RealtyType(requireContext());
-
-                        realtyType.setOnLoadListener(new RealtyType.CustomOnLoadListener() {
-                            @Override
-                            public void onComplete(ArrayList<Directory> data) {
-                                for (int i = 0; i < data.size(); i++) {
-                                    if (data.get(i).getCodeId() == search.getFilter().getRealtyType()) {
-                                        offerIntent.putExtra("realty_type", data.get(i).getValue());
-                                        offerIntent.putExtra("realty_type_int", data.get(i).getCodeId());
-                                    }
-                                }
-                            }
-                        });
-
-                        RentPeriod rentPeriod = new RentPeriod(requireContext());
-                        rentPeriod.setOnLoadListener(new RentPeriod.CustomOnLoadListener() {
-                            @Override
-                            public void onComplete(ArrayList<Directory> data) {
-                                for (int i = 0; i < data.size(); i++) {
-                                    if(data.get(i).getCodeId() == search.getFilter().getRentPeriod()) {
-                                        offerIntent.putExtra("rent_period", data.get(i).getValue());
-                                        offerIntent.putExtra("rent_period_int", data.get(i).getCodeId());
-                                    }
-                                }
-                            }
-                        });
-
-
-                        offerIntent.putExtra("date_from", search.getFilter().getStartDate());
-                        offerIntent.putExtra("date_to", search.getFilter().getEndDate());
-
-                        if(getRooms(search.getFilter().getRoomCount()) != null) {
-                            offerIntent.putExtra("rooms", getRooms(search.getFilter().getRoomCount()));
-                            offerIntent.putIntegerArrayListExtra("rooms_array", search.getFilter().getRoomCount());
-                        }
-
-                        if(search.getFilter().getPropertiesId().size() > 0) {
-                            offerIntent.putIntegerArrayListExtra("properties", search.getFilter().getPropertiesId());
-                        }
-
-                        startActivity(offerIntent);
                     }
 
                     @Override
@@ -178,17 +172,16 @@ public class SearchFlatsFragment extends Fragment {
     public String getRooms(ArrayList<Integer> data) {
         Collections.sort(data);
 
-        if(data.isEmpty()) {
+        if (data.isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             StringBuilder result = new StringBuilder();
 
-            for(int i = 0; i < data.size() - 1; i++) {
+            for (int i = 0; i < data.size() - 1; i++) {
                 result.append(data.get(i)).append(", ");
             }
 
-            result.append(data.get(data.size()-1)).append(" - комнат.");
+            result.append(data.get(data.size() - 1)).append(" - комнат.");
 
             return result.toString();
         }
@@ -197,7 +190,7 @@ public class SearchFlatsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(lAdapter!=null)
+        if (lAdapter != null)
             lAdapter.notifyDataSetChanged();
     }
 

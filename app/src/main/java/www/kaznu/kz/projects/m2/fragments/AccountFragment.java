@@ -1,10 +1,12 @@
 package www.kaznu.kz.projects.m2.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
@@ -42,6 +45,7 @@ public class AccountFragment extends Fragment implements Constants {
     TextView tvUserName;
     Button btnViewProfile;
     ImageView ivAvatar;
+    LinearLayout btnExit;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -57,8 +61,26 @@ public class AccountFragment extends Fragment implements Constants {
         tvUserName = rootView.findViewById(R.id.tv_profile_username);
         btnViewProfile = rootView.findViewById(R.id.btn_view_profile);
         ivAvatar = rootView.findViewById(R.id.iv_profile_image);
+        btnExit = rootView.findViewById(R.id.btn_exit);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("M2_USER_INFO", 0);
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(new ContextThemeWrapper(requireContext(), R.style.Dialog_Style_Alert))
+                        .setMessage("Вы действительно хотите выйти?")
+                        .setCancelable(false)
+
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                requireActivity().finish();
+                            }
+                        })
+                        .setNegativeButton("Нет", null)
+                        .show();
+            }
+        });
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("M2_USER_INFO", 0);
         String userName = sharedPreferences.getString("name", "");
 
         String url = BASE_URL + sharedPreferences.getString("image", "");

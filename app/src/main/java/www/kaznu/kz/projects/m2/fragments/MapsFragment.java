@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.models.Polygons;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener {
 
@@ -45,12 +47,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     boolean isEdit = false, markerClicked = false;
     Location location;
 
-    ArrayList<LatLng> searchArea = new ArrayList<>();
+    ArrayList<Polygons> searchArea = new ArrayList<>();
     PolygonOptions rectOptions = new PolygonOptions();
     Polygon polygon;
 
+    Polygons polygons;
+
     public MapsFragment() {
         // Required empty public constructor
+    }
+
+    public interface DataFromSearchArea {
+        void SearchArea(ArrayList<Polygons> area);
     }
 
     public static MapsFragment newInstance() {
@@ -62,6 +70,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                              Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_maps, container, false);
+
+        polygons = new Polygons();
 
         SupportMapFragment mapFragment = null;
 
@@ -137,7 +147,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                     polygon.remove();
                     polygon = null;
                 }
-                searchArea.add(new LatLng(latLng.latitude, latLng.longitude));
+                polygons.setLatitude(latLng.latitude);
+                polygons.setLongitude(latLng.longitude);
+                searchArea.add(polygons);
                 rectOptions.add(new LatLng(latLng.latitude, latLng.longitude));
                 rectOptions.strokeColor(getResources().getColor(R.color.color_primary));
                 rectOptions.fillColor(getResources().getColor(R.color.color_primary_blue_transparent));
@@ -145,6 +157,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 rectOptions.strokeJointType(JointType.ROUND);
 
                 polygon = map.addPolygon(rectOptions);
+
+                dataPasser.SearchArea(searchArea);
             }
             else {
                 if(polygon != null){
@@ -187,5 +201,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    DataFromSearchArea dataPasser;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        dataPasser = (DataFromSearchArea) context;
     }
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.api.RealtyProperties;
+import www.kaznu.kz.projects.m2.api.RealtyType;
 import www.kaznu.kz.projects.m2.api.RentPeriod;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Filter;
@@ -49,14 +50,38 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             Search search = searches.get(i);
 
-            TextView tvRoomCount = new TextView(context);
-            tvRoomCount.setTextSize(12);
-            tvRoomCount.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
-            tvRoomCount.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
-            tvRoomCount.setMaxLines(1);
-            tvRoomCount.setPadding(p1, p0, p1, p0);
-            tvRoomCount.setText(getRoomCount(search.getFilter()));
-            flowLayout.addView(tvRoomCount);
+            if (getRoomCount(search.getFilter()) != null) {
+
+                TextView tvRoomCount = new TextView(context);
+                tvRoomCount.setTextSize(12);
+                tvRoomCount.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
+                tvRoomCount.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
+                tvRoomCount.setMaxLines(1);
+                tvRoomCount.setPadding(p1, p0, p1, p0);
+                tvRoomCount.setText(getRoomCount(search.getFilter()));
+                flowLayout.addView(tvRoomCount);
+            }
+
+            RealtyType realtyType = new RealtyType(context);
+            realtyType.setOnLoadListener(data -> {
+                String rent = null;
+                for (int i1 = 0; i1 < data.size(); i1++) {
+                    if (data.get(i1).getCodeId() == search.getFilter().getRealtyType())
+                        rent = data.get(i1).getValue();
+                }
+
+                if (rent != null) {
+                    TextView tvRealtyType = new TextView(context);
+                    tvRealtyType.setTextSize(12);
+                    tvRealtyType.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
+                    tvRealtyType.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
+                    tvRealtyType.setMaxLines(1);
+                    tvRealtyType.setPadding(p1, p0, p1, p0);
+                    tvRealtyType.setText(rent);
+
+                    flowLayout.addView(tvRealtyType);
+                }
+            });
 
             if (getCost(search.getFilter()) != null) {
                 TextView tvPrice = new TextView(context);
@@ -78,7 +103,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         rent = data.get(i1).getValue();
                 }
 
-                if(rent != null) {
+                if (rent != null) {
                     TextView tvRentPeriod = new TextView(context);
                     tvRentPeriod.setTextSize(12);
                     tvRentPeriod.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
@@ -163,7 +188,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             flowLayout.removeAllViews();
             flowLayout.addView(flow);
 
-            tvTitle.setText(new StringBuilder().append("Поиск # ").append(num));
+            tvTitle.setText(new StringBuilder().append("Поиск # ").append(search.getId()));
             tvCount.setText(String.valueOf(search.getCount()));
 
             Log.d("ViewData --> " + position + " " + isView);
@@ -194,7 +219,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             rooms.append(" комнат.");
         } else {
-            rooms.append("0 - комнатная");
+            return null;
         }
 
         return rooms.toString();
@@ -235,6 +260,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public interface ClickListener {
         void onItemClick(int position, View v);
+
         void onItemLongClick(int position, View v);
     }
 }
