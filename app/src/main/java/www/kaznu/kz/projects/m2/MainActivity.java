@@ -121,16 +121,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         UserInfo userInfo = new UserInfo(this, token.getString("access_token", ""));
 
-        DeleteImage deleteImage = new DeleteImage(this, "~/Images/192.jpg", token.getString("access_token", ""));
-
-        deleteImage.setOnLoadListener(new DeleteImage.CustomOnLoadListener() {
-            @Override
-            public void onComplete(int data, String message) {
-//                if (data == 1) {
-//                    Toast.makeText(getApplicationContext(), "Image is deleted", Toast.LENGTH_LONG).show();
-//                }
-            }
-        });
+//        DeleteImage deleteImage = new DeleteImage(this, "~/Images/192.jpg", token.getString("access_token", ""));
+//
+//        deleteImage.setOnLoadListener(new DeleteImage.CustomOnLoadListener() {
+//            @Override
+//            public void onComplete(int data, String message) {
+////                if (data == 1) {
+////                    Toast.makeText(getApplicationContext(), "Image is deleted", Toast.LENGTH_LONG).show();
+////                }
+//            }
+//        });
 
         userInfo.setOnLoadListener(new UserInfo.CustomOnLoadListener() {
             @Override

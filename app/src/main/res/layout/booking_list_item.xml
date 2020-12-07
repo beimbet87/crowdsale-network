@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:paddingEnd="24dp"
-    android:paddingStart="24dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
     android:background="@drawable/border_bottom">
 
     <LinearLayout
@@ -52,7 +52,7 @@
             android:maxLines="1"
             android:textStyle="bold"
             android:text="14 дек - 31 дек"
-            android:textColor="@color/color_gradient_end"
+            android:textColor="@color/color_primary"
             android:textSize="16sp" />
     </LinearLayout>
 

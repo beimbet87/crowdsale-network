@@ -1,5 +1,8 @@
 package www.kaznu.kz.projects.m2.interfaces;
 
+import android.app.Activity;
+import android.content.Context;
+
 public interface Constants {
     String TAG = "M2TAG";
     String BASE_URL = "http://someproject-001-site1.itempurl.com/";
@@ -32,7 +35,8 @@ public interface Constants {
     String URL_PUSHER_SEND_MESSAGE = BASE_URL.concat("api/ChatPusher/sendMessage");
     String URL_PUSHER_REQUEST_MESSAGE = BASE_URL.concat("api/ChatPusher/request");
     String URL_PUSHER_RESPONSE_MESSAGE = BASE_URL.concat("api/ChatPusher/response");
-    String URL_PUSHER_RATE_BOOK = BASE_URL.concat("aapi/ChatPusher/rateBook");
+    String URL_PUSHER_RATE_BOOK = BASE_URL.concat("api/ChatPusher/rateBook");
+    String URL_PUSHER_RATE_USER = BASE_URL.concat("api/ChatPusher/rateUser");
 
     String SHARED_COUNTRIES = "SHARED_COUNTRY_INFO";
     String SHARED_PUSHER = "SHARED_PUSHER_INFO";

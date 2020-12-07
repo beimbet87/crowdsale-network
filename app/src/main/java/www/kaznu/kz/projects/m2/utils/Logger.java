@@ -4,8 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 public class Logger {
-    private Context context;
-    private String tag;
+    private final Context context;
+    private final String tag;
+
     public Logger(Context context, String tag) {
         this.context = context;
         this.tag = tag;

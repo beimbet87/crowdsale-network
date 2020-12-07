@@ -1,31 +1,120 @@
 package www.kaznu.kz.projects.m2.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.api.RealtyProperties;
 import www.kaznu.kz.projects.m2.api.RentPeriod;
-import www.kaznu.kz.projects.m2.models.Directory;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Filter;
 import www.kaznu.kz.projects.m2.models.Search;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.Utils;
+import www.kaznu.kz.projects.m2.views.FlowLayout;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
-    public ArrayList<Search> searchs;
+    public ArrayList<Search> searches;
+    public ArrayList<Boolean> isView;
+    public ArrayList<FlowLayout> views;
 
-    public SearchAdapter(Context context, ArrayList<Search> searchs) {
+    private static MessagesAdapter.ClickListener clickListener;
+
+    public int p0, p1;
+
+    public SearchAdapter(Context context, ArrayList<Search> searches, int p0, int p1) {
         this.context = context;
-        this.searchs = searchs;
+        this.searches = searches;
+        this.p0 = p0;
+        this.p1 = p1;
+        this.isView = new ArrayList<>();
+        this.views = new ArrayList<>();
+
+
+        for (int i = 0; i < searches.size(); i++) {
+            this.isView.add(true);
+
+            FlowLayout flowLayout = new FlowLayout(context);
+
+            Search search = searches.get(i);
+
+            TextView tvRoomCount = new TextView(context);
+            tvRoomCount.setTextSize(12);
+            tvRoomCount.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
+            tvRoomCount.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
+            tvRoomCount.setMaxLines(1);
+            tvRoomCount.setPadding(p1, p0, p1, p0);
+            tvRoomCount.setText(getRoomCount(search.getFilter()));
+            flowLayout.addView(tvRoomCount);
+
+            if (getCost(search.getFilter()) != null) {
+                TextView tvPrice = new TextView(context);
+                tvPrice.setTextSize(12);
+                tvPrice.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
+                tvPrice.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
+                tvPrice.setMaxLines(1);
+                tvPrice.setPadding(p1, p0, p1, p0);
+                tvPrice.setText(getCost(search.getFilter()));
+
+                flowLayout.addView(tvPrice);
+            }
+
+            RentPeriod rentPeriod = new RentPeriod(context);
+            rentPeriod.setOnLoadListener(data -> {
+                String rent = null;
+                for (int i1 = 0; i1 < data.size(); i1++) {
+                    if (data.get(i1).getCodeId() == search.getFilter().getRentPeriod())
+                        rent = data.get(i1).getValue();
+                }
+
+                if(rent != null) {
+                    TextView tvRentPeriod = new TextView(context);
+                    tvRentPeriod.setTextSize(12);
+                    tvRentPeriod.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
+                    tvRentPeriod.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
+                    tvRentPeriod.setMaxLines(1);
+                    tvRentPeriod.setPadding(p1, p0, p1, p0);
+                    tvRentPeriod.setText(rent);
+
+                    flowLayout.addView(tvRentPeriod);
+                }
+            });
+
+            if (search.getFilter().getPropertiesId().size() > 0) {
+                for (int ip = 0; ip < search.getFilter().getPropertiesId().size(); ip++) {
+                    RealtyProperties realtyProperties = new RealtyProperties(context);
+                    final int temp = search.getFilter().getPropertiesId().get(ip);
+                    realtyProperties.setOnLoadListener(data -> {
+                        for (int idx = 0; idx < data.size(); idx++) {
+                            if (data.get(idx).getCodeId() == temp) {
+                                String upperString = data.get(idx).getValue().substring(0, 1).toUpperCase() + data.get(idx).getValue().substring(1).toLowerCase();
+                                TextView tvProperties = new TextView(context);
+                                tvProperties.setTextSize(12);
+                                tvProperties.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
+                                tvProperties.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
+                                tvProperties.setMaxLines(1);
+                                tvProperties.setPadding(p1, p0, p1, p0);
+                                tvProperties.setText(upperString);
+                                flowLayout.addView(tvProperties);
+                            }
+                        }
+                    });
+                }
+            }
+
+            views.add(flowLayout);
+        }
     }
 
     @NonNull
@@ -37,52 +126,97 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Search search = searchs.get(position);
-        ((SearchHolder) holder).bind(search, this.context);
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        ((SearchHolder) holder).flowLayout.removeAllViews();
     }
 
-    private static class SearchHolder extends RecyclerView.ViewHolder {
-        TextView tvAddress;
-        TextView tvRoomCount;
-        TextView tvRentPeriod;
-        TextView tvProperty;
-        TextView tvCost;
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Search search = searches.get(position);
+        FlowLayout flow = views.get(position);
+
+        ((SearchHolder) holder).bind(search, flow, this.context, position, this.isView.get(position), getItemCount() - position);
+        this.isView.add(position, false);
+    }
+
+    private static class SearchHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        TextView tvTitle;
         TextView tvCount;
+        FlowLayout flowLayout;
 
         SearchHolder(View itemView) {
             super(itemView);
 
-            tvAddress = itemView.findViewById(R.id.tv_message_title);
-            tvRoomCount = itemView.findViewById(R.id.tv_room_count);
-            tvRentPeriod = itemView.findViewById(R.id.tv_search_rent_period);
-            tvProperty = itemView.findViewById(R.id.tv_property);
-            tvCost = itemView.findViewById(R.id.tv_cost_interval);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+
+            tvTitle = itemView.findViewById(R.id.tv_message_title);
+            flowLayout = itemView.findViewById(R.id.list_search_properties);
             tvCount = itemView.findViewById(R.id.tv_count);
         }
 
-        void bind(Search search, Context context) {
-            RentPeriod rentPeriod = new RentPeriod(context);
-            rentPeriod.setOnLoadListener(new RentPeriod.CustomOnLoadListener() {
-                @Override
-                public void onComplete(ArrayList<Directory> data) {
-                    int rentPeriod = search.getFilter().getRentPeriod();
-                    if (rentPeriod == -1) {
-                        rentPeriod = 0;
-                    }
+        void bind(Search search, FlowLayout flow, Context context, int position, boolean isView, int num) {
 
-                    Log.d("M2TAG", search.getFilter().getPropertiesId() + "");
+            Logger Log = new Logger(context, Constants.TAG);
 
-                    tvAddress.setText("Адрес по умолчанию");
-                    tvRoomCount.setText(getRoomCount(search.getFilter()));
-                    //tvRentPeriod.setText(data.get(rentPeriod).getValue());
-                    tvProperty.setText("Без мебели");
-                    tvCost.setText(getCost(search.getFilter()));
-                    tvCount.setText(String.valueOf(search.getCount()));
-                }
-            });
+            flowLayout.removeAllViews();
+            flowLayout.addView(flow);
+
+            tvTitle.setText(new StringBuilder().append("Поиск # ").append(num));
+            tvCount.setText(String.valueOf(search.getCount()));
+
+            Log.d("ViewData --> " + position + " " + isView);
 
         }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            clickListener.onItemLongClick(getAdapterPosition(), v);
+            return false;
+        }
+    }
+
+    public String getRoomCount(Filter filter) {
+        StringBuilder rooms = new StringBuilder();
+        if (filter.getRoomCount().size() > 0) {
+            for (int i = 0; i < filter.getRoomCount().size(); i++) {
+                if (i == filter.getRoomCount().size() - 1) {
+                    rooms.append(filter.getRoomCount().get(i));
+                } else {
+                    rooms.append(filter.getRoomCount().get(i)).append(", ");
+                }
+            }
+            rooms.append(" комнат.");
+        } else {
+            rooms.append("0 - комнатная");
+        }
+
+        return rooms.toString();
+    }
+
+    public String getCost(Filter filter) {
+        String price = null;
+
+        if (filter.getCostLowerLimit() > 0.0 && filter.getCostUpperLimit() <= 0.0) {
+            price = "От " + Utils.parsePrice(filter.getCostLowerLimit(), "");
+        }
+
+        if (filter.getCostLowerLimit() <= 0.0 && filter.getCostUpperLimit() > 0.0) {
+            price = "До " + Utils.parsePrice(filter.getCostUpperLimit(), "");
+        }
+
+        if (filter.getCostLowerLimit() > 0.0 && filter.getCostUpperLimit() > 0.0) {
+            price = "От " + Utils.parsePrice(filter.getCostLowerLimit(), "")
+                    + " до " + Utils.parsePrice(filter.getCostUpperLimit(), "");
+        }
+
+        return price;
     }
 
     @Override
@@ -92,30 +226,15 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return searchs.size();
+        return searches.size();
     }
 
-    private static String getRoomCount(Filter filter) {
-
-        StringBuilder rooms = new StringBuilder("");
-        if (filter.getRoomCount().size() > 0) {
-            for (int i = 0; i < filter.getRoomCount().size(); i++) {
-                if (i == filter.getRoomCount().size() - 1) {
-                    rooms.append(filter.getRoomCount().get(i));
-                } else {
-                    rooms.append(filter.getRoomCount().get(i)).append(", ");
-                }
-            }
-            rooms.append(" комнатная");
-        } else {
-            rooms.append("0 - комнатная");
-        }
-
-        return rooms.toString();
+    public void setOnItemClickListener(MessagesAdapter.ClickListener clickListener) {
+        SearchAdapter.clickListener = clickListener;
     }
 
-    private static String getCost(Filter filter) {
-        return "От " + filter.getCostLowerLimit() + " ₸ до " + filter.getCostUpperLimit() + " ₸";
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+        void onItemLongClick(int position, View v);
     }
-
 }

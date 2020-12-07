@@ -42,6 +42,10 @@ public class MySearches implements Constants {
         this.listener = listener;
     }
 
+    public ArrayList<Search> getSearches() {
+        return this.searches;
+    }
+
     public MySearches(Context context, String token) {
         this.context = context;
         searches = new ArrayList<>();
@@ -66,6 +70,7 @@ public class MySearches implements Constants {
                         search.setRefUser(jsonSearch.getInt("refUser"));
                         search.setStatus(jsonSearch.getInt("status"));
                         search.setCount(jsonSearch.getInt("count"));
+                        search.setCity(jsonSearch.getString("city"));
                         search.setId(jsonSearch.getInt("id"));
 
                         Filter filter = new Filter();

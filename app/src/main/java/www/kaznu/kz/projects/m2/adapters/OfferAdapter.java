@@ -127,8 +127,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
                 });
             }
         }
-        holder.ratingBar.setRating(this.offers.get(position).getOwner().getStars().floatValue());
-        Log.d(this.offers.get(position).getOwner().getStars().toString());
+        holder.ratingBar.setRating(this.offers.get(position).getOwner().getStars());
+        Log.d(String.valueOf(this.offers.get(position).getOwner().getStars()));
         if(this.offers.get(position).getImagesLink().size() > 0) {
             String url = BASE_URL.concat(this.offers.get(position).getImagesLink().get(0));
             Glide.with(this.context).load(url).into(holder.icon);

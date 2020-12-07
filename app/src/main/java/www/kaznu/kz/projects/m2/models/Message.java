@@ -91,6 +91,22 @@ public class Message {
         return jsonBody.toString();
     }
 
+    public String getRateBookUser() {
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            jsonBody.put("isGuest", this.isGuest());
+            jsonBody.put("stars", this.getStars());
+            jsonBody.put("comment", this.getComment());
+            jsonBody.put("to", this.getRefReceiver());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("M2TAG", "Message Error: " + e);
+        }
+
+        return jsonBody.toString();
+    }
+
     public String getImage() {
         return image;
     }

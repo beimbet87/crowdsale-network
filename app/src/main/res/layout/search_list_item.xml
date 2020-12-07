@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/border_bottom"
     android:orientation="horizontal"
-    android:paddingStart="24dp"
+    android:paddingStart="16dp"
     android:paddingTop="8dp"
-    android:paddingEnd="24dp"
+    android:paddingEnd="16dp"
     android:paddingBottom="8dp">
 
     <LinearLayout
@@ -27,6 +27,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
+                android:maxLines="1"
                 android:text="Москва, Нахимовский 32/24"
                 android:textColor="@color/color_primary_dark"
                 android:textSize="20sp"
@@ -39,80 +40,20 @@
                 android:layout_gravity="end"
                 android:background="@drawable/button_background_light_blue"
                 android:gravity="center"
-                android:padding="8dp"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
                 android:text="12"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <www.kaznu.kz.projects.m2.views.FlowLayout
+            android:id="@+id/list_search_properties"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_room_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/view_profile_button_background"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="2,3 комнатная"
-                android:textColor="@color/color_primary_dark"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/tv_search_rent_period"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/view_profile_button_background"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="Посуточно"
-                android:textColor="@color/color_primary_dark"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-
-            <TextView
-                android:id="@+id/tv_cost_interval"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/view_profile_button_background"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="От 230 000 Т  до  270 000 Т"
-                android:textColor="@color/color_primary_dark"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/tv_property"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/view_profile_button_background"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="Без мебели"
-                android:textColor="@color/color_primary_dark"
-                android:textSize="13sp" />
-
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

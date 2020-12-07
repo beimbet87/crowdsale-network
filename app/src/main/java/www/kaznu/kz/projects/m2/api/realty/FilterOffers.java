@@ -117,14 +117,21 @@ public class FilterOffers implements Constants {
                         owner.setBirth(jsonOwner.getString("birth"));
                         owner.setEmail(jsonOwner.getString("email"));
                         owner.setPhone(jsonOwner.getString("phone"));
-                        owner.setStars(jsonOwner.getDouble("stars"));
-                        owner.setCurrency(jsonOwner.getString("currency"));
+                        owner.setStars(jsonOwner.getInt("stars"));
+                        if(jsonOwner.isNull("currency")) {
+                            owner.setCurrency(0);
+                        } else {
+                            owner.setCurrency(jsonOwner.getInt("currency"));
+                        }
 
                         data.setOwner(owner);
 
                         ArrayList<Search> searches = new ArrayList<>();
 
                         JSONArray jsonSearches = offer.getJSONArray("searches");
+
+
+                        Log.d("Search size ---> " + jsonSearches.length());
 
                         for (int k = 0; k < jsonSearches.length(); k++) {
                             JSONObject jsonSearch = jsonSearches.getJSONObject(k);

@@ -60,7 +60,7 @@ public class LoginActivity extends IntroActivity {
         Permissions.check(this/*context*/, permissions, null, null, new PermissionHandler() {
             @Override
             public void onGranted() {
-                Toast.makeText(LoginActivity.this, "Все права разрешены!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this, "Все права разрешены!", Toast.LENGTH_SHORT).show();
             }
 
             @Override

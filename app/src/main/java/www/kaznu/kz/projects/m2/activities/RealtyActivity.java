@@ -57,6 +57,8 @@ public class RealtyActivity extends IntroActivity {
 
     FlowLayout flowLayout;
 
+    Logger Log;
+
     ArrayList<Integer> properties = new ArrayList<>();
 
     Button btnBack;
@@ -86,6 +88,8 @@ public class RealtyActivity extends IntroActivity {
 
         btnBack = findViewById(R.id.toolbar_back);
 
+        Log = new Logger(this, Constants.TAG);
+
         Intent intent = getIntent();
         images = intent.getStringArrayListExtra("images");
         title = intent.getStringExtra("title");
@@ -97,7 +101,10 @@ public class RealtyActivity extends IntroActivity {
 
         properties.addAll(intent.getIntegerArrayListExtra("properties"));
 
-        ratingBar.setRating((float)intent.getDoubleExtra("stars", 0.0f));
+        ratingBar.setRating((float)intent.getIntExtra("stars", 0));
+
+        Log.d("Stars: " + String.valueOf(intent.getIntExtra("stars", 0)));
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +141,7 @@ public class RealtyActivity extends IntroActivity {
             Glide.with(this).load(url).into(ivAvatar);
         }
         else {
-            Log.d("M2TAG", "Avatar: " + intent.getStringExtra("avatar"));
+            Log.d("Avatar: " + intent.getStringExtra("avatar"));
         }
         body = intent.getStringExtra("body");
         floor = intent.getIntExtra("floor", 1);
@@ -142,7 +149,7 @@ public class RealtyActivity extends IntroActivity {
         area = intent.getDoubleExtra("area", 0.0);
         livingSpace = intent.getDoubleExtra("livingspace", 0.0);
 
-        Log.d("M2TAG", images + "");
+        Log.d(images + "");
 
         tvRealtyTitle.setText(title);
         tvAddress.setText(address);

@@ -5,6 +5,7 @@ public class Search {
     private int status;
     private int count;
     private int id;
+    private String city;
     private Filter filter;
 
     public int getRefUser() {
@@ -45,5 +46,13 @@ public class Search {
 
     public void setFilter(Filter filter) {
         this.filter = filter;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
