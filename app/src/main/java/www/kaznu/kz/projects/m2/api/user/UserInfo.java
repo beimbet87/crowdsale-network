@@ -64,6 +64,8 @@ public class UserInfo implements Constants {
                         data.setDescrition(directory.getString("description"));
                         data.setId(directory.getInt("id"));
                         data.setSex(directory.getInt("sex"));
+                        data.setStars(directory.getInt("stars"));
+                        data.setCurrency(directory.getInt("currency"));
                         data.setName(directory.getString("name"));
                         data.setSurname(directory.getString("surname"));
                         data.setBirth(directory.getString("birth"));

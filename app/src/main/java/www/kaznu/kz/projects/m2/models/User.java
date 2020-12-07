@@ -4,8 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class User {
-    private String imageLink;
-    private String descrition;
+    private int stars;
     private int id;
     private int sex;
     private String name;
@@ -13,6 +12,9 @@ public class User {
     private String birth;
     private String email;
     private String phone;
+    private String imageLink;
+    private String descrition;
+    private int currency;
     private String password;
     private int profileType;
 
@@ -121,5 +123,21 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    public int getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(int currency) {
+        this.currency = currency;
     }
 }
