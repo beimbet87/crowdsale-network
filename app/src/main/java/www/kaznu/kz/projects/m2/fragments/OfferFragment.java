@@ -24,9 +24,12 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.RealtyActivity;
 import www.kaznu.kz.projects.m2.adapters.OfferAdapter;
 import www.kaznu.kz.projects.m2.callbacks.SwipeToDeleteCallback;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.OfferDialog;
 import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class OfferFragment extends Fragment {
 
@@ -51,9 +54,10 @@ public class OfferFragment extends Fragment {
         lView = root.findViewById(R.id.lv_ads);
         constraintLayout = root.findViewById(R.id.constraint_layout);
 
+
         shDialogs = requireActivity().getSharedPreferences("M2DIALOGS", 0);
 
-        if(!shDialogs.getBoolean("offer_dialog", false)) {
+        if (!shDialogs.getBoolean("offer_dialog", false)) {
             OfferDialog offerDialog = new OfferDialog(requireActivity());
             offerDialog.show();
 
@@ -65,7 +69,9 @@ public class OfferFragment extends Fragment {
 
         offers = getArguments().getParcelableArrayList("offers");
 
-        lAdapter = new OfferAdapter(requireContext(), offers, 4, 5);
+        lAdapter = new OfferAdapter(requireContext(), offers, getArguments().getString("price"),
+                getResources().getDimensionPixelSize(R.dimen.padding_top_bottom),
+                getResources().getDimensionPixelSize(R.dimen.padding_left_right));
 
         lView.setAdapter(lAdapter);
 
@@ -76,17 +82,22 @@ public class OfferFragment extends Fragment {
             realtyIntent.putExtra("address", offers.get(position).getRealty().getAddress());
             realtyIntent.putExtra("price", offers.get(position).getRealty().getCost());
             realtyIntent.putExtra("owner", offers.get(position).getOwner().getName());
+            realtyIntent.putExtra("stars", offers.get(position).getOwner().getStars());
             realtyIntent.putExtra("avatar", offers.get(position).getOwner().getImageLink());
-            if(offers.get(position).getRealty().getDescription() != null) {
+            if (offers.get(position).getRealty().getDescription() != null) {
                 realtyIntent.putExtra("body", offers.get(position).getRealty().getDescription());
-            }
-            else {
+            } else {
                 realtyIntent.putExtra("body", "null");
             }
             realtyIntent.putExtra("floor", offers.get(position).getRealty().getFloor());
             realtyIntent.putExtra("floorbuild", offers.get(position).getRealty().getFloorBuild());
             realtyIntent.putExtra("area", offers.get(position).getRealty().getArea());
             realtyIntent.putExtra("livingspace", offers.get(position).getRealty().getLivingSpace());
+            realtyIntent.putExtra("ref_realty", offers.get(position).getRealty().getId());
+            realtyIntent.putExtra("contact", offers.get(position).getOwner().getId());
+            realtyIntent.putIntegerArrayListExtra("properties", offers.get(position).getProperties());
+            Logger Log = new Logger(requireContext(), Constants.TAG);
+            Log.d(offers.get(position).getOwner().getId() + "" + offers.get(position).getRealty().getId());
 
             startActivity(realtyIntent);
         });

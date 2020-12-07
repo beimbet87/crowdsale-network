@@ -23,7 +23,8 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/vp_imageview"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+                    android:layout_height="300dp"
+                    android:background="#f2f2f2" />
 
                 <LinearLayout
                     android:id="@+id/dots"
@@ -39,11 +40,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
-            android:gravity="center_vertical"
-            android:layout_alignParentTop="true">
+            android:gravity="center_vertical">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -59,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end|center">
+
                 <Button
                     android:id="@+id/toolbar_edit"
                     style="@style/Button.Style.Like"
@@ -82,37 +85,27 @@
 
         <Button
             android:id="@+id/btn_write_message"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Button.Style.DarkBlue"
             android:layout_width="0dp"
-            android:layout_height="58dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:background="@drawable/button_background_dark_blue"
-            android:padding="8dp"
-            android:text="Написать"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="Написать" />
 
         <Button
             android:id="@+id/btn_rent_realty"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Button.Style.DarkBlue"
             android:layout_width="0dp"
-            android:layout_height="58dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:background="@drawable/button_background_dark_blue"
-            android:padding="8dp"
-            android:text="Аренда"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="Аренда" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

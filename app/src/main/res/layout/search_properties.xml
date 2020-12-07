@@ -39,8 +39,8 @@
                     android:layout_weight="1"
                     android:background="@drawable/toggle_button_background"
                     android:text="Арендовать"
-                    android:textSize="16sp"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textSize="16sp" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -51,8 +51,8 @@
                     android:background="@drawable/toggle_button_disable_background"
                     android:text="Купить"
                     android:textAllCaps="false"
-                    android:textSize="16sp"
-                    android:textColor="@color/color_primary_dark" />
+                    android:textColor="@color/color_primary_dark"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -271,123 +271,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <www.kaznu.kz.projects.m2.views.FlowLayout
+                        android:id="@+id/comfort_settings"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatToggleButton
-                            android:id="@+id/btn_facility_01"
-                            style="@style/Button.Style.Toggle.Transparent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:textOff="Мебель"
-                            android:textOn="Мебель" />
-
-                        <Button
-                            android:id="@+id/btn_facility_02"
-                            style="?android:borderlessButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@android:color/transparent"
-                            android:padding="10dp"
-                            android:text="Мебель"
-                            android:textAllCaps="false"
-                            android:textColor="@color/color_primary_dark"
-                            android:textSize="16sp" />
-
-                        <Button
-                            android:id="@+id/btn_facility_03"
-                            style="?android:borderlessButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@android:color/transparent"
-                            android:padding="10dp"
-                            android:text="Холодильник"
-                            android:textAllCaps="false"
-                            android:textColor="@color/color_primary_dark"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_facility_04"
-                            style="?android:borderlessButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@android:color/transparent"
-                            android:padding="10dp"
-                            android:text="Посудомоечная машина"
-                            android:textAllCaps="false"
-                            android:textColor="@color/color_primary_dark"
-                            android:textSize="16sp" />
-
-                        <Button
-                            android:id="@+id/btn_facility_05"
-                            style="?android:borderlessButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@android:color/transparent"
-                            android:padding="10dp"
-                            android:text="Посуда"
-                            android:textAllCaps="false"
-                            android:textColor="@color/color_primary_dark"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_facility_06"
-                            style="?android:borderlessButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@android:color/transparent"
-                            android:padding="10dp"
-                            android:text="Стиральная машина"
-                            android:textAllCaps="false"
-                            android:textColor="@color/color_primary_dark"
-                            android:textSize="16sp" />
-
-                        <Button
-                            android:id="@+id/btn_facility_07"
-                            style="?android:borderlessButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@android:color/transparent"
-                            android:padding="10dp"
-                            android:text="Кондиционер"
-                            android:textAllCaps="false"
-                            android:textColor="@color/color_primary_dark"
-                            android:textSize="16sp" />
-                    </LinearLayout>
+                        android:layout_gravity="center_horizontal"/>
 
                 </LinearLayout>
 
@@ -685,10 +573,10 @@
                 style="@style/Button.Style.DarkBlue"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/create_search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

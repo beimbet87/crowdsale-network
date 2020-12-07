@@ -3,11 +3,15 @@ package www.kaznu.kz.projects.m2.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,7 +39,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
     LinearLayout linearLayout;
     Button btnBookingRequest, btnSendBookingRequest;
-    ImageView btnCloseBooking;
+    Button btnCloseBooking;
     ImageView btnSendMessage;
     Button backButton;
 
@@ -46,6 +50,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
     RequestMessage requestMessage;
 
     EditText etMessage, etPrice;
+    TextView tvTotalPrice;
 
     SharedPreferences spToken, spPusher, spUser;
     String token;
@@ -61,7 +66,10 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         backButton = findViewById(R.id.toolbar_back);
+        tvTotalPrice = findViewById(R.id.tv_total);
 
         backButton.setOnClickListener(v -> finish());
 
@@ -105,6 +113,9 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
         etPrice = findViewById(R.id.tv_price_per_day);
         calendar = findViewById(R.id.calendar_view);
+
+        etPrice.setText("");
+        tvTotalPrice.setText("");
 
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,12 +161,42 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
             }
         });
 
+        etPrice.setEnabled(true);
+
         btnCloseBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
+
+        etPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                long diff = 1;
+                if(calendar.getStartDate() != null && calendar.getEndDate() != null) {
+                    diff = Utils.dateDiff(Utils.parseDateDefault(calendar.getStartDate()),
+                            Utils.parseDateDefault(calendar.getEndDate()));
+                }
+
+                Double price = Double.parseDouble(s.toString());
+                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(diff, price), ""));
+
+                Log.d(calendar.getStartDate());
+                Log.d(calendar.getEndDate());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         btnSendBookingRequest.setOnClickListener(new View.OnClickListener() {
             @Override

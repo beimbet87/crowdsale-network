@@ -1,6 +1,7 @@
 package www.kaznu.kz.projects.m2.activities;
 
-import android.app.Activity;
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,16 +19,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.heinrichreimersoftware.materialintro.app.IntroActivity;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.R;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends IntroActivity {
     final String URL = "http://someproject-001-site1.itempurl.com/token";
     TextView tvRegister;
     Button btnLogin;
@@ -38,10 +43,32 @@ public class LoginActivity extends Activity {
     int resultCode = 0;
     String message;
 
+    final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        String[] permissions = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+
+        Permissions.check(this/*context*/, permissions, null, null, new PermissionHandler() {
+            @Override
+            public void onGranted() {
+                Toast.makeText(LoginActivity.this, "Все права разрешены!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                // permission denied, block the feature.
+            }
+        });
+
         tvRegister = findViewById(R.id.tv_registration);
         btnLogin = findViewById(R.id.btn_login);
         etLogin = findViewById(R.id.et_username);
@@ -118,6 +145,7 @@ public class LoginActivity extends Activity {
             }
         });
     }
+
 
     @Override
     protected void onStop() {

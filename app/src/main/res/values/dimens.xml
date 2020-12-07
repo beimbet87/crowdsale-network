@@ -5,6 +5,10 @@
     <dimen name="between_objects">18dp</dimen>
     <dimen name="profile_image_size">81dp</dimen>
     <dimen name="profile_rating_margin">8dp</dimen>
+    <dimen name="padding_comfort_lr">8dp</dimen>
+    <dimen name="padding_comfort_tb">16dp</dimen>
+    <dimen name="padding_top_bottom">4dp</dimen>
+    <dimen name="padding_left_right">8dp</dimen>
     <dimen name="button_padding">12dp</dimen>
 
     <dimen name="hint_text_size">12sp</dimen>

@@ -5,9 +5,9 @@
     android:id="@+id/booking_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
     android:background="@drawable/filter_layout_background"
     android:orientation="vertical"
-    android:layout_marginTop="16dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.core.widget.NestedScrollView
@@ -38,13 +38,11 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <ImageView
+                <Button
                     android:id="@+id/btn_close"
+                    style="@style/Button.Style.Close"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/circle_button_shadow"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_close" />
+                    android:layout_height="40dp" />
 
             </LinearLayout>
 
@@ -76,8 +74,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="12dp"
                 android:orientation="vertical"
-                android:layout_margin="12dp">
+                android:windowActionBarOverlay="true">
 
                 <EditText
                     android:id="@+id/tv_price_per_day"
@@ -89,39 +88,45 @@
                     android:hint="Стоимость в сутки …"
                     android:padding="10dp"
                     android:paddingStart="18dp"
+                    android:inputType="phone"
+                    android:enabled="false"
                     android:textColor="@color/color_primary_dark"
                     android:textColorHint="#7F7F7F"
                     android:textSize="14sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/booking_request_text"
                     android:textColor="@color/color_primary_hint"
-                    android:textSize="13sp"
-                    android:text="@string/booking_request_text"/>
+                    android:textSize="13sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_gravity="center_vertical">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@color/color_primary_hint"
-                        android:textSize="13sp"
+                        android:layout_marginEnd="16dp"
                         android:gravity="center_vertical"
                         android:text="Итоговая сумма:"
-                        android:layout_marginEnd="16dp"/>
+                        android:textColor="@color/color_primary_hint"
+                        android:textSize="13sp" />
+
                     <TextView
+                        android:id="@+id/tv_total"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@color/color_primary"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
                         android:gravity="center_vertical"
-                        android:text="1 600 000 ₸"/>
+                        android:text="1 600 000 ₸"
+                        android:textColor="@color/color_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
