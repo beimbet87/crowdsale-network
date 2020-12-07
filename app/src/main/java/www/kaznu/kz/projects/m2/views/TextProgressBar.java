@@ -15,7 +15,7 @@ public class TextProgressBar extends ProgressBar {
 
     public TextProgressBar(Context context) {
         super(context);
-        text = "1/4";
+        text = "3/4";
         textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(textSize);
@@ -24,7 +24,7 @@ public class TextProgressBar extends ProgressBar {
 
     public TextProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        text = "1/4";
+        text = "3/4";
         textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(textSize);
@@ -33,7 +33,7 @@ public class TextProgressBar extends ProgressBar {
 
     public TextProgressBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        text = "1/4";
+        text = "3/4";
         textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(textSize);

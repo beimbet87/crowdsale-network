@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import www.kaznu.kz.projects.m2.activities.ProfileActivity;
 import www.kaznu.kz.projects.m2.activities.ProfileInfoActivity;
 import www.kaznu.kz.projects.m2.activities.UploadAvatarActivity;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.views.TextProgressBar;
 
 public class AccountFragment extends Fragment implements Constants {
 
@@ -47,6 +50,9 @@ public class AccountFragment extends Fragment implements Constants {
     ImageView ivAvatar;
     LinearLayout btnExit;
 
+    int myProgress = 75;
+    TextProgressBar pb;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +68,10 @@ public class AccountFragment extends Fragment implements Constants {
         btnViewProfile = rootView.findViewById(R.id.btn_view_profile);
         ivAvatar = rootView.findViewById(R.id.iv_profile_image);
         btnExit = rootView.findViewById(R.id.btn_exit);
+        pb = rootView.findViewById(R.id.mf_progress_bar);
+
+        pb.setProgress(myProgress);
+        pb.setText(myProgress/25+"/4");
 
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,8 +136,6 @@ public class AccountFragment extends Fragment implements Constants {
 
         return rootView;
     }
-
-
 
     @Override
     public void onStart() {
