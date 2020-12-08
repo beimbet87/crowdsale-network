@@ -844,12 +844,13 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
                     layoutRentPeriod.setVisibility(View.VISIBLE);
                     isRent.setButton(false);
                     isBuy.setButton(true);
+
                     if (isM) {
-                        llMonthly.setVisibility(View.GONE);
-                        llRangedDate.setVisibility(View.VISIBLE);
-                    } else {
                         llMonthly.setVisibility(View.VISIBLE);
                         llRangedDate.setVisibility(View.GONE);
+                    } else {
+                        llMonthly.setVisibility(View.GONE);
+                        llRangedDate.setVisibility(View.VISIBLE);
                     }
 
                     rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background));
@@ -887,11 +888,11 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
                     isRent.setButton(false);
                     isBuy.setButton(true);
                     if (isM) {
-                        llMonthly.setVisibility(View.GONE);
-                        llRangedDate.setVisibility(View.VISIBLE);
-                    } else {
                         llMonthly.setVisibility(View.VISIBLE);
                         llRangedDate.setVisibility(View.GONE);
+                    } else {
+                        llMonthly.setVisibility(View.GONE);
+                        llRangedDate.setVisibility(View.VISIBLE);
                     }
 
                     rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background));

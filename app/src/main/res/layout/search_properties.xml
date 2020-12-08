@@ -377,11 +377,11 @@
                             <TextView
                                 android:id="@+id/tv_checked_date"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:background="@drawable/date_not_selected_background"
                                 android:gravity="center_vertical|center_horizontal"
-                                android:padding="16dp"
+                                android:padding="8dp"
                                 android:text="19 фев. 2020"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
