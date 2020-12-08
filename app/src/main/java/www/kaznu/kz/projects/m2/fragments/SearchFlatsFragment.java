@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -140,7 +142,7 @@ public class SearchFlatsFragment extends Fragment {
 
                             startActivity(offerIntent);
                         } else {
-                            Toast.makeText(requireContext(), "Поиск не дал результатов!", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(v, "Поиск не дал результатов!", Snackbar.LENGTH_SHORT).show();
                         }
                     }
 

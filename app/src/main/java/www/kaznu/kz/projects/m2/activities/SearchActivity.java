@@ -1,20 +1,12 @@
 package www.kaznu.kz.projects.m2.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,17 +19,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.ToggleButton;
@@ -62,18 +51,22 @@ import www.kaznu.kz.projects.m2.views.FlowLayout;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class SearchActivity extends IntroActivity implements MapsFragment.DataFromSearchArea {
+public class SearchActivity extends AppCompatActivity implements MapsFragment.DataFromSearchArea, View.OnClickListener {
+
+    private Logger Log;
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
-    boolean isRent = true;
+    boolean isRentOrBuy = true;
+    boolean isMonthly = true;
+
+    TextView titleRentBuy, titlePrice;
 
     private ArrayList<String> permissionsToRequest;
     private final ArrayList<String> permissionsRejected = new ArrayList<>();
     private final ArrayList<String> permissions = new ArrayList<>();
 
     ArrayList<Polygons> searchData;
-
 
     DatePickerView datePickerView;
 
@@ -85,22 +78,27 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
     double latitude;
     GPSTracker gps;
 
+    Button btnRent, btnBuy;
+
     ArrayList<Integer> rooms = new ArrayList<>();
     ArrayList<Integer> properties = new ArrayList<>();
+    ArrayList<Integer> requests = new ArrayList<>();
+
+    LinearLayout llMonthly;
+    LinearLayout llRangedDate;
 
     Button btnSearch;
     ImageView btnFilter;
-    LinearLayout linearLayout, polygonEdit;
+    LinearLayout linearLayout, polygonEdit, layoutRentPeriod, layoutRealtyType;
     ImageView ivEdit, ivDelete;
     EditText etSearch;
+
 
     String rentPeriodText, realtyTypeText;
     int rentPeriodInt, realtyTypeInt;
 
     Button btnRoom01, btnRoom02, btnRoom03, btnRoom04, btnRoom05, btnRoom06;
     ToggleButton isRoom01, isRoom02, isRoom03, isRoom04, isRoom05, isRoom06;
-    ToggleButton isFacility01, isFacility02, isFacility03, isFacility04, isFacility05;
-    ToggleButton isFacility06, isFacility07;
     ToggleButton isEdit;
 
     ToggleButton isAdditional01, isAdditional02;
@@ -108,7 +106,6 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
     Button btnFacility01, btnFacility02, btnFacility03, btnFacility04, btnFacility05;
     Button btnFacility06, btnFacility07;
 
-    Button btnAdditional01, btnAdditional02;
     Button btnBack, btnOpenSearch;
 
     Spinner realtyTypeSpinner;
@@ -117,17 +114,18 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
     EditText etCostLowerLimit, etCostUpperLimit;
 
     Intent offerIntent;
-    FlowLayout flowLayout;
+    FlowLayout flowLayout, requestLayout;
 
     int disableDrawable;
     int enableDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setFullscreen(true);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        Log = new Logger(this, Constants.TAG);
 
         btnFilter = findViewById(R.id.btn_filter);
         btnSearch = findViewById(R.id.btn_create_search);
@@ -136,10 +134,23 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         etCostLowerLimit = findViewById(R.id.et_cost_lower_limit);
         etCostUpperLimit = findViewById(R.id.et_cost_upper_limit);
 
+        layoutRealtyType = findViewById(R.id.layot_realty_type);
+        layoutRentPeriod = findViewById(R.id.layout_rent_period);
+
+        btnRent = findViewById(R.id.btn_rent);
+        btnBuy = findViewById(R.id.btn_buy);
+
+        ToggleButton tRent = new ToggleButton(true);
+        ToggleButton tBuy = new ToggleButton(false);
+
         btnBack = findViewById(R.id.toolbar_back);
         btnOpenSearch = findViewById(R.id.btn_open_search);
 
         flowLayout = findViewById(R.id.comfort_settings);
+        requestLayout = findViewById(R.id.request_settings);
+
+        titleRentBuy = findViewById(R.id.rent_buy_title);
+        titlePrice = findViewById(R.id.price_title);
 
         offerIntent = new Intent(SearchActivity.this, OfferActivity.class);
 
@@ -158,9 +169,6 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         btnFacility06 = findViewById(R.id.btn_facility_06);
         btnFacility07 = findViewById(R.id.btn_facility_07);
 
-        btnAdditional01 = findViewById(R.id.btn_additional_params01);
-        btnAdditional02 = findViewById(R.id.btn_additional_params02);
-
         polygonEdit = findViewById(R.id.polygon_edit);
         ivEdit = findViewById(R.id.iv_polygon_edit);
         ivDelete = findViewById(R.id.iv_polygon_delete);
@@ -172,7 +180,6 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         isRoom05 = new ToggleButton(false);
         isRoom06 = new ToggleButton(false);
 
-
         isAdditional01 = new ToggleButton(false);
         isAdditional02 = new ToggleButton(false);
 
@@ -180,9 +187,6 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
 
         disableDrawable = android.R.color.transparent;
         enableDrawable = R.drawable.button_background_light_blue;
-
-        toToggle(btnAdditional01, isAdditional01, disableDrawable, enableDrawable);
-        toToggle(btnAdditional02, isAdditional02, disableDrawable, enableDrawable);
 
         toToggle(btnRoom01, isRoom01);
         toToggle(btnRoom02, isRoom02);
@@ -192,6 +196,8 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         toToggle(btnRoom06, isRoom06);
 
         toToggle(polygonEdit, ivEdit, isEdit);
+
+        addVR("VR 360\u00B0 видео", 0);
 
         RealtyType realtyType = new RealtyType(this);
 
@@ -220,7 +226,8 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
 
         requestOffers.setOnLoadListener(data -> {
             for (int i = 0; i < data.size(); i++) {
-                Log.d("M2TAG", "Request offers: " + data.get(i).getValue());
+                String upperString = data.get(i).getValue().substring(0, 1).toUpperCase() + data.get(i).getValue().substring(1).toLowerCase();
+                addRequests(upperString, data.get(i).getCodeId());
             }
         });
 
@@ -235,7 +242,7 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         DealType dealType = new DealType(this);
         dealType.setOnLoadListener(data -> {
             for (int i = 0; i < data.size(); i++) {
-                Log.d("M2TAG", "Deal type: " + data.get(i).getValue());
+                Log.d("Deal type: " + data.get(i).getValue());
             }
         });
 
@@ -262,9 +269,8 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         });
 
         btnOpenSearch.setOnClickListener(v -> {
-            InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
-
+//            InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
         });
 
@@ -283,17 +289,16 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
             loadFragment(fragment);
         });
 
-        LinearLayout llMonthly = findViewById(R.id.ll_monthly);
-        LinearLayout llRangedDate = findViewById(R.id.ll_ranged_date);
-        llRangedDate.setVisibility(View.VISIBLE);
-        ViewGroup.LayoutParams paramsRangedDate = llRangedDate.getLayoutParams();
-        paramsRangedDate.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        llRangedDate.setLayoutParams(paramsRangedDate);
-        llMonthly.setVisibility(View.INVISIBLE);
+        llMonthly = findViewById(R.id.ll_monthly);
+        llRangedDate = findViewById(R.id.ll_ranged_date);
 
-        ViewGroup.LayoutParams paramsMonths = llMonthly.getLayoutParams();
-        paramsMonths.height = 0;
-        llMonthly.setLayoutParams(paramsMonths);
+        if(isMonthly) {
+            llRangedDate.setVisibility(View.GONE);
+            llMonthly.setVisibility(View.VISIBLE);
+        } else {
+            llRangedDate.setVisibility(View.VISIBLE);
+            llMonthly.setVisibility(View.GONE);
+        }
 
         rentPeriodSpinner = findViewById(R.id.rent_period);
         RentPeriod rentPeriod = new RentPeriod(this);
@@ -314,27 +319,17 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
                     switch (position) {
                         case 0:
                         case 2:
-                            llMonthly.setVisibility(View.INVISIBLE);
-
-                            ViewGroup.LayoutParams paramsMonths12 = llMonthly.getLayoutParams();
-                            paramsMonths12.height = 0;
-                            llMonthly.setLayoutParams(paramsMonths12);
-                            llRangedDate.setVisibility(View.VISIBLE);
-                            ViewGroup.LayoutParams paramsRangedDate12 = llRangedDate.getLayoutParams();
-                            paramsRangedDate12.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                            llRangedDate.setLayoutParams(paramsRangedDate12);
+                            isMonthly = true;
+                            titlePrice.setText("Предложите вашу цену за месяц:");
+                            llMonthly.setVisibility(View.VISIBLE);
+                            llRangedDate.setVisibility(View.GONE);
                             break;
                         case 1:
-                            llMonthly.setVisibility(View.VISIBLE);
+                            isMonthly = false;
+                            llMonthly.setVisibility(View.GONE);
+                            titlePrice.setText("Предложите вашу цену за сутки:");
+                            llRangedDate.setVisibility(View.VISIBLE);
 
-                            ViewGroup.LayoutParams paramsMonths1 = llMonthly.getLayoutParams();
-                            paramsMonths1.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                            llMonthly.setLayoutParams(paramsMonths1);
-
-                            llRangedDate.setVisibility(View.INVISIBLE);
-                            ViewGroup.LayoutParams paramsRangedDate1 = llRangedDate.getLayoutParams();
-                            paramsRangedDate1.height = 0;
-                            llRangedDate.setLayoutParams(paramsRangedDate1);
                             break;
 
                     }
@@ -353,16 +348,22 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         RadioButton rbDate = findViewById(R.id.rb_selected_date);
         LinearLayout llCheckedDate = findViewById(R.id.ll_checked_date);
         TextView tvCheckedDate = findViewById(R.id.tv_checked_date);
-        ViewGroup.LayoutParams params = llCheckedDate.getLayoutParams();
-        params.height = 0;
-        llCheckedDate.setLayoutParams(params);
+
+        rbSoon.setOnClickListener(v -> {
+            rbSoon.setChecked(true);
+            rbDate.setChecked(false);
+        });
+
+        rbDate.setOnClickListener(v -> {
+            rbDate.setChecked(true);
+            rbSoon.setChecked(false);
+        });
 
         rbSoon.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 rbDate.setChecked(false);
-                llCheckedDate.setVisibility(View.INVISIBLE);
-                params.height = 0;
-                llCheckedDate.setLayoutParams(params);
+                buttonView.setChecked(true);
+                llCheckedDate.setVisibility(View.GONE);
                 tvCheckedDate.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.date_not_selected_background));
             }
         });
@@ -371,8 +372,6 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
             if (isChecked) {
                 rbSoon.setChecked(false);
                 llCheckedDate.setVisibility(View.VISIBLE);
-                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                llCheckedDate.setLayoutParams(params);
                 tvCheckedDate.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.button_background_light_blue));
             }
         });
@@ -382,6 +381,16 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
 
         EditText etMonths = findViewById(R.id.et_months);
         etMonths.setEnabled(false);
+
+        rbMonths.setOnClickListener(v -> {
+            rbMonths.setChecked(true);
+            rbLongTime.setChecked(false);
+        });
+
+        rbLongTime.setOnClickListener(v -> {
+            rbMonths.setChecked(false);
+            rbLongTime.setChecked(true);
+        });
 
         rbMonths.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -419,7 +428,7 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
             if (!upPrice.matches(""))
                 offerIntent.putExtra("up_price", Double.parseDouble(upPrice));
 
-            if (isRent) {
+            if (isRentOrBuy) {
                 offerIntent.putExtra("is_rent", "Аренда");
             } else {
                 offerIntent.putExtra("is_rent", "Покупка");
@@ -433,25 +442,27 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
             offerIntent.putExtra("date_from", Utils.parseDateDefault(datePickerView.getStartDate()));
             offerIntent.putExtra("date_to", Utils.parseDateDefault(datePickerView.getEndDate()));
 
-            if(getRooms(rooms) != null) {
+            if (getRooms(rooms) != null) {
                 offerIntent.putExtra("rooms", getRooms(rooms));
                 offerIntent.putIntegerArrayListExtra("rooms_array", rooms);
             }
 
-            if(searchData.size() > 0) {
+            if (searchData.size() > 0) {
                 offerIntent.putParcelableArrayListExtra("polygons", searchData);
             }
 
-            if(properties.size() > 0) {
+            if (properties.size() > 0) {
                 offerIntent.putIntegerArrayListExtra("properties", properties);
             }
 
-            for(int i = 0; i < rooms.size(); i++) {
-                Log.d("M2TAG", rooms.get(i).toString());
+            for (int i = 0; i < rooms.size(); i++) {
+                Log.d("Rooms ---> " + rooms.get(i).toString());
             }
 
             startActivity(offerIntent);
         });
+
+        toToggle(btnRent, btnBuy, tRent, tBuy, isMonthly);
 
         addFragment(new MapsFragment());
     }
@@ -487,7 +498,7 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
             gps.showSettingsAlert();
         }
 
-        Log.d("GPS", latitude + " " + longitude);
+        Log.d("GPS ---> " + latitude + " " + longitude);
 
         Fragment fragment;
         Bundle bundle = new Bundle();
@@ -530,7 +541,7 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
     }
 
     private boolean canMakeSmores() {
-        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+        return true;
     }
 
     @Override
@@ -582,16 +593,15 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         view.setOnClickListener(v -> {
             if (isSet.isButton()) {
                 isSet.setButton(false);
-                if(view.getText().toString().compareTo("6+") == 0)
+                if (view.getText().toString().compareTo("6+") == 0)
                     rooms.remove(rooms.indexOf(6));
                 else
                     rooms.remove(rooms.indexOf(Integer.parseInt(view.getText().toString())));
             } else {
                 isSet.setButton(true);
-                if(view.getText().toString().compareTo("6+") == 0) {
+                if (view.getText().toString().compareTo("6+") == 0) {
                     rooms.add(6);
-                }
-                else {
+                } else {
                     rooms.add(Integer.parseInt(view.getText().toString()));
                 }
             }
@@ -617,6 +627,42 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         });
     }
 
+    private void toToggleRequest(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable, int props) {
+
+        view.setOnClickListener(v -> {
+            if (isSet.isButton()) {
+                isSet.setButton(false);
+                view.setTextColor(getColor(R.color.color_primary_dark));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), disableDrawable));
+                view.setStateListAnimator(null);
+                requests.remove(requests.indexOf(props));
+            } else {
+                isSet.setButton(true);
+                view.setTextColor(getColor(android.R.color.white));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), enableDrawable));
+                view.setStateListAnimator(null);
+                requests.add(props);
+            }
+        });
+    }
+
+    private void toToggleVR(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable, int props) {
+
+        view.setOnClickListener(v -> {
+            if (isSet.isButton()) {
+                isSet.setButton(false);
+                view.setTextColor(getResources().getColor(R.color.color_primary_dark));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), disableDrawable));
+                view.setStateListAnimator(null);
+            } else {
+                isSet.setButton(true);
+                view.setTextColor(getResources().getColor(android.R.color.white));
+                view.setBackground(ContextCompat.getDrawable(getApplicationContext(), enableDrawable));
+                view.setStateListAnimator(null);
+            }
+        });
+    }
+
     private void toToggle(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable) {
         view.setOnClickListener(v -> {
             if (isSet.isButton()) {
@@ -634,36 +680,70 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
     public String getRooms(ArrayList<Integer> data) {
         Collections.sort(data);
 
-        if(data.isEmpty()) {
+        if (data.isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             StringBuilder result = new StringBuilder();
 
-            for(int i = 0; i < data.size() - 1; i++) {
+            for (int i = 0; i < data.size() - 1; i++) {
                 result.append(data.get(i)).append(", ");
             }
 
-            result.append(data.get(data.size()-1)).append(" - комнат.");
+            result.append(data.get(data.size() - 1)).append(" - комнат.");
 
             return result.toString();
         }
     }
 
     public void addButton(String data, int props) {
-        int padding = getResources().getDimensionPixelSize(R.dimen.activity_margin);
+        int p0 = getResources().getDimensionPixelSize(R.dimen.padding_top_bottom);
+        int p1 = getResources().getDimensionPixelSize(R.dimen.padding_left_right);
         Button btnResult = new Button(this);
-        btnResult.setTextSize(16);
+        btnResult.setTextSize(14);
         btnResult.setAllCaps(false);
         btnResult.setBackground(ContextCompat.getDrawable(this, android.R.color.transparent));
         btnResult.setTextColor(ContextCompat.getColor(this, R.color.color_primary_dark));
-        btnResult.setPadding(padding, padding, padding, padding);
+        btnResult.setPadding(p1, p0, p1, p0);
         btnResult.setText(data);
         btnResult.setStateListAnimator(null);
 
         toToggle(btnResult, new ToggleButton(false), disableDrawable, enableDrawable, props);
 
         flowLayout.addView(btnResult);
+    }
+
+    public void addRequests(String data, int props) {
+        int p0 = getResources().getDimensionPixelSize(R.dimen.padding_top_bottom);
+        int p1 = getResources().getDimensionPixelSize(R.dimen.padding_left_right);
+        Button btnResult = new Button(this);
+        btnResult.setTextSize(14);
+        btnResult.setAllCaps(false);
+        btnResult.setBackground(ContextCompat.getDrawable(this, android.R.color.transparent));
+        btnResult.setTextColor(ContextCompat.getColor(this, R.color.color_primary_dark));
+        btnResult.setPadding(p1, p0, p1, p0);
+        btnResult.setText(data);
+        btnResult.setStateListAnimator(null);
+
+        toToggleRequest(btnResult, new ToggleButton(false), disableDrawable, enableDrawable, props);
+
+        requestLayout.addView(btnResult);
+    }
+
+    public void addVR(String data, int props) {
+        int p0 = getResources().getDimensionPixelSize(R.dimen.padding_top_bottom);
+        int p1 = getResources().getDimensionPixelSize(R.dimen.padding_left_right);
+        Button btnResult = new Button(this);
+        btnResult.setTextSize(14);
+        btnResult.setAllCaps(false);
+        btnResult.setBackground(ContextCompat.getDrawable(this, android.R.color.transparent));
+        btnResult.setTextColor(ContextCompat.getColor(this, R.color.color_primary_dark));
+        btnResult.setPadding(p1, p0, p1, p0);
+        btnResult.setText(data);
+        btnResult.setStateListAnimator(null);
+
+        toToggleVR(btnResult, new ToggleButton(false), disableDrawable, enableDrawable, props);
+
+        requestLayout.addView(btnResult);
     }
 
     private void toToggle(LinearLayout view, ImageView edit, ToggleButton isSet) {
@@ -714,8 +794,139 @@ public class SearchActivity extends IntroActivity implements MapsFragment.DataFr
         });
     }
 
+    private void toToggle(Button rent, Button buy, ToggleButton isRent, ToggleButton isBuy, boolean isM) {
+
+        if (isRent.isButton()) {
+            isRentOrBuy = true;
+            titleRentBuy.setText("Я хочу арендовать:");
+            titlePrice.setText("Предложите вашу цену за месяц:");
+            rentPeriodSpinner.setVisibility(View.VISIBLE);
+            layoutRentPeriod.setVisibility(View.VISIBLE);
+            isRent.setButton(false);
+            isBuy.setButton(true);
+            if (isM) {
+                llMonthly.setVisibility(View.VISIBLE);
+                llRangedDate.setVisibility(View.GONE);
+            } else {
+                llMonthly.setVisibility(View.GONE);
+                llRangedDate.setVisibility(View.VISIBLE);
+            }
+
+            rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background));
+            rent.setTextColor(getColor(android.R.color.white));
+            buy.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_disable_background));
+            buy.setTextColor(getColor(R.color.color_primary_dark));
+
+        } else if (isBuy.isButton()) {
+            isRentOrBuy = false;
+            titleRentBuy.setText("Я хочу купить:");
+            titlePrice.setText("Предложите вашу цену:");
+            rentPeriodSpinner.setVisibility(View.GONE);
+            layoutRentPeriod.setVisibility(View.GONE);
+            llMonthly.setVisibility(View.GONE);
+            llRangedDate.setVisibility(View.GONE);
+            isRent.setButton(true);
+            isBuy.setButton(false);
+            rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background_disable_left));
+            rent.setTextColor(getColor(R.color.color_primary_dark));
+            buy.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background_right));
+            buy.setTextColor(getColor(android.R.color.white));
+        }
+
+        rent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isRent.isButton()) {
+                    isRentOrBuy = true;
+                    titleRentBuy.setText("Я хочу арендовать:");
+                    titlePrice.setText("Предложите вашу цену за месяц:");
+                    rentPeriodSpinner.setVisibility(View.VISIBLE);
+                    layoutRentPeriod.setVisibility(View.VISIBLE);
+                    isRent.setButton(false);
+                    isBuy.setButton(true);
+                    if (isM) {
+                        llMonthly.setVisibility(View.GONE);
+                        llRangedDate.setVisibility(View.VISIBLE);
+                    } else {
+                        llMonthly.setVisibility(View.VISIBLE);
+                        llRangedDate.setVisibility(View.GONE);
+                    }
+
+                    rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background));
+                    rent.setTextColor(getColor(android.R.color.white));
+                    buy.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_disable_background));
+                    buy.setTextColor(getColor(R.color.color_primary_dark));
+
+                } else if (isBuy.isButton()) {
+                    isRentOrBuy = false;
+                    titleRentBuy.setText("Я хочу купить:");
+                    titlePrice.setText("Предложите вашу цену:");
+                    rentPeriodSpinner.setVisibility(View.GONE);
+                    layoutRentPeriod.setVisibility(View.GONE);
+                    llMonthly.setVisibility(View.GONE);
+                    llRangedDate.setVisibility(View.GONE);
+                    isRent.setButton(true);
+                    isBuy.setButton(false);
+                    rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background_disable_left));
+                    rent.setTextColor(getColor(R.color.color_primary_dark));
+                    buy.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background_right));
+                    buy.setTextColor(getColor(android.R.color.white));
+                }
+            }
+        });
+
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isRent.isButton()) {
+                    isRentOrBuy = true;
+                    titleRentBuy.setText("Я хочу арендовать:");
+                    titlePrice.setText("Предложите вашу цену за месяц:");
+                    rentPeriodSpinner.setVisibility(View.VISIBLE);
+                    layoutRentPeriod.setVisibility(View.VISIBLE);
+                    isRent.setButton(false);
+                    isBuy.setButton(true);
+                    if (isM) {
+                        llMonthly.setVisibility(View.GONE);
+                        llRangedDate.setVisibility(View.VISIBLE);
+                    } else {
+                        llMonthly.setVisibility(View.VISIBLE);
+                        llRangedDate.setVisibility(View.GONE);
+                    }
+
+                    rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background));
+                    rent.setTextColor(getColor(android.R.color.white));
+                    buy.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_disable_background));
+                    buy.setTextColor(getColor(R.color.color_primary_dark));
+
+                } else if (isBuy.isButton()) {
+                    isRentOrBuy = false;
+                    titleRentBuy.setText("Я хочу купить:");
+                    titlePrice.setText("Предложите вашу цену:");
+                    rentPeriodSpinner.setVisibility(View.GONE);
+                    layoutRentPeriod.setVisibility(View.GONE);
+                    llMonthly.setVisibility(View.GONE);
+                    llRangedDate.setVisibility(View.GONE);
+                    isRent.setButton(true);
+                    isBuy.setButton(false);
+                    rent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background_disable_left));
+                    rent.setTextColor(getColor(R.color.color_primary_dark));
+                    buy.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.toggle_button_background_right));
+                    buy.setTextColor(getColor(android.R.color.white));
+                }
+            }
+        });
+
+
+    }
+
     @Override
     public void SearchArea(ArrayList<Polygons> area) {
         searchData = area;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

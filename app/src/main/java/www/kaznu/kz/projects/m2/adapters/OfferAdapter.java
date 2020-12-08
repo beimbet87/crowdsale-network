@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -131,7 +132,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         Log.d(String.valueOf(this.offers.get(position).getOwner().getStars()));
         if(this.offers.get(position).getImagesLink().size() > 0) {
             String url = BASE_URL.concat(this.offers.get(position).getImagesLink().get(0));
-            Glide.with(this.context).load(url).into(holder.icon);
+            Picasso.with(this.context).load(url).into(holder.icon);
         } else {
             holder.icon.setImageResource(R.drawable.button_background_gray);
         }

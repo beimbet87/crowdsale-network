@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -96,11 +97,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             userName.setText(header);
             messages.setText(body);
             messageCounts.setText(String.valueOf(chat.getCount()));
+
             if(chat.getImageLink().equals("")) {
                 icon.setImageResource(R.drawable.default_appartment);
             } else {
                 String url = BASE_URL + chat.getImageLink();
-                Glide.with(context).load(url).into(icon);
+                Picasso.with(context).load(url).into(icon);
             }
         }
 

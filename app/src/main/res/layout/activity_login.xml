@@ -41,10 +41,10 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:autofillHints="@string/login_email"
+        android:fillViewport="true"
         android:hint="@string/login_email"
         android:inputType="text"
         android:text="@string/default_login"
-        android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_login_title" />
@@ -99,8 +99,8 @@
     <TextView
         android:id="@+id/tv_registration"
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/login_register"
         android:textColor="@android:color/white"
         android:textSize="18sp"

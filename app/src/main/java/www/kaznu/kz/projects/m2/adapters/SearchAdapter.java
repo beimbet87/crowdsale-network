@@ -42,7 +42,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.isView = new ArrayList<>();
         this.views = new ArrayList<>();
 
-
         for (int i = 0; i < searches.size(); i++) {
             this.isView.add(true);
 

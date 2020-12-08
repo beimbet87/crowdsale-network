@@ -186,7 +186,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 .build();
 
         map.addMarker(new MarkerOptions().position(currentLocation)
-                .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_current_marker))
+                .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_current))
                 .draggable(false)
                 .title("Текущее положение"));
         map.setMinZoomPreference(6.0f);

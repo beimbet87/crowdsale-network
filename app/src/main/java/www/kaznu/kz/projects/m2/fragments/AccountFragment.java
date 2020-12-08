@@ -23,6 +23,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.ProfileActivity;
@@ -95,7 +96,7 @@ public class AccountFragment extends Fragment implements Constants {
 
         String url = BASE_URL + sharedPreferences.getString("image", "");
 
-        Glide.with(requireContext()).load(url).into(ivAvatar);
+        Picasso.with(requireContext()).load(url).into(ivAvatar);
 
         tvUserName.setText(userName);
 
