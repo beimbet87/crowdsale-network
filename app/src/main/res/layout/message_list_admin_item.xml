@@ -5,9 +5,10 @@
     android:layout_height="wrap_content"
     android:background="@drawable/border_bottom"
     android:orientation="horizontal"
-    android:padding="16dp"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -44,18 +45,18 @@
             android:layout_gravity="top"
             android:maxLines="1"
             android:text="User name"
-            android:textColor="@color/registerButtonColor"
+            android:textColor="@color/color_primary_dark"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_last_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:maxLines="2"
             android:text="@string/sample_message_text"
             android:textColor="#6F6F6F"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
