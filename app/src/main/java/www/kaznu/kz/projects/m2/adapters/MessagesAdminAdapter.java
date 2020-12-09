@@ -4,43 +4,47 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.Chat;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
-public class MessagesAdminAdapter extends BaseAdapter {
+public class MessagesAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Constants {
 
     Context context;
-    private String [] userNames;
-    private String [] messages;
-    private int [] images;
-    private int [] messageCounts;
+    private ArrayList<Chat> chats;
+    private static ClickListener clickListener;
 
-    public MessagesAdminAdapter(Context context, String [] values, String [] numbers, int [] images, int [] counts){
-        //super(context, R.layout.single_list_app_item, utilsArrayList);
+    public MessagesAdminAdapter(Context context, ArrayList<Chat> chats){
         this.context = context;
-        this.userNames = values;
-        this.messages = numbers;
-        this.images = images;
-        this.messageCounts = counts;
+        this.chats = chats;
     }
 
     public MessagesAdminAdapter() {
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return userNames.length;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_list_admin_item, parent, false);
+        return new MessagesAdminAdapter.ItemViewHolder(view);
     }
 
     @Override
-    public Object getItem(int i) {
-        return i;
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Chat chat = chats.get(position);
+        ((MessagesAdminAdapter.ItemViewHolder) holder).bind(chat, this.context);
     }
 
     @Override
@@ -49,53 +53,77 @@ public class MessagesAdminAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-
-        ViewHolder viewHolder;
-
-        final View result;
-
-        if (convertView == null) {
-
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.message_list_admin_item, parent, false);
-            viewHolder.userName = (TextView) convertView.findViewById(R.id.tv_message_title);
-            viewHolder.messages = (TextView) convertView.findViewById(R.id.tv_last_message);
-            viewHolder.messageCounts = (TextView) convertView.findViewById(R.id.tv_message_count);
-            viewHolder.icon = (ImageView) convertView.findViewById(R.id.iv_icon);
-
-
-            result=convertView;
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
-        }
-
-        if(messageCounts[position] == 0) {
-            viewHolder.messageCounts.setBackgroundResource(R.drawable.message_count_background_zero);
-        }
-        else {
-            viewHolder.messageCounts.setBackgroundResource(R.drawable.message_count_background);
-        }
-        viewHolder.userName.setText(userNames[position]);
-        viewHolder.messages.setText(messages[position]);
-        viewHolder.messageCounts.setText(String.valueOf(messageCounts[position]));
-        viewHolder.icon.setImageResource(images[position]);
-
-        return convertView;
+    public int getItemCount() {
+        return chats == null ? 0 : chats.size();
     }
 
-    private static class ViewHolder {
+    private static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView userName;
         TextView messages;
         ImageView icon;
         TextView messageCounts;
 
+        public ItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+
+            userName = itemView.findViewById(R.id.tv_message_title);
+            messages = itemView.findViewById(R.id.tv_last_message);
+            messageCounts = itemView.findViewById(R.id.tv_message_count);
+            icon = itemView.findViewById(R.id.iv_icon);
+        }
+
+        void bind(Chat chat, Context context) {
+            Logger Log = new Logger(context, Constants.TAG);
+
+            Log.d(chat.getLastMessage());
+
+            if(chat.getCount() == 0) {
+                messageCounts.setBackgroundResource(R.drawable.message_count_background_zero);
+            }
+            else {
+                messageCounts.setBackgroundResource(R.drawable.message_count_background);
+            }
+
+            String header = chat.getCompanyName();
+            if(header.equals("") || header == null) {
+                header = "Имя и Фамилия";
+            }
+            String body = chat.getLastMessage();
+
+            userName.setText(header);
+            messages.setText(body);
+            messageCounts.setText(String.valueOf(chat.getCount()));
+
+            if(chat.getImageLink().equals("")) {
+                icon.setImageResource(R.drawable.default_appartment);
+            } else {
+                String url = BASE_URL + chat.getImageLink();
+                Picasso.with(context).load(url).into(icon);
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            clickListener.onItemLongClick(getAdapterPosition(), v);
+            return false;
+        }
     }
 
+    public void setOnItemClickListener(ClickListener clickListener) {
+        MessagesAdminAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+        void onItemLongClick(int position, View v);
+    }
 }

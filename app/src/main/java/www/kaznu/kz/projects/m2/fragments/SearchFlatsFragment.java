@@ -66,92 +66,86 @@ public class SearchFlatsFragment extends Fragment {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         lView.setItemAnimator(itemAnimator);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intent);
-            }
+        searchButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            startActivity(intent);
         });
 
         SharedPreferences token = requireActivity().getSharedPreferences("M2_TOKEN", 0);
         mySearches = new MySearches(requireContext(), token.getString("access_token", ""));
 
-        mySearches.setOnLoadListener(new MySearches.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Search> searches) {
+        mySearches.setOnLoadListener(searches -> {
 
-                lAdapter = new SearchAdapter(requireContext(), searches, getResources().getDimensionPixelSize(R.dimen.padding_top_bottom),
-                        getResources().getDimensionPixelSize(R.dimen.padding_left_right));
+            lAdapter = new SearchAdapter(requireContext(), searches, getResources().getDimensionPixelSize(R.dimen.padding_top_bottom),
+                    getResources().getDimensionPixelSize(R.dimen.padding_left_right));
 
-                lView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                lView.setAdapter(lAdapter);
-                lAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-                lView.setItemViewCacheSize(16);
+            lView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            lView.setAdapter(lAdapter);
+            lAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+            lView.setItemViewCacheSize(16);
 
-                lAdapter.setOnItemClickListener(new MessagesAdapter.ClickListener() {
-                    @Override
-                    public void onItemClick(int position, View v) {
-                        Search search = searches.get(position);
+            lAdapter.setOnItemClickListener(new SearchAdapter.ClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    Search search = searches.get(position);
 
-                        if (search.getCount() > 0) {
-                            Intent offerIntent = new Intent(requireActivity(), OfferActivity.class);
+                    if (search.getCount() > 0) {
+                        Intent offerIntent = new Intent(requireActivity(), OfferActivity.class);
 
-                            double loPrice = search.getFilter().getCostLowerLimit();
-                            double upPrice = search.getFilter().getCostUpperLimit();
+                        double loPrice = search.getFilter().getCostLowerLimit();
+                        double upPrice = search.getFilter().getCostUpperLimit();
 
-                            offerIntent.putExtra("is_search", true);
+                        offerIntent.putExtra("is_search", true);
 
-                            Log.d(Constants.TAG, "Price: " + loPrice + " and " + upPrice);
+                        Log.d(Constants.TAG, "Price: " + loPrice + " and " + upPrice);
 
-                            if (loPrice > 0.0)
-                                offerIntent.putExtra("lo_price", loPrice);
+                        if (loPrice > 0.0)
+                            offerIntent.putExtra("lo_price", loPrice);
 
-                            if (upPrice > 0.0)
-                                offerIntent.putExtra("up_price", upPrice);
+                        if (upPrice > 0.0)
+                            offerIntent.putExtra("up_price", upPrice);
 
-                            if (isRent) {
-                                offerIntent.putExtra("is_rent", "Аренда");
-                            } else {
-                                offerIntent.putExtra("is_rent", "Покупка");
-                            }
-
-                            offerIntent.putExtra("realty_type_int", search.getFilter().getRealtyType());
-
-                            offerIntent.putExtra("rent_period_int", search.getFilter().getRentPeriod());
-
-                            offerIntent.putExtra("date_from", search.getFilter().getStartDate());
-                            offerIntent.putExtra("date_to", search.getFilter().getEndDate());
-
-                            //Log.d(Constants.TAG, "Realty type: " + search.getFilter().getStartDate() + " and " + search.getFilter().getEndDate());
-
-                            if (getRooms(search.getFilter().getRoomCount()) != null) {
-                                offerIntent.putExtra("rooms", getRooms(search.getFilter().getRoomCount()));
-                                offerIntent.putIntegerArrayListExtra("rooms_array", search.getFilter().getRoomCount());
-
-                                Log.d(Constants.TAG, "Room count: " + getRooms(search.getFilter().getRoomCount()));
-                            }
-
-                            if (search.getFilter().getPropertiesId().size() > 0) {
-                                offerIntent.putIntegerArrayListExtra("properties", search.getFilter().getPropertiesId());
-                                for (int i = 0; i < search.getFilter().getPropertiesId().size(); i++) {
-                                    Log.d(Constants.TAG, "Properties: " + search.getFilter().getPropertiesId().get(i));
-                                }
-                            }
-
-                            startActivity(offerIntent);
+                        if (isRent) {
+                            offerIntent.putExtra("is_rent", "Аренда");
                         } else {
-                            Snackbar.make(v, "Поиск не дал результатов!", Snackbar.LENGTH_SHORT).show();
+                            offerIntent.putExtra("is_rent", "Покупка");
                         }
-                    }
 
-                    @Override
-                    public void onItemLongClick(int position, View v) {
+                        offerIntent.putExtra("realty_type_int", search.getFilter().getRealtyType());
 
+                        offerIntent.putExtra("rent_period_int", search.getFilter().getRentPeriod());
+
+                        offerIntent.putExtra("date_from", search.getFilter().getStartDate());
+                        offerIntent.putExtra("date_to", search.getFilter().getEndDate());
+
+                        //Log.d(Constants.TAG, "Realty type: " + search.getFilter().getStartDate() + " and " + search.getFilter().getEndDate());
+
+                        if (getRooms(search.getFilter().getRoomCount()) != null) {
+                            offerIntent.putExtra("rooms", getRooms(search.getFilter().getRoomCount()));
+                            offerIntent.putIntegerArrayListExtra("rooms_array", search.getFilter().getRoomCount());
+
+                            Log.d(Constants.TAG, "Room count: " + getRooms(search.getFilter().getRoomCount()));
+                        }
+
+                        if (search.getFilter().getPropertiesId().size() > 0) {
+                            offerIntent.putIntegerArrayListExtra("properties", search.getFilter().getPropertiesId());
+                            for (int i = 0; i < search.getFilter().getPropertiesId().size(); i++) {
+                                Log.d(Constants.TAG, "Properties: " + search.getFilter().getPropertiesId().get(i));
+                            }
+                        }
+
+                        startActivity(offerIntent);
+                    } else {
+                        Snackbar.make(v, "Поиск не дал результатов!", Snackbar.LENGTH_SHORT).show();
                     }
-                });
-            }
+                }
+
+                @Override
+                public void onItemLongClick(int position, View v) {
+
+                }
+            });
         });
 
 

@@ -45,6 +45,15 @@ public class Properties implements Constants {
         return rentPeriod;
     }
 
+    public String getRentPeriodValue(int id) {
+        for(int i = 0; i < rentPeriod.size(); i++) {
+            if(rentPeriod.get(i).getCodeId() == id) {
+                return rentPeriod.get(i).getValue();
+            }
+        }
+        return null;
+    }
+
     public void setRentPeriod(ArrayList<Directory> rentPeriod) {
         this.rentPeriod = rentPeriod;
     }
@@ -88,4 +97,5 @@ public class Properties implements Constants {
     public void setCurrencies(ArrayList<Directory> currencies) {
         this.currencies = currencies;
     }
+
 }

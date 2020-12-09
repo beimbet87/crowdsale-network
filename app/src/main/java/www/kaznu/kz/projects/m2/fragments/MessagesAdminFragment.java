@@ -5,60 +5,33 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.DiscussionActivity;
 import www.kaznu.kz.projects.m2.activities.DiscussionAdminActivity;
 import www.kaznu.kz.projects.m2.adapters.MessagesAdapter;
 import www.kaznu.kz.projects.m2.adapters.MessagesAdminAdapter;
+import www.kaznu.kz.projects.m2.api.pusher.MyChats;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.Tokens;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class MessagesAdminFragment extends Fragment {
 
-    int[] images = {
-            R.drawable.message_icon0,
-            R.drawable.message_icon1,
-            R.drawable.message_icon2,
-            R.drawable.message_icon3,
-            R.drawable.message_icon4,
-            R.drawable.message_icon0,
-            R.drawable.message_icon1,
-            R.drawable.message_icon2,
-            R.drawable.message_icon3,
-            R.drawable.message_icon4};
+    RecyclerView lView;
 
-    int[] messageCounts = {
-            12,
-            0,
-            0,
-            12,
-            0,
-            0,
-            12,
-            12,
-            12,
-            12};
+    MessagesAdminAdapter adapter;
 
-    String[] userNames = {"Александра", "Андрей Власов", "Екатерина", "Лейсан", "Николай", "Александра", "Андрей Власов", "Андрей Власов", "Андрей Власов", "Андрей Власов"};
+    ProgressBar progressBar;
+    MyChats myChats;
 
-    String[] messages = {"Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…",
-            "Здравствуйте! Если снимаете больше, чем на неделю, сделаю в…"};
-
-    ListView lView;
-
-    ListAdapter lAdapter;
+    Logger Log;
 
     public MessagesAdminFragment() {
         // Required empty public constructor
@@ -69,30 +42,53 @@ public class MessagesAdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_messages_admin, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_messages, container, false);
 
         lView = rootView.findViewById(R.id.lv_messages);
 
-        lAdapter = new MessagesAdminAdapter(getContext(), userNames, messages, images, messageCounts);
+        progressBar = rootView.findViewById(R.id.message_progress);
 
-        lView.setAdapter(lAdapter);
+        Log = new Logger(requireContext(), Constants.TAG);
 
-        lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getContext(), DiscussionAdminActivity.class);
-                startActivity(intent);
-            }
-        });
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        lView.setItemAnimator(itemAnimator);
 
         return rootView;
     }
 
-
-
     @Override
     public void onStart() {
         super.onStart();
+
+        myChats = new MyChats(requireContext(), 1, new Tokens(requireContext()).getAccessToken());
+
+        myChats.setOnLoadListener((code, message, chats) -> {
+
+            adapter = new MessagesAdminAdapter(requireContext(), chats);
+            lView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            lView.setAdapter(adapter);
+
+            progressBar.setVisibility(View.GONE);
+
+            adapter.setOnItemClickListener(new MessagesAdminAdapter.ClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    Intent intent = new Intent(getContext(), DiscussionAdminActivity.class);
+                    intent.putExtra("contact", chats.get(position).getCompany());
+                    intent.putExtra("ref_realty", chats.get(position).getRefRealty());
+                    intent.putExtra("owner", true);
+
+                    startActivity(intent);
+
+                    Log.d(chats.get(position).getCompany() + "" + chats.get(position).getRefRealty());
+                }
+
+                @Override
+                public void onItemLongClick(int position, View v) {
+
+                }
+            });
+        });
     }
 
     @Override

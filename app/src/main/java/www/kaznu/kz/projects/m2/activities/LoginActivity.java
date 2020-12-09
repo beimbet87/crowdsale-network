@@ -109,6 +109,10 @@ public class LoginActivity extends IntroActivity implements Constants {
                             editor.putInt("expires_in", jsonRoot.getInt("expires_in"));
                             editor.apply();
 
+                            data.putString(SHARED_ACCESS_TOKEN, jsonRoot.getString("access_token"));
+                            data.putString(SHARED_TOKEN_TYPE, jsonRoot.getString("token_type"));
+                            data.putInt(SHARED_EXPIRES_IN, jsonRoot.getInt("expires_in"));
+
                             new UserInfo(getApplicationContext(), jsonRoot.getString("access_token")).setOnLoadListener(new UserInfo.CustomOnLoadListener() {
                                 @Override
                                 public void onComplete(User user) {

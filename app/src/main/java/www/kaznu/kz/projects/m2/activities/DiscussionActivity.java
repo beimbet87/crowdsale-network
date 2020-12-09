@@ -54,6 +54,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
     SharedPreferences spToken, spPusher, spUser;
     String token;
+    boolean isOwner;
 
     private RecyclerView mMessageRecycler;
     private DiscussionListAdapter mMessageAdapter;
@@ -81,6 +82,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
         int contact = intent.getIntExtra("contact", 0);
         int refRealty = intent.getIntExtra("ref_realty", 0);
+        isOwner = intent.getBooleanExtra("owner", false);
 
         spToken = getSharedPreferences("M2_TOKEN", 0);
         spPusher = getSharedPreferences("M2_PUSHER_INFO", 0);

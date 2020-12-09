@@ -36,12 +36,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <Button
+                android:id="@+id/toolbar_edit"
+                style="@style/Button.Style.Home"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/circle_button_shadow"
-                android:padding="3dp"
-                android:src="@drawable/ic_home" />
+                android:layout_gravity="center_vertical"
+                android:gravity="center" />
         </LinearLayout>
 
         <ScrollView

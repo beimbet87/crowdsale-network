@@ -1,15 +1,17 @@
 package www.kaznu.kz.projects.m2.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -19,10 +21,14 @@ import com.squareup.picasso.Picasso;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.ProfileActivity;
+import www.kaznu.kz.projects.m2.activities.ProfileInfoActivity;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.utils.Utils;
+import www.kaznu.kz.projects.m2.views.TextProgressBar;
 
-public class AccountAdminFragment extends Fragment {
+public class AccountAdminFragment extends Fragment implements Constants,
+        View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     LinearLayout lProfile;
 
@@ -32,20 +38,57 @@ public class AccountAdminFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.btn_exit:
+                Utils.exitApp(requireContext(), requireActivity());
+                break;
+            case R.id.lv_profile:
+                intent = new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_view_profile:
+                intent = new Intent(getActivity(), ProfileInfoActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked) {
+            tvUserMode.setText(R.string.user_mode_owner);
+            tvUserModeHint.setText(R.string.user_mode_hint_guest);
+        }
+        else {
+            tvUserMode.setText(R.string.user_mode_guest);
+            tvUserModeHint.setText(R.string.user_mode_hint_owner);
+        }
+        dataPasser.FromAccountAdminFragment(isChecked);
+    }
+
     public interface DataFromAccountAdminFragment {
-        public void DataFromAccountAdminFragment(boolean isMode);
+        void FromAccountAdminFragment(boolean isMode);
     }
 
     SwitchCompat userMode;
     TextView tvUserMode;
     TextView tvUserModeHint;
     TextView tvUserName;
-    ImageView avatar;
+    ImageView ivAvatar;
+
+    int myProgress = 75;
+    TextProgressBar pb;
+    LinearLayout btnExit;
+    RatingBar ratingBar;
+    Button btnViewProfile;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_account_admin, container, false);
 
@@ -56,39 +99,30 @@ public class AccountAdminFragment extends Fragment {
         tvUserMode = rootView.findViewById(R.id.tv_user_mode);
         tvUserModeHint = rootView.findViewById(R.id.tv_user_mode_hint);
         tvUserName = rootView.findViewById(R.id.tv_profile_username);
-        avatar = rootView.findViewById(R.id.iv_profile_image);
+        btnViewProfile = rootView.findViewById(R.id.btn_view_profile);
+        ivAvatar = rootView.findViewById(R.id.iv_profile_image);
+        btnExit = rootView.findViewById(R.id.btn_exit);
+        pb = rootView.findViewById(R.id.mf_progress_bar);
+        ratingBar = rootView.findViewById(R.id.rb_profile_rating);
+
+        pb.setProgress(myProgress);
+        pb.setText(myProgress/25+"/4");
+
+        btnExit.setOnClickListener(this);
+        lProfile.setOnClickListener(this);
+        btnViewProfile.setOnClickListener(this);
 
         tvUserName.setText(currentUser.getName());
 
         tvUserMode.setText(R.string.user_mode_owner);
         tvUserModeHint.setText(R.string.user_mode_hint_guest);
 
-        Picasso.with(requireContext()).load(Constants.BASE_URL.concat(currentUser.getImageLink())).into(avatar);
+        Picasso.with(requireContext()).load(Constants.BASE_URL.concat(currentUser.getImageLink())).into(ivAvatar);
 
         userMode.setChecked(true);
+        userMode.setOnCheckedChangeListener(this);
 
-        userMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    tvUserMode.setText(R.string.user_mode_owner);
-                    tvUserModeHint.setText(R.string.user_mode_hint_guest);
-                }
-                else {
-                    tvUserMode.setText(R.string.user_mode_guest);
-                    tvUserModeHint.setText(R.string.user_mode_hint_owner);
-                }
-                dataPasser.DataFromAccountAdminFragment(isChecked);
-            }
-        });
-
-        lProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
+        ratingBar.setRating(currentUser.getStars());
 
         return rootView;
     }

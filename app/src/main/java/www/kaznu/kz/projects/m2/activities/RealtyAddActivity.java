@@ -31,7 +31,7 @@ public class RealtyAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ads_add);
         add3d = findViewById(R.id.add_3d);
 
-        btnCreateRealty = findViewById(R.id.btn_create_ads);
+        btnCreateRealty = findViewById(R.id.btn_create_post);
         btnPublishRealty = findViewById(R.id.btn_publish_ads);
 
         token = getSharedPreferences("M2_TOKEN", 0);

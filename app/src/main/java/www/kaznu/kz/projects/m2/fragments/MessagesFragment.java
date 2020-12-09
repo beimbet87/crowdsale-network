@@ -90,6 +90,7 @@ public class MessagesFragment extends Fragment {
                         Intent intent = new Intent(getContext(), DiscussionActivity.class);
                         intent.putExtra("contact", chats.get(position).getCompany());
                         intent.putExtra("ref_realty", chats.get(position).getRefRealty());
+                        intent.putExtra("owner", 0);
 
                         startActivity(intent);
 

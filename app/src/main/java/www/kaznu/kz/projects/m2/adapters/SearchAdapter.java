@@ -30,7 +30,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public ArrayList<Boolean> isView;
     public ArrayList<FlowLayout> views;
 
-    private static MessagesAdapter.ClickListener clickListener;
+    private static SearchAdapter.ClickListener clickListener;
 
     public int p0, p1;
 
@@ -253,7 +253,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return searches.size();
     }
 
-    public void setOnItemClickListener(MessagesAdapter.ClickListener clickListener) {
+    public void setOnItemClickListener(SearchAdapter.ClickListener clickListener) {
         SearchAdapter.clickListener = clickListener;
     }
 

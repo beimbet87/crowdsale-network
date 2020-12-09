@@ -6,15 +6,15 @@
 
 
     <TextView
-        style="@style/TextView.Style.Hint"
         android:id="@+id/tv_message_date"
+        style="@style/TextView.Style.Hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="6dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_background_gray"
-        android:layout_gravity="center_horizontal"
-        android:text="13.12.2020"/>
+        android:padding="6dp"
+        android:text="13.12.2020" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +30,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="16dp">
 
             <TextView
@@ -40,7 +41,10 @@
                 android:text="Предложение бронирования"
                 android:textColor="@color/color_primary_dark"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -155,19 +159,12 @@
             android:id="@+id/tv_alert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:gravity="center"
-            android:text="Ожидает ответа хозяина"
-            android:textColor="@color/color_primary_dark"
+            android:text="Принято и оплачено"
+            android:textColor="@color/color_primary"
             android:textSize="14sp"
             android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btn_cancel"
-            style="@style/Button.Style.Discussion.Blue"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginTop="14dp"
-            android:text="Отмена" />
 
         <TextView
             android:id="@+id/tv_time"
@@ -180,5 +177,4 @@
             android:textSize="13sp" />
 
     </LinearLayout>
-
 </LinearLayout>
