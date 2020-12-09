@@ -1,23 +1,18 @@
 package www.kaznu.kz.projects.m2.activities;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import java.util.Objects;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.ToggleButton;
@@ -64,14 +59,14 @@ public class OfferActivity extends AppCompatActivity {
                 R.drawable.back_button_background, R.drawable.back_button_background_blue);
 
         if (intent.getDoubleExtra("lo_price", 0.0) > 0.0 && intent.getDoubleExtra("up_price", 0.0) <= 0.0)
-            price = addText("От " + Utils.parsePrice(intent.getDoubleExtra("lo_price", 0.0), ""));
+            price = addText("От " + Utils.parsePrice(intent.getDoubleExtra("lo_price", 0.0)));
 
         else if (intent.getDoubleExtra("lo_price", 0.0) <= 0.0 && intent.getDoubleExtra("up_price", 0.0) > 0.0)
-            price = addText("До " + Utils.parsePrice(intent.getDoubleExtra("up_price", 0.0), ""));
+            price = addText("До " + Utils.parsePrice(intent.getDoubleExtra("up_price", 0.0)));
 
         else if (intent.getDoubleExtra("lo_price", 0.0) > 0.0 && intent.getDoubleExtra("up_price", 0.0) > 0.0)
-            price = addText("От " + Utils.parsePrice(intent.getDoubleExtra("lo_price", 0.0), "")
-                    + " до " + Utils.parsePrice(intent.getDoubleExtra("up_price", 0.0), ""));
+            price = addText("От " + Utils.parsePrice(intent.getDoubleExtra("lo_price", 0.0))
+                    + " до " + Utils.parsePrice(intent.getDoubleExtra("up_price", 0.0)));
 
         if (intent.getStringExtra("is_rent") != null)
             addText(intent.getStringExtra("is_rent"));

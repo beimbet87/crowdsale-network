@@ -1,11 +1,6 @@
 package www.kaznu.kz.projects.m2.api.realty;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-
-import androidx.navigation.NavType;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -22,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,7 +103,7 @@ public class FilterOffers implements Constants {
 
                         User owner = new User();
                         owner.setImageLink(jsonOwner.getString("imageLink"));
-                        owner.setDescrition(jsonOwner.getString("description"));
+                        owner.setDescription(jsonOwner.getString("description"));
                         owner.setId(jsonOwner.getInt("id"));
                         owner.setSex(jsonOwner.getInt("sex"));
                         owner.setName(jsonOwner.getString("name"));

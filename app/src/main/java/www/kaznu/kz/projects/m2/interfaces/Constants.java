@@ -15,6 +15,7 @@ public interface Constants {
     String URL_GET_REALTY_PROPERTIES = BASE_URL.concat("api/Directory/getRealtyProperties");
     String URL_GET_DEAL_TYPE = BASE_URL.concat("api/Directory/getDealType");
     String URL_GET_COUNTRIES = BASE_URL.concat("api/Directory/getСountries");
+    String URL_GET_CURRENCIES = BASE_URL.concat("api/Directory/getCurrensies");
     String URL_GET_USER_INFO = BASE_URL.concat("api/User/getUserInfo");
     String URL_FILTER_OFFERS = BASE_URL.concat("api/Realty/filterOffers");
     String URL_GET_RELEVANT_OFFERS = BASE_URL.concat("api/Realty/getRelevantOffers");
@@ -38,6 +39,27 @@ public interface Constants {
     String URL_PUSHER_RATE_BOOK = BASE_URL.concat("api/ChatPusher/rateBook");
     String URL_PUSHER_RATE_USER = BASE_URL.concat("api/ChatPusher/rateUser");
 
-    String SHARED_COUNTRIES = "SHARED_COUNTRY_INFO";
     String SHARED_PUSHER = "SHARED_PUSHER_INFO";
+
+    String SHARED_REALTY_TYPE = "REALTY_TYPE";
+    String SHARED_REQUEST_OFFERS = "REQUEST_OFFERS";
+    String SHARED_REALTY_PROPERTIES = "REALTY_PROPERTIES";
+    String SHARED_DEAL_TYPE = "DEAL_TYPE";
+    String SHARED_RENT_PERIOD = "RENT_PERIOD";
+    String SHARED_COUNTRIES = "COUNTRIES";
+    String SHARED_CURRENCIES = "CURRENCIES";
+
+    String SHARED_USER_ID = "USER_ID";
+    String SHARED_USER_SEX = "USER_SEX";
+    String SHARED_USER_NAME = "USER_NAME";
+    String SHARED_USER_SURNAME = "USER_SURNAME";
+    String SHARED_USER_BIRTH = "USER_BIRTH";
+    String SHARED_USER_EMAIL = "USER_EMAIL";
+    String SHARED_USER_PHONE = "USER_PHONE";
+    String SHARED_USER_IMAGE_LINK = "USER_IMAGE_LINK";
+    String SHARED_USER_DESCRIPTION = "USER_DESCRIPTION";
+    String SHARED_USER_CURRENCY = "USER_CURRENCY";
+    String SHARED_USER_STARS = "USER_STARS";
+    String SHARED_USER_COUNTRY_CODE = "USER_COUNTRY_CODE";
+    String SHARED_USER_COUNTRY_NAME = "USER_COUNTRY_NAME";
 }

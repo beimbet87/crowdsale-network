@@ -58,10 +58,10 @@ public class UserInfo implements Constants {
                     countryCode = root.getString("countryCode");
                     countryName = root.getString("countryName");
 
-                    if(resultCode == 1) {
+                    if (resultCode == 1) {
                         JSONObject directory = root.getJSONObject("um");
                         data.setImageLink(directory.getString("imageLink"));
-                        data.setDescrition(directory.getString("description"));
+                        data.setDescription(directory.getString("description"));
                         data.setId(directory.getInt("id"));
                         data.setSex(directory.getInt("sex"));
                         data.setStars(directory.getInt("stars"));
@@ -71,8 +71,12 @@ public class UserInfo implements Constants {
                         data.setBirth(directory.getString("birth"));
                         data.setEmail(directory.getString("email"));
                         data.setPhone(directory.getString("phone"));
+                        data.setCurrency(directory.getInt("currency"));
+                        data.setStars(directory.getInt("stars"));
+                        data.setCountryCode(countryCode);
+                        data.setCountryName(countryName);
 
-                        if(listener != null) {
+                        if (listener != null) {
                             listener.onComplete(data);
                         }
                     }

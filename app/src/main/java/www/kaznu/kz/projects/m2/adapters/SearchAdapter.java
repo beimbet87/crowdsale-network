@@ -228,16 +228,16 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         String price = null;
 
         if (filter.getCostLowerLimit() > 0.0 && filter.getCostUpperLimit() <= 0.0) {
-            price = "От " + Utils.parsePrice(filter.getCostLowerLimit(), "");
+            price = "От " + Utils.parsePrice(filter.getCostLowerLimit());
         }
 
         if (filter.getCostLowerLimit() <= 0.0 && filter.getCostUpperLimit() > 0.0) {
-            price = "До " + Utils.parsePrice(filter.getCostUpperLimit(), "");
+            price = "До " + Utils.parsePrice(filter.getCostUpperLimit());
         }
 
         if (filter.getCostLowerLimit() > 0.0 && filter.getCostUpperLimit() > 0.0) {
-            price = "От " + Utils.parsePrice(filter.getCostLowerLimit(), "")
-                    + " до " + Utils.parsePrice(filter.getCostUpperLimit(), "");
+            price = "От " + Utils.parsePrice(filter.getCostLowerLimit())
+                    + " до " + Utils.parsePrice(filter.getCostUpperLimit());
         }
 
         return price;

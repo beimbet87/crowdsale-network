@@ -185,7 +185,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                 }
 
                 Double price = Double.parseDouble(s.toString());
-                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(diff, price), ""));
+                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(diff, price)));
 
                 Log.d(calendar.getStartDate());
                 Log.d(calendar.getEndDate());

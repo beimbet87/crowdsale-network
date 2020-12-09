@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -153,7 +152,7 @@ public class RealtyActivity extends IntroActivity {
 
         tvRealtyTitle.setText(title);
         tvAddress.setText(address);
-        tvPrice.setText(Utils.parsePrice(price, ""));
+        tvPrice.setText(Utils.parsePrice(price));
         tvOwner.setText(owner);
         tvBody.setText(body);
 

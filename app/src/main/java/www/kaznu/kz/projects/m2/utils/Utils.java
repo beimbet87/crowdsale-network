@@ -1,10 +1,12 @@
 package www.kaznu.kz.projects.m2.utils;
 
 import android.annotation.SuppressLint;
-import android.text.method.PasswordTransformationMethod;
-import android.view.View;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -13,10 +15,11 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import www.kaznu.kz.projects.m2.R;
 
 public class Utils {
     public static void replaceFragment(FragmentActivity activity, Fragment fragment, int resource) {
@@ -29,11 +32,10 @@ public class Utils {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
-        Date date = null;
         String str = null;
 
         try {
-            date = inputFormat.parse(time);
+            Date date = inputFormat.parse(time);
             str = outputFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -47,13 +49,12 @@ public class Utils {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
-        Date data = null;
         String str = null;
 
         String today = outputFormat.format(Calendar.getInstance().getTime());
 
         try {
-            data = inputFormat.parse(date);
+            Date data = inputFormat.parse(date);
             str = outputFormat.format(data);
 
             if (str.compareToIgnoreCase(today) == 0) {
@@ -71,18 +72,16 @@ public class Utils {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
-        Date data = null;
         String str = null;
 
         try {
-            data = inputFormat.parse(date);
+            Date data = inputFormat.parse(date);
             str = outputFormat.format(data);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return str;
     }
-
 
     public static String parseDateDefault(String date) {
         String outputPattern = "yyyy-MM-dd'T'HH:mm:ss";
@@ -90,11 +89,10 @@ public class Utils {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
-        Date data = null;
         String str = null;
 
         try {
-            data = inputFormat.parse(date);
+            Date data = inputFormat.parse(date);
             str = outputFormat.format(data);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -102,7 +100,13 @@ public class Utils {
         return str;
     }
 
-    public static String parsePrice(Double price, String currency) {
+    public static String getCurrentDate() {
+        String outputPattern = "dd MMM yyyy";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        return outputFormat.format(new Date());
+    }
+
+    public static String parsePrice(Double price) {
         DecimalFormat format = (DecimalFormat) NumberFormat.getInstance();
         format.applyPattern("#,###");
 
@@ -130,7 +134,7 @@ public class Utils {
         try {
             startDate = dateFormat.parse(start);
             endDate = dateFormat.parse(end);
-            numberOfDays = getUnitBetweenDates(startDate, endDate, TimeUnit.DAYS);
+            numberOfDays = getUnitBetweenDates(startDate, endDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -141,40 +145,22 @@ public class Utils {
         return days * price;
     }
 
-    private static long getUnitBetweenDates(Date startDate, Date endDate, TimeUnit unit) {
+    private static long getUnitBetweenDates(Date startDate, Date endDate) {
         long timeDiff = endDate.getTime() - startDate.getTime();
-        return unit.convert(timeDiff, TimeUnit.MILLISECONDS);
+        return TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
     }
 
-    public static class AsteriskPasswordTransformationMethod extends PasswordTransformationMethod {
-        @Override
-        public CharSequence getTransformation(CharSequence source, View view) {
-            return new PasswordCharSequence(source);
-        }
+    public static void exitApp(Context context, Activity activity) {
+        new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Dialog_Style_Alert))
+                .setMessage("Вы действительно хотите выйти?")
+                .setCancelable(false)
 
-        private static class PasswordCharSequence implements CharSequence {
-            private CharSequence mSource;
-
-            public PasswordCharSequence(CharSequence source) {
-                mSource = source; // Store char sequence } public char charAt(int index) { return '*'; // This is the important part } public int length() { return mSource.length(); // Return default } public CharSequence subSequence(int start, int end) { return mSource.subSequence(start, end); // Return default } } };
-
-            }
-
-            @Override
-            public int length() {
-                return 0;
-            }
-
-            @Override
-            public char charAt(int index) {
-                return 0;
-            }
-
-            @NonNull
-            @Override
-            public CharSequence subSequence(int start, int end) {
-                return null;
-            }
-        }
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        activity.finish();
+                    }
+                })
+                .setNegativeButton("Нет", null)
+                .show();
     }
 }

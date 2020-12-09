@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +54,7 @@ import www.kaznu.kz.projects.m2.activities.ChangeDataActivity;
 import www.kaznu.kz.projects.m2.adapters.GenderTypeAdapter;
 import www.kaznu.kz.projects.m2.api.user.UserInfo;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.User;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
@@ -67,27 +69,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     TextView etUserBirthday;
     EditText etUserPhone, etUserEmail;
     EditText etPassword;
+    EditText etUserDescription;
     ImageView ivAvatar;
     Spinner spGender;
     LinearLayout llVerifyUser;
 
-    private static final int REQUEST_PERMISSIONS = 100;
-    private static final int PICK_IMAGE_REQUEST =1 ;
-    private Bitmap bitmap;
-    private String filePath;
-    private Logger Log;
-    UserInfo userInfo;
-    Calendar dateAndTime=Calendar.getInstance();
-    String imageLinks;
+    Button btnSave;
 
-    String[] gender = {"Мужской", "Женский"};
+    private static final int REQUEST_PERMISSIONS = 100;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Logger Log;
+    Calendar dateAndTime = Calendar.getInstance();
+
+    CurrentUser currentUser;
 
     int userId;
-
-    @Override
-    public void onClick(View v) {
-
-    }
 
     public interface DataFromProfileFragment {
         void FromProfileFragment(String data, int number);
@@ -107,167 +103,85 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View fv = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        currentUser = new CurrentUser(requireContext());
+
         etUserName = fv.findViewById(R.id.profile_name);
         etUserSurname = fv.findViewById(R.id.profile_surname);
         spGender = fv.findViewById(R.id.gender_type);
         etUserBirthday = fv.findViewById(R.id.profile_birthday);
         etUserPhone = fv.findViewById(R.id.profile_phone);
         etUserEmail = fv.findViewById(R.id.profile_email);
+        etUserDescription = fv.findViewById(R.id.profile_description);
         etPassword = fv.findViewById(R.id.profile_password);
         ivAvatar = fv.findViewById(R.id.iv_profile_image);
         llVerifyUser = fv.findViewById(R.id.verify_user);
+        btnSave = fv.findViewById(R.id.btn_save);
+
+        etUserBirthday.setOnClickListener(this);
+        etUserPhone.setOnClickListener(this);
+        etUserEmail.setOnClickListener(this);
+        etPassword.setOnClickListener(this);
+        ivAvatar.setOnClickListener(this);
+        llVerifyUser.setOnClickListener(this);
 
         Log = new Logger(requireContext(), Constants.TAG);
 
-        etUserPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
-                intent.putExtra("fragment", 0);
-                startActivity(intent);
-            }
-        });
-
-        llVerifyUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
-                intent.putExtra("fragment", 1);
-                startActivity(intent);
-            }
-        });
-
-        etUserEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
-                intent.putExtra("fragment", 1);
-                startActivity(intent);
-            }
-        });
-
-        etPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), ChangeDataActivity.class);
-                intent.putExtra("fragment", 2);
-                startActivity(intent);
-            }
-        });
-
-        GenderTypeAdapter genderAdapter = new GenderTypeAdapter(requireContext(), gender);
-
+        GenderTypeAdapter genderAdapter = new GenderTypeAdapter(requireContext());
         spGender.setAdapter(genderAdapter);
 
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("M2_USER_INFO", 0);
+        String url = BASE_URL.concat(currentUser.getImageLink());
 
-        String url = BASE_URL + sharedPreferences.getString("image", "");
+        Picasso.with(requireContext()).load(url).into(ivAvatar);
 
-        Glide.with(requireContext()).load(url).into(ivAvatar);
+        etUserName.setText(currentUser.getName());
+        etUserSurname.setText(currentUser.getSurname());
+        etUserDescription.setText(currentUser.getDescription());
 
-        etUserName.setText(sharedPreferences.getString("name", ""));
-        etUserSurname.setText(sharedPreferences.getString("surname", ""));
-        if(sharedPreferences.getBoolean("ismen", true)) {
+        if (currentUser.getGender() == 1) {
             spGender.setSelection(0);
-        }
-        else {
+        } else {
             spGender.setSelection(1);
         }
 
-
-        String birthday = sharedPreferences.getString("birth", "").replaceAll("T", " ");
-        Log.d(birthday);
-        etUserBirthday.setText(Utils.parseDate(birthday));
+        etUserBirthday.setText(Utils.parseDateWithDot(currentUser.getBirth()));
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
         try {
-            Date date = format.parse(Utils.parseDate(birthday));
+            Date date = format.parse(Utils.parseDateWithDot(currentUser.getBirth()));
             assert date != null;
             dateAndTime.setTime(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        etUserBirthday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(requireContext(), R.style.Dialog_Style_DatePicker, d,
-                        dateAndTime.get(Calendar.YEAR),
-                        dateAndTime.get(Calendar.MONTH),
-                        dateAndTime.get(Calendar.DAY_OF_MONTH))
-                        .show();
-            }
-        });
+        etUserPhone.setText(currentUser.getPhone());
+        etUserEmail.setText(currentUser.getEmail());
 
-        etUserPhone.setText(sharedPreferences.getString("phone", ""));
-        etUserEmail.setText(sharedPreferences.getString("email", ""));
-
-        SharedPreferences token = requireActivity().getSharedPreferences("M2_TOKEN", 0);
-
-        userInfo = new UserInfo(requireContext(), token.getString("access_token", ""));
-
-        userInfo.setOnLoadListener(new UserInfo.CustomOnLoadListener() {
-            @Override
-            public void onComplete(User data) {
-                userId = data.getId();
-            }
-        });
-
-        ivAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ((ContextCompat.checkSelfPermission(requireContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(requireContext(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-                    if ((ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                            Manifest.permission.READ_EXTERNAL_STORAGE))) {
-
-                    } else {
-                        ActivityCompat.requestPermissions(requireActivity(),
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_PERMISSIONS);
-                    }
-                } else {
-                    Log.d("File chooser");
-                    showFileChooser();
-                }
-            }
-        });
+        userId = currentUser.getId();
 
         dataPasser.FromProfileFragment("Личная информация", 3);
 
         return fv;
     }
 
-    DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            dateAndTime.set(Calendar.YEAR, year);
-            dateAndTime.set(Calendar.MONTH, monthOfYear);
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-            String monthString = String.valueOf(monthOfYear);
-            if (monthString.length() == 1) {
-                monthString = "0" + monthString;
-            }
-
-            String dayString = String.valueOf(dayOfMonth);
-            if (dayString.length() == 1) {
-                dayString = "0" + dayString;
-            }
-
-            String birthDate = dayString + "." + monthString + "." + year;
-
-            etUserBirthday.setText(birthDate);
-        }
-    };
-
     private void showFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Выбрать аватар"), PICK_IMAGE_REQUEST);
+        if ((ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+            if (!(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) && !(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE))) {
+                ActivityCompat.requestPermissions(requireActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSIONS);
+            }
+        } else {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Выбрать аватар"), PICK_IMAGE_REQUEST);
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -275,27 +189,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri picUri = data.getData();
-            filePath = getPath(picUri);
+            String filePath = getPath(picUri);
             if (filePath != null) {
                 try {
-
-                    Log.d(String.valueOf(filePath));
-                    bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), picUri);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), picUri);
                     uploadBitmap(bitmap);
                     ivAvatar.setImageBitmap(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(
-                        requireContext(),"no image selected",
+                        requireContext(), "no image selected",
                         Toast.LENGTH_LONG).show();
             }
         }
 
     }
+
     public String getPath(Uri uri) {
         Cursor cursor = requireActivity().getContentResolver().query(uri, null, null, null, null);
         cursor.moveToFirst();
@@ -312,7 +223,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         return path;
     }
-
 
     public byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -338,7 +248,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(requireContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d("Error: "+error.getMessage());
+                        Log.d("Error: " + error.getMessage());
                     }
                 }) {
 
@@ -372,5 +282,64 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         dataPasser = (DataFromProfileFragment) context;
     }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.profile_phone:
+                intent = new Intent(requireContext(), ChangeDataActivity.class);
+                intent.putExtra("fragment", 0);
+                startActivity(intent);
+                break;
+            case R.id.verify_user:
+            case R.id.profile_email:
+                intent = new Intent(requireContext(), ChangeDataActivity.class);
+                intent.putExtra("fragment", 1);
+                startActivity(intent);
+                break;
+            case R.id.profile_password:
+                intent = new Intent(requireContext(), ChangeDataActivity.class);
+                intent.putExtra("fragment", 2);
+                startActivity(intent);
+                break;
+            case R.id.profile_birthday:
+                new DatePickerDialog(requireContext(), R.style.Dialog_Style_DatePicker, d,
+                        dateAndTime.get(Calendar.YEAR),
+                        dateAndTime.get(Calendar.MONTH),
+                        dateAndTime.get(Calendar.DAY_OF_MONTH))
+                        .show();
+                break;
+            case R.id.iv_profile_image:
+                showFileChooser();
+                break;
+            case R.id.btn_save:
+
+                break;
+        }
+    }
+
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            String monthString = String.valueOf(monthOfYear);
+            if (monthString.length() == 1) {
+                monthString = "0" + monthString;
+            }
+
+            String dayString = String.valueOf(dayOfMonth);
+            if (dayString.length() == 1) {
+                dayString = "0" + dayString;
+            }
+
+            String birthDate = dayString + "." + monthString + "." + year;
+
+            etUserBirthday.setText(birthDate);
+        }
+    };
 
 }

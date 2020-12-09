@@ -13,16 +13,18 @@ public class User {
     private String email;
     private String phone;
     private String imageLink;
-    private String descrition;
+    private String description;
     private int currency;
     private String password;
     private int profileType;
+    private String countryCode;
+    private String countryName;
 
     public String getBody() {
         JSONObject jsonBody = new JSONObject();
 
         try {
-            jsonBody.put("description", this.getDescrition());
+            jsonBody.put("description", this.getDescription());
             jsonBody.put("phone", this.getPhone());
             jsonBody.put("name", this.getName());
             jsonBody.put("surname", this.getSurname());
@@ -61,12 +63,12 @@ public class User {
         this.imageLink = imageLink;
     }
 
-    public String getDescrition() {
-        return descrition;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescrition(String descrition) {
-        this.descrition = descrition;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getId() {
@@ -139,5 +141,21 @@ public class User {
 
     public void setCurrency(int currency) {
         this.currency = currency;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }

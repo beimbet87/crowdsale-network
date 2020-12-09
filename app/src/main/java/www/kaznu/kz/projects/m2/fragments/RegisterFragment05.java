@@ -71,7 +71,7 @@ public class RegisterFragment05 extends Fragment implements Constants {
             user.setPassword(temp.getString("password", ""));
             user.setProfileType(temp.getInt("profileType", 1));
             user.setSex(1);
-            user.setDescrition("");
+            user.setDescription("");
 
             registrationForm = new RegistrationForm(requireContext(), requireActivity(), user, token);
             registrationForm.setOnLoadListener((resultCode, resultMessage) -> {

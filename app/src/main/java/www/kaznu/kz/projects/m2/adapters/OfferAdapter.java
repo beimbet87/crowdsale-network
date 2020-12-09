@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -96,7 +95,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
 
         String header = realty.getHeader();
         String address = realty.getAddress();
-        String cost = Utils.parsePrice((double)Math.round(realty.getCost()), "");
+        String cost = Utils.parsePrice((double)Math.round(realty.getCost()));
         int roomCount = realty.getRoomCount();
 
         if(header.isEmpty() || header.equals("null")) {

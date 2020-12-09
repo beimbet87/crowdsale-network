@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">M<sup>2</sup></string>
+    <string name="text_vr">VR 360° видео</string>
     <string name="support_text">создано с поддержкой</string>
     <string name="support_company">CrowdSale Network</string>
     <string name="intro_title_01">Теперь цену \n предлагаете Вы</string>

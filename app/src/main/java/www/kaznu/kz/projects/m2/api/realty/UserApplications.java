@@ -95,7 +95,7 @@ public class UserApplications implements Constants {
 
                         User owner = new User();
                         owner.setImageLink(jsonOwner.getString("imageLink"));
-                        owner.setDescrition(jsonOwner.getString("description"));
+                        owner.setDescription(jsonOwner.getString("description"));
                         owner.setId(jsonOwner.getInt("id"));
                         owner.setSex(jsonOwner.getInt("sex"));
                         owner.setName(jsonOwner.getString("name"));

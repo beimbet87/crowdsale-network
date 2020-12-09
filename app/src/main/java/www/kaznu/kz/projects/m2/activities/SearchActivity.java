@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,15 +34,11 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.ToggleButton;
 import www.kaznu.kz.projects.m2.adapters.RealtyTypeAdapter;
 import www.kaznu.kz.projects.m2.adapters.RentPeriodAdapter;
-import www.kaznu.kz.projects.m2.api.DealType;
-import www.kaznu.kz.projects.m2.api.RealtyProperties;
-import www.kaznu.kz.projects.m2.api.RealtyType;
-import www.kaznu.kz.projects.m2.api.RentPeriod;
-import www.kaznu.kz.projects.m2.api.RequestOffers;
 import www.kaznu.kz.projects.m2.fragments.MapsFragment;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.Polygons;
+import www.kaznu.kz.projects.m2.models.Properties;
 import www.kaznu.kz.projects.m2.models.SearchDialog;
 import www.kaznu.kz.projects.m2.services.GPSTracker;
 import www.kaznu.kz.projects.m2.utils.Logger;
@@ -62,13 +60,9 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
 
     TextView titleRentBuy, titlePrice;
 
-    private ArrayList<String> permissionsToRequest;
-    private final ArrayList<String> permissionsRejected = new ArrayList<>();
-    private final ArrayList<String> permissions = new ArrayList<>();
-
-    ArrayList<Polygons> searchData;
-
     DatePickerView datePickerView;
+
+    String rentPeriodText, realtyTypeText;
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
 
@@ -78,46 +72,44 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
     double latitude;
     GPSTracker gps;
 
-    Button btnRent, btnBuy;
+    private ArrayList<Polygons> searchData;
+    private ArrayList<String> permissionsToRequest;
+    private final ArrayList<Integer> rooms = new ArrayList<>();
+    private final ArrayList<Integer> propertiesInt = new ArrayList<>();
+    private final ArrayList<Integer> requests = new ArrayList<>();
+    private final ArrayList<String> permissionsRejected = new ArrayList<>();
+    private final ArrayList<String> permissions = new ArrayList<>();
 
-    ArrayList<Integer> rooms = new ArrayList<>();
-    ArrayList<Integer> properties = new ArrayList<>();
-    ArrayList<Integer> requests = new ArrayList<>();
+    private Properties properties;
 
     LinearLayout llMonthly;
     LinearLayout llRangedDate;
+    LinearLayout linearLayout, polygonEdit, layoutRentPeriod, layoutRealtyType;
 
     Button btnSearch;
-    ImageView btnFilter;
-    LinearLayout linearLayout, polygonEdit, layoutRentPeriod, layoutRealtyType;
-    ImageView ivEdit, ivDelete;
-    EditText etSearch;
-
-
-    String rentPeriodText, realtyTypeText;
-    int rentPeriodInt, realtyTypeInt;
-
     Button btnRoom01, btnRoom02, btnRoom03, btnRoom04, btnRoom05, btnRoom06;
+    Button btnBack, btnFilters;
+    Button btnRent, btnBuy;
+    Button btnLowerClear, btnUpperClear;
+
+    ImageView btnPolygons;
+    ImageView ivEdit, ivDelete;
+
+    EditText etSearchPlace;
+    EditText etCostLowerLimit, etCostUpperLimit;
+
     ToggleButton isRoom01, isRoom02, isRoom03, isRoom04, isRoom05, isRoom06;
     ToggleButton isEdit;
 
-    ToggleButton isAdditional01, isAdditional02;
-
-    Button btnFacility01, btnFacility02, btnFacility03, btnFacility04, btnFacility05;
-    Button btnFacility06, btnFacility07;
-
-    Button btnBack, btnOpenSearch;
-
     Spinner realtyTypeSpinner;
     Spinner rentPeriodSpinner;
-
-    EditText etCostLowerLimit, etCostUpperLimit;
 
     Intent offerIntent;
     FlowLayout flowLayout, requestLayout;
 
     int disableDrawable;
     int enableDrawable;
+    int rentPeriodInt, realtyTypeInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,34 +118,14 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         setContentView(R.layout.activity_search);
 
         Log = new Logger(this, Constants.TAG);
+        properties = new Properties(this);
 
-        btnFilter = findViewById(R.id.btn_filter);
+        btnPolygons = findViewById(R.id.btn_polygons);
         btnSearch = findViewById(R.id.btn_create_search);
-        linearLayout = findViewById(R.id.search_properties);
-        etSearch = findViewById(R.id.et_search);
-        etCostLowerLimit = findViewById(R.id.et_cost_lower_limit);
-        etCostUpperLimit = findViewById(R.id.et_cost_upper_limit);
-
-        layoutRealtyType = findViewById(R.id.layot_realty_type);
-        layoutRentPeriod = findViewById(R.id.layout_rent_period);
-
         btnRent = findViewById(R.id.btn_rent);
         btnBuy = findViewById(R.id.btn_buy);
-
-        ToggleButton tRent = new ToggleButton(true);
-        ToggleButton tBuy = new ToggleButton(false);
-
         btnBack = findViewById(R.id.toolbar_back);
-        btnOpenSearch = findViewById(R.id.btn_open_search);
-
-        flowLayout = findViewById(R.id.comfort_settings);
-        requestLayout = findViewById(R.id.request_settings);
-
-        titleRentBuy = findViewById(R.id.rent_buy_title);
-        titlePrice = findViewById(R.id.price_title);
-
-        offerIntent = new Intent(SearchActivity.this, OfferActivity.class);
-
+        btnFilters = findViewById(R.id.btn_filters);
         btnRoom01 = findViewById(R.id.btn_room_01);
         btnRoom02 = findViewById(R.id.btn_room_02);
         btnRoom03 = findViewById(R.id.btn_room_03);
@@ -161,13 +133,28 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         btnRoom05 = findViewById(R.id.btn_room_05);
         btnRoom06 = findViewById(R.id.btn_room_06);
 
-        btnFacility01 = findViewById(R.id.btn_facility_01);
-        btnFacility02 = findViewById(R.id.btn_facility_02);
-        btnFacility03 = findViewById(R.id.btn_facility_03);
-        btnFacility04 = findViewById(R.id.btn_facility_04);
-        btnFacility05 = findViewById(R.id.btn_facility_05);
-        btnFacility06 = findViewById(R.id.btn_facility_06);
-        btnFacility07 = findViewById(R.id.btn_facility_07);
+        etSearchPlace = findViewById(R.id.et_search_place);
+        etCostLowerLimit = findViewById(R.id.et_cost_lower_limit);
+        etCostUpperLimit = findViewById(R.id.et_cost_upper_limit);
+
+        linearLayout = findViewById(R.id.search_properties);
+
+        layoutRealtyType = findViewById(R.id.layot_realty_type);
+        layoutRentPeriod = findViewById(R.id.layout_rent_period);
+
+        ToggleButton tRent = new ToggleButton(true);
+        ToggleButton tBuy = new ToggleButton(false);
+
+        flowLayout = findViewById(R.id.comfort_settings);
+        requestLayout = findViewById(R.id.request_settings);
+
+        titleRentBuy = findViewById(R.id.rent_buy_title);
+        titlePrice = findViewById(R.id.price_title);
+
+        btnLowerClear = findViewById(R.id.btn_lower_clear);
+        btnUpperClear = findViewById(R.id.btn_upper_clear);
+
+        offerIntent = new Intent(SearchActivity.this, OfferActivity.class);
 
         polygonEdit = findViewById(R.id.polygon_edit);
         ivEdit = findViewById(R.id.iv_polygon_edit);
@@ -179,10 +166,6 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         isRoom04 = new ToggleButton(false);
         isRoom05 = new ToggleButton(false);
         isRoom06 = new ToggleButton(false);
-
-        isAdditional01 = new ToggleButton(false);
-        isAdditional02 = new ToggleButton(false);
-
         isEdit = new ToggleButton(false);
 
         disableDrawable = android.R.color.transparent;
@@ -197,54 +180,135 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
 
         toToggle(polygonEdit, ivEdit, isEdit);
 
-        addVR("VR 360\u00B0 видео", 0);
+        btnLowerClear.setOnClickListener(v -> {
+            etCostLowerLimit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.intro_input_phone_background));
+            btnLowerClear.setVisibility(View.GONE);
+            etCostLowerLimit.setText("");
+            etCostLowerLimit.setEnabled(true);
+            etCostLowerLimit.setTextColor(getColor(R.color.color_primary_dark));
+        });
 
-        RealtyType realtyType = new RealtyType(this);
+        btnUpperClear.setOnClickListener(v -> {
+            etCostUpperLimit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.intro_input_phone_background));
+            btnUpperClear.setVisibility(View.GONE);
+            etCostUpperLimit.setText("");
+            etCostUpperLimit.setEnabled(true);
+            etCostUpperLimit.setTextColor(getColor(R.color.color_primary_dark));
+        });
+
+        etCostUpperLimit.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                if (!etCostLowerLimit.getText().toString().matches("")) {
+                    etCostLowerLimit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.intro_input_phone_background_blue));
+                    btnLowerClear.setVisibility(View.VISIBLE);
+                    etCostLowerLimit.setEnabled(false);
+                    etCostLowerLimit.setTextColor(getColor(android.R.color.white));
+                }
+            }
+        });
+
+        etCostLowerLimit.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_DPAD_CENTER:
+                    case KeyEvent.KEYCODE_ENTER:
+                        double lowerCost = 0.0;
+                        double upperCost = 0.0;
+
+                        if (!etCostLowerLimit.getText().toString().matches("")) {
+                            lowerCost = Double.parseDouble(etCostLowerLimit.getText().toString());
+                        }
+
+                        if (!etCostUpperLimit.getText().toString().matches("")) {
+                            upperCost = Double.parseDouble(etCostUpperLimit.getText().toString());
+                        }
+
+                        if (lowerCost > upperCost) {
+                            Snackbar.make(v, "Вы ввели сумму больше последней", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            if (!etCostLowerLimit.getText().toString().matches("")) {
+                                etCostLowerLimit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.intro_input_phone_background_blue));
+                                btnLowerClear.setVisibility(View.VISIBLE);
+                                etCostLowerLimit.setEnabled(false);
+                                etCostLowerLimit.setTextColor(getColor(android.R.color.white));
+                            }
+                        }
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        });
+
+        etCostUpperLimit.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_DPAD_CENTER:
+                    case KeyEvent.KEYCODE_ENTER:
+                        double lowerCost = 0.0;
+                        double upperCost = 0.0;
+
+                        if (!etCostLowerLimit.getText().toString().matches("")) {
+                            lowerCost = Double.parseDouble(etCostLowerLimit.getText().toString());
+                        }
+
+                        if (!etCostUpperLimit.getText().toString().matches("")) {
+                            upperCost = Double.parseDouble(etCostUpperLimit.getText().toString());
+                        }
+
+                        if (lowerCost > upperCost) {
+                            Snackbar.make(v, "Вы ввели сумму меньше начальной", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            if (!etCostUpperLimit.getText().toString().matches("")) {
+                                etCostUpperLimit.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.intro_input_phone_background_blue));
+                                btnUpperClear.setVisibility(View.VISIBLE);
+                                etCostUpperLimit.setEnabled(false);
+                                etCostUpperLimit.setTextColor(getColor(android.R.color.white));
+                            }
+                        }
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        });
+
+        addVR(getString(R.string.text_vr), 0);
 
         realtyTypeSpinner = findViewById(R.id.realty_type);
 
         btnBack.setOnClickListener(v -> finish());
 
-        realtyType.setOnLoadListener(data -> {
-            realtyTypeSpinner.setAdapter(new RealtyTypeAdapter(getApplicationContext(), data));
-            realtyTypeSpinner.setSelection(0);
-            realtyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    realtyTypeText = data.get(position).getValue();
-                    realtyTypeInt = data.get(position).getCodeId();
-                }
+        realtyTypeSpinner.setAdapter(new RealtyTypeAdapter(getApplicationContext(), properties.getRealtyType()));
+        realtyTypeSpinner.setSelection(0);
+        realtyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                realtyTypeText = properties.getRealtyType().get(position).getValue();
+                realtyTypeInt = properties.getRealtyType().get(position).getCodeId();
+            }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                }
-            });
-        });
-
-        RequestOffers requestOffers = new RequestOffers(this);
-
-        requestOffers.setOnLoadListener(data -> {
-            for (int i = 0; i < data.size(); i++) {
-                String upperString = data.get(i).getValue().substring(0, 1).toUpperCase() + data.get(i).getValue().substring(1).toLowerCase();
-                addRequests(upperString, data.get(i).getCodeId());
             }
         });
 
-        RealtyProperties realtyProperties = new RealtyProperties(this);
-        realtyProperties.setOnLoadListener(data -> {
-            for (int i = 0; i < data.size(); i++) {
-                String upperString = data.get(i).getValue().substring(0, 1).toUpperCase() + data.get(i).getValue().substring(1).toLowerCase();
-                addButton(upperString, data.get(i).getCodeId());
-            }
-        });
+        for (int i = 0; i < properties.getRequestOffers().size(); i++) {
+            String upperString = properties.getRequestOffers().get(i).getValue().substring(0, 1).toUpperCase() +
+                                 properties.getRequestOffers().get(i).getValue().substring(1).toLowerCase();
 
-        DealType dealType = new DealType(this);
-        dealType.setOnLoadListener(data -> {
-            for (int i = 0; i < data.size(); i++) {
-                Log.d("Deal type: " + data.get(i).getValue());
-            }
-        });
+            addRequests(upperString, properties.getRequestOffers().get(i).getCodeId());
+        }
+
+        for (int i = 0; i < properties.getRealtyProperties().size(); i++) {
+            String upperString = properties.getRealtyProperties().get(i).getValue().substring(0, 1).toUpperCase() +
+                                 properties.getRealtyProperties().get(i).getValue().substring(1).toLowerCase();
+
+            addButton(upperString, properties.getRealtyProperties().get(i).getCodeId());
+        }
 
         shDialogs = getSharedPreferences("M2DIALOGS", 0);
 
@@ -263,18 +327,24 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.setPeekHeight(1);
 
-        etSearch.setOnClickListener(v -> {
+        etSearchPlace.setOnClickListener(v ->
+
+        {
             Intent intent = new Intent(SearchActivity.this, SearchAddressActivity.class);
             startActivity(intent);
         });
 
-        btnOpenSearch.setOnClickListener(v -> {
+        btnFilters.setOnClickListener(v ->
+
+        {
 //            InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 //            imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
         });
 
-        btnFilter.setOnClickListener(v -> {
+        btnPolygons.setOnClickListener(v ->
+
+        {
             Fragment fragment;
             Bundle bundle = new Bundle();
             if (gps != null) {
@@ -292,7 +362,7 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         llMonthly = findViewById(R.id.ll_monthly);
         llRangedDate = findViewById(R.id.ll_ranged_date);
 
-        if(isMonthly) {
+        if (isMonthly) {
             llRangedDate.setVisibility(View.GONE);
             llMonthly.setVisibility(View.VISIBLE);
         } else {
@@ -301,45 +371,40 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         }
 
         rentPeriodSpinner = findViewById(R.id.rent_period);
-        RentPeriod rentPeriod = new RentPeriod(this);
 
-        rentPeriod.setOnLoadListener(data -> {
+        Collections.sort(properties.getRentPeriod(), Directory.StringComparator);
 
-            Collections.sort(data, Directory.StringComparator);
+        rentPeriodSpinner.setAdapter(new RentPeriodAdapter(getApplicationContext(), properties.getRentPeriod()));
+        rentPeriodSpinner.setSelection(0);
 
-            rentPeriodSpinner.setAdapter(new RentPeriodAdapter(getApplicationContext(), data));
-            rentPeriodSpinner.setSelection(0);
+        rentPeriodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                rentPeriodText = properties.getRentPeriod().get(position).getValue();
+                rentPeriodInt = properties.getRentPeriod().get(position).getCodeId();
 
-            rentPeriodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    rentPeriodText = data.get(position).getValue();
-                    rentPeriodInt = data.get(position).getCodeId();
+                switch (position) {
+                    case 0:
+                    case 2:
+                        isMonthly = true;
+                        titlePrice.setText("Предложите вашу цену за месяц:");
+                        llMonthly.setVisibility(View.VISIBLE);
+                        llRangedDate.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        isMonthly = false;
+                        llMonthly.setVisibility(View.GONE);
+                        titlePrice.setText("Предложите вашу цену за сутки:");
+                        llRangedDate.setVisibility(View.VISIBLE);
 
-                    switch (position) {
-                        case 0:
-                        case 2:
-                            isMonthly = true;
-                            titlePrice.setText("Предложите вашу цену за месяц:");
-                            llMonthly.setVisibility(View.VISIBLE);
-                            llRangedDate.setVisibility(View.GONE);
-                            break;
-                        case 1:
-                            isMonthly = false;
-                            llMonthly.setVisibility(View.GONE);
-                            titlePrice.setText("Предложите вашу цену за сутки:");
-                            llRangedDate.setVisibility(View.VISIBLE);
-
-                            break;
-
-                    }
+                        break;
                 }
+            }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                }
-            });
+            }
         });
 
         datePickerView = findViewById(R.id.calendar_view);
@@ -349,17 +414,25 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         LinearLayout llCheckedDate = findViewById(R.id.ll_checked_date);
         TextView tvCheckedDate = findViewById(R.id.tv_checked_date);
 
-        rbSoon.setOnClickListener(v -> {
+        tvCheckedDate.setText(Utils.getCurrentDate());
+
+        rbSoon.setOnClickListener(v ->
+
+        {
             rbSoon.setChecked(true);
             rbDate.setChecked(false);
         });
 
-        rbDate.setOnClickListener(v -> {
+        rbDate.setOnClickListener(v ->
+
+        {
             rbDate.setChecked(true);
             rbSoon.setChecked(false);
         });
 
-        rbSoon.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        rbSoon.setOnCheckedChangeListener((buttonView, isChecked) ->
+
+        {
             if (isChecked) {
                 rbDate.setChecked(false);
                 buttonView.setChecked(true);
@@ -368,7 +441,9 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
             }
         });
 
-        rbDate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        rbDate.setOnCheckedChangeListener((buttonView, isChecked) ->
+
+        {
             if (isChecked) {
                 rbSoon.setChecked(false);
                 llCheckedDate.setVisibility(View.VISIBLE);
@@ -382,24 +457,32 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         EditText etMonths = findViewById(R.id.et_months);
         etMonths.setEnabled(false);
 
-        rbMonths.setOnClickListener(v -> {
+        rbMonths.setOnClickListener(v ->
+
+        {
             rbMonths.setChecked(true);
             rbLongTime.setChecked(false);
         });
 
-        rbLongTime.setOnClickListener(v -> {
+        rbLongTime.setOnClickListener(v ->
+
+        {
             rbMonths.setChecked(false);
             rbLongTime.setChecked(true);
         });
 
-        rbMonths.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        rbMonths.setOnCheckedChangeListener((buttonView, isChecked) ->
+
+        {
             if (isChecked) {
                 rbLongTime.setChecked(false);
                 etMonths.setEnabled(true);
             }
         });
 
-        rbLongTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        rbLongTime.setOnCheckedChangeListener((buttonView, isChecked) ->
+
+        {
             if (isChecked) {
                 rbMonths.setChecked(false);
                 etMonths.setEnabled(false);
@@ -409,16 +492,20 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
 
-        permissionsToRequest = findUnAskedPermissions(permissions);
+        permissionsToRequest =
+
+                findUnAskedPermissions(permissions);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (permissionsToRequest.size() > 0)
                 requestPermissions(permissionsToRequest.toArray(new String[0]), ALL_PERMISSIONS_RESULT);
         }
 
-        btnSearch.setOnClickListener(v -> {
+        btnSearch.setOnClickListener(v ->
 
-            new Logger(this, Constants.TAG).d(properties.size() + " <---- size");
+        {
+
+            new Logger(this, Constants.TAG).d(propertiesInt.size() + " <---- size");
             String loPrice = etCostLowerLimit.getText().toString();
             String upPrice = etCostUpperLimit.getText().toString();
 
@@ -434,10 +521,15 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
                 offerIntent.putExtra("is_rent", "Покупка");
             }
 
-            offerIntent.putExtra("realty_type", realtyTypeText);
-            offerIntent.putExtra("realty_type_int", realtyTypeInt);
-            offerIntent.putExtra("rent_period", rentPeriodText);
-            offerIntent.putExtra("rent_period_int", rentPeriodInt);
+            if(isRentOrBuy) {
+                offerIntent.putExtra("realty_type", realtyTypeText);
+                offerIntent.putExtra("realty_type_int", realtyTypeInt);
+                offerIntent.putExtra("rent_period", rentPeriodText);
+                offerIntent.putExtra("rent_period_int", rentPeriodInt);
+            } else {
+                offerIntent.putExtra("realty_type", realtyTypeText);
+                offerIntent.putExtra("realty_type_int", realtyTypeInt);
+            }
 
             offerIntent.putExtra("date_from", Utils.parseDateDefault(datePickerView.getStartDate()));
             offerIntent.putExtra("date_to", Utils.parseDateDefault(datePickerView.getEndDate()));
@@ -447,16 +539,12 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
                 offerIntent.putIntegerArrayListExtra("rooms_array", rooms);
             }
 
-            if (searchData.size() > 0) {
+            if (searchData != null && searchData.size() > 0) {
                 offerIntent.putParcelableArrayListExtra("polygons", searchData);
             }
 
-            if (properties.size() > 0) {
-                offerIntent.putIntegerArrayListExtra("properties", properties);
-            }
-
-            for (int i = 0; i < rooms.size(); i++) {
-                Log.d("Rooms ---> " + rooms.get(i).toString());
+            if (propertiesInt.size() > 0) {
+                offerIntent.putIntegerArrayListExtra("properties", propertiesInt);
             }
 
             startActivity(offerIntent);
@@ -545,7 +633,8 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
         if (requestCode == ALL_PERMISSIONS_RESULT) {
             for (Object perms : permissionsToRequest) {
@@ -608,7 +697,8 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         });
     }
 
-    private void toToggle(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable, int props) {
+    private void toToggle(Button view, ToggleButton isSet, int disableDrawable,
+                          int enableDrawable, int props) {
 
         view.setOnClickListener(v -> {
             if (isSet.isButton()) {
@@ -616,18 +706,19 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
                 view.setTextColor(getResources().getColor(R.color.color_primary_dark));
                 view.setBackground(ContextCompat.getDrawable(getApplicationContext(), disableDrawable));
                 view.setStateListAnimator(null);
-                properties.remove(properties.indexOf(props));
+                propertiesInt.remove(propertiesInt.indexOf(props));
             } else {
                 isSet.setButton(true);
                 view.setTextColor(getResources().getColor(android.R.color.white));
                 view.setBackground(ContextCompat.getDrawable(getApplicationContext(), enableDrawable));
                 view.setStateListAnimator(null);
-                properties.add(props);
+                propertiesInt.add(props);
             }
         });
     }
 
-    private void toToggleRequest(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable, int props) {
+    private void toToggleRequest(Button view, ToggleButton isSet, int disableDrawable,
+                                 int enableDrawable, int props) {
 
         view.setOnClickListener(v -> {
             if (isSet.isButton()) {
@@ -646,7 +737,8 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         });
     }
 
-    private void toToggleVR(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable, int props) {
+    private void toToggleVR(Button view, ToggleButton isSet, int disableDrawable,
+                            int enableDrawable, int props) {
 
         view.setOnClickListener(v -> {
             if (isSet.isButton()) {
@@ -663,7 +755,8 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         });
     }
 
-    private void toToggle(Button view, ToggleButton isSet, int disableDrawable, int enableDrawable) {
+    private void toToggle(Button view, ToggleButton isSet, int disableDrawable,
+                          int enableDrawable) {
         view.setOnClickListener(v -> {
             if (isSet.isButton()) {
                 isSet.setButton(false);
@@ -794,7 +887,8 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         });
     }
 
-    private void toToggle(Button rent, Button buy, ToggleButton isRent, ToggleButton isBuy, boolean isM) {
+    private void toToggle(Button rent, Button buy, ToggleButton isRent, ToggleButton isBuy,
+                          boolean isM) {
 
         if (isRent.isButton()) {
             isRentOrBuy = true;
@@ -917,8 +1011,6 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
                 }
             }
         });
-
-
     }
 
     @Override

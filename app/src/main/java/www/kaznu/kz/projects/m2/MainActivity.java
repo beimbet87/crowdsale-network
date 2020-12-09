@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-    public void DataFromAccountFragment(boolean isMode) {
+    public void FromAccountFragment(boolean isMode) {
         if (isMode) {
             bottomNavigationViewAdmin.setVisibility(View.VISIBLE);
             bottomNavigationView.setVisibility(View.INVISIBLE);

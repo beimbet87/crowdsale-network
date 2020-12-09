@@ -15,9 +15,9 @@ public class GenderTypeAdapter extends BaseAdapter {
     String[] data;
     LayoutInflater inflter;
 
-    public GenderTypeAdapter(Context applicationContext, String [] data) {
+    public GenderTypeAdapter(Context applicationContext) {
         this.context = applicationContext;
-        this.data = data;
+        this.data = applicationContext.getResources().getStringArray(R.array.gender);
         this.inflter = (LayoutInflater.from(this.context));
     }
 
@@ -36,11 +36,11 @@ public class GenderTypeAdapter extends BaseAdapter {
         return 0;
     }
 
-    @SuppressLint("ViewHolder")
+    @SuppressLint({"ViewHolder", "InflateParams"})
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.item_gender_type, null);
-        TextView names = (TextView) view.findViewById(R.id.tv_gender_type);
+        TextView names = view.findViewById(R.id.tv_gender_type);
         names.setText(data[i]);
         return view;
     }

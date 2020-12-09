@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import www.kaznu.kz.projects.m2.MainActivity;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Message;
@@ -228,16 +227,16 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             if(type == 21) {
                 tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
                 tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
-                tvPrice.setText(Utils.parsePrice(message.getPrice(), "KAZ"));
-                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice()), "KAZ"));
+                tvPrice.setText(Utils.parsePrice(message.getPrice()));
+                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 tvAlert.setText("Ожидает ответа хозяина");
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
             }
             else if(type == 42) {
                 tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
                 tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
-                tvPrice.setText(Utils.parsePrice(message.getPrice(), "KAZ"));
-                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice()), "KAZ"));
+                tvPrice.setText(Utils.parsePrice(message.getPrice()));
+                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 tvAlert.setText("Отменен Вами");
                 tvAlert.setTextColor(Color.parseColor("#BA0952"));
                 btnCancel.setVisibility(View.GONE);

@@ -270,10 +270,10 @@
                     android:text="@string/about_title" />
 
                 <EditText
+                    android:id="@+id/profile_description"
                     style="@style/EditText.Style.Profile"
                     android:layout_width="match_parent"
                     android:layout_height="128dp"
-                    android:background="@drawable/view_profile_button_background"
                     android:gravity="top"
                     android:inputType="textMultiLine"
                     android:text="@string/about" />

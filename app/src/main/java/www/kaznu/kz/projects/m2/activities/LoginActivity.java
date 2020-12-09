@@ -30,9 +30,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.api.user.UserInfo;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
 
-public class LoginActivity extends IntroActivity {
+import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.models.User;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
+
+public class LoginActivity extends IntroActivity implements Constants {
     final String URL = "http://someproject-001-site1.itempurl.com/token";
     TextView tvRegister;
     Button btnLogin;
@@ -49,6 +54,10 @@ public class LoginActivity extends IntroActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        TinyDB data = new TinyDB(this);
+
+
 
         String[] permissions = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -99,6 +108,25 @@ public class LoginActivity extends IntroActivity {
                             editor.putString("token_type", jsonRoot.getString("token_type"));
                             editor.putInt("expires_in", jsonRoot.getInt("expires_in"));
                             editor.apply();
+
+                            new UserInfo(getApplicationContext(), jsonRoot.getString("access_token")).setOnLoadListener(new UserInfo.CustomOnLoadListener() {
+                                @Override
+                                public void onComplete(User user) {
+                                    data.putInt(SHARED_USER_ID, user.getId());
+                                    data.putInt(SHARED_USER_SEX, user.getSex());
+                                    data.putString(SHARED_USER_NAME, user.getName());
+                                    data.putString(SHARED_USER_SURNAME, user.getSurname());
+                                    data.putString(SHARED_USER_BIRTH, user.getBirth());
+                                    data.putString(SHARED_USER_EMAIL, user.getEmail());
+                                    data.putString(SHARED_USER_PHONE, user.getPhone());
+                                    data.putString(SHARED_USER_IMAGE_LINK, user.getImageLink());
+                                    data.putString(SHARED_USER_DESCRIPTION, user.getDescription());
+                                    data.putInt(SHARED_USER_CURRENCY, user.getCurrency());
+                                    data.putInt(SHARED_USER_STARS, user.getStars());
+                                    data.putString(SHARED_USER_COUNTRY_CODE, user.getCountryCode());
+                                    data.putString(SHARED_USER_COUNTRY_NAME, user.getCountryName());
+                                }
+                            });
 
                             Intent intent = new Intent(LoginActivity.this, ProfileTypeActivity.class);
                             startActivity(intent);
