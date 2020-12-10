@@ -17,6 +17,8 @@ public interface Constants {
     String URL_GET_COUNTRIES = BASE_URL.concat("api/Directory/getСountries");
     String URL_GET_CURRENCIES = BASE_URL.concat("api/Directory/getCurrensies");
     String URL_GET_USER_INFO = BASE_URL.concat("api/User/getUserInfo");
+    String URL_GET_CLIENT_BOOKINGS = BASE_URL.concat("api/Book/getClientBookings");
+    String URL_GET_OWNER_BOOKING = BASE_URL.concat("api/Book/getOwnerBooking");
     String URL_FILTER_OFFERS = BASE_URL.concat("api/Realty/filterOffers");
     String URL_GET_RELEVANT_OFFERS = BASE_URL.concat("api/Realty/getRelevantOffers");
     String URL_RESERVE_NEW_REALTY = BASE_URL.concat("api/Realty/reservNewReality");
