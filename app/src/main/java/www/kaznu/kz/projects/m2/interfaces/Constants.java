@@ -40,6 +40,8 @@ public interface Constants {
     String URL_PUSHER_RESPONSE_MESSAGE = BASE_URL.concat("api/ChatPusher/response");
     String URL_PUSHER_RATE_BOOK = BASE_URL.concat("api/ChatPusher/rateBook");
     String URL_PUSHER_RATE_USER = BASE_URL.concat("api/ChatPusher/rateUser");
+    String URL_RATE_REALTY = BASE_URL.concat("api/Rate/getRealyRate");
+    String URL_RATE_USER = BASE_URL.concat("api/Rate/getUserRate");
 
     String SHARED_PUSHER = "SHARED_PUSHER_INFO";
 
@@ -68,4 +70,11 @@ public interface Constants {
     String SHARED_USER_STARS = "USER_STARS";
     String SHARED_USER_COUNTRY_CODE = "USER_COUNTRY_CODE";
     String SHARED_USER_COUNTRY_NAME = "USER_COUNTRY_NAME";
+    String SHARED_USER_RATE_COUNT = "USER_RATE_COUNT";
+    String SHARED_USER_RATE_AVERAGE = "USER_RATE_AVERAGE";
+    String SHARED_USER_RATE = "USER_RATE";
+
+    String SHARED_OWNER_RATE_COUNT = "OWNER_RATE_COUNT";
+    String SHARED_OWNER_RATE_AVERAGE = "OWNER_RATE_AVERAGE";
+    String SHARED_OWNER_RATE = "OWNER_RATE";
 }

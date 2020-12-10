@@ -44,6 +44,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import www.kaznu.kz.projects.m2.models.Directory;
+import www.kaznu.kz.projects.m2.models.RateModel;
 
 
 public class TinyDB {
@@ -343,6 +344,19 @@ public class TinyDB {
     	return objects;
     }
 
+    public ArrayList<RateModel> getListRateModel(String key, Class<?> mClass){
+        Gson gson = new Gson();
+
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<RateModel> objects =  new ArrayList<RateModel>();
+
+        for(String jObjString : objStrings){
+            RateModel value  = gson.fromJson(jObjString, (Type) mClass);
+            objects.add(value);
+        }
+        return objects;
+    }
+
     public <T> T getObject(String key, Class<T> classOfT){
 
         String json = getString(key);
@@ -499,6 +513,16 @@ public class TinyDB {
     	}
     	putListString(key, objStrings);
     }
+    public void putListRateModel(String key, ArrayList<RateModel> objArray){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for(Object obj : objArray){
+            objStrings.add(gson.toJson(obj));
+        }
+        putListString(key, objStrings);
+    }
+
     
     /**
      * Remove SharedPreferences item with 'key'

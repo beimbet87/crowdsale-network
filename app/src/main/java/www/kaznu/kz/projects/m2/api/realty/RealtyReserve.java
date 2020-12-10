@@ -20,7 +20,7 @@ import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 
-public class RealtyCreation implements Constants {
+public class RealtyReserve implements Constants {
     private int realtyId;
     private int resultCode;
     private String resultMessage;
@@ -36,7 +36,7 @@ public class RealtyCreation implements Constants {
         this.listener = listener;
     }
 
-    public RealtyCreation(Context context, String token) {
+    public RealtyReserve(Context context, String token) {
         this.context = context;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this.context);

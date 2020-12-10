@@ -41,9 +41,9 @@ public class RealtyUpdate implements Constants {
     public RealtyUpdate(Context context, Realty realty, String token) {
         this.context = context;
 
-        RealtyCreation realtyCreation = new RealtyCreation(context, token);
+        RealtyReserve realtyReserve = new RealtyReserve(context, token);
 
-        realtyCreation.setOnLoadListener(new RealtyCreation.CustomOnLoadListener() {
+        realtyReserve.setOnLoadListener(new RealtyReserve.CustomOnLoadListener() {
             @Override
             public void onComplete(int data) {
                 RequestQueue requestQueue = Volley.newRequestQueue(context);

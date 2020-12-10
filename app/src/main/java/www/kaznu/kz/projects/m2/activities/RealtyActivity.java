@@ -200,6 +200,8 @@ public class RealtyActivity extends IntroActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(RealtyActivity.this, CommentsActivity.class);
+                i.putExtra("contact", intent.getIntExtra("contact", 1));
+                i.putExtra("ref_realty", intent.getIntExtra("ref_realty", 45));
                 startActivity(i);
             }
         });

@@ -5,6 +5,8 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
@@ -23,6 +25,26 @@ public class CurrentUser implements Constants {
     private final int currency;
     private final String countryCode;
     private final String countryName;
+    private final ArrayList<RateModel> rates;
+    private final int rateCount;
+    private final double rateAverage;
+
+    private final ArrayList<RateModel> ratesOwner;
+    private final int rateCountOwner;
+
+    public ArrayList<RateModel> getRatesOwner() {
+        return ratesOwner;
+    }
+
+    public int getRateCountOwner() {
+        return rateCountOwner;
+    }
+
+    public double getRateAverageOwner() {
+        return rateAverageOwner;
+    }
+
+    private final double rateAverageOwner;
 
     public CurrentUser(Context context) {
 
@@ -40,6 +62,13 @@ public class CurrentUser implements Constants {
         stars = data.getInt(SHARED_USER_STARS);
         countryCode = data.getString(SHARED_USER_COUNTRY_CODE);
         countryName = data.getString(SHARED_USER_COUNTRY_NAME);
+        rateCount = data.getInt(SHARED_USER_RATE_COUNT);
+        rateAverage = data.getDouble(SHARED_USER_RATE_AVERAGE);
+        rates = data.getListRateModel(SHARED_USER_RATE, RateModel.class);
+
+        rateCountOwner = data.getInt(SHARED_OWNER_RATE_COUNT);
+        rateAverageOwner = data.getDouble(SHARED_OWNER_RATE_AVERAGE);
+        ratesOwner = data.getListRateModel(SHARED_OWNER_RATE, RateModel.class);
 
     }
 
@@ -93,5 +122,17 @@ public class CurrentUser implements Constants {
 
     public String getCountryName() {
         return countryName;
+    }
+
+    public int getRateCount() {
+        return rateCount;
+    }
+
+    public double getRateAverage() {
+        return rateAverage;
+    }
+
+    public ArrayList<RateModel> getRates() {
+        return rates;
     }
 }

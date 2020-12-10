@@ -30,10 +30,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import www.kaznu.kz.projects.m2.api.rate.UserRate;
 import www.kaznu.kz.projects.m2.api.user.UserInfo;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.models.RateModel;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.models.User;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
 
@@ -56,7 +60,6 @@ public class LoginActivity extends IntroActivity implements Constants {
         setContentView(R.layout.activity_login);
 
         TinyDB data = new TinyDB(this);
-
 
 
         String[] permissions = {
@@ -103,17 +106,20 @@ public class LoginActivity extends IntroActivity implements Constants {
                         tokenPreferences = getSharedPreferences("M2_TOKEN", 0);
                         SharedPreferences.Editor editor = tokenPreferences.edit();
                         try {
+                            String tempToken;
                             final JSONObject jsonRoot = new JSONObject(response);
                             editor.putString("access_token", jsonRoot.getString("access_token"));
                             editor.putString("token_type", jsonRoot.getString("token_type"));
                             editor.putInt("expires_in", jsonRoot.getInt("expires_in"));
                             editor.apply();
 
+                            tempToken = jsonRoot.getString("access_token");
+
                             data.putString(SHARED_ACCESS_TOKEN, jsonRoot.getString("access_token"));
                             data.putString(SHARED_TOKEN_TYPE, jsonRoot.getString("token_type"));
                             data.putInt(SHARED_EXPIRES_IN, jsonRoot.getInt("expires_in"));
 
-                            new UserInfo(getApplicationContext(), jsonRoot.getString("access_token")).setOnLoadListener(new UserInfo.CustomOnLoadListener() {
+                            new UserInfo(getApplicationContext(), tempToken).setOnLoadListener(new UserInfo.CustomOnLoadListener() {
                                 @Override
                                 public void onComplete(User user) {
                                     data.putInt(SHARED_USER_ID, user.getId());
@@ -129,6 +135,28 @@ public class LoginActivity extends IntroActivity implements Constants {
                                     data.putInt(SHARED_USER_STARS, user.getStars());
                                     data.putString(SHARED_USER_COUNTRY_CODE, user.getCountryCode());
                                     data.putString(SHARED_USER_COUNTRY_NAME, user.getCountryName());
+
+                                    UserRate userRate = new UserRate(getApplicationContext(), user.getId(), 0, tempToken);
+
+                                    userRate.setOnLoadListener(new UserRate.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(ArrayList<RateModel> rates, int count, double average) {
+                                            data.putInt(SHARED_USER_RATE_COUNT, count);
+                                            data.putDouble(SHARED_USER_RATE_AVERAGE, average);
+                                            data.putListRateModel(SHARED_USER_RATE, rates);
+                                        }
+                                    });
+
+                                    UserRate ownerRate = new UserRate(getApplicationContext(), user.getId(), 1, tempToken);
+
+                                    ownerRate.setOnLoadListener(new UserRate.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(ArrayList<RateModel> rates, int count, double average) {
+                                            data.putInt(SHARED_OWNER_RATE_COUNT, count);
+                                            data.putDouble(SHARED_OWNER_RATE_AVERAGE, average);
+                                            data.putListRateModel(SHARED_OWNER_RATE, rates);
+                                        }
+                                    });
                                 }
                             });
 

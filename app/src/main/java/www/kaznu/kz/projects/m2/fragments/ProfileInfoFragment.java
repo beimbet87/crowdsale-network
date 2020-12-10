@@ -24,6 +24,9 @@ import java.util.Date;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.CommentsActivity;
 import www.kaznu.kz.projects.m2.activities.ProfileActivity;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.models.Properties;
+import www.kaznu.kz.projects.m2.models.User;
 
 import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
 
@@ -32,6 +35,9 @@ public class ProfileInfoFragment extends Fragment implements View.OnClickListene
     TextView tvUserName;
     ImageView ivAvatar;
     LinearLayout llComments;
+    TextView tvStars, tvUserComments;
+
+    CurrentUser currentUser;
 
     @Override
     public void onClick(View v) {
@@ -51,14 +57,19 @@ public class ProfileInfoFragment extends Fragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fv = inflater.inflate(R.layout.fragment_profile_info, container, false);
 
+        currentUser = new CurrentUser(requireContext());
+
         tvUserName = fv.findViewById(R.id.profile_name);
         ivAvatar = fv.findViewById(R.id.iv_profile_image);
         llComments = fv.findViewById(R.id.comments);
+        tvStars = fv.findViewById(R.id.tv_stars);
+        tvUserComments = fv.findViewById(R.id.tv_user_comments);
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("M2_USER_INFO", 0);
 
@@ -69,12 +80,18 @@ public class ProfileInfoFragment extends Fragment implements View.OnClickListene
         String fullName = sharedPreferences.getString("surname", "") + " " +
                 sharedPreferences.getString("name", "");
 
+        tvStars.setText(String.valueOf(new CurrentUser(requireContext()).getRateAverage()));
+        tvUserComments.setText(String.valueOf(new CurrentUser(requireContext()).getRateCount()) +
+                " человека оставили отзыв");
         tvUserName.setText(fullName);
 
         llComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(), CommentsActivity.class);
+                intent.putExtra("user", true);
+                intent.putExtra("user_id", currentUser.getId());
+                intent.putExtra("as_owner", 0);
                 startActivity(intent);
             }
         });

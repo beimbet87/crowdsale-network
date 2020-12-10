@@ -110,6 +110,7 @@
                         android:src="@drawable/ic_star" />
 
                     <TextView
+                        android:id="@+id/tv_stars"
                         style="@style/TextView.Style.Blue"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -118,9 +119,10 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_user_comments"
                     style="@style/TextView.Style.Hint.DarkBlue"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/default_comment" />
