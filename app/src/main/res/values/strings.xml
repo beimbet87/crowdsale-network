@@ -400,5 +400,6 @@
     <string name="create_search">Создать поиск</string>
     <string name="change_search">Изменить поиск</string>
     <string name="m2">м²</string>
+    <string name="complete_registration">Заполните информацию</string>
 
 </resources>

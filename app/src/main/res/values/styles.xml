@@ -112,7 +112,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="Button.Style.LightBlue" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.LightBlue" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/button_text_size2</item>
@@ -127,7 +127,7 @@
     </style>
 
 
-    <style name="Button.Style.Blue" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.Blue" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
@@ -139,7 +139,7 @@
         <item name="android:paddingEnd">@dimen/profile_rating_margin</item>
     </style>
 
-    <style name="Button.Style.Discussion.Blue" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.Discussion.Blue" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">14sp</item>
@@ -150,7 +150,7 @@
         <item name="android:paddingEnd">@dimen/profile_rating_margin</item>
     </style>
 
-    <style name="Button.Style.Comment" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Button.Style.Comment" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">14sp</item>

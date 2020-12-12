@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import com.squareup.picasso.Picasso;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.activities.CompleteRegistrationActivity;
 import www.kaznu.kz.projects.m2.activities.ProfileActivity;
 import www.kaznu.kz.projects.m2.activities.ProfileInfoActivity;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
@@ -52,6 +53,8 @@ public class AccountFragment extends Fragment implements Constants,
     LinearLayout btnExit;
     RatingBar ratingBar;
 
+    LinearLayout completeRegistration;
+
     int myProgress = 75;
     TextProgressBar pb;
 
@@ -77,12 +80,15 @@ public class AccountFragment extends Fragment implements Constants,
         pb = rootView.findViewById(R.id.mf_progress_bar);
         ratingBar = rootView.findViewById(R.id.rb_profile_rating);
 
+        completeRegistration = rootView.findViewById(R.id.complete_registration);
+
         pb.setProgress(myProgress);
         pb.setText(myProgress/25+"/4");
 
         btnExit.setOnClickListener(this);
         lProfile.setOnClickListener(this);
         btnViewProfile.setOnClickListener(this);
+        completeRegistration.setOnClickListener(this);
 
         String url = BASE_URL.concat(currentUser.getImageLink());
         Picasso.with(requireContext()).load(url).into(ivAvatar);
@@ -95,7 +101,7 @@ public class AccountFragment extends Fragment implements Constants,
         userMode.setChecked(false);
         userMode.setOnCheckedChangeListener(this);
 
-        ratingBar.setRating(currentUser.getStars());
+        ratingBar.setRating((float)currentUser.getRateAverage());
 
         return rootView;
     }
@@ -116,6 +122,10 @@ public class AccountFragment extends Fragment implements Constants,
                 intent = new Intent(getActivity(), ProfileInfoActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.complete_registration:
+                intent = new Intent(getActivity(), CompleteRegistrationActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -124,10 +134,12 @@ public class AccountFragment extends Fragment implements Constants,
         if(isChecked) {
             tvUserMode.setText(R.string.user_mode_owner);
             tvUserModeHint.setText(R.string.user_mode_hint_guest);
+            new CurrentUser(requireContext()).setOwner(true);
         }
         else {
             tvUserMode.setText(R.string.user_mode_guest);
             tvUserModeHint.setText(R.string.user_mode_hint_owner);
+            new CurrentUser(requireContext()).setOwner(false);
         }
         dataPasser.FromAccountFragment(isChecked);
     }

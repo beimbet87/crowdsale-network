@@ -52,7 +52,7 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_avatar);
+        setContentView(R.layout.fragment_upload_avatar);
         ivUploadAvatar = findViewById(R.id.iv_upload_avatar);
         Log = new Logger(this, "M2TAG");
         SharedPreferences token = getSharedPreferences("M2_TOKEN", 0);

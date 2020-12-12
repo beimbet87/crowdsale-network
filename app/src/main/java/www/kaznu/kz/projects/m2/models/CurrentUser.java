@@ -15,6 +15,7 @@ public class CurrentUser implements Constants {
     private final int stars;
     private final int id;
     private final int sex;
+    private boolean owner;
     private final String name;
     private final String surname;
     private final String birth;
@@ -28,6 +29,7 @@ public class CurrentUser implements Constants {
     private final ArrayList<RateModel> rates;
     private final int rateCount;
     private final double rateAverage;
+    private boolean complete;
 
     private final ArrayList<RateModel> ratesOwner;
     private final int rateCountOwner;
@@ -69,6 +71,8 @@ public class CurrentUser implements Constants {
         rateCountOwner = data.getInt(SHARED_OWNER_RATE_COUNT);
         rateAverageOwner = data.getDouble(SHARED_OWNER_RATE_AVERAGE);
         ratesOwner = data.getListRateModel(SHARED_OWNER_RATE, RateModel.class);
+        owner = data.getBoolean(SHARED_USER_OWNER);
+        complete = data.getBoolean(SHARED_USER_COMPLETE);
 
     }
 
@@ -134,5 +138,21 @@ public class CurrentUser implements Constants {
 
     public ArrayList<RateModel> getRates() {
         return rates;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
+    public void setOwner(boolean owner) {
+        this.owner = owner;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 }

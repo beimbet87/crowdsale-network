@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".activities.PaymentMethodsActivity">
+    tools:context=".activities.AboutUserActivity">
 
     <include
         android:id="@+id/main_toolbar"
@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        android:id="@+id/payment_methods"
+        android:id="@+id/user_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="72dp"

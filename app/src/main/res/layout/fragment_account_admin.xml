@@ -132,10 +132,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/complete_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
                 android:background="@drawable/border_bottom"
                 android:orientation="vertical"
                 android:paddingTop="16dp"

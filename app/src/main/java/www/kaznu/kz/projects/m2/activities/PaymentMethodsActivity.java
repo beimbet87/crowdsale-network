@@ -1,26 +1,19 @@
 package www.kaznu.kz.projects.m2.activities;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.api.realty.RealtyUpdate;
-import www.kaznu.kz.projects.m2.fragments.RealtyAddFragment;
+import www.kaznu.kz.projects.m2.fragments.PaymentMethodFragment;
 import www.kaznu.kz.projects.m2.fragments.UploadAvatarFragment;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
-import www.kaznu.kz.projects.m2.models.Realty;
 
-public class RealtyAddActivity extends AppCompatActivity {
+public class PaymentMethodsActivity extends AppCompatActivity {
 
     Button btnBack;
     public TextView title;
@@ -29,9 +22,9 @@ public class RealtyAddActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ads_add);
+        setContentView(R.layout.activity_payment_methods);
+
         user = new CurrentUser(this);
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
@@ -45,11 +38,17 @@ public class RealtyAddActivity extends AppCompatActivity {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        RealtyAddFragment realtyAddFragment = new RealtyAddFragment();
-        ft.add(R.id.add_realty, realtyAddFragment);
+        PaymentMethodFragment paymentMethodFragment = new PaymentMethodFragment();
+        ft.add(R.id.payment_methods, paymentMethodFragment);
         ft.commit();
 
-        title.setText("Создать объявление");
+        title.setText("Способы оплаты");
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

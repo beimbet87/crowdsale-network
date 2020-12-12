@@ -38,12 +38,9 @@ public class ProfileInfoActivity extends AppCompatActivity implements ProfileInf
 
         backButton.setOnClickListener(v -> finish());
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
-            }
+        editButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
         });
 
         Log = new Logger(this, Constants.TAG);
