@@ -22,6 +22,10 @@ import java.util.concurrent.TimeUnit;
 import www.kaznu.kz.projects.m2.R;
 
 public class Utils {
+
+    public static String toUpper(String data) {
+        return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
+    }
     public static void replaceFragment(FragmentActivity activity, Fragment fragment, int resource) {
         activity.getSupportFragmentManager().beginTransaction().replace(resource, fragment).commit();
     }

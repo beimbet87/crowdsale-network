@@ -370,7 +370,7 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
             llMonthly.setVisibility(View.GONE);
         }
 
-        rentPeriodSpinner = findViewById(R.id.rent_period);
+        rentPeriodSpinner = findViewById(R.id.sp_rent_period);
 
         Collections.sort(properties.getRentPeriod(), Directory.StringComparator);
 

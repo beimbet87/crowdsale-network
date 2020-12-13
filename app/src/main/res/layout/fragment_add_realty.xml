@@ -52,14 +52,14 @@
                             android:background="@drawable/intro_input_phone_background">
 
                             <Spinner
-                                android:id="@+id/realty_type"
+                                android:id="@+id/sp_rent_type"
                                 style="?android:attr/borderlessButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
                                 android:background="@drawable/spinner_down_icon"
                                 android:popupBackground="@drawable/intro_input_phone_background"
                                 android:textSize="14sp"
-                                tools:listitem="@layout/item_type_of_services" />
+                                tools:listitem="@layout/item_rent_type" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -70,7 +70,7 @@
                             android:background="@drawable/intro_input_phone_background">
 
                             <Spinner
-                                android:id="@+id/rent_period"
+                                android:id="@+id/sp_rent_period"
                                 style="?android:attr/borderlessButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
@@ -117,7 +117,7 @@
                                 android:background="@drawable/intro_input_phone_background">
 
                                 <Spinner
-                                    android:id="@+id/types_of_arend"
+                                    android:id="@+id/sp_realty_type"
                                     style="?android:attr/borderlessButtonStyle"
                                     android:layout_width="match_parent"
                                     android:layout_height="48dp"
@@ -154,14 +154,14 @@
                                 android:background="@drawable/intro_input_phone_background">
 
                                 <Spinner
-                                    android:id="@+id/num_of_rooms"
+                                    android:id="@+id/sp_rooms"
                                     style="?android:attr/borderlessButtonStyle"
                                     android:layout_width="match_parent"
                                     android:layout_height="48dp"
                                     android:background="@drawable/spinner_down_icon"
                                     android:popupBackground="@drawable/intro_input_phone_background"
                                     android:textSize="14sp"
-                                    tools:listitem="@layout/item_num_of_room" />
+                                    tools:listitem="@layout/item_rooms" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -207,6 +207,7 @@
                         android:orientation="horizontal">
 
                         <EditText
+                            android:id="@+id/et_price"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginEnd="6dp"
@@ -214,11 +215,12 @@
                             android:layout_weight="1"
                             android:background="@drawable/intro_input_phone_background"
                             android:hint="Сумма, ₸ ..."
+                            android:inputType="phone"
                             android:padding="10dp"
                             android:paddingStart="18dp"
                             android:textColor="@color/color_primary_dark"
                             android:textColorHint="#7F7F7F"
-                            android:textSize="14sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -258,10 +260,10 @@
                         </LinearLayout>
 
                         <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/sw_user_mode"
+                            android:id="@+id/sw_is_bargain"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:checked="true"
+                            android:checked="false"
                             android:enabled="true"
                             android:gravity="end"
                             android:thumb="@drawable/thumb_selector"
@@ -310,6 +312,7 @@
                         android:orientation="horizontal">
 
                         <EditText
+                            android:id="@+id/et_title"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginEnd="6dp"
@@ -319,9 +322,10 @@
                             android:hint="Первое, что увидит гость в кратком объявлении"
                             android:padding="10dp"
                             android:paddingStart="18dp"
+                            android:singleLine="true"
                             android:textColor="@color/color_primary_dark"
                             android:textColorHint="#7F7F7F"
-                            android:textSize="14sp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
@@ -347,6 +351,7 @@
                         android:orientation="horizontal">
 
                         <EditText
+                            android:id="@+id/et_description"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
                             android:background="@drawable/intro_input_phone_background"
@@ -354,9 +359,9 @@
                             android:hint="Расскажите то, что считаете важным знать арендатору.."
                             android:inputType="textCapSentences|textMultiLine"
                             android:padding="16dp"
-                            android:textColor="#7F7F7F"
+                            android:textColor="@color/color_primary_dark"
                             android:textColorHint="#7F7F7F"
-                            android:textSize="13sp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
@@ -381,7 +386,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <EditText
+                        <Button
+                            style="@style/Button.Style.Gray"
+                            android:id="@+id/btn_add_address"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginEnd="6dp"
@@ -389,13 +396,8 @@
                             android:layout_weight="1"
                             android:background="@drawable/intro_input_phone_background"
                             android:drawableEnd="@drawable/intro_next_arrow_gray"
-                            android:padding="10dp"
-                            android:paddingStart="18dp"
-                            android:text="г. Москва, ул Тверская, 54"
-                            android:textColor="@color/color_primary_dark"
-                            android:textColorHint="#7F7F7F"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:gravity="start|center_vertical"
+                            android:hint="Введите адрес" />
 
                     </LinearLayout>
 
@@ -532,19 +534,19 @@
                                         android:background="@drawable/intro_input_phone_background">
 
                                         <EditText
+                                            android:id="@+id/et_total_area"
                                             android:layout_width="0dp"
                                             android:layout_height="48dp"
                                             android:layout_marginEnd="6dp"
                                             android:layout_marginBottom="8dp"
                                             android:layout_weight="1"
                                             android:background="@drawable/intro_input_phone_background"
+                                            android:hint="Укажите площадь"
                                             android:padding="10dp"
                                             android:paddingStart="18dp"
-                                            android:text="72 м²"
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="16sp"
-                                            android:textStyle="bold" />
+                                            android:textSize="16sp" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -575,6 +577,7 @@
                                         android:background="@drawable/intro_input_phone_background">
 
                                         <EditText
+                                            android:id="@+id/et_living_area"
                                             android:layout_width="0dp"
                                             android:layout_height="48dp"
                                             android:layout_marginEnd="6dp"
@@ -625,15 +628,17 @@
                                         android:background="@drawable/intro_input_phone_background">
 
                                         <EditText
+                                            android:id="@+id/et_total_floors"
                                             android:layout_width="0dp"
                                             android:layout_height="48dp"
                                             android:layout_marginEnd="6dp"
                                             android:layout_marginBottom="8dp"
                                             android:layout_weight="1"
                                             android:background="@drawable/intro_input_phone_background"
+                                            android:inputType="phone"
                                             android:padding="10dp"
                                             android:paddingStart="18dp"
-                                            android:text="14"
+                                            android:text=""
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
                                             android:textSize="16sp"
@@ -668,15 +673,17 @@
                                         android:background="@drawable/intro_input_phone_background">
 
                                         <EditText
+                                            android:id="@+id/et_floor"
                                             android:layout_width="0dp"
                                             android:layout_height="48dp"
                                             android:layout_marginEnd="6dp"
                                             android:layout_marginBottom="8dp"
                                             android:layout_weight="1"
                                             android:background="@drawable/intro_input_phone_background"
+                                            android:inputType="phone"
                                             android:padding="10dp"
                                             android:paddingStart="18dp"
-                                            android:text="7"
+                                            android:text=""
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
                                             android:textSize="16sp"

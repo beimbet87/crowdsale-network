@@ -17,6 +17,7 @@ public class Properties implements Constants {
     private ArrayList<Directory> dealType;
     private ArrayList<Directory> countries;
     private ArrayList<Directory> currencies;
+    private ArrayList<Directory> rooms;
 
     public Properties(Context context) {
 
@@ -31,6 +32,22 @@ public class Properties implements Constants {
         dealType = data.getListDirectory(SHARED_DEAL_TYPE, Directory.class);
         countries = data.getListDirectory(SHARED_COUNTRIES, Directory.class);
         currencies = data.getListDirectory(SHARED_CURRENCIES, Directory.class);
+
+        rooms = new ArrayList<>();
+
+        for(int i = 1; i < 7; i++) {
+            Directory roomData = new Directory();
+            roomData.setCodeId(i);
+            roomData.setCodeStr(String.valueOf(i));
+            if(i < 6) {
+                roomData.setValue(String.valueOf(i));
+            }
+            else {
+                roomData.setValue("6+");
+            }
+
+            rooms.add(roomData);
+        }
     }
 
     public ArrayList<Directory> getRealtyProperties() {
@@ -98,4 +115,11 @@ public class Properties implements Constants {
         this.currencies = currencies;
     }
 
+    public ArrayList<Directory> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(ArrayList<Directory> rooms) {
+        this.rooms = rooms;
+    }
 }

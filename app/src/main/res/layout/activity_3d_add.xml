@@ -282,7 +282,7 @@
                                 android:background="@drawable/intro_input_phone_background">
 
                                 <Spinner
-                                    android:id="@+id/num_of_rooms"
+                                    android:id="@+id/sp_rooms"
                                     style="?android:attr/borderlessButtonStyle"
                                     android:layout_width="match_parent"
                                     android:layout_height="48dp"

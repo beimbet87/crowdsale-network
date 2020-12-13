@@ -106,7 +106,7 @@
                         android:background="@drawable/intro_input_phone_background">
 
                         <Spinner
-                            android:id="@+id/rent_period"
+                            android:id="@+id/sp_rent_period"
                             style="?android:attr/borderlessButtonStyle"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
