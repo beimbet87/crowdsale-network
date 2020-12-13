@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -26,9 +27,13 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.ImageAdapter;
+import www.kaznu.kz.projects.m2.adapters.RatingAdapter;
 import www.kaznu.kz.projects.m2.api.RealtyProperties;
+import www.kaznu.kz.projects.m2.api.rate.RealtyRate;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Directory;
+import www.kaznu.kz.projects.m2.models.RateModel;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.services.GPSTracker;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
@@ -51,6 +56,9 @@ public class RealtyActivity extends IntroActivity {
     RatingBar ratingBar;
     LinearLayout btnComment;
     Button btnWrite, btnRent;
+
+    TextView tvStars, tvComments;
+
     double price, area, livingSpace;
     int floor, floorBuild;
 
@@ -78,6 +86,9 @@ public class RealtyActivity extends IntroActivity {
         tvFloor = findViewById(R.id.tv_floor);
         ivAvatar = findViewById(R.id.iv_profile_image);
         ratingBar = findViewById(R.id.rb_profile_rating);
+
+        tvStars = findViewById(R.id.stars);
+        tvComments = findViewById(R.id.comments);
 
         btnWrite = findViewById(R.id.btn_write_message);
         btnRent = findViewById(R.id.btn_rent_realty);
@@ -186,6 +197,16 @@ public class RealtyActivity extends IntroActivity {
             }
         });
 
+        RealtyRate realtyRate = new RealtyRate(this, intent.getIntExtra("ref_realty", 45), new Tokens(this).getAccessToken());
+
+        realtyRate.setOnLoadListener(new RealtyRate.CustomOnLoadListener() {
+            @Override
+            public void onComplete(ArrayList<RateModel> rates, int count, double average) {
+                tvStars.setText(String.valueOf(average));
+                tvComments.setText(String.valueOf(count).concat(" человек(а) оставил(и) отзыв"));
+            }
+        });
+
         btnRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +220,7 @@ public class RealtyActivity extends IntroActivity {
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(RealtyActivity.this, CommentsActivity.class);
+                Intent i = new Intent(RealtyActivity.this, CommentsRealtyActivity.class);
                 i.putExtra("contact", intent.getIntExtra("contact", 1));
                 i.putExtra("ref_realty", intent.getIntExtra("ref_realty", 45));
                 startActivity(i);

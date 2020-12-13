@@ -50,12 +50,13 @@
         <activity android:name=".activities.SlideActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.ProfileInfoActivity" />
-        <activity android:name=".activities.CommentsActivity" />
+        <activity android:name=".activities.CommentsRealtyActivity" />
         <activity android:name=".activities.ChangeDataActivity" />
         <activity android:name=".activities.CompleteRegistrationActivity" />
         <activity android:name=".activities.AboutUserActivity" />
         <activity android:name=".activities.PaymentMethodsActivity" />
         <activity android:name=".activities.ProfileTypeActivity" />
+        <activity android:name=".activities.VRExampleActivity" />
         <activity
             android:name=".activities.DiscussionActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />

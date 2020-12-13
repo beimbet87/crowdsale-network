@@ -1,11 +1,13 @@
 package www.kaznu.kz.projects.m2.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,9 +19,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.ToggleButton;
 import www.kaznu.kz.projects.m2.activities.Add3DActivity;
 import www.kaznu.kz.projects.m2.activities.SearchAddressActivity;
 import www.kaznu.kz.projects.m2.adapters.RealtyTypeAdapter;
@@ -27,10 +33,14 @@ import www.kaznu.kz.projects.m2.adapters.RentPeriodAdapter;
 import www.kaznu.kz.projects.m2.adapters.RentTypeAdapter;
 import www.kaznu.kz.projects.m2.adapters.RoomsAdapter;
 import www.kaznu.kz.projects.m2.api.realty.RealtyUpdate;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Properties;
 import www.kaznu.kz.projects.m2.models.Realty;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.Utils;
+import www.kaznu.kz.projects.m2.views.FlowLayout;
 
-public class RealtyAddFragment extends Fragment {
+public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     LinearLayout add3d;
 
@@ -40,8 +50,13 @@ public class RealtyAddFragment extends Fragment {
     RealtyUpdate realtyUpdate;
     SharedPreferences token;
     Properties properties;
+    CheckBox isAgree;
 
-    Spinner spRentType, spRealtyType, spRentPeriod, spRoomCount;
+    private final ArrayList<Integer> selectedProperties = new ArrayList<>();
+
+    FlowLayout propertiesLayout;
+
+    Spinner spRentType, spRealtyType, spRentPeriod, spRooms;
 
     RealtyTypeAdapter realtyTypeAdapter;
     RentPeriodAdapter rentPeriodAdapter;
@@ -60,6 +75,8 @@ public class RealtyAddFragment extends Fragment {
     CheckBox chPrivacy;
     String totalArea = "0.0", livingArea = "0.0", price = "0.0", floor = "0", totalFloor = "0";
 
+    Logger Log;
+
     public RealtyAddFragment() {
 
     }
@@ -74,6 +91,9 @@ public class RealtyAddFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View fv = inflater.inflate(R.layout.fragment_add_realty, container, false);
+
+        Log = new Logger(requireContext(), Constants.TAG);
+
         add3d = fv.findViewById(R.id.add_3d);
 
         btnCreateRealty = fv.findViewById(R.id.btn_create_post);
@@ -82,7 +102,12 @@ public class RealtyAddFragment extends Fragment {
         spRentType = fv.findViewById(R.id.sp_rent_type);
         spRealtyType = fv.findViewById(R.id.sp_realty_type);
         spRentPeriod = fv.findViewById(R.id.sp_rent_period);
-        spRoomCount = fv.findViewById(R.id.sp_rooms);
+        spRooms = fv.findViewById(R.id.sp_rooms);
+
+        spRentType.setOnItemSelectedListener(this);
+        spRealtyType.setOnItemSelectedListener(this);
+        spRentPeriod.setOnItemSelectedListener(this);
+        spRooms.setOnItemSelectedListener(this);
 
         etFloor = fv.findViewById(R.id.et_floor);
         etTotalFloors = fv.findViewById(R.id.et_total_floors);
@@ -95,6 +120,9 @@ public class RealtyAddFragment extends Fragment {
         btnAddress = fv.findViewById(R.id.btn_add_address);
 
         scBargain = fv.findViewById(R.id.sw_is_bargain);
+        isAgree = fv.findViewById(R.id.cb_privacy);
+
+        propertiesLayout = fv.findViewById(R.id.realty_properties);
 
         properties = new Properties(requireContext());
 
@@ -106,7 +134,16 @@ public class RealtyAddFragment extends Fragment {
         spRentPeriod.setAdapter(rentPeriodAdapter);
         spRealtyType.setAdapter(realtyTypeAdapter);
         spRentType.setAdapter(rentTypeAdapter);
-        spRoomCount.setAdapter(roomsAdapter);
+        spRooms.setAdapter(roomsAdapter);
+
+        for (int i = 0; i < properties.getRealtyProperties().size(); i++) {
+            addProperties(
+                    Utils.toUpper(properties.getRealtyProperties().get(i).getValue()),
+                    android.R.color.transparent,
+                    R.drawable.button_background_light_blue,
+                    properties.getRealtyProperties().get(i).getCodeId()
+            );
+        }
 
         totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
         price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
@@ -151,15 +188,33 @@ public class RealtyAddFragment extends Fragment {
         btnCreateRealty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                realty.setStatus(0);
-                realtyUpdate = new RealtyUpdate(requireActivity(), realty, token.getString("access_token", ""));
-                realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(int data, String message) {
-                        if(data == 1)
-                            Toast.makeText(requireContext(), "Realty is created", Toast.LENGTH_LONG).show();
-                    }
-                });
+                Log.d("Realty type: " + properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
+                Log.d("Rent type: " + properties.getDealType().get(spRentType.getSelectedItemPosition()).getCodeId());
+                Log.d("Rent period: " + properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
+                Log.d("Rooms: " + properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
+                Log.d("Price: " + etPrice.getText().toString());
+                Log.d("Bargain: " + scBargain.isChecked());
+                Log.d("Title: " + etTitle.getText().toString());
+                Log.d("Description: " + etDescription.getText().toString());
+                Log.d("Address: " + btnAddress.getText().toString());
+                Log.d("Total area: " + etTotalArea.getText().toString());
+                Log.d("Living area: " + etLivingArea.getText().toString());
+                Log.d("Total floors: " + etTotalFloors.getText().toString());
+                Log.d("Floor: " + etFloor.getText().toString());
+                for (int i = 0; i < selectedProperties.size(); i++) {
+                    Log.d("Properties: " + selectedProperties.get(i));
+                }
+
+
+//                realty.setStatus(0);
+//                realtyUpdate = new RealtyUpdate(requireActivity(), realty, token.getString("access_token", ""));
+//                realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
+//                    @Override
+//                    public void onComplete(int data, String message) {
+//                        if(data == 1)
+//                            Toast.makeText(requireContext(), "Realty is created", Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }
         });
 
@@ -179,5 +234,67 @@ public class RealtyAddFragment extends Fragment {
         });
 
         return fv;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.sp_realty_type:
+                Log.d("Realty type: " + properties.getRealtyType().get(position).getCodeId());
+                break;
+            case R.id.sp_rent_type:
+                Log.d("Rent type: " + properties.getDealType().get(position).getCodeId());
+                break;
+            case R.id.sp_rent_period:
+                Log.d("Rent period: " + properties.getRentPeriod().get(position).getCodeId());
+                break;
+            case R.id.sp_rooms:
+                Log.d("Rooms: " + properties.getRooms().get(position).getCodeId());
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void addProperties(String data, int unselected,
+                              int selected, int props) {
+        int p0 = getResources().getDimensionPixelSize(R.dimen.padding_top_bottom);
+        int p1 = getResources().getDimensionPixelSize(R.dimen.padding_left_right);
+        Button btnResult = new Button(requireContext());
+        btnResult.setTextSize(16);
+        btnResult.setAllCaps(false);
+        btnResult.setBackground(ContextCompat.getDrawable(requireContext(), android.R.color.transparent));
+        btnResult.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_primary_dark));
+        btnResult.setPadding(p1, p0, p1, p0);
+        btnResult.setText(data);
+        btnResult.setStateListAnimator(null);
+
+        toToggleProperties(btnResult, new ToggleButton(false), unselected, selected, props);
+
+        propertiesLayout.addView(btnResult);
+    }
+
+    private void toToggleProperties(Button view, ToggleButton isSet, int unselected,
+                                 int selected, int props) {
+
+        view.setOnClickListener(v -> {
+            if (isSet.isButton()) {
+                isSet.setButton(false);
+                view.setTextColor(requireActivity().getColor(R.color.color_primary_dark));
+                view.setBackground(ContextCompat.getDrawable(requireContext(), unselected));
+                view.setStateListAnimator(null);
+                selectedProperties.remove(selectedProperties.indexOf(props));
+            } else {
+                isSet.setButton(true);
+                view.setTextColor(requireActivity().getColor(android.R.color.white));
+                view.setBackground(ContextCompat.getDrawable(requireContext(), selected));
+                view.setStateListAnimator(null);
+                selectedProperties.add(props);
+            }
+        });
     }
 }

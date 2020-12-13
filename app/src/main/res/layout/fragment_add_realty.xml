@@ -30,12 +30,12 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginBottom="8dp"
                         android:text="Тип сделки:"
                         android:textColor="@color/color_primary_hint" />
 
@@ -47,7 +47,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             android:background="@drawable/intro_input_phone_background">
 
@@ -65,7 +65,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:layout_marginStart="4dp"
                             android:layout_weight="1"
                             android:background="@drawable/intro_input_phone_background">
 
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -100,7 +100,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Тип недвижимости:"
                             android:textColor="@color/color_primary_hint" />
 
@@ -112,7 +112,7 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="6dp"
+                                android:layout_marginEnd="4dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/intro_input_phone_background">
 
@@ -138,7 +138,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Количество комнат:"
                             android:textColor="@color/color_primary_hint" />
 
@@ -150,6 +151,7 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/intro_input_phone_background">
 
@@ -172,10 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="16dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -192,12 +191,12 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:text="Арендная плата в месяц:"
                         android:textColor="@color/color_primary_hint" />
 
@@ -210,14 +209,14 @@
                             android:id="@+id/et_price"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             android:background="@drawable/intro_input_phone_background"
-                            android:hint="Сумма, ₸ ..."
                             android:inputType="phone"
                             android:padding="10dp"
-                            android:paddingStart="18dp"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:textStyle="bold"
                             android:textColor="@color/color_primary_dark"
                             android:textColorHint="#7F7F7F"
                             android:textSize="16sp" />
@@ -236,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -246,7 +245,6 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/button_padding"
                             android:orientation="vertical">
 
                             <TextView
@@ -255,7 +253,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Разрешить торг"
                                 android:textColor="@color/color_primary_dark"
-                                android:textSize="@dimen/header_text_size2"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -277,10 +275,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="16dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -297,12 +292,12 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:text="Заголовок объявления:"
                         android:textColor="@color/color_primary_hint" />
 
@@ -315,13 +310,11 @@
                             android:id="@+id/et_title"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginBottom="8dp"
                             android:layout_weight="1"
                             android:background="@drawable/intro_input_phone_background"
                             android:hint="Первое, что увидит гость в кратком объявлении"
-                            android:padding="10dp"
-                            android:paddingStart="18dp"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
                             android:singleLine="true"
                             android:textColor="@color/color_primary_dark"
                             android:textColorHint="#7F7F7F"
@@ -336,12 +329,12 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:text="Текст объявления:"
                         android:textColor="@color/color_primary_hint" />
 
@@ -353,7 +346,7 @@
                         <EditText
                             android:id="@+id/et_description"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
+                            android:layout_height="180dp"
                             android:background="@drawable/intro_input_phone_background"
                             android:gravity="top"
                             android:hint="Расскажите то, что считаете важным знать арендатору.."
@@ -372,12 +365,12 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:text="Укажите адрес:"
                         android:textColor="@color/color_primary_hint" />
 
@@ -387,12 +380,10 @@
                         android:orientation="horizontal">
 
                         <Button
-                            style="@style/Button.Style.Gray"
                             android:id="@+id/btn_add_address"
+                            style="@style/Button.Style.Gray"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginBottom="8dp"
                             android:layout_weight="1"
                             android:background="@drawable/intro_input_phone_background"
                             android:drawableEnd="@drawable/intro_next_arrow_gray"
@@ -408,12 +399,12 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:text="Добавьте фотографии и  видео:"
                         android:textColor="@color/color_primary_hint" />
 
@@ -439,25 +430,26 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:id="@+id/add_3d"
                         android:layout_width="match_parent"
-                        android:layout_height="54sp"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical">
 
                         <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@drawable/ic_disabled_checkbox" />
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
+                            android:includeFontPadding="false"
                             android:text="Добавьте 360° фото"
                             android:textColor="@color/color_primary"
                             android:textSize="20sp"
@@ -476,10 +468,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="16dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -496,7 +485,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -517,7 +506,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="12dp"
+                                    android:layout_marginBottom="8dp"
                                     android:text="Общая площадь, м²"
                                     android:textColor="@color/color_primary_hint" />
 
@@ -529,21 +518,19 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="6dp"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/intro_input_phone_background">
+                                        android:layout_weight="1">
 
                                         <EditText
                                             android:id="@+id/et_total_area"
-                                            android:layout_width="0dp"
+                                            android:layout_width="match_parent"
                                             android:layout_height="48dp"
-                                            android:layout_marginEnd="6dp"
-                                            android:layout_marginBottom="8dp"
-                                            android:layout_weight="1"
+                                            android:layout_marginEnd="4dp"
                                             android:background="@drawable/intro_input_phone_background"
-                                            android:hint="Укажите площадь"
+                                            android:inputType="phone"
                                             android:padding="10dp"
-                                            android:paddingStart="18dp"
+                                            android:paddingStart="16dp"
+                                            android:paddingEnd="16dp"
+                                            android:textStyle="bold"
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
                                             android:textSize="16sp" />
@@ -560,7 +547,8 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="12dp"
+                                    android:layout_marginStart="4dp"
+                                    android:layout_marginBottom="8dp"
                                     android:text="Жилая площадь, м²"
                                     android:textColor="@color/color_primary_hint" />
 
@@ -572,24 +560,22 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="6dp"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/intro_input_phone_background">
+                                        android:layout_weight="1">
 
                                         <EditText
                                             android:id="@+id/et_living_area"
-                                            android:layout_width="0dp"
+                                            android:layout_width="match_parent"
                                             android:layout_height="48dp"
-                                            android:layout_marginEnd="6dp"
-                                            android:layout_marginBottom="8dp"
-                                            android:layout_weight="1"
+                                            android:layout_marginStart="4dp"
                                             android:background="@drawable/intro_input_phone_background"
-                                            android:hint="Укажите площадь"
+                                            android:inputType="phone"
                                             android:padding="10dp"
-                                            android:paddingStart="18dp"
+                                            android:textStyle="bold"
+                                            android:paddingStart="16dp"
+                                            android:paddingEnd="16dp"
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="14sp" />
+                                            android:textSize="16sp" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -611,7 +597,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="12dp"
+                                    android:layout_marginBottom="8dp"
                                     android:text="Этажей в доме:"
                                     android:textColor="@color/color_primary_hint" />
 
@@ -623,26 +609,23 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="6dp"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/intro_input_phone_background">
+                                        android:layout_weight="1">
 
                                         <EditText
                                             android:id="@+id/et_total_floors"
-                                            android:layout_width="0dp"
+                                            android:layout_width="match_parent"
                                             android:layout_height="48dp"
-                                            android:layout_marginEnd="6dp"
-                                            android:layout_marginBottom="8dp"
-                                            android:layout_weight="1"
+                                            android:layout_marginEnd="4dp"
                                             android:background="@drawable/intro_input_phone_background"
                                             android:inputType="phone"
                                             android:padding="10dp"
-                                            android:paddingStart="18dp"
+                                            android:textStyle="bold"
+                                            android:paddingStart="16dp"
+                                            android:paddingEnd="16dp"
                                             android:text=""
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="16sp"
-                                            android:textStyle="bold" />
+                                            android:textSize="16sp" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -656,7 +639,8 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="12dp"
+                                    android:layout_marginStart="4dp"
+                                    android:layout_marginBottom="8dp"
                                     android:text="Этаж:"
                                     android:textColor="@color/color_primary_hint" />
 
@@ -668,26 +652,22 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="6dp"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/intro_input_phone_background">
+                                        android:layout_weight="1">
 
                                         <EditText
                                             android:id="@+id/et_floor"
-                                            android:layout_width="0dp"
+                                            android:layout_width="match_parent"
                                             android:layout_height="48dp"
-                                            android:layout_marginEnd="6dp"
-                                            android:layout_marginBottom="8dp"
-                                            android:layout_weight="1"
+                                            android:layout_marginStart="4dp"
                                             android:background="@drawable/intro_input_phone_background"
                                             android:inputType="phone"
                                             android:padding="10dp"
-                                            android:paddingStart="18dp"
-                                            android:text=""
+                                            android:textStyle="bold"
+                                            android:paddingStart="16dp"
+                                            android:paddingEnd="16dp"
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="16sp"
-                                            android:textStyle="bold" />
+                                            android:textSize="16sp" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -702,164 +682,36 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_bottom"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:text="Отметьте, какие удобства есть в квартире:"
                         android:textColor="@color/color_primary_hint" />
 
-                    <LinearLayout
+                    <www.kaznu.kz.projects.m2.views.FlowLayout
+                        android:id="@+id/realty_properties"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginBottom="8dp"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/btn_facility_01"
-                                style="?android:borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:padding="10dp"
-                                android:text="Мебель"
-                                android:textAllCaps="false"
-                                android:textColor="#02205C"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <Button
-                                android:id="@+id/btn_facility_02"
-                                style="?android:borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:padding="10dp"
-                                android:text="Мебель"
-                                android:textAllCaps="false"
-                                android:textColor="#02205C"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <Button
-                                android:id="@+id/btn_facility_03"
-                                style="?android:borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:padding="10dp"
-                                android:text="Холодильник"
-                                android:textAllCaps="false"
-                                android:textColor="#02205C"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginBottom="8dp"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/btn_facility_04"
-                                style="?android:borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:padding="10dp"
-                                android:text="Посудомоечная машина"
-                                android:textAllCaps="false"
-                                android:textColor="#02205C"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <Button
-                                android:id="@+id/btn_facility_05"
-                                style="?android:borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:padding="10dp"
-                                android:text="Посуда"
-                                android:textAllCaps="false"
-                                android:textColor="#02205C"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginBottom="8dp"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/btn_facility_06"
-                                style="?android:borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:padding="10dp"
-                                android:text="Стиральная машина"
-                                android:textAllCaps="false"
-                                android:textColor="#02205C"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <Button
-                                android:id="@+id/btn_facility_07"
-                                style="?android:borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:padding="10dp"
-                                android:text="Кондиционер"
-                                android:textAllCaps="false"
-                                android:textColor="#02205C"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="54sp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="0dp">
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_enabled_checkbox" />
+                    <CheckBox
+                        android:id="@+id/cb_privacy"
+                        style="@style/CheckBox.Style"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -874,17 +726,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
                     <Button
                         android:id="@+id/btn_create_post"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_background_dark_blue"
                         android:padding="8dp"
@@ -898,10 +748,7 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginStart="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_background_dark_blue"
                         android:padding="8dp"

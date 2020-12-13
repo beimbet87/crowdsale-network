@@ -89,7 +89,7 @@ public class MessagesAdminAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             String header = chat.getCompanyName();
-            if(header.equals("") || header == null) {
+            if(header.equals("") || header == null || header.equals("null")) {
                 header = "Имя и Фамилия";
             }
             String body = chat.getLastMessage();

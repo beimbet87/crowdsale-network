@@ -55,7 +55,7 @@ public class PaymentMethodFragment extends Fragment implements Constants {
             FragmentTransaction ft = requireActivity().getSupportFragmentManager().beginTransaction();
 
             PaymentCardFragment paymentCardFragment = new PaymentCardFragment();
-            ft.replace(R.id.payment_methods, paymentCardFragment);
+            ft.replace(R.id.payment_methods, paymentCardFragment, "PaymentCardFragment");
             ft.commit();
         });
 

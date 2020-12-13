@@ -12,18 +12,17 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.api.pusher.RateUser;
-import www.kaznu.kz.projects.m2.api.rate.RealtyRate;
 import www.kaznu.kz.projects.m2.api.rate.UserRate;
 import www.kaznu.kz.projects.m2.fragments.CommentsFragment;
-import www.kaznu.kz.projects.m2.fragments.ProfileFragment;
+import www.kaznu.kz.projects.m2.fragments.CommentsRealtyFragment;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.RateModel;
 import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
-public class CommentsActivity extends AppCompatActivity implements CommentsFragment.DataFromCommentsFragment {
+public class CommentsRealtyActivity extends AppCompatActivity implements CommentsFragment.DataFromCommentsFragment,
+        CommentsRealtyFragment.DataFromCommentsRealtyFragment {
 
     TextView tvUserName, tvUserSurname;
     TextView tvUserSex, tvUserBirthday;
@@ -67,42 +66,36 @@ public class CommentsActivity extends AppCompatActivity implements CommentsFragm
                 @Override
                 public void onComplete(ArrayList<RateModel> rates, int count, double average) {
 
-                    Log.d("Average comment: " + average);
-                    Log.d("Count: " + count);
-                    for (int i = 0; i < rates.size(); i++) {
-                        Log.d("Data: " + rates.get(i).getComment());
-                    }
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    CommentsFragment profileFragment = new CommentsFragment();
+                    ft.add(R.id.comments, profileFragment);
+                    ft.commit();
                 }
             });
         } else {
             Log.d("Realty rate section!");
-            RealtyRate realtyRate = new RealtyRate(this, realtyId, new Tokens(this).getAccessToken());
 
-            realtyRate.setOnLoadListener(new RealtyRate.CustomOnLoadListener() {
-                @Override
-                public void onComplete(ArrayList<RateModel> rates, int count, double average) {
-                    Log.d("Average comment: " + average);
-                    Log.d("Count: " + count);
-                    for (int i = 0; i < rates.size(); i++) {
-                        Log.d("Data: " + rates.get(i).getComment());
-                    }
-                }
-            });
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            CommentsRealtyFragment realtyFragment = new CommentsRealtyFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("realty_id", realtyId);
+            realtyFragment.setArguments(bundle);
+            ft.add(R.id.comments, realtyFragment);
+            ft.commit();
         }
 
         backButton = toolbar.findViewById(R.id.toolbar_back);
 
         backButton.setOnClickListener(v -> finish());
 
-
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        CommentsFragment profileFragment = new CommentsFragment();
-        ft.add(R.id.comments, profileFragment);
-        ft.commit();
-
         Log.d(String.valueOf(fragmentNumber));
 
+    }
+
+    @Override
+    public void FromCommentsRealtyFragment(String data, int number) {
+        title.setText(data);
+        fragmentNumber = number;
     }
 
     @Override

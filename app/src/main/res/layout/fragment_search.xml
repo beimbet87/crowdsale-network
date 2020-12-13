@@ -66,7 +66,7 @@
         android:gravity="center_horizontal"
         android:text="@string/search_text_hint"
         android:textColor="@color/color_primary_hint"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />

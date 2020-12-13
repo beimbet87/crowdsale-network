@@ -30,6 +30,7 @@ import www.kaznu.kz.projects.m2.activities.ProfileInfoActivity;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.utils.Utils;
+import www.kaznu.kz.projects.m2.views.FlowLayout;
 import www.kaznu.kz.projects.m2.views.TextProgressBar;
 
 public class AccountFragment extends Fragment implements Constants,

@@ -17,16 +17,9 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.activities.CommentsActivity;
-import www.kaznu.kz.projects.m2.activities.ProfileActivity;
+import www.kaznu.kz.projects.m2.activities.CommentsRealtyActivity;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
-import www.kaznu.kz.projects.m2.models.Properties;
-import www.kaznu.kz.projects.m2.models.User;
 
 import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
 
@@ -88,7 +81,7 @@ public class ProfileInfoFragment extends Fragment implements View.OnClickListene
         llComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), CommentsActivity.class);
+                Intent intent = new Intent(requireContext(), CommentsRealtyActivity.class);
                 intent.putExtra("user", true);
                 intent.putExtra("user_id", currentUser.getId());
                 intent.putExtra("as_owner", 0);

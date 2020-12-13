@@ -82,8 +82,8 @@
             android:background="@drawable/border_bottom"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
@@ -100,8 +100,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -134,6 +134,58 @@
                     android:src="@drawable/ic_arrow_next" />
 
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+            <ImageView
+                android:id="@+id/iv_active_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_inactive" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_active_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Неактивен"
+                    android:textColor="@color/color_primary_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_active_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Подключите полный функционал, чтобы получать заявки по аренде, и покупке."
+                    android:textColor="@color/color_primary_hint" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_next" />
+
         </LinearLayout>
 
     </LinearLayout>
