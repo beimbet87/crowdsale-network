@@ -216,10 +216,10 @@
                             android:padding="10dp"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:textStyle="bold"
                             android:textColor="@color/color_primary_dark"
                             android:textColorHint="#7F7F7F"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -530,10 +530,10 @@
                                             android:padding="10dp"
                                             android:paddingStart="16dp"
                                             android:paddingEnd="16dp"
-                                            android:textStyle="bold"
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="16sp" />
+                                            android:textSize="16sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -570,12 +570,12 @@
                                             android:background="@drawable/intro_input_phone_background"
                                             android:inputType="phone"
                                             android:padding="10dp"
-                                            android:textStyle="bold"
                                             android:paddingStart="16dp"
                                             android:paddingEnd="16dp"
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="16sp" />
+                                            android:textSize="16sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -619,13 +619,13 @@
                                             android:background="@drawable/intro_input_phone_background"
                                             android:inputType="phone"
                                             android:padding="10dp"
-                                            android:textStyle="bold"
                                             android:paddingStart="16dp"
                                             android:paddingEnd="16dp"
                                             android:text=""
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="16sp" />
+                                            android:textSize="16sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -662,12 +662,12 @@
                                             android:background="@drawable/intro_input_phone_background"
                                             android:inputType="phone"
                                             android:padding="10dp"
-                                            android:textStyle="bold"
                                             android:paddingStart="16dp"
                                             android:paddingEnd="16dp"
                                             android:textColor="@color/color_primary_dark"
                                             android:textColorHint="#7F7F7F"
-                                            android:textSize="16sp" />
+                                            android:textSize="16sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -731,31 +731,22 @@
 
                     <Button
                         android:id="@+id/btn_create_post"
-                        style="?android:attr/borderlessButtonStyle"
+                        style="@style/Button.Style.DarkBlue"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_marginEnd="4dp"
                         android:layout_weight="1"
-                        android:background="@drawable/button_background_dark_blue"
-                        android:padding="8dp"
-                        android:text="Сохранить"
-                        android:textAllCaps="false"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:text="Сохранить" />
 
                     <Button
                         android:id="@+id/btn_publish_ads"
-                        style="?android:attr/borderlessButtonStyle"
+                        style="@style/Button.Style.DarkBlue"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="4dp"
                         android:layout_weight="1"
-                        android:background="@drawable/button_background_dark_blue"
-                        android:padding="8dp"
                         android:text="Опубликовать"
-                        android:textAllCaps="false"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:enabled="false"/>
                 </LinearLayout>
             </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +37,7 @@ import www.kaznu.kz.projects.m2.api.realty.RealtyUpdate;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Properties;
 import www.kaznu.kz.projects.m2.models.Realty;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.views.FlowLayout;
@@ -122,6 +124,15 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
         scBargain = fv.findViewById(R.id.sw_is_bargain);
         isAgree = fv.findViewById(R.id.cb_privacy);
 
+        isAgree.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                btnPublishRealty.setEnabled(true);
+            }
+            else {
+                btnPublishRealty.setEnabled(false);
+            }
+        });
+
         propertiesLayout = fv.findViewById(R.id.realty_properties);
 
         properties = new Properties(requireContext());
@@ -145,35 +156,11 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
             );
         }
 
-        totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
-        price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
-        livingArea = (!etLivingArea.getText().toString().equals("")) ? etLivingArea.getText().toString() : "0.0";
-        floor  = (!etFloor.getText().toString().equals("")) ? etFloor.getText().toString() : "0";
-        totalFloor = (!etTotalFloors.getText().toString().equals("")) ? etTotalFloors.getText().toString() : "0";
-
-        realty = new Realty();
-        realty.setAddress(btnAddress.getText().toString());
-        realty.setAge("2020-07-23T02:34:56.8768464-07:00");
-        realty.setArea(Double.parseDouble(totalArea));
-        realty.setCost(Double.parseDouble(price));
-        realty.setDescription(etDescription.getText().toString());
-        realty.setHeader(etTitle.getText().toString());
-        realty.setFloor(Integer.parseInt(floor));
-        realty.setFloorBuild(Integer.parseInt(totalFloor));
-        realty.setLatitude(43.2703876);
-        realty.setLongitude(76.8845509);
-        realty.setLivingSpace(Double.parseDouble(livingArea));
-        realty.setTransactionType(1);
-        realty.setRefCity(9);
-        realty.setRoomCount(2);
-        realty.setRealtyType(5);
-        realty.setRentPeriod(9);
-
         btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent realtyIntent = new Intent(requireActivity(), SearchAddressActivity.class);
-                startActivity(realtyIntent);
+                startActivityForResult(realtyIntent, 1);
             }
         });
 
@@ -188,49 +175,78 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
         btnCreateRealty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Realty type: " + properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
                 Log.d("Rent type: " + properties.getDealType().get(spRentType.getSelectedItemPosition()).getCodeId());
-                Log.d("Rent period: " + properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
-                Log.d("Rooms: " + properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
-                Log.d("Price: " + etPrice.getText().toString());
-                Log.d("Bargain: " + scBargain.isChecked());
-                Log.d("Title: " + etTitle.getText().toString());
-                Log.d("Description: " + etDescription.getText().toString());
-                Log.d("Address: " + btnAddress.getText().toString());
-                Log.d("Total area: " + etTotalArea.getText().toString());
-                Log.d("Living area: " + etLivingArea.getText().toString());
-                Log.d("Total floors: " + etTotalFloors.getText().toString());
-                Log.d("Floor: " + etFloor.getText().toString());
                 for (int i = 0; i < selectedProperties.size(); i++) {
                     Log.d("Properties: " + selectedProperties.get(i));
                 }
 
+                totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
+                price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
+                livingArea = (!etLivingArea.getText().toString().equals("")) ? etLivingArea.getText().toString() : "0.0";
+                floor  = (!etFloor.getText().toString().equals("")) ? etFloor.getText().toString() : "0";
+                totalFloor = (!etTotalFloors.getText().toString().equals("")) ? etTotalFloors.getText().toString() : "0";
 
-//                realty.setStatus(0);
-//                realtyUpdate = new RealtyUpdate(requireActivity(), realty, token.getString("access_token", ""));
-//                realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
-//                    @Override
-//                    public void onComplete(int data, String message) {
-//                        if(data == 1)
-//                            Toast.makeText(requireContext(), "Realty is created", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-            }
-        });
+                realty = new Realty();
+                realty.setAddress(btnAddress.getText().toString());
+                realty.setAge(Utils.getCurrentDateToDatabase());
+                realty.setArea(Double.parseDouble(totalArea));
+                realty.setCost(Double.parseDouble(price));
+                realty.setDescription(etDescription.getText().toString());
+                realty.setHeader(etTitle.getText().toString());
+                realty.setFloor(Integer.parseInt(floor));
+                realty.setFloorBuild(Integer.parseInt(totalFloor));
+                realty.setLivingSpace(Double.parseDouble(livingArea));
+                realty.setTransactionType(properties.getRentPeriod().get(spRentType.getSelectedItemPosition()).getCodeId());
+                realty.setRefCity(9);
+                realty.setRoomCount(properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
+                realty.setRealtyType(properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
+                realty.setRentPeriod(properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
+                realty.setStatus(0);
 
-        btnPublishRealty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                realty.setStatus(1);
-                realtyUpdate = new RealtyUpdate(requireContext(), realty, token.getString("access_token", ""));
+                realtyUpdate = new RealtyUpdate(requireActivity(), realty, new Tokens(requireContext()).getAccessToken());
                 realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
                     @Override
                     public void onComplete(int data, String message) {
                         if(data == 1)
-                            Toast.makeText(requireContext(), "Realty is published", Toast.LENGTH_LONG).show();
+                            Toast.makeText(requireContext(), "Realty is created", Toast.LENGTH_LONG).show();
                     }
                 });
             }
+        });
+
+        btnPublishRealty.setOnClickListener(v -> {
+
+            totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
+            price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
+            livingArea = (!etLivingArea.getText().toString().equals("")) ? etLivingArea.getText().toString() : "0.0";
+            floor  = (!etFloor.getText().toString().equals("")) ? etFloor.getText().toString() : "0";
+            totalFloor = (!etTotalFloors.getText().toString().equals("")) ? etTotalFloors.getText().toString() : "0";
+
+            realty = new Realty();
+            realty.setAddress(btnAddress.getText().toString());
+            realty.setAge(Utils.getCurrentDateToDatabase());
+            realty.setArea(Double.parseDouble(totalArea));
+            realty.setCost(Double.parseDouble(price));
+            realty.setDescription(etDescription.getText().toString());
+            realty.setHeader(etTitle.getText().toString());
+            realty.setFloor(Integer.parseInt(floor));
+            realty.setFloorBuild(Integer.parseInt(totalFloor));
+            realty.setLivingSpace(Double.parseDouble(livingArea));
+            realty.setTransactionType(properties.getRentPeriod().get(spRentType.getSelectedItemPosition()).getCodeId());
+            realty.setRefCity(9);
+            realty.setRoomCount(properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
+            realty.setRealtyType(properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
+            realty.setRentPeriod(properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
+            realty.setStatus(1);
+
+            realtyUpdate = new RealtyUpdate(requireContext(), realty, new Tokens(requireContext()).getAccessToken());
+            realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
+                @Override
+                public void onComplete(int data, String message) {
+                    if(data == 1)
+                        Toast.makeText(requireContext(), "Realty is published", Toast.LENGTH_LONG).show();
+                }
+            });
         });
 
         return fv;
@@ -296,5 +312,12 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
                 selectedProperties.add(props);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(data != null) {
+            btnAddress.setText(data.getStringExtra("address"));
+        }
     }
 }

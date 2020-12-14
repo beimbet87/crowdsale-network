@@ -110,6 +110,12 @@ public class Utils {
         return outputFormat.format(new Date());
     }
 
+    public static String getCurrentDateToDatabase() {
+        String outputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        return outputFormat.format(new Date());
+    }
+
     public static String parsePrice(Double price) {
         DecimalFormat format = (DecimalFormat) NumberFormat.getInstance();
         format.applyPattern("#,###");

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/predictedRow"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@drawable/border_bottom"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="г. Алматы, Казахстан"
+        android:textColor="@color/color_primary_dark"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/latlng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="14.1323 - 15.23432"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/color_primary_hint"
+        android:textSize="12sp" />
+</LinearLayout>

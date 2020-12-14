@@ -396,7 +396,7 @@
     <string name="enter_password">Введите пароль</string>
     <string name="enter_old_password">Введите старый пароль</string>
 
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAn_f10Sul756xX3KttyWzl_vOzwKVcjqU</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDoAdhjj9GYF862S8Z4kAzKbeLtQXHBC8w</string>
     <string name="create_search">Создать поиск</string>
     <string name="change_search">Изменить поиск</string>
     <string name="m2">м²</string>
