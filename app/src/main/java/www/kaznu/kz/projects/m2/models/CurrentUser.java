@@ -2,13 +2,9 @@ package www.kaznu.kz.projects.m2.models;
 
 import android.content.Context;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
 
 public class CurrentUser implements Constants {
@@ -27,6 +23,12 @@ public class CurrentUser implements Constants {
     private final String countryCode;
     private final String countryName;
     private final ArrayList<RateModel> rates;
+    private final ArrayList<BookingApplication> clientBooks;
+    private final ArrayList<BookingApplication> ownersBooks;
+
+    private final ArrayList<BookingApplication> clientBooksHistory;
+    private final ArrayList<BookingApplication> ownersBooksHistory;
+
     private final int rateCount;
     private final double rateAverage;
     private boolean complete;
@@ -67,6 +69,11 @@ public class CurrentUser implements Constants {
         rateCount = data.getInt(SHARED_USER_RATE_COUNT);
         rateAverage = data.getDouble(SHARED_USER_RATE_AVERAGE);
         rates = data.getListRateModel(SHARED_USER_RATE, RateModel.class);
+        clientBooks = data.getListBookingModel(SHARED_USER_BOOKING, BookingApplication.class);
+        ownersBooks = data.getListBookingModel(SHARED_OWNER_BOOKING, BookingApplication.class);
+
+        clientBooksHistory = data.getListBookingModel(SHARED_USER_BOOKING_HISTORY, BookingApplication.class);
+        ownersBooksHistory = data.getListBookingModel(SHARED_OWNER_BOOKING_HISTORY, BookingApplication.class);
 
         rateCountOwner = data.getInt(SHARED_OWNER_RATE_COUNT);
         rateAverageOwner = data.getDouble(SHARED_OWNER_RATE_AVERAGE);
@@ -154,5 +161,21 @@ public class CurrentUser implements Constants {
 
     public void setComplete(boolean complete) {
         this.complete = complete;
+    }
+
+    public ArrayList<BookingApplication> getClientBooks() {
+        return clientBooks;
+    }
+
+    public ArrayList<BookingApplication> getOwnersBooks() {
+        return ownersBooks;
+    }
+
+    public ArrayList<BookingApplication> getClientBooksHistory() {
+        return clientBooksHistory;
+    }
+
+    public ArrayList<BookingApplication> getOwnersBooksHistory() {
+        return ownersBooksHistory;
     }
 }

@@ -339,7 +339,7 @@
     <string name="arrival_date">Дата заезда</string>
     <string name="departure_date">Дата выезда</string>
     <string name="booking_request_text">Возможно моментальное бронирование при стоимости в сутки: <b>300 000 ₸</b></string>
-    <string name="empty_booking_title">Ваши планы \nу Вас под рукой</string>
+    <string name="empty_booking_title">Ваши планы у Вас под рукой</string>
     <string name="not_full_profile_text">Мы просим всех заполнить кое-какую информация, прежде чем начать пользоваться сервисом. Она необходима, чтобы обеспечить безопасность и удобство для всех пользователей</string>
     <string name="card_type">Кредитная или \nдебетовая карта</string>
     <string name="term_of_use">Я ознакомлен с <u><b>правилами</b></u> и <u><b>политикой</b></u> <u><b>конфиденциальности</b></u> и принимаю их условия</string>

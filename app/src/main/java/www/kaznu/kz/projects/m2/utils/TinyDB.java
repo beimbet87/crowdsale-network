@@ -43,6 +43,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import www.kaznu.kz.projects.m2.models.BookingApplication;
 import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.RateModel;
 
@@ -357,6 +358,19 @@ public class TinyDB {
         return objects;
     }
 
+    public ArrayList<BookingApplication> getListBookingModel(String key, Class<?> mClass){
+        Gson gson = new Gson();
+
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<BookingApplication> objects =  new ArrayList<BookingApplication>();
+
+        for(String jObjString : objStrings){
+            BookingApplication value  = gson.fromJson(jObjString, (Type) mClass);
+            objects.add(value);
+        }
+        return objects;
+    }
+
     public <T> T getObject(String key, Class<T> classOfT){
 
         String json = getString(key);
@@ -514,6 +528,16 @@ public class TinyDB {
     	putListString(key, objStrings);
     }
     public void putListRateModel(String key, ArrayList<RateModel> objArray){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for(Object obj : objArray){
+            objStrings.add(gson.toJson(obj));
+        }
+        putListString(key, objStrings);
+    }
+
+    public void putListBookingModel(String key, ArrayList<BookingApplication> objArray){
         checkForNullKey(key);
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<String>();

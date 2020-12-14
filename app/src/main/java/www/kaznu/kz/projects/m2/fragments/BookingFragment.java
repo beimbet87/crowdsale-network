@@ -11,38 +11,17 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.BookingAdapter;
 import www.kaznu.kz.projects.m2.adapters.MessagesAdapter;
+import www.kaznu.kz.projects.m2.models.BookingApplication;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
 
 public class BookingFragment extends Fragment {
 
-    int[] images = {
-            R.drawable.message_icon0,
-            R.drawable.message_icon1,
-    };
-
-    String[] address = {
-            "Алматы, Некрасова 32А",
-            "Астана,  ул. Лиховец 70/2"
-    };
-
-    String[] date = {
-            "14 дек - 31 дек",
-            "1 янв - 7 янв"
-    };
-
-    int[] acceptedImages = {
-            R.drawable.message_icon0
-    };
-
-    String[] acceptedAddress = {
-            "Алматы, Некрасова 32А"
-    };
-
-    String[] acceptedDate = {
-            "14 дек - 31 дек"
-    };
+    CurrentUser user;
 
     ListView lView, acceptedLView;
 
@@ -55,39 +34,40 @@ public class BookingFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ViewGroup root;
+        user = new CurrentUser(requireContext());
 
+        if(user.getClientBooks().size() > 0 || user.getClientBooksHistory().size() > 0) {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_booking, container, false);
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_booking, container, false);
+            lView = root.findViewById(R.id.lv_accepted_booking);
+            acceptedLView = root.findViewById(R.id.lv_booking_history);
 
-        lView = rootView.findViewById(R.id.lv_accepted_booking);
-        acceptedLView = rootView.findViewById(R.id.lv_booking_history);
+            lAdapter = new BookingAdapter(requireContext(), user.getOwnersBooks());
+            acceptedLAdapter = new BookingAdapter(requireContext(), user.getOwnersBooksHistory());
 
-        lAdapter = new BookingAdapter(getContext(), address, date, images);
-        acceptedLAdapter = new BookingAdapter(getContext(), acceptedAddress, acceptedDate, acceptedImages);
+            lView.setAdapter(lAdapter);
 
-        lView.setAdapter(lAdapter);
+            lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                }
+            });
 
-        lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            acceptedLView.setAdapter(acceptedLAdapter);
 
-                Toast.makeText(getContext(), address[i]+" "+ date[i], Toast.LENGTH_SHORT).show();
+            acceptedLView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            }
-        });
+                }
+            });
 
-        acceptedLView.setAdapter(acceptedLAdapter);
+        } else {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_booking_empty, container, false);
+        }
 
-        acceptedLView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Toast.makeText(getContext(), acceptedAddress[i]+" "+ acceptedDate[i], Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        return rootView;
+        return root;
     }
 
 

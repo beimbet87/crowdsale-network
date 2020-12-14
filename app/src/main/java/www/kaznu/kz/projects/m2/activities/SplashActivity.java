@@ -28,6 +28,7 @@ import www.kaznu.kz.projects.m2.api.RealtyProperties;
 import www.kaznu.kz.projects.m2.api.RealtyType;
 import www.kaznu.kz.projects.m2.api.RentPeriod;
 import www.kaznu.kz.projects.m2.api.RequestOffers;
+import www.kaznu.kz.projects.m2.api.book.ClientBookings;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
@@ -76,7 +77,7 @@ public class SplashActivity extends IntroActivity implements Constants {
 
             new Currencies(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_CURRENCIES, data));
-            Log.d("TinyDB ---> Stored countries data!");
+            Log.d("TinyDB ---> Stored currency data!");
 
             boolean isIntro = introPreferences.getBoolean("isIntro", true);
             if (isIntro) {

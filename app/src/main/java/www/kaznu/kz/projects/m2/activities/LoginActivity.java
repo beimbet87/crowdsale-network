@@ -30,11 +30,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import www.kaznu.kz.projects.m2.api.book.ClientBookings;
+import www.kaznu.kz.projects.m2.api.book.OwnerBooking;
 import www.kaznu.kz.projects.m2.api.rate.UserRate;
 import www.kaznu.kz.projects.m2.api.user.UserInfo;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.models.BookingApplication;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.RateModel;
 import www.kaznu.kz.projects.m2.models.Tokens;
@@ -155,6 +158,26 @@ public class LoginActivity extends IntroActivity implements Constants {
                                             data.putInt(SHARED_OWNER_RATE_COUNT, count);
                                             data.putDouble(SHARED_OWNER_RATE_AVERAGE, average);
                                             data.putListRateModel(SHARED_OWNER_RATE, rates);
+                                        }
+                                    });
+
+                                    ClientBookings clientBookings = new ClientBookings(getApplicationContext(), tempToken);
+
+                                    clientBookings.setOnLoadListener(new ClientBookings.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(ArrayList<BookingApplication> bookings, ArrayList<BookingApplication> history) {
+                                            data.putListBookingModel(SHARED_USER_BOOKING, bookings);
+                                            data.putListBookingModel(SHARED_USER_BOOKING_HISTORY, history);
+                                        }
+                                    });
+
+                                    OwnerBooking ownerBooking = new OwnerBooking(getApplicationContext(), tempToken);
+
+                                    ownerBooking.setOnLoadListener(new OwnerBooking.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(ArrayList<BookingApplication> bookings, ArrayList<BookingApplication> history) {
+                                            data.putListBookingModel(SHARED_OWNER_BOOKING, bookings);
+                                            data.putListBookingModel(SHARED_OWNER_BOOKING_HISTORY, history);
                                         }
                                     });
                                 }

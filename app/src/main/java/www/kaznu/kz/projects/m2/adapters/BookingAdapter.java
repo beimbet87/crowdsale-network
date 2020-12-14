@@ -11,21 +11,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.BookingApplication;
+import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class BookingAdapter extends BaseAdapter {
 
     Context context;
-    private String [] address;
-    private String [] date;
-    private int [] images;
+    private ArrayList<BookingApplication> booking;
 
-    public BookingAdapter(Context context, String [] address, String [] date, int [] images){
+    public BookingAdapter(Context context, ArrayList<BookingApplication> booking){
         //super(context, R.layout.single_list_app_item, utilsArrayList);
         this.context = context;
-        this.address = address;
-        this.date = date;
-        this.images = images;
+        this.booking = booking;
     }
 
     public BookingAdapter() {
@@ -33,7 +36,7 @@ public class BookingAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return address.length;
+        return booking.size();
     }
 
     @Override
@@ -72,9 +75,13 @@ public class BookingAdapter extends BaseAdapter {
             result=convertView;
         }
 
-        viewHolder.address.setText(address[position]);
-        viewHolder.date.setText(date[position]);
-        viewHolder.icon.setImageResource(images[position]);
+        StringBuilder date = new StringBuilder();
+        date.append(Utils.parseDateWithDot(booking.get(position).getTimeStart())).append(" - ");
+        date.append(Utils.parseDateWithDot(booking.get(position).getTimeEnd()));
+
+        viewHolder.address.setText(booking.get(position).getAddress());
+        viewHolder.date.setText(date);
+        Picasso.with(context).load(Constants.BASE_URL.concat(booking.get(position).getLinkImage())).into(viewHolder.icon);
 
         return convertView;
     }
