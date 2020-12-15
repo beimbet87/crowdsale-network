@@ -67,6 +67,7 @@ public class OfferFragment extends Fragment {
             editor.apply();
         }
 
+        assert getArguments() != null;
         offers = getArguments().getParcelableArrayList("offers");
 
         lAdapter = new OfferAdapter(requireContext(), offers, getArguments().getString("price"),

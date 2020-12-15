@@ -2,13 +2,6 @@ package www.kaznu.kz.projects.m2.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-
-import www.kaznu.kz.projects.m2.api.realty.RealtyPublish;
-import www.kaznu.kz.projects.m2.api.realty.RealtyReserve;
-import www.kaznu.kz.projects.m2.api.realty.UpdateRealtyProperties;
-import www.kaznu.kz.projects.m2.models.ConfigValue;
-import www.kaznu.kz.projects.m2.utils.VolleyMultipartRequest.*;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,7 +10,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -37,22 +29,15 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,18 +49,23 @@ import www.kaznu.kz.projects.m2.adapters.RealtyTypeAdapter;
 import www.kaznu.kz.projects.m2.adapters.RentPeriodAdapter;
 import www.kaznu.kz.projects.m2.adapters.RentTypeAdapter;
 import www.kaznu.kz.projects.m2.adapters.RoomsAdapter;
+import www.kaznu.kz.projects.m2.api.realty.RealtyPublish;
 import www.kaznu.kz.projects.m2.api.realty.RealtyUpdate;
+import www.kaznu.kz.projects.m2.api.realty.UpdateRealtyProperties;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.ConfigValue;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.Properties;
 import www.kaznu.kz.projects.m2.models.Realty;
+import www.kaznu.kz.projects.m2.models.Search;
 import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.utils.VolleyMultipartRequest;
+import www.kaznu.kz.projects.m2.utils.VolleyMultipartRequest.DataPart;
 import www.kaznu.kz.projects.m2.views.FlowLayout;
 
-public class RealtyAddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class RealtyEditActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final int REQUEST_PERMISSIONS = 100;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -83,7 +73,7 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
     Button btnBack;
     public TextView title;
 
-    LinearLayout add3d;
+    LinearLayout addVR360;
 
     ArrayList<Bitmap> bitmaps;
 
@@ -99,6 +89,12 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
     int realtyId = -1;
 
     LinearLayout imageContainer;
+
+    Realty editedRealty;
+    ArrayList<String> images;
+    ArrayList<Integer> props;
+    ArrayList<Integer> offers;
+    ArrayList<Search> searches;
 
     private final ArrayList<Integer> selectedProperties = new ArrayList<>();
     private final ArrayList<Integer> selectedOffer = new ArrayList<>();
@@ -130,7 +126,7 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_realty_add);
+        setContentView(R.layout.activity_realty_update);
         user = new CurrentUser(this);
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
@@ -146,7 +142,7 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
 
         bitmaps = new ArrayList<>();
 
-        add3d = findViewById(R.id.add_3d);
+        addVR360 = findViewById(R.id.add_3d);
 
         btnCreateRealty = findViewById(R.id.btn_create_post);
         btnPublishRealty = findViewById(R.id.btn_publish_ads);
@@ -199,29 +195,104 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
         spRentType.setAdapter(rentTypeAdapter);
         spRooms.setAdapter(roomsAdapter);
 
-        for (int i = 0; i < properties.getRealtyProperties().size(); i++) {
-            addProperties(
-                    Utils.toUpper(properties.getRealtyProperties().get(i).getValue()),
-                    android.R.color.transparent,
-                    R.drawable.button_background_light_blue,
-                    properties.getRealtyProperties().get(i).getCodeId()
-            );
+        Intent intent = getIntent();
+
+        editedRealty = (Realty) intent.getSerializableExtra("realty");
+
+        assert editedRealty != null;
+        Log.d("Realty ID: " + editedRealty.getId());
+
+        images = intent.getStringArrayListExtra("images");
+        Log.d("Image size: " + images.size());
+
+        props = intent.getIntegerArrayListExtra("property");
+        Log.d("Property size: " + props.size());
+
+        offers = intent.getIntegerArrayListExtra("offers");
+        Log.d("Offers size: " + offers.size());
+
+        realtyId = editedRealty.getId();
+
+        etPrice.setText(String.valueOf(editedRealty.getCost()));
+        etTitle.setText(editedRealty.getHeader());
+        etDescription.setText(editedRealty.getDescription());
+        btnAddress.setText(editedRealty.getAddress());
+
+        for (int i = 0; i < images.size(); i++) {
+            int size = getResources().getDimensionPixelSize(R.dimen.image_size);
+            int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
+            CardView cardView = new CardView(getApplicationContext());
+            CardView.LayoutParams params = new CardView.LayoutParams(size, size);
+            params.setMarginEnd(margin);
+            cardView.setLayoutParams(params);
+            cardView.setRadius(16);
+            cardView.setCardElevation(0);
+            cardView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.intro_input_phone_background));
+            ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(size, size));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Picasso.with(this).load(Constants.BASE_URL.concat(images.get(i))).into(imageView);
+            cardView.addView(imageView);
+            imageContainer.addView(cardView);
+
+            Log.d("Image #" + i + ": " + images.get(i));
         }
 
-        btnAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent realtyIntent = new Intent(RealtyAddActivity.this, SearchAddressActivity.class);
-                startActivityForResult(realtyIntent, 1);
+        etTotalArea.setText(String.valueOf(editedRealty.getArea()));
+        etLivingArea.setText(String.valueOf(editedRealty.getLivingSpace()));
+        etTotalFloors.setText(String.valueOf(editedRealty.getFloorBuild()));
+        etFloor.setText(String.valueOf(editedRealty.getFloor()));
+
+        for (int i = 0; i < properties.getRealtyProperties().size(); i++) {
+            int count = 0;
+            if(props.size() > 0) {
+                for (int j = 0; j < props.size(); j++) {
+                    if (props.get(j) == properties.getRealtyProperties().get(i).getCodeId()) {
+                        addProperties(
+                                Utils.toUpper(properties.getRealtyProperties().get(i).getValue()),
+                                android.R.color.transparent,
+                                R.drawable.button_background_light_blue,
+                                properties.getRealtyProperties().get(i).getCodeId(),
+                                true
+                        );
+                        selectedProperties.add(properties.getRealtyProperties().get(i).getCodeId());
+                        break;
+                    } else {
+                        count++;
+                    }
+                }
+
+                if(count == props.size()) {
+                    addProperties(
+                            Utils.toUpper(properties.getRealtyProperties().get(i).getValue()),
+                            android.R.color.transparent,
+                            R.drawable.button_background_light_blue,
+                            properties.getRealtyProperties().get(i).getCodeId(),
+                            false
+                    );
+                }
+            } else {
+                addProperties(
+                        Utils.toUpper(properties.getRealtyProperties().get(i).getValue()),
+                        android.R.color.transparent,
+                        R.drawable.button_background_light_blue,
+                        properties.getRealtyProperties().get(i).getCodeId(),
+                        false
+                );
             }
+
+        }
+
+        spRooms.setSelection(editedRealty.getRoomCount()-1);
+
+        btnAddress.setOnClickListener(v -> {
+            Intent realtyIntent = new Intent(RealtyEditActivity.this, SearchAddressActivity.class);
+            startActivityForResult(realtyIntent, 1);
         });
 
-        add3d.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent realtyIntent = new Intent(RealtyAddActivity.this, Add3DActivity.class);
-                startActivity(realtyIntent);
-            }
+        addVR360.setOnClickListener(v -> {
+            Intent realtyIntent = new Intent(RealtyEditActivity.this, Add3DActivity.class);
+            startActivity(realtyIntent);
         });
 
         uploadImages.setOnClickListener(new View.OnClickListener() {
@@ -235,91 +306,82 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View v) {
 
-                RealtyReserve realtyReserve = new RealtyReserve(getApplicationContext(), new Tokens(getApplicationContext()).getAccessToken());
+                totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
+                price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
+                livingArea = (!etLivingArea.getText().toString().equals("")) ? etLivingArea.getText().toString() : "0.0";
+                floor = (!etFloor.getText().toString().equals("")) ? etFloor.getText().toString() : "0";
+                totalFloor = (!etTotalFloors.getText().toString().equals("")) ? etTotalFloors.getText().toString() : "0";
 
-                realtyReserve.setOnLoadListener(new RealtyReserve.CustomOnLoadListener() {
+                realty = new Realty();
+                realty.setId(editedRealty.getId());
+                realty.setAddress(btnAddress.getText().toString());
+                realty.setAge(Utils.getCurrentDateToDatabase());
+                realty.setArea(Double.parseDouble(totalArea));
+                realty.setCost(Double.parseDouble(price));
+                realty.setDescription(etDescription.getText().toString());
+                realty.setHeader(etTitle.getText().toString());
+                realty.setFloor(Integer.parseInt(floor));
+                realty.setFloorBuild(Integer.parseInt(totalFloor));
+                realty.setLivingSpace(Double.parseDouble(livingArea));
+                realty.setTransactionType(properties.getRentPeriod().get(spRentType.getSelectedItemPosition()).getCodeId());
+                realty.setRefCity(9);
+                realty.setRoomCount(properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
+                realty.setRealtyType(properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
+                realty.setRentPeriod(properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
+                realty.setStatus(0);
+
+                realtyUpdate = new RealtyUpdate(RealtyEditActivity.this, realty, editedRealty.getId(), new Tokens(getApplicationContext()).getAccessToken());
+                realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
                     @Override
-                    public void onComplete(int realtyid) {
-                        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                    public void onComplete(int data, int resultcode, String message) {
+                        if (resultcode == 1) {
 
-                        realty.setId(realtyid);
-                        totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
-                        price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
-                        livingArea = (!etLivingArea.getText().toString().equals("")) ? etLivingArea.getText().toString() : "0.0";
-                        floor = (!etFloor.getText().toString().equals("")) ? etFloor.getText().toString() : "0";
-                        totalFloor = (!etTotalFloors.getText().toString().equals("")) ? etTotalFloors.getText().toString() : "0";
+                            if (bitmaps.size() > 0) {
+                                Map<String, DataPart> params = new HashMap<>();
 
-                        realty = new Realty();
-                        realty.setAddress(btnAddress.getText().toString());
-                        realty.setAge(Utils.getCurrentDateToDatabase());
-                        realty.setArea(Double.parseDouble(totalArea));
-                        realty.setCost(Double.parseDouble(price));
-                        realty.setDescription(etDescription.getText().toString());
-                        realty.setHeader(etTitle.getText().toString());
-                        realty.setFloor(Integer.parseInt(floor));
-                        realty.setFloorBuild(Integer.parseInt(totalFloor));
-                        realty.setLivingSpace(Double.parseDouble(livingArea));
-                        realty.setTransactionType(properties.getRentPeriod().get(spRentType.getSelectedItemPosition()).getCodeId());
-                        realty.setRefCity(9);
-                        realty.setRoomCount(properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
-                        realty.setRealtyType(properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
-                        realty.setRentPeriod(properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
-                        realty.setStatus(0);
+                                for (int i = 0; i < bitmaps.size(); i++) {
+                                    long imagename = System.currentTimeMillis();
+                                    params.put(String.valueOf(i + 1), new DataPart(imagename + ".png", getFileDataFromDrawable(bitmaps.get(i))));
+                                }
 
-                        realtyUpdate = new RealtyUpdate(RealtyAddActivity.this, realty, realtyid, new Tokens(getApplicationContext()).getAccessToken());
-                        realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
-                            @Override
-                            public void onComplete(int data, int resultcode, String message) {
-                                if (resultcode == 1) {
+                                uploadBitmap(params, data);
+                            }
 
-                                    if (bitmaps.size() > 0) {
-                                        Map<String, DataPart> params = new HashMap<>();
+                            ArrayList<ConfigValue> propertyValues = new ArrayList<>();
 
-                                        for (int i = 0; i < bitmaps.size(); i++) {
-                                            long imagename = System.currentTimeMillis();
-                                            params.put(String.valueOf(i + 1), new DataPart(imagename + ".png", getFileDataFromDrawable(bitmaps.get(i))));
-                                        }
+                            for (int i = 0; i < selectedProperties.size(); i++) {
+                                ConfigValue propertyValue = new ConfigValue();
+                                propertyValue.setRefRealty(data);
+                                propertyValue.setType(selectedProperties.get(i));
+                                propertyValue.setSet(true);
 
-                                        uploadBitmap(params, data);
-                                    }
+                                propertyValues.add(propertyValue);
+                            }
 
-                                    ArrayList<ConfigValue> propertyValues = new ArrayList<>();
+                            if (scBargain.isChecked()) {
+                                ArrayList<ConfigValue> offerValues = new ArrayList<>();
 
-                                    for (int i = 0; i < selectedProperties.size(); i++) {
-                                        ConfigValue propertyValue = new ConfigValue();
-                                        propertyValue.setRefRealty(data);
-                                        propertyValue.setType(selectedProperties.get(i));
-                                        propertyValue.setSet(true);
+                                for (int i = 0; i < selectedOffer.size(); i++) {
+                                    ConfigValue offerValue = new ConfigValue();
+                                    offerValue.setRefRealty(data);
+                                    offerValue.setType(selectedOffer.get(i));
+                                    offerValue.setSet(true);
 
-                                        propertyValues.add(propertyValue);
-                                    }
-
-                                    if (scBargain.isChecked()) {
-                                        ArrayList<ConfigValue> offerValues = new ArrayList<>();
-
-                                        for (int i = 0; i < selectedOffer.size(); i++) {
-                                            ConfigValue offerValue = new ConfigValue();
-                                            offerValue.setRefRealty(data);
-                                            offerValue.setType(selectedOffer.get(i));
-                                            offerValue.setSet(true);
-
-                                            offerValues.add(offerValue);
-                                        }
-                                    }
-
-                                    realtyId = data;
-
-                                    UpdateRealtyProperties realtyProperties = new UpdateRealtyProperties(getApplicationContext(), propertyValues, new Tokens(getApplicationContext()).getAccessToken());
-                                    realtyProperties.setOnLoadListener(new UpdateRealtyProperties.CustomOnLoadListener() {
-                                        @Override
-                                        public void onComplete(int resultCode, String resultMessage) {
-                                            Toast.makeText(getApplicationContext(), "Объявление создано", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
+                                    offerValues.add(offerValue);
                                 }
                             }
-                        });
+
+                            realtyId = data;
+
+                            UpdateRealtyProperties realtyProperties = new UpdateRealtyProperties(getApplicationContext(), propertyValues, new Tokens(getApplicationContext()).getAccessToken());
+                            realtyProperties.setOnLoadListener(new UpdateRealtyProperties.CustomOnLoadListener() {
+                                @Override
+                                public void onComplete(int resultCode, String resultMessage) {
+                                    Toast.makeText(getApplicationContext(), "Объявление сохранено", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                        }
                     }
                 });
             }
@@ -327,13 +389,27 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
 
         btnPublishRealty.setOnClickListener(v -> {
 
-            if (realtyId != -1) {
-                realtyPublish = new RealtyPublish(getApplicationContext(), realtyId, 1, new Tokens(getApplicationContext()).getAccessToken());
-                realtyPublish.setOnLoadListener(new RealtyPublish.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(int resultcode, String message) {
-                        if (resultcode == 1)
-                            Toast.makeText(getApplicationContext(), "Объявление опубликовано", Toast.LENGTH_LONG).show();
+            for (int i = 0; i < selectedProperties.size(); i++) {
+                Log.d("Selected properties: " + selectedProperties.get(i));
+            }
+
+            if (realtyId > -1) {
+                realtyPublish = new RealtyPublish(getApplicationContext(), editedRealty.getId(), 1, new Tokens(getApplicationContext()).getAccessToken());
+                realtyPublish.setOnLoadListener((resultcode, message) -> {
+                    if (resultcode == 1) {
+                        ArrayList<ConfigValue> propertyValues = new ArrayList<>();
+
+                        for (int i = 0; i < selectedProperties.size(); i++) {
+                            ConfigValue propertyValue = new ConfigValue();
+                            propertyValue.setRefRealty(editedRealty.getId());
+                            propertyValue.setType(selectedProperties.get(i));
+                            propertyValue.setSet(true);
+
+                            propertyValues.add(propertyValue);
+                        }
+
+                        UpdateRealtyProperties realtyProperties = new UpdateRealtyProperties(getApplicationContext(), propertyValues, new Tokens(getApplicationContext()).getAccessToken());
+                        realtyProperties.setOnLoadListener((resultCode, resultMessage) -> Toast.makeText(getApplicationContext(), "Объявление опубликовано", Toast.LENGTH_LONG).show());
                     }
                 });
             } else {
@@ -341,12 +417,12 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        title.setText("Создать объявление");
+        title.setText("Ред. объявление");
 
     }
 
     public void addProperties(String data, int unselected,
-                              int selected, int props) {
+                              int selected, int props, boolean isselected) {
         int p0 = getResources().getDimensionPixelSize(R.dimen.padding_top_bottom);
         int p1 = getResources().getDimensionPixelSize(R.dimen.padding_left_right);
         Button btnResult = new Button(this);
@@ -358,7 +434,7 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
         btnResult.setText(data);
         btnResult.setStateListAnimator(null);
 
-        toToggleProperties(btnResult, new ToggleButton(false), unselected, selected, props);
+        toToggleProperties(btnResult, new ToggleButton(isselected), unselected, selected, props);
 
         propertiesLayout.addView(btnResult);
     }
@@ -366,16 +442,28 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
     private void toToggleProperties(Button view, ToggleButton isSet, int unselected,
                                     int selected, int props) {
 
+        if (!isSet.isButton()) {
+            isSet.setButton(false);
+            view.setTextColor(RealtyEditActivity.this.getColor(R.color.color_primary_dark));
+            view.setBackground(ContextCompat.getDrawable(this, unselected));
+            view.setStateListAnimator(null);
+        } else {
+            isSet.setButton(true);
+            view.setTextColor(RealtyEditActivity.this.getColor(android.R.color.white));
+            view.setBackground(ContextCompat.getDrawable(this, selected));
+            view.setStateListAnimator(null);
+        }
+
         view.setOnClickListener(v -> {
             if (isSet.isButton()) {
                 isSet.setButton(false);
-                view.setTextColor(RealtyAddActivity.this.getColor(R.color.color_primary_dark));
+                view.setTextColor(RealtyEditActivity.this.getColor(R.color.color_primary_dark));
                 view.setBackground(ContextCompat.getDrawable(this, unselected));
                 view.setStateListAnimator(null);
                 selectedProperties.remove(selectedProperties.indexOf(props));
             } else {
                 isSet.setButton(true);
-                view.setTextColor(RealtyAddActivity.this.getColor(android.R.color.white));
+                view.setTextColor(RealtyEditActivity.this.getColor(android.R.color.white));
                 view.setBackground(ContextCompat.getDrawable(this, selected));
                 view.setStateListAnimator(null);
                 selectedProperties.add(props);
@@ -488,7 +576,6 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
 
         return path;
     }
-
 
     public byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

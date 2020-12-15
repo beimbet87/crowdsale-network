@@ -93,6 +93,7 @@ public class PublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tvPrice.setText(Utils.parsePrice(offers.getRealty().getCost()));
             tvRooms.setText(new Properties(context).getRentPeriodValue(offers.getRealty().getRentPeriod()));
 
+            if(offers.getImagesLink().size() > 0)
             Picasso.with(context).load(Constants.BASE_URL.concat(offers.getImagesLink().get(0))).into(ivIcon);
 
         }

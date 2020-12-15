@@ -1,9 +1,13 @@
 package www.kaznu.kz.projects.m2.models;
 
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Realty {
+import java.io.Serializable;
+
+public class Realty implements Serializable {
     private int status;
     private int rentPeriod;
     private int id;

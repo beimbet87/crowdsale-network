@@ -7,26 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.activities.OfferActivity;
 import www.kaznu.kz.projects.m2.activities.RealtyAddActivity;
+import www.kaznu.kz.projects.m2.activities.RealtyEditActivity;
 import www.kaznu.kz.projects.m2.adapters.PublishedAdsAdapter;
-import www.kaznu.kz.projects.m2.adapters.SearchAdapter;
 import www.kaznu.kz.projects.m2.adapters.UnpublishedAdsAdapter;
 import www.kaznu.kz.projects.m2.api.realty.UserApplications;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Offers;
-import www.kaznu.kz.projects.m2.models.Search;
+import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.models.Tokens;
 
 public class ListAdsAdminFragment extends Fragment {
@@ -58,8 +57,11 @@ public class ListAdsAdminFragment extends Fragment {
         lvPublished = rootView.findViewById(R.id.lv_published_ads);
         lvUnpublished = rootView.findViewById(R.id.lv_unpublished_ads);
 
-        progressBar = rootView.findViewById(R.id.post_progress);
+        lvPublished.setNestedScrollingEnabled(false);
+        lvUnpublished.setNestedScrollingEnabled(false);
 
+        progressBar = rootView.findViewById(R.id.post_progress);
+        progressBar.setIndeterminate(true);
         published = new UserApplications(requireContext(), 1, new Tokens(requireContext()).getAccessToken());
 
         published.setOnLoadListener(new UserApplications.CustomOnLoadListener() {
@@ -72,13 +74,26 @@ public class ListAdsAdminFragment extends Fragment {
                 lvPublished.setLayoutManager(new LinearLayoutManager(requireContext()));
                 lvPublished.setAdapter(laPublished);
                 laPublished.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
                 lvPublished.setItemViewCacheSize(16);
 
                 laPublished.setOnItemClickListener(new PublishedAdsAdapter.ClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
+                        ImageView btn_edit = v.findViewById(R.id.btn_edit);
+                        ImageView btn_calendar = v.findViewById(R.id.btn_calendar);
 
+                        btn_edit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(requireActivity(), RealtyEditActivity.class);
+                                Realty realty = offers.get(position).getRealty();
+                                intent.putExtra("realty", realty);
+                                intent.putExtra("images", offers.get(position).getImagesLink());
+                                intent.putExtra("property", offers.get(position).getProperties());
+                                intent.putExtra("offers", offers.get(position).getOffersOptionsId());
+                                startActivity(intent);
+                            }
+                        });
                     }
 
                     @Override
@@ -86,35 +101,43 @@ public class ListAdsAdminFragment extends Fragment {
 
                     }
                 });
-            }
-        });
 
-        unpublished = new UserApplications(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
+                unpublished = new UserApplications(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
 
-        unpublished.setOnLoadListener(new UserApplications.CustomOnLoadListener() {
-            @Override
-            public void onComplete(ArrayList<Offers> offers) {
-                Log.d(Constants.TAG, "onComplete: " + offers.size());
-                laUnpublished = new UnpublishedAdsAdapter(requireContext(), offers);
-
-                lvUnpublished.setLayoutManager(new LinearLayoutManager(requireContext()));
-                lvUnpublished.setAdapter(laUnpublished);
-                laUnpublished.notifyDataSetChanged();
-                lvUnpublished.setItemViewCacheSize(16);
-
-                laUnpublished.setOnItemClickListener(new UnpublishedAdsAdapter.ClickListener() {
+                unpublished.setOnLoadListener(new UserApplications.CustomOnLoadListener() {
                     @Override
-                    public void onItemClick(int position, View v) {
+                    public void onComplete(ArrayList<Offers> offers) {
 
-                    }
+                        laUnpublished = new UnpublishedAdsAdapter(requireContext(), offers);
 
-                    @Override
-                    public void onItemLongClick(int position, View v) {
+                        lvUnpublished.setLayoutManager(new LinearLayoutManager(requireContext()));
+                        lvUnpublished.setAdapter(laUnpublished);
+                        laUnpublished.notifyDataSetChanged();
+                        lvUnpublished.setItemViewCacheSize(16);
+                        progressBar.setIndeterminate(false);
+                        laUnpublished.setOnItemClickListener(new UnpublishedAdsAdapter.ClickListener() {
+                            @Override
+                            public void onItemClick(int position, View v) {
+                                Intent intent = new Intent(requireActivity(), RealtyEditActivity.class);
+                                Realty realty = offers.get(position).getRealty();
+                                intent.putExtra("realty", realty);
+                                intent.putExtra("images", offers.get(position).getImagesLink());
+                                intent.putExtra("property", offers.get(position).getProperties());
+                                intent.putExtra("offers", offers.get(position).getOffersOptionsId());
+                                startActivity(intent);
+                            }
 
+                            @Override
+                            public void onItemLongClick(int position, View v) {
+
+                            }
+                        });
                     }
                 });
+
             }
         });
+
 
         btnAddAds.setOnClickListener(new View.OnClickListener() {
             @Override

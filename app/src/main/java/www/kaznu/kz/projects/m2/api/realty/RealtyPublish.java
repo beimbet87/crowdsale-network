@@ -41,7 +41,7 @@ public class RealtyPublish implements Constants {
 
     public RealtyPublish(Context context, int reatlyid, int publish, String token) {
 
-        String params = "?realtyid=" + reatlyid + "&publish=" + publish;
+        String params = "?realityId=" + reatlyid + "&publish=" + publish;
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 

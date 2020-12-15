@@ -1,5 +1,7 @@
 package www.kaznu.kz.projects.m2.models;
 
+import java.io.Serializable;
+
 public class Search {
     private int refUser;
     private int status;

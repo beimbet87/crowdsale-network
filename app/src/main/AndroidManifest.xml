@@ -66,6 +66,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <activity android:name=".activities.RealtyAddActivity" />
+        <activity android:name=".activities.RealtyEditActivity" />
         <activity android:name=".activities.OfferActivity" />
         <activity
             android:name=".activities.SearchActivity"
