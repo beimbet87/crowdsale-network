@@ -120,27 +120,27 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/offer_background"
                     android:orientation="vertical"
-                    android:padding="12dp"
-                    android:background="@drawable/offer_background">
-                    
+                    android:padding="12dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginBottom="12dp"
+                        android:gravity="center"
                         android:text="@string/offer_text"
-                        android:textColor="#BA0952"/>
+                        android:textColor="#BA0952" />
 
                     <Button
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/offer_button_background"
                         android:text="Отклонить предложение"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:background="@drawable/offer_button_background"
-                        style="?android:attr/borderlessButtonStyle"/>
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -178,13 +178,14 @@
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp">
 
-                    <com.yandex.mapkit.mapview.MapView
-                        android:id="@+id/tv_default_map"
+                    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/map"
+                        android:name="com.google.android.gms.maps.MapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:apiKey="0c19b044-7b1e-4190-8682-4118f672110d"
-                        app:liteMode="true" />
+                        map:cameraZoom="13"
+                        map:liteMode="true"
+                        map:mapType="normal" />
                 </androidx.cardview.widget.CardView>
 
             </LinearLayout>
@@ -309,10 +310,10 @@
                         android:id="@+id/comments"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center_vertical"
-                        android:maxLines="2"
                         android:layout_marginEnd="16dp"
+                        android:layout_weight="1"
+                        android:maxLines="2"
                         android:text="24 человека оставили отзыв"
                         android:textColor="@color/color_primary_dark"
                         android:textSize="16sp"
@@ -359,7 +360,7 @@
                     <www.kaznu.kz.projects.m2.views.FlowLayout
                         android:id="@+id/comforts"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

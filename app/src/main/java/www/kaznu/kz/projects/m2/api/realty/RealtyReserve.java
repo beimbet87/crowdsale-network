@@ -50,7 +50,7 @@ public class RealtyReserve implements Constants {
                     resultMessage = root.getString("ResultMessage");
 
                     if(listener != null) {
-                        listener.onComplete(realtyId);
+                        listener.onComplete(root.getInt("realtyid"));
                     }
 
                 } catch (JSONException e) {

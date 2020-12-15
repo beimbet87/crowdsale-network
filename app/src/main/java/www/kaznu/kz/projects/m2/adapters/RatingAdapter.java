@@ -97,7 +97,7 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.MyViewHold
 
         if(comment.getImage().equals("null")) {
             String url = BASE_URL.concat(comment.getImage());
-            Picasso.with(this.context).load(url).into(holder.icon);
+            Picasso.get().load(url).into(holder.icon);
         } else {
             holder.icon.setImageResource(R.drawable.ic_default_avatar);
         }

@@ -7,17 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.activities.OfferAdminActivity;
 import www.kaznu.kz.projects.m2.activities.RealtyAddActivity;
 import www.kaznu.kz.projects.m2.activities.RealtyEditActivity;
 import www.kaznu.kz.projects.m2.adapters.PublishedAdsAdapter;
@@ -27,9 +26,11 @@ import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.models.Tokens;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class ListAdsAdminFragment extends Fragment {
-    Button btnAddAds;
+
+    Button btnAddRealty;
 
     public ListAdsAdminFragment() {
         // Required empty public constructor
@@ -44,6 +45,7 @@ public class ListAdsAdminFragment extends Fragment {
 
     ProgressBar progressBar;
 
+    Logger Log;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -52,7 +54,7 @@ public class ListAdsAdminFragment extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_post_ads_admin, container, false);
 
-        btnAddAds = rootView.findViewById(R.id.btn_create_post);
+        btnAddRealty = rootView.findViewById(R.id.btn_create_post);
 
         lvPublished = rootView.findViewById(R.id.lv_published_ads);
         lvUnpublished = rootView.findViewById(R.id.lv_unpublished_ads);
@@ -68,7 +70,6 @@ public class ListAdsAdminFragment extends Fragment {
             @Override
             public void onComplete(ArrayList<Offers> offers) {
 
-                Log.d(Constants.TAG, "onComplete: " + offers.size());
                 laPublished = new PublishedAdsAdapter(requireContext(), offers);
 
                 lvPublished.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -79,21 +80,8 @@ public class ListAdsAdminFragment extends Fragment {
                 laPublished.setOnItemClickListener(new PublishedAdsAdapter.ClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
-                        ImageView btn_edit = v.findViewById(R.id.btn_edit);
-                        ImageView btn_calendar = v.findViewById(R.id.btn_calendar);
-
-                        btn_edit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(requireActivity(), RealtyEditActivity.class);
-                                Realty realty = offers.get(position).getRealty();
-                                intent.putExtra("realty", realty);
-                                intent.putExtra("images", offers.get(position).getImagesLink());
-                                intent.putExtra("property", offers.get(position).getProperties());
-                                intent.putExtra("offers", offers.get(position).getOffersOptionsId());
-                                startActivity(intent);
-                            }
-                        });
+                        Intent intent = new Intent(requireActivity(), OfferAdminActivity.class);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -139,7 +127,7 @@ public class ListAdsAdminFragment extends Fragment {
         });
 
 
-        btnAddAds.setOnClickListener(new View.OnClickListener() {
+        btnAddRealty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RealtyAddActivity.class);

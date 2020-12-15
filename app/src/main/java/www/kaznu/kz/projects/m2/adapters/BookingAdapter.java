@@ -81,7 +81,7 @@ public class BookingAdapter extends BaseAdapter {
 
         viewHolder.address.setText(booking.get(position).getAddress());
         viewHolder.date.setText(date);
-        Picasso.with(context).load(Constants.BASE_URL.concat(booking.get(position).getLinkImage())).into(viewHolder.icon);
+        Picasso.get().load(Constants.BASE_URL.concat(booking.get(position).getLinkImage())).into(viewHolder.icon);
 
         return convertView;
     }

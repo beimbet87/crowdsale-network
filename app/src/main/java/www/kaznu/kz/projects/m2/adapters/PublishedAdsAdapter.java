@@ -1,6 +1,7 @@
 package www.kaznu.kz.projects.m2.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.activities.RealtyEditActivity;
 import www.kaznu.kz.projects.m2.api.RealtyProperties;
 import www.kaznu.kz.projects.m2.api.RealtyType;
 import www.kaznu.kz.projects.m2.api.RentPeriod;
@@ -25,6 +27,7 @@ import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Filter;
 import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Properties;
+import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.models.Search;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
@@ -68,6 +71,8 @@ public class PublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tvPrice;
         TextView tvRooms;
         ImageView ivIcon;
+        ImageView btn_edit;
+        ImageView btn_calendar;
 
         PublishedAdsHolder(View itemView) {
             super(itemView);
@@ -81,6 +86,8 @@ public class PublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tvPrice = itemView.findViewById(R.id.tv_price);
             tvRooms = itemView.findViewById(R.id.tv_rooms);
             ivIcon = itemView.findViewById(R.id.iv_icon);
+            btn_calendar = itemView.findViewById(R.id.btn_calendar);
+            btn_edit = itemView.findViewById(R.id.btn_edit);
         }
 
         void bind(Offers offers, Context context, int position, int num) {
@@ -93,8 +100,21 @@ public class PublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tvPrice.setText(Utils.parsePrice(offers.getRealty().getCost()));
             tvRooms.setText(new Properties(context).getRentPeriodValue(offers.getRealty().getRentPeriod()));
 
+            btn_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, RealtyEditActivity.class);
+                    Realty realty = offers.getRealty();
+                    intent.putExtra("realty", realty);
+                    intent.putExtra("images", offers.getImagesLink());
+                    intent.putExtra("property", offers.getProperties());
+                    intent.putExtra("offers", offers.getOffersOptionsId());
+                    context.startActivity(intent);
+                }
+            });
+
             if(offers.getImagesLink().size() > 0)
-            Picasso.with(context).load(Constants.BASE_URL.concat(offers.getImagesLink().get(0))).into(ivIcon);
+            Picasso.get().load(Constants.BASE_URL.concat(offers.getImagesLink().get(0))).into(ivIcon);
 
         }
 

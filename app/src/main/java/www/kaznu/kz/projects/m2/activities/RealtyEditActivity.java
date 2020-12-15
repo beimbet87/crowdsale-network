@@ -231,7 +231,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setLayoutParams(new LinearLayout.LayoutParams(size, size));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Picasso.with(this).load(Constants.BASE_URL.concat(images.get(i))).into(imageView);
+            Picasso.get().load(Constants.BASE_URL.concat(images.get(i))).into(imageView);
             cardView.addView(imageView);
             imageContainer.addView(cardView);
 
@@ -283,7 +283,9 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
 
         }
 
-        spRooms.setSelection(editedRealty.getRoomCount()-1);
+        if(editedRealty.getRoomCount() < 7) {
+            spRooms.setSelection(editedRealty.getRoomCount() - 1);
+        }
 
         btnAddress.setOnClickListener(v -> {
             Intent realtyIntent = new Intent(RealtyEditActivity.this, SearchAddressActivity.class);

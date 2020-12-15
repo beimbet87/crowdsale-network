@@ -94,7 +94,7 @@ public class UnpublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tvRooms.setText(new Properties(context).getRentPeriodValue(offers.getRealty().getRentPeriod()));
 
             if(offers.getImagesLink().size() > 0) {
-                Picasso.with(context).load(Constants.BASE_URL.concat(offers.getImagesLink().get(0))).into(ivIcon);
+                Picasso.get().load(Constants.BASE_URL.concat(offers.getImagesLink().get(0))).into(ivIcon);
             }
 
         }

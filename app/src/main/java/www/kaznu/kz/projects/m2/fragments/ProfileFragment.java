@@ -131,7 +131,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         String url = BASE_URL.concat(currentUser.getImageLink());
 
-        Picasso.with(requireContext()).load(url).into(ivAvatar);
+        Picasso.get().load(url).into(ivAvatar);
 
         etUserName.setText(currentUser.getName());
         etUserSurname.setText(currentUser.getSurname());

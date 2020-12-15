@@ -131,7 +131,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         Log.d(String.valueOf(this.offers.get(position).getOwner().getStars()));
         if(this.offers.get(position).getImagesLink().size() > 0) {
             String url = BASE_URL.concat(this.offers.get(position).getImagesLink().get(0));
-            Picasso.with(this.context).load(url).into(holder.icon);
+            Picasso.get().load(url).into(holder.icon);
         } else {
             holder.icon.setImageResource(R.drawable.button_background_gray);
         }

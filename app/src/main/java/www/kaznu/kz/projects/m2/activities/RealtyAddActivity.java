@@ -224,105 +224,94 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        uploadImages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFileChooser();
-            }
-        });
+        uploadImages.setOnClickListener(v -> showFileChooser());
 
-        btnCreateRealty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnCreateRealty.setOnClickListener(v -> {
 
-                RealtyReserve realtyReserve = new RealtyReserve(getApplicationContext(), new Tokens(getApplicationContext()).getAccessToken());
+            RealtyReserve realtyReserve = new RealtyReserve(getApplicationContext(), new Tokens(getApplicationContext()).getAccessToken());
 
-                realtyReserve.setOnLoadListener(new RealtyReserve.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(int realtyid) {
-                        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            realtyReserve.setOnLoadListener(id -> {
 
-                        realty.setId(realtyid);
-                        totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
-                        price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
-                        livingArea = (!etLivingArea.getText().toString().equals("")) ? etLivingArea.getText().toString() : "0.0";
-                        floor = (!etFloor.getText().toString().equals("")) ? etFloor.getText().toString() : "0";
-                        totalFloor = (!etTotalFloors.getText().toString().equals("")) ? etTotalFloors.getText().toString() : "0";
+                Log.d("Realty reserved with id: " + id);
 
-                        realty = new Realty();
-                        realty.setAddress(btnAddress.getText().toString());
-                        realty.setAge(Utils.getCurrentDateToDatabase());
-                        realty.setArea(Double.parseDouble(totalArea));
-                        realty.setCost(Double.parseDouble(price));
-                        realty.setDescription(etDescription.getText().toString());
-                        realty.setHeader(etTitle.getText().toString());
-                        realty.setFloor(Integer.parseInt(floor));
-                        realty.setFloorBuild(Integer.parseInt(totalFloor));
-                        realty.setLivingSpace(Double.parseDouble(livingArea));
-                        realty.setTransactionType(properties.getRentPeriod().get(spRentType.getSelectedItemPosition()).getCodeId());
-                        realty.setRefCity(9);
-                        realty.setRoomCount(properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
-                        realty.setRealtyType(properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
-                        realty.setRentPeriod(properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
-                        realty.setStatus(0);
+                realtyId = id;
+                totalArea = (!etTotalArea.getText().toString().equals("")) ? etTotalArea.getText().toString() : "0.0";
+                price = (!etPrice.getText().toString().equals("")) ? etPrice.getText().toString() : "0.0";
+                livingArea = (!etLivingArea.getText().toString().equals("")) ? etLivingArea.getText().toString() : "0.0";
+                floor = (!etFloor.getText().toString().equals("")) ? etFloor.getText().toString() : "0";
+                totalFloor = (!etTotalFloors.getText().toString().equals("")) ? etTotalFloors.getText().toString() : "0";
 
-                        realtyUpdate = new RealtyUpdate(RealtyAddActivity.this, realty, realtyid, new Tokens(getApplicationContext()).getAccessToken());
-                        realtyUpdate.setOnLoadListener(new RealtyUpdate.CustomOnLoadListener() {
+                realty = new Realty();
+                realty.setId(id);
+                realty.setAddress(btnAddress.getText().toString());
+                realty.setAge(Utils.getCurrentDateToDatabase());
+                realty.setArea(Double.parseDouble(totalArea));
+                realty.setCost(Double.parseDouble(price));
+                realty.setDescription(etDescription.getText().toString());
+                realty.setHeader(etTitle.getText().toString());
+                realty.setFloor(Integer.parseInt(floor));
+                realty.setFloorBuild(Integer.parseInt(totalFloor));
+                realty.setLivingSpace(Double.parseDouble(livingArea));
+                realty.setTransactionType(properties.getRentPeriod().get(spRentType.getSelectedItemPosition()).getCodeId());
+                realty.setRefCity(9);
+                realty.setRoomCount(properties.getRooms().get(spRooms.getSelectedItemPosition()).getCodeId());
+                realty.setRealtyType(properties.getRealtyType().get(spRealtyType.getSelectedItemPosition()).getCodeId());
+                realty.setRentPeriod(properties.getRentPeriod().get(spRentPeriod.getSelectedItemPosition()).getCodeId());
+                realty.setStatus(0);
+
+                realtyUpdate = new RealtyUpdate(getApplicationContext(), realty, id, new Tokens(getApplicationContext()).getAccessToken());
+                realtyUpdate.setOnLoadListener((data, resultCode, message) -> {
+
+                    Log.d("Realty created");
+
+                    if (resultCode == 1) {
+
+                        if (bitmaps.size() > 0) {
+                            Map<String, DataPart> params = new HashMap<>();
+
+                            for (int i = 0; i < bitmaps.size(); i++) {
+                                long imageName = System.currentTimeMillis();
+                                params.put(String.valueOf(i + 1), new DataPart(imageName + ".png", getFileDataFromDrawable(bitmaps.get(i))));
+                            }
+
+                            uploadBitmap(params, data);
+                        }
+
+                        ArrayList<ConfigValue> propertyValues = new ArrayList<>();
+
+                        for (int i = 0; i < selectedProperties.size(); i++) {
+                            ConfigValue propertyValue = new ConfigValue();
+                            propertyValue.setRefRealty(data);
+                            propertyValue.setType(selectedProperties.get(i));
+                            propertyValue.setSet(true);
+
+                            propertyValues.add(propertyValue);
+                        }
+
+                        if (scBargain.isChecked()) {
+                            ArrayList<ConfigValue> offerValues = new ArrayList<>();
+
+                            for (int i = 0; i < selectedOffer.size(); i++) {
+                                ConfigValue offerValue = new ConfigValue();
+                                offerValue.setRefRealty(data);
+                                offerValue.setType(selectedOffer.get(i));
+                                offerValue.setSet(true);
+
+                                offerValues.add(offerValue);
+                            }
+                        }
+
+                        UpdateRealtyProperties realtyProperties = new UpdateRealtyProperties(getApplicationContext(), propertyValues, new Tokens(getApplicationContext()).getAccessToken());
+                        realtyProperties.setOnLoadListener(new UpdateRealtyProperties.CustomOnLoadListener() {
                             @Override
-                            public void onComplete(int data, int resultcode, String message) {
-                                if (resultcode == 1) {
-
-                                    if (bitmaps.size() > 0) {
-                                        Map<String, DataPart> params = new HashMap<>();
-
-                                        for (int i = 0; i < bitmaps.size(); i++) {
-                                            long imagename = System.currentTimeMillis();
-                                            params.put(String.valueOf(i + 1), new DataPart(imagename + ".png", getFileDataFromDrawable(bitmaps.get(i))));
-                                        }
-
-                                        uploadBitmap(params, data);
-                                    }
-
-                                    ArrayList<ConfigValue> propertyValues = new ArrayList<>();
-
-                                    for (int i = 0; i < selectedProperties.size(); i++) {
-                                        ConfigValue propertyValue = new ConfigValue();
-                                        propertyValue.setRefRealty(data);
-                                        propertyValue.setType(selectedProperties.get(i));
-                                        propertyValue.setSet(true);
-
-                                        propertyValues.add(propertyValue);
-                                    }
-
-                                    if (scBargain.isChecked()) {
-                                        ArrayList<ConfigValue> offerValues = new ArrayList<>();
-
-                                        for (int i = 0; i < selectedOffer.size(); i++) {
-                                            ConfigValue offerValue = new ConfigValue();
-                                            offerValue.setRefRealty(data);
-                                            offerValue.setType(selectedOffer.get(i));
-                                            offerValue.setSet(true);
-
-                                            offerValues.add(offerValue);
-                                        }
-                                    }
-
-                                    realtyId = data;
-
-                                    UpdateRealtyProperties realtyProperties = new UpdateRealtyProperties(getApplicationContext(), propertyValues, new Tokens(getApplicationContext()).getAccessToken());
-                                    realtyProperties.setOnLoadListener(new UpdateRealtyProperties.CustomOnLoadListener() {
-                                        @Override
-                                        public void onComplete(int resultCode, String resultMessage) {
-                                            Toast.makeText(getApplicationContext(), "Объявление создано", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-                                }
+                            public void onComplete(int resultCode, String resultMessage) {
+                                Toast.makeText(getApplicationContext(), "Объявление создано", Toast.LENGTH_LONG).show();
                             }
                         });
+
                     }
                 });
-            }
+            });
         });
 
         btnPublishRealty.setOnClickListener(v -> {

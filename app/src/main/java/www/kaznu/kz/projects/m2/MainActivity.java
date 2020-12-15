@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -23,22 +22,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.typeface.GenericFont;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
-import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
-import com.pusher.client.connection.ConnectionEventListener;
-import com.pusher.client.connection.ConnectionState;
-import com.pusher.client.connection.ConnectionStateChange;
-import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.api.searches.MySearches;
-import www.kaznu.kz.projects.m2.api.upload.DeleteImage;
 import www.kaznu.kz.projects.m2.api.user.UserInfo;
 import www.kaznu.kz.projects.m2.fragments.AccountAdminFragment;
 import www.kaznu.kz.projects.m2.fragments.AccountFragment;

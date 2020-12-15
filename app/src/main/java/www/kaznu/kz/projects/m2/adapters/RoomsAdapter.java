@@ -43,7 +43,7 @@ public class RoomsAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.item_rooms, null);
-        TextView names = (TextView) view.findViewById(R.id.tv_rooms);
+        TextView names = view.findViewById(R.id.tv_rooms);
         names.setText(data.get(i).getValue()); //realtyType.getDirectories().get(i).getValue()
         return view;
     }

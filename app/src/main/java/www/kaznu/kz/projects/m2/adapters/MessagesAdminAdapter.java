@@ -102,7 +102,7 @@ public class MessagesAdminAdapter extends RecyclerView.Adapter<RecyclerView.View
                 icon.setImageResource(R.drawable.default_appartment);
             } else {
                 String url = BASE_URL + chat.getImageLink();
-                Picasso.with(context).load(url).into(icon);
+                Picasso.get().load(url).into(icon);
             }
         }
 

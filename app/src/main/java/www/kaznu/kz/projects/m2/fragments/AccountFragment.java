@@ -92,7 +92,7 @@ public class AccountFragment extends Fragment implements Constants,
         completeRegistration.setOnClickListener(this);
 
         String url = BASE_URL.concat(currentUser.getImageLink());
-        Picasso.with(requireContext()).load(url).into(ivAvatar);
+        Picasso.get().load(url).into(ivAvatar);
 
         tvUserName.setText(currentUser.getName());
 

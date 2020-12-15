@@ -129,7 +129,7 @@ public class AccountAdminFragment extends Fragment implements Constants,
         tvUserMode.setText(R.string.user_mode_owner);
         tvUserModeHint.setText(R.string.user_mode_hint_guest);
 
-        Picasso.with(requireContext()).load(Constants.BASE_URL.concat(currentUser.getImageLink())).into(ivAvatar);
+        Picasso.get().load(Constants.BASE_URL.concat(currentUser.getImageLink())).into(ivAvatar);
 
         userMode.setChecked(true);
         userMode.setOnCheckedChangeListener(this);

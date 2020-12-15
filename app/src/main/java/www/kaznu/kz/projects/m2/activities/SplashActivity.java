@@ -15,12 +15,8 @@ import com.pusher.client.PusherOptions;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
-import com.yandex.mapkit.MapKitFactory;
-
-import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.adapters.RealtyTypeAdapter;
 import www.kaznu.kz.projects.m2.api.Countries;
 import www.kaznu.kz.projects.m2.api.Currencies;
 import www.kaznu.kz.projects.m2.api.DealType;
@@ -28,7 +24,6 @@ import www.kaznu.kz.projects.m2.api.RealtyProperties;
 import www.kaznu.kz.projects.m2.api.RealtyType;
 import www.kaznu.kz.projects.m2.api.RentPeriod;
 import www.kaznu.kz.projects.m2.api.RequestOffers;
-import www.kaznu.kz.projects.m2.api.book.ClientBookings;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
@@ -92,8 +87,6 @@ public class SplashActivity extends IntroActivity implements Constants {
             options.setCluster("ap2");
             options.buildUrl("8640a8f0befcab114411");
             Pusher pusher = new Pusher("0a0d35afd76319bf0b45", options);
-
-            MapKitFactory.setApiKey("236b4b67-7f92-40a9-a018-f940db1db2dd");
 
             pusher.connect(new ConnectionEventListener() {
                 @Override

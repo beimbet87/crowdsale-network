@@ -259,7 +259,7 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 timeText.setText(dateFormat.format(date));
                 if(!message.getImage().matches("null")) {
-                    Picasso.with(itemView.getContext()).load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(profileImage);
+                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(profileImage);
                     Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
                 } else {
                     profileImage.setImageResource(R.drawable.ic_default_avatar);
@@ -315,7 +315,7 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
                 if(!message.getImage().matches("null")) {
-                    Picasso.with(itemView.getContext()).load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
                     Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
                 } else {
                     ivAvatar.setImageResource(R.drawable.ic_default_avatar);
@@ -368,7 +368,7 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
                 if(!message.getImage().matches("null")) {
-                    Picasso.with(itemView.getContext()).load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
                     Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
                 } else {
                     ivAvatar.setImageResource(R.drawable.ic_default_avatar);
@@ -421,7 +421,7 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
                 if(!message.getImage().matches("null")) {
-                    Picasso.with(itemView.getContext()).load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
                     Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
                 } else {
                     ivAvatar.setImageResource(R.drawable.ic_default_avatar);
@@ -519,7 +519,7 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
                 if(!message.getImage().matches("null")) {
-                    Picasso.with(itemView.getContext()).load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
                     Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
                 } else {
                     ivAvatar.setImageResource(R.drawable.ic_default_avatar);
@@ -560,7 +560,7 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
             if (type == 71) {
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
                 if(!message.getImage().matches("null")) {
-                    Picasso.with(itemView.getContext()).load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
                     Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
                 } else {
                     ivAvatar.setImageResource(R.drawable.ic_default_avatar);
