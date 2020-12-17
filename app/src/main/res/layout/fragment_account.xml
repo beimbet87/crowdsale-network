@@ -41,17 +41,19 @@
                         android:src="@drawable/ic_default_avatar"
                         app:civ_border_width="0dp" />
 
-                    <RatingBar
+                    <com.willy.ratingbar.ScaleRatingBar
                         android:id="@+id/rb_profile_rating"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/profile_rating_margin"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:numStars="5"
-                        android:rating="0"
-                        android:theme="@style/customRatingBar" />
+                        app:srb_drawableEmpty="@drawable/ic_disabled_star"
+                        app:srb_drawableFilled="@drawable/ic_enabled_star"
+                        app:srb_numStars="5"
+                        app:srb_clickable="false"
+                        app:srb_starHeight="12dp"
+                        app:srb_starPadding="0dp"
+                        app:srb_starWidth="12dp"
+                        app:srb_stepSize="1" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -98,5 +98,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     testImplementation 'junit:junit:4.13.1'
 
+    implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
+
 
 }

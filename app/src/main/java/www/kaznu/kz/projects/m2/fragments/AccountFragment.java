@@ -22,6 +22,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
+import com.willy.ratingbar.ScaleRatingBar;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.CompleteRegistrationActivity;
@@ -52,7 +53,7 @@ public class AccountFragment extends Fragment implements Constants,
     Button btnViewProfile;
     ImageView ivAvatar;
     LinearLayout btnExit;
-    RatingBar ratingBar;
+    ScaleRatingBar ratingBar;
 
     LinearLayout completeRegistration;
 

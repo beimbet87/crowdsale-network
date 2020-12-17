@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ import www.kaznu.kz.projects.m2.api.realty.UpdateRealtyProperties;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.ConfigValue;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.Properties;
 import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.models.Search;
@@ -359,14 +361,38 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
 
                             ArrayList<ConfigValue> propertyValues = new ArrayList<>();
 
-                            for (int i = 0; i < selectedProperties.size(); i++) {
+                            ArrayList<Directory> localProperties = new Properties(getApplicationContext()).getRealtyProperties();
+                            boolean isProperty;
+                            for (int i = 0; i < localProperties.size(); i++) {
                                 ConfigValue propertyValue = new ConfigValue();
-                                propertyValue.setRefRealty(data);
-                                propertyValue.setType(selectedProperties.get(i));
-                                propertyValue.setSet(true);
+                                if(selectedProperties.size() > 0) {
+                                    isProperty = false;
+                                    for (int j = 0; j < selectedProperties.size(); j++) {
+                                        if(localProperties.get(i).getCodeId() == selectedProperties.get(j)) {
+                                            propertyValue.setRefRealty(data);
+                                            propertyValue.setType(localProperties.get(i).getCodeId());
+                                            propertyValue.setSet(true);
+                                            isProperty = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!isProperty) {
+                                        propertyValue.setRefRealty(data);
+                                        propertyValue.setType(localProperties.get(i).getCodeId());
+                                        propertyValue.setSet(false);
+                                    }
+                                }
+                                else {
+                                    propertyValue.setRefRealty(data);
+                                    propertyValue.setType(localProperties.get(i).getCodeId());
+                                    propertyValue.setSet(false);
+                                }
 
                                 propertyValues.add(propertyValue);
+
+
                             }
+                            Log.d("Selected properties: " + propertyValues.size());
 
                             if (scBargain.isChecked()) {
                                 ArrayList<ConfigValue> offerValues = new ArrayList<>();

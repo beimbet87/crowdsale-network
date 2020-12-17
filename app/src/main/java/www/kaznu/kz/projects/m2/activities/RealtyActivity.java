@@ -23,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import www.kaznu.kz.projects.m2.R;
@@ -109,7 +110,9 @@ public class RealtyActivity extends IntroActivity {
 
         avatar = intent.getStringExtra("avatar");
 
-        properties.addAll(intent.getIntegerArrayListExtra("properties"));
+        if(intent.getIntegerArrayListExtra("properties") != null) {
+            properties.addAll(Objects.requireNonNull(intent.getIntegerArrayListExtra("properties")));
+        }
 
         ratingBar.setRating((float)intent.getIntExtra("stars", 0));
 

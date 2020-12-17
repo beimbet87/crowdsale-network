@@ -17,28 +17,30 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_profile_image1"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
                 android:src="@drawable/avatar"
                 app:civ_border_width="0dp" />
 
-            <RatingBar
+            <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/rb_profile_rating1"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/profile_rating_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:numStars="5"
-                android:rating="4"
-                android:theme="@style/customRatingBar" />
+                app:srb_drawableEmpty="@drawable/ic_disabled_star"
+                app:srb_drawableFilled="@drawable/ic_enabled_star"
+                app:srb_numStars="5"
+                app:srb_clickable="false"
+                app:srb_starHeight="11dp"
+                app:srb_starPadding="0dp"
+                app:srb_starWidth="11dp"
+                app:srb_stepSize="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,11 +72,11 @@
 
     <LinearLayout
         android:id="@+id/offer_panel"
-        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/view_profile_button_background">
+        android:background="@drawable/view_profile_button_background"
+        android:visibility="visible">
 
         <EditText
             android:id="@+id/tv_price_per_day"
@@ -82,12 +84,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:hint="Введите сумму"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/offer_price"
             android:textColor="@color/color_primary_dark"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_offer_price"

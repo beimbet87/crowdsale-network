@@ -45,7 +45,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <Button
-                android:id="@+id/btn_hide"
+                android:id="@+id/btn_home"
                 style="@style/Button.Style.Home"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

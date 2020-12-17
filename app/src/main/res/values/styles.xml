@@ -70,6 +70,14 @@
         <item name="colorControlActivated">@color/color_primary</item>
     </style>
 
+    <style name="RatingBar.Style.Small" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="colorControlNormal">@color/colorRatingBarNormal</item>
+        <item name="colorControlActivated">@color/color_primary</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:thumb">@null</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+
     <style name="CalendarViewStyle" parent="android:Widget.Material.CalendarView">
         <item name="android:focusedMonthDateColor">@color/color_primary_dark</item>
         <item name="android:weekNumberColor">@color/color_primary</item>
@@ -186,12 +194,12 @@
     <style name="Button.Style.Offer.Blue" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="height">32dp</item>
         <item name="cornerRadius">16dp</item>
-        <item name="android:background">@drawable/button_background_light_blue_r8</item>
-        <item name="android:paddingStart">@dimen/profile_rating_margin</item>
-        <item name="android:paddingEnd">@dimen/profile_rating_margin</item>
+        <item name="android:background">@drawable/button_background_light_blue</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
     </style>
 
     <style name="Button.Style.Comment" parent="Widget.AppCompat.Button.Borderless.Colored">

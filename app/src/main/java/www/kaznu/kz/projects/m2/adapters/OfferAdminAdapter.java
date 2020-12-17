@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.willy.ratingbar.ScaleRatingBar;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,8 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
 
     Context context;
     private ArrayList<CurrentUser> users;
+    boolean [] isSelected;
+    int p0, p1;
     Logger Log;
     OnCardClickListner onCardClickListner;
     boolean isOffer = true;
@@ -49,7 +52,7 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         TextView titles;
         TextView price;
         ImageView icon;
-        RatingBar ratingBar;
+        ScaleRatingBar ratingBar;
         FlowLayout flowLayout;
         Button btnOffer;
         LinearLayout offerPanel;
@@ -60,16 +63,20 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
             titles = itemView.findViewById(R.id.tv_profile_username1);
             btnOffer = itemView.findViewById(R.id.btn_offer_price);
             price = itemView.findViewById(R.id.tv_price_per_day);
-            ratingBar = itemView.findViewById(R.id.rb_profile_rating1);
+            ratingBar = (ScaleRatingBar) itemView.findViewById(R.id.rb_profile_rating1);
             icon = itemView.findViewById(R.id.iv_profile_image1);
-            flowLayout = itemView.findViewById(R.id.offer_properties);
+            flowLayout = itemView.findViewById(R.id.fl_properties);
             offerPanel = itemView.findViewById(R.id.offer_panel);
         }
     }
 
-    public OfferAdminAdapter(Context context, ArrayList<CurrentUser> users) {
+    public OfferAdminAdapter(Context context, ArrayList<CurrentUser> users, int p0, int p1) {
         this.context = context;
         this.users = users;
+        this.p0 = p0;
+        this.p1 = p1;
+
+        isSelected = new boolean[getItemCount()];
 
         Log = new Logger(context, TAG);
     }
@@ -88,6 +95,8 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         CurrentUser user = this.users.get(position);
         holder.offerPanel.setVisibility(View.GONE);
 
+
+
         String header = user.getName();
 //        String cost = Utils.parsePrice((double) Math.round(user.getCost()));
 
@@ -96,27 +105,18 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         }
 
         holder.titles.setText(header);
-//        addText(getRooms(roomCount), holder.flowLayout, context, padding0, padding1);
+        addText("От 230 000 ₸ до 270 000 ₸", holder.flowLayout, context, p0, p1);
+        addText("01.02.2020-11.02.2020", holder.flowLayout, context, p0, p1);
+        addText("2,3 - комнатная", holder.flowLayout, context, p0, p1);
 
         holder.ratingBar.setRating(user.getStars());
 
-        if (!user.getImageLink().isEmpty()) {
-            String url = BASE_URL.concat(user.getImageLink());
-            Picasso.get().load(url).into(holder.icon);
-        } else {
-            holder.icon.setImageResource(R.drawable.button_background_gray);
-        }
+        holder.icon.setImageResource(R.drawable.ic_default_avatar);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCardClickListner.OnCardClicked(v, position);
-                if(isOffer) {
-                    holder.offerPanel.setVisibility(View.VISIBLE);
-                    isOffer = false;
-                } else {
-                    holder.offerPanel.setVisibility(View.GONE);
-                }
             }
         });
     }
@@ -151,14 +151,14 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         return rooms + " комн.";
     }
 
-    public String addText(String data, FlowLayout flowLayout, Context context, int padding0, int padding1) {
+    public String addText(String data, FlowLayout flowLayout, Context context, int p0, int p1) {
 
         TextView textView = new TextView(context);
-        textView.setTextSize(12);
+        textView.setTextSize(11);
         textView.setBackground(ContextCompat.getDrawable(context, R.drawable.view_profile_button_background));
         textView.setTextColor(ContextCompat.getColor(context, R.color.color_primary_dark));
         textView.setMaxLines(1);
-        textView.setPadding(padding1, padding0, padding1, padding0);
+        textView.setPadding(p1, p0, p1, p0);
         textView.setText(data);
         flowLayout.addView(textView);
         return data;

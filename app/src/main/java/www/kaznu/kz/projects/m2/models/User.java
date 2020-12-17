@@ -3,7 +3,9 @@ package www.kaznu.kz.projects.m2.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private int stars;
     private int id;
     private int sex;

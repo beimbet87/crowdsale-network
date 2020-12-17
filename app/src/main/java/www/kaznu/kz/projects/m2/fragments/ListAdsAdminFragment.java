@@ -2,6 +2,7 @@ package www.kaznu.kz.projects.m2.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
@@ -84,6 +86,10 @@ public class ListAdsAdminFragment extends Fragment {
                     @Override
                     public void onItemClick(int position, View v) {
                         Intent intent = new Intent(requireActivity(), OfferAdminActivity.class);
+                        intent.putExtra("offers", (Parcelable) offers.get(position));
+                        intent.putExtra("realty", (Serializable) offers.get(position).getRealty());
+                        intent.putExtra("owner", (Serializable) offers.get(position).getOwner());
+                        intent.putExtra("properties", offers.get(position).getProperties());
                         startActivity(intent);
                     }
 

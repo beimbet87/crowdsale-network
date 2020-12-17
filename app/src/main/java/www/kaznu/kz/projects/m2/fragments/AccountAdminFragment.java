@@ -18,6 +18,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
+import com.willy.ratingbar.ScaleRatingBar;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.activities.CompleteRegistrationActivity;
@@ -92,7 +93,7 @@ public class AccountAdminFragment extends Fragment implements Constants,
     int myProgress = 75;
     TextProgressBar pb;
     LinearLayout btnExit;
-    RatingBar ratingBar;
+    ScaleRatingBar ratingBar;
     Button btnViewProfile;
 
     @Override
