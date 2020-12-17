@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,8 @@ import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ListAdsAdminFragment extends Fragment {
 
@@ -112,7 +115,7 @@ public class ListAdsAdminFragment extends Fragment {
                                 intent.putExtra("images", offers.get(position).getImagesLink());
                                 intent.putExtra("property", offers.get(position).getProperties());
                                 intent.putExtra("offers", offers.get(position).getOffersOptionsId());
-                                startActivity(intent);
+                                startActivityForResult(intent, 1);
                             }
 
                             @Override
@@ -140,12 +143,30 @@ public class ListAdsAdminFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                laPublished.notifyDataSetChanged();
+                laUnpublished.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
+//        laPublished.notifyDataSetChanged();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

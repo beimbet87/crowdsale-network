@@ -3,17 +3,12 @@ package www.kaznu.kz.projects.m2.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,18 +22,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.activities.DiscussionActivity;
 import www.kaznu.kz.projects.m2.activities.OfferActivity;
 import www.kaznu.kz.projects.m2.activities.SearchActivity;
-import www.kaznu.kz.projects.m2.adapters.MessagesAdapter;
 import www.kaznu.kz.projects.m2.adapters.SearchAdapter;
-import www.kaznu.kz.projects.m2.api.RealtyType;
-import www.kaznu.kz.projects.m2.api.RentPeriod;
 import www.kaznu.kz.projects.m2.api.searches.MySearches;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.Search;
-import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class SearchFlatsFragment extends Fragment {
     Button searchButton;
@@ -61,7 +50,7 @@ public class SearchFlatsFragment extends Fragment {
         lView = rootView.findViewById(R.id.lv_active_search);
         searchButton = rootView.findViewById(R.id.btn_new_search);
 
-        progressBar = rootView.findViewById(R.id.message_progress);
+        progressBar = rootView.findViewById(R.id.offers_progress);
         progressBar.setIndeterminate(true);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         lView.setItemAnimator(itemAnimator);

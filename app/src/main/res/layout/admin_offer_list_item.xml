@@ -70,13 +70,14 @@
 
     <LinearLayout
         android:id="@+id/offer_panel"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/view_profile_button_background">
 
         <EditText
+            android:id="@+id/tv_price_per_day"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -89,6 +90,7 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/btn_offer_price"
             style="@style/Button.Style.Offer.Blue"
             android:layout_width="wrap_content"
             android:layout_height="32dp"

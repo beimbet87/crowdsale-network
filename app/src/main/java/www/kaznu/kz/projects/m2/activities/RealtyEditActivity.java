@@ -87,6 +87,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
     CheckBox isAgree;
     ImageView uploadImages;
     int realtyId = -1;
+    Intent intent;
 
     LinearLayout imageContainer;
 
@@ -135,8 +136,6 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
         title = toolbar.findViewById(R.id.toolbar_title);
 
         btnBack = toolbar.findViewById(R.id.toolbar_back);
-
-        btnBack.setOnClickListener(v -> finish());
 
         Log = new Logger(this, Constants.TAG);
 
@@ -195,7 +194,16 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
         spRentType.setAdapter(rentTypeAdapter);
         spRooms.setAdapter(roomsAdapter);
 
-        Intent intent = getIntent();
+        intent = getIntent();
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("result",true);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
 
         editedRealty = (Realty) intent.getSerializableExtra("realty");
 
@@ -616,5 +624,13 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
 
         //adding the request to volley
         Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        intent.putExtra("result",true);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }

@@ -3,23 +3,15 @@ package www.kaznu.kz.projects.m2.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -57,7 +49,7 @@ public class MessagesFragment extends Fragment {
 
         lView = rootView.findViewById(R.id.lv_messages);
 
-        progressBar = rootView.findViewById(R.id.message_progress);
+        progressBar = rootView.findViewById(R.id.offers_progress);
         progressBar.setIndeterminate(true);
         Log = new Logger(requireContext(), Constants.TAG);
 

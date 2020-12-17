@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.activities.DiscussionActivity;
 import www.kaznu.kz.projects.m2.activities.DiscussionAdminActivity;
-import www.kaznu.kz.projects.m2.adapters.MessagesAdapter;
 import www.kaznu.kz.projects.m2.adapters.MessagesAdminAdapter;
 import www.kaznu.kz.projects.m2.api.pusher.MyChats;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
@@ -46,7 +44,7 @@ public class MessagesAdminFragment extends Fragment {
 
         lView = rootView.findViewById(R.id.lv_messages);
 
-        progressBar = rootView.findViewById(R.id.message_progress);
+        progressBar = rootView.findViewById(R.id.offers_progress);
         progressBar.setIndeterminate(true);
         Log = new Logger(requireContext(), Constants.TAG);
 
