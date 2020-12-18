@@ -70,9 +70,49 @@ public class Utils {
         return str;
     }
 
+    public static String parseDateWithoutYear(String date) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd MMM";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        String str = null;
+
+        String today = outputFormat.format(Calendar.getInstance().getTime());
+
+        try {
+            Date data = inputFormat.parse(date);
+            str = outputFormat.format(data);
+
+            if (str.compareToIgnoreCase(today) == 0) {
+                str = "Сегодня";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
     public static String parseDateText(String date) {
         String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         String outputPattern = "dd MMM yyyy";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        String str = null;
+
+        try {
+            Date data = inputFormat.parse(date);
+            str = outputFormat.format(data);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public static String parseDateFullText(String date) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd MMMM yyyy";
         @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
 
@@ -106,6 +146,12 @@ public class Utils {
 
     public static String getCurrentDate() {
         String outputPattern = "dd MMM yyyy";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        return outputFormat.format(new Date());
+    }
+
+    public static String getCurrentFullDate() {
+        String outputPattern = "dd MMMM yyyy";
         @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
         return outputFormat.format(new Date());
     }

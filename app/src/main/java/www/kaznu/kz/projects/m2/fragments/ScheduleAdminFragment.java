@@ -1,53 +1,43 @@
 package www.kaznu.kz.projects.m2.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
+import okhttp3.internal.Util;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.BookingAdapter;
 import www.kaznu.kz.projects.m2.adapters.BookingAdapterAdmin;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.BookingApplication;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.models.ScheduleSection;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class ScheduleAdminFragment extends Fragment {
 
-    int[] images = {
-            R.drawable.message_icon0,
-            R.drawable.message_icon1,
-    };
+    RecyclerView lView, acceptedLView;
 
-    String[] address = {
-            "Алматы, Некрасова 32А",
-            "Астана,  ул. Лиховец 70/2"
-    };
+    CurrentUser user;
+    Logger Log;
 
-    String[] date = {
-            "Выезд гостей",
-            "Заезд гостей"
-    };
+    TextView tvCurrentDate;
 
-    int[] acceptedImages = {
-            R.drawable.avatar,
-            R.drawable.avatar
-    };
-
-    String[] acceptedAddress = {
-            "Алматы, Некрасова 32А"
-    };
-
-    String[] acceptedDate = {
-            "14 дек - 31 дек"
-    };
-
-    ListView lView, acceptedLView;
-
-    ListAdapter lAdapter, acceptedLAdapter;
+    BookingAdapterAdmin lAdapter;
 
     public ScheduleAdminFragment() {
         // Required empty public constructor
@@ -60,20 +50,64 @@ public class ScheduleAdminFragment extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_schedule_admin, container, false);
 
-        lView = rootView.findViewById(R.id.lv_accepted_booking_admin);
+        user = new CurrentUser(requireContext());
 
-        lAdapter = new BookingAdapterAdmin(getContext(), address, date, images, acceptedImages);
+        tvCurrentDate = rootView.findViewById(R.id.tv_date_now);
+
+        tvCurrentDate.setText("СЕГОДНЯ - ".concat(Utils.getCurrentFullDate()));
+
+        Log = new Logger(requireContext(), Constants.TAG);
+
+        ArrayList<ScheduleSection> result = user.getScheduleSection();
+
+//        ArrayList<BookingApplication> sectionData = new ArrayList<>();
+//
+//        for (int i = 1; i < user.getOwnersBooksHistory().size(); i++) {
+//
+//            String preDate = Utils.parseDateWithDot(user.getOwnersBooksHistory().get(i - 1).getTimeStart());
+//            String curDate = Utils.parseDateWithDot(user.getOwnersBooksHistory().get(i).getTimeStart());
+//
+//            if(preDate.equals(curDate)) {
+//                sectionData.add(user.getOwnersBooksHistory().get(i-1));
+//                Log.d("Compare -----> " + preDate + " and " + curDate);
+//
+//                if(i == user.getOwnersBooksHistory().size()-1) {
+//                    String sectionTitle = Utils.parseDateText(user.getOwnersBooksHistory().get(i-1).getTimeStart());
+//                    sectionData.add(user.getOwnersBooksHistory().get(i));
+//                    ScheduleSection data = new ScheduleSection(sectionTitle, sectionData);
+//                    result.add(data);
+//
+//                    Log.d("Section title: " + sectionTitle);
+//
+//                    for (int j = 0; j < sectionData.size(); j++) {
+//                        Log.d("Section data: " + Utils.parseDateWithoutYear(sectionData.get(j).getTimeStart()));
+//                    }
+//                    Log.d("Section date size -----> " + sectionData.size());
+//                    sectionData.clear();
+//                }
+//
+//            } else {
+//                String sectionTitle = Utils.parseDateText(user.getOwnersBooksHistory().get(i-1).getTimeStart());
+//                sectionData.add(user.getOwnersBooksHistory().get(i-1));
+//                ScheduleSection data = new ScheduleSection(sectionTitle, sectionData);
+//                result.add(data);
+//
+//                Log.d("Section title: " + sectionTitle);
+//
+//                for (int j = 0; j < sectionData.size(); j++) {
+//                    Log.d("Section data: " + Utils.parseDateWithoutYear(sectionData.get(j).getTimeStart()));
+//                }
+//                Log.d("Section date size -----> " + sectionData.size());
+//                sectionData.clear();
+//            }
+//        }
+
+        lView = rootView.findViewById(R.id.lv_accepted_booking_admin);
+        lView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        lAdapter = new BookingAdapterAdmin(result);
 
         lView.setAdapter(lAdapter);
-
-        lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Toast.makeText(getContext(), address[i]+" "+ date[i], Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
         return rootView;
     }

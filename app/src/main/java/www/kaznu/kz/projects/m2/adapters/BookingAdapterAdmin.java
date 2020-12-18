@@ -1,95 +1,78 @@
 package www.kaznu.kz.projects.m2.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.BookingApplication;
+import www.kaznu.kz.projects.m2.models.ScheduleSection;
 
-public class BookingAdapterAdmin extends BaseAdapter {
+public class BookingAdapterAdmin extends RecyclerView.Adapter<BookingAdapterAdmin.ViewHolder> implements Constants {
 
-    Context context;
-    private String [] address;
-    private String [] date;
-    private int [] images;
-    private int [] imagesAvatar;
+    ArrayList<ScheduleSection> sectionList;
 
-    public BookingAdapterAdmin(Context context, String [] address, String [] date, int [] images, int [] avatar){
-        //super(context, R.layout.single_list_app_item, utilsArrayList);
-        this.context = context;
-        this.address = address;
-        this.date = date;
-        this.images = images;
-        this.imagesAvatar = avatar;
+    public BookingAdapterAdmin(ArrayList<ScheduleSection> sectionList) {
+        this.sectionList = sectionList;
     }
 
-    public BookingAdapterAdmin() {
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.booking_list_admin_header, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return address.length;
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ScheduleSection section = sectionList.get(position);
+        String sectionTitle = section.getSectionTitle();
+        ArrayList<BookingApplication> items = section.getSectionData();
+
+        holder.tvSectionTitle.setText(sectionTitle);
+        holder.rvSectionData.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+
+        BookingItemAdapterAdmin adapter = new BookingItemAdapterAdmin(items);
+
+        holder.rvSectionData.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new BookingItemAdapterAdmin.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+
+            }
+        });
+
     }
 
     @Override
-    public Object getItem(int i) {
-        return i;
+    public int getItemCount() {
+        return sectionList.size();
     }
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        TextView tvSectionTitle;
+        RecyclerView rvSectionData;
 
-
-        ViewHolder viewHolder;
-
-        final View result;
-
-        if (convertView == null) {
-
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.booking_list_admin_item, parent, false);
-            viewHolder.address = convertView.findViewById(R.id.tv_message_title);
-            viewHolder.date = convertView.findViewById(R.id.tv_last_message);
-            viewHolder.icon = convertView.findViewById(R.id.iv_icon);
-            viewHolder.avatar = convertView.findViewById(R.id.account_avatar);
-
-            result=convertView;
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-            result = convertView;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvSectionTitle = itemView.findViewById(R.id.tv_header);
+            rvSectionData = itemView.findViewById(R.id.rv_items);
         }
-
-        viewHolder.address.setText(address[position]);
-        viewHolder.date.setText(date[position]);
-        viewHolder.icon.setImageResource(images[position]);
-        viewHolder.avatar.setImageResource(imagesAvatar[position]);
-
-        return convertView;
     }
-
-    private static class ViewHolder {
-
-        TextView address;
-        TextView date;
-        ImageView icon;
-        CircleImageView avatar;
-
-    }
-
 }

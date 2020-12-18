@@ -17,35 +17,24 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="16dp">
+            android:layout_height="72dp"
+            android:background="@drawable/border_bottom"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/textView12"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Календарь"
                 android:textColor="@color/registerButtonColor"
                 android:textSize="@dimen/header_text_size"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/toolbar_edit"
-                style="@style/Button.Style.Home"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center" />
         </LinearLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -58,68 +47,47 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_bottom">
+                    android:background="@drawable/border_bottom"
+                    android:paddingStart="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/tv_date_now"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
                         android:text="СЕГОДНЯ - 4 мая 2020"
                         android:textAllCaps="false"
-                        android:textColor="#808080"
-                        android:textSize="13sp"
+                        android:textColor="@color/color_primary_hint"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_bottom">
+                    android:background="@drawable/border_bottom"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
                         android:text="Сегодня событий нет"
                         android:textAllCaps="false"
                         android:textColor="@color/color_primary_dark"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_bottom">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="12 мая 2020"
-                        android:textAllCaps="false"
-                        android:textColor="#808080"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <ListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/lv_accepted_booking_admin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

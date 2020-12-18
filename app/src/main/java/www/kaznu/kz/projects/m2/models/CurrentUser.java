@@ -1,11 +1,13 @@
 package www.kaznu.kz.projects.m2.models;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
+import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class CurrentUser implements Constants {
     private final int stars;
@@ -177,5 +179,37 @@ public class CurrentUser implements Constants {
 
     public ArrayList<BookingApplication> getOwnersBooksHistory() {
         return ownersBooksHistory;
+    }
+
+    public ArrayList<ScheduleSection> getScheduleSection() {
+        ArrayList<ScheduleSection> result = new ArrayList<>();
+        ArrayList<BookingApplication> items = new ArrayList<>();
+
+        for (int i = 1; i < getOwnersBooksHistory().size(); i++) {
+
+            String preDate = Utils.parseDateWithDot(getOwnersBooksHistory().get(i - 1).getTimeStart());
+            String curDate = Utils.parseDateWithDot(getOwnersBooksHistory().get(i).getTimeStart());
+
+            if(preDate.equals(curDate)) {
+                items.add(getOwnersBooksHistory().get(i-1));
+
+                if(i == getOwnersBooksHistory().size()-1) {
+                    String sectionTitle = Utils.parseDateFullText(getOwnersBooksHistory().get(i-1).getTimeStart());
+                    items.add(getOwnersBooksHistory().get(i));
+                    ScheduleSection data = new ScheduleSection(sectionTitle, items);
+                    result.add(data);
+                    items = new ArrayList<>();
+                }
+
+            } else {
+                String sectionTitle = Utils.parseDateFullText(getOwnersBooksHistory().get(i-1).getTimeStart());
+                items.add(getOwnersBooksHistory().get(i-1));
+                ScheduleSection data = new ScheduleSection(sectionTitle, items);
+                result.add(data);
+                items = new ArrayList<>();
+            }
+        }
+
+        return result;
     }
 }
