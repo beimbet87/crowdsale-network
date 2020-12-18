@@ -52,6 +52,7 @@ public class SearchFlatsFragment extends Fragment {
 
         progressBar = rootView.findViewById(R.id.offers_progress);
         progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         lView.setItemAnimator(itemAnimator);
 
@@ -75,6 +76,7 @@ public class SearchFlatsFragment extends Fragment {
             lView.setItemViewCacheSize(16);
 
             progressBar.setIndeterminate(false);
+            progressBar.setVisibility(View.GONE);
 
             lAdapter.setOnItemClickListener(new SearchAdapter.ClickListener() {
                 @Override

@@ -1,5 +1,7 @@
 package www.kaznu.kz.projects.m2.adapters;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.activities.DiscussionAdminActivity;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.BookingApplication;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.ScheduleSection;
 
 public class BookingAdapterAdmin extends RecyclerView.Adapter<BookingAdapterAdmin.ViewHolder> implements Constants {
@@ -48,7 +52,15 @@ public class BookingAdapterAdmin extends RecyclerView.Adapter<BookingAdapterAdmi
         adapter.setOnItemClickListener(new BookingItemAdapterAdmin.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), DiscussionAdminActivity.class);
+                intent.putExtra("contact", 52);
+                intent.putExtra("ref_realty", section.getSectionData().get(position).getRefRealty());
+                intent.putExtra("owner", true);
 
+                holder.itemView.getContext().startActivity(intent);
+
+                Log.d(Constants.TAG, "Click ---> " + section.getSectionData().get(position).getRefRealtyGuest());
+                Log.d(Constants.TAG, "Click ---> " + section.getSectionData().get(position).getRefRealty());
             }
 
             @Override

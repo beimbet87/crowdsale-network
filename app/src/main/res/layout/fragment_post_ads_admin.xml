@@ -4,117 +4,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="72dp"
+    android:layout_marginBottom="8dp"
     android:background="@android:color/white">
 
     <LinearLayout
-        android:id="@+id/post_title"
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="@drawable/border_bottom"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_post_header"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Мои объявления"
-            android:textColor="@color/color_primary_dark"
-            android:textSize="@dimen/header_text_size"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <ProgressBar
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:id="@+id/post_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/post_title" />
-
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/post_title">
-
         <LinearLayout
+            android:id="@+id/post_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-        <Button
-        android:id="@+id/btn_create_post"
-        style="@style/Button.Style.LightBlue"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Добавить объявление"
-        app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/post_title" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/border_bottom"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
-        android:text="ОПУБЛИКОВАННЫЕ ОБЪЯВЛЕНИЯ"
-        android:textColor="#808080"
-        android:textSize="13sp"
-        app:layout_constraintTop_toBottomOf="@id/btn_create_post"
-        tools:layout_editor_absoluteX="24dp" />
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lv_published_ads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@null"
-                android:dividerHeight="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/post_progress" />
+            android:layout_height="72dp"
+            android:background="@drawable/border_bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/textView15"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_post_header"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/border_bottom"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
-                android:text="НЕОПУБЛИКОВАННЫЕ ОБЪЯВЛЕНИЯ"
-                android:textColor="#808080"
-                android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@id/lv_published_ads"
-                tools:layout_editor_absoluteX="24dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lv_unpublished_ads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@null"
-                android:dividerHeight="0dp"
-                android:paddingBottom="64dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                android:layout_weight="1"
+                android:text="Мои объявления"
+                android:textColor="@color/color_primary_dark"
+                android:textSize="@dimen/header_text_size"
+                android:textStyle="bold" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/post_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-7dp"
+            android:layout_marginBottom="-7dp"
+            android:gravity="center_vertical"
+            android:indeterminate="true"
+            app:layout_constraintTop_toBottomOf="@+id/post_title" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/post_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <Button
+                    android:id="@+id/btn_create_post"
+                    style="@style/Button.Style.LightBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Добавить объявление"
+                    app:cornerRadius="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/post_title" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/border_bottom"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="ОПУБЛИКОВАННЫЕ ОБЪЯВЛЕНИЯ"
+                    android:textColor="#808080"
+                    android:textSize="13sp"
+                    app:layout_constraintTop_toBottomOf="@id/btn_create_post"
+                    tools:layout_editor_absoluteX="24dp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lv_published_ads"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/post_progress" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/border_bottom"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="НЕОПУБЛИКОВАННЫЕ ОБЪЯВЛЕНИЯ"
+                    android:textColor="#808080"
+                    android:textSize="13sp"
+                    app:layout_constraintTop_toBottomOf="@id/lv_published_ads"
+                    tools:layout_editor_absoluteX="24dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lv_unpublished_ads"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:paddingBottom="64dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

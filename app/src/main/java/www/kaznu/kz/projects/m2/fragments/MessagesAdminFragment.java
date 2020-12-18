@@ -46,6 +46,7 @@ public class MessagesAdminFragment extends Fragment {
 
         progressBar = rootView.findViewById(R.id.offers_progress);
         progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
         Log = new Logger(requireContext(), Constants.TAG);
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
@@ -67,6 +68,7 @@ public class MessagesAdminFragment extends Fragment {
             lView.setAdapter(adapter);
 
             progressBar.setIndeterminate(false);
+            progressBar.setVisibility(View.GONE);
 
             adapter.setOnItemClickListener(new MessagesAdminAdapter.ClickListener() {
                 @Override

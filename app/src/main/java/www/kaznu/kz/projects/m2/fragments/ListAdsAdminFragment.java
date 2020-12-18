@@ -69,6 +69,7 @@ public class ListAdsAdminFragment extends Fragment {
 
         progressBar = rootView.findViewById(R.id.post_progress);
         progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
         published = new UserApplications(requireContext(), 1, new Tokens(requireContext()).getAccessToken());
 
         published.setOnLoadListener(new UserApplications.CustomOnLoadListener() {
@@ -112,6 +113,7 @@ public class ListAdsAdminFragment extends Fragment {
                         laUnpublished.notifyDataSetChanged();
                         lvUnpublished.setItemViewCacheSize(16);
                         progressBar.setIndeterminate(false);
+                        progressBar.setVisibility(View.GONE);
                         laUnpublished.setOnItemClickListener(new UnpublishedAdsAdapter.ClickListener() {
                             @Override
                             public void onItemClick(int position, View v) {
