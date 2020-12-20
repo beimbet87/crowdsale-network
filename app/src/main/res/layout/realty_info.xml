@@ -357,7 +357,7 @@
                     android:layout_marginTop="8dp"
                     android:orientation="vertical">
 
-                    <www.kaznu.kz.projects.m2.views.FlowLayout
+                    <www.kaznu.kz.projects.m2.views.customviews.FlowLayout
                         android:id="@+id/comforts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

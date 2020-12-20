@@ -1,7 +1,6 @@
 package www.kaznu.kz.projects.m2.models;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -10,6 +9,8 @@ import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class CurrentUser implements Constants {
+
+    private TinyDB data;
     private final int stars;
     private final int id;
     private final int sex;
@@ -30,6 +31,9 @@ public class CurrentUser implements Constants {
 
     private final ArrayList<BookingApplication> clientBooksHistory;
     private final ArrayList<BookingApplication> ownersBooksHistory;
+
+    private final ArrayList<Chat> clientMessageList;
+    private final ArrayList<Chat> ownerMessageList;
 
     private final int rateCount;
     private final double rateAverage;
@@ -54,7 +58,7 @@ public class CurrentUser implements Constants {
 
     public CurrentUser(Context context) {
 
-        TinyDB data = new TinyDB(context);
+        data = new TinyDB(context);
         id = data.getInt(SHARED_USER_ID);
         sex = data.getInt(SHARED_USER_SEX);
         name = data.getString(SHARED_USER_NAME);
@@ -77,12 +81,14 @@ public class CurrentUser implements Constants {
         clientBooksHistory = data.getListBookingModel(SHARED_USER_BOOKING_HISTORY, BookingApplication.class);
         ownersBooksHistory = data.getListBookingModel(SHARED_OWNER_BOOKING_HISTORY, BookingApplication.class);
 
+        clientMessageList = data.getListMessageModel(SHARED_USER_MESSAGE_LIST, Chat.class);
+        ownerMessageList = data.getListMessageModel(SHARED_OWNER_MESSAGE_LIST, Chat.class);
+
         rateCountOwner = data.getInt(SHARED_OWNER_RATE_COUNT);
         rateAverageOwner = data.getDouble(SHARED_OWNER_RATE_AVERAGE);
         ratesOwner = data.getListRateModel(SHARED_OWNER_RATE, RateModel.class);
-        owner = data.getBoolean(SHARED_USER_OWNER);
+        owner = data.getBoolean(SHARED_IS_OWNER);
         complete = data.getBoolean(SHARED_USER_COMPLETE);
-
     }
 
     public String getImageLink() {
@@ -150,11 +156,11 @@ public class CurrentUser implements Constants {
     }
 
     public boolean isOwner() {
-        return owner;
+        return this.owner;
     }
 
     public void setOwner(boolean owner) {
-        this.owner = owner;
+        data.putBoolean(SHARED_IS_OWNER, owner);
     }
 
     public boolean isComplete() {
@@ -190,11 +196,11 @@ public class CurrentUser implements Constants {
             String preDate = Utils.parseDateWithDot(getOwnersBooksHistory().get(i - 1).getTimeStart());
             String curDate = Utils.parseDateWithDot(getOwnersBooksHistory().get(i).getTimeStart());
 
-            if(preDate.equals(curDate)) {
-                items.add(getOwnersBooksHistory().get(i-1));
+            if (preDate.equals(curDate)) {
+                items.add(getOwnersBooksHistory().get(i - 1));
 
-                if(i == getOwnersBooksHistory().size()-1) {
-                    String sectionTitle = Utils.parseDateFullText(getOwnersBooksHistory().get(i-1).getTimeStart());
+                if (i == getOwnersBooksHistory().size() - 1) {
+                    String sectionTitle = Utils.parseDateFullText(getOwnersBooksHistory().get(i - 1).getTimeStart());
                     items.add(getOwnersBooksHistory().get(i));
                     ScheduleSection data = new ScheduleSection(sectionTitle, items);
                     result.add(data);
@@ -202,8 +208,8 @@ public class CurrentUser implements Constants {
                 }
 
             } else {
-                String sectionTitle = Utils.parseDateFullText(getOwnersBooksHistory().get(i-1).getTimeStart());
-                items.add(getOwnersBooksHistory().get(i-1));
+                String sectionTitle = Utils.parseDateFullText(getOwnersBooksHistory().get(i - 1).getTimeStart());
+                items.add(getOwnersBooksHistory().get(i - 1));
                 ScheduleSection data = new ScheduleSection(sectionTitle, items);
                 result.add(data);
                 items = new ArrayList<>();
@@ -211,5 +217,13 @@ public class CurrentUser implements Constants {
         }
 
         return result;
+    }
+
+    public ArrayList<Chat> getClientMessageList() {
+        return clientMessageList;
+    }
+
+    public ArrayList<Chat> getOwnerMessageList() {
+        return ownerMessageList;
     }
 }

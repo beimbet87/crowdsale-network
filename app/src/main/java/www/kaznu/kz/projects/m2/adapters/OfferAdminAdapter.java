@@ -8,14 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.ScaleRatingBar;
 
 import java.util.ArrayList;
@@ -23,11 +21,9 @@ import java.util.ArrayList;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
-import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.utils.Logger;
-import www.kaznu.kz.projects.m2.utils.Utils;
-import www.kaznu.kz.projects.m2.views.FlowLayout;
+import www.kaznu.kz.projects.m2.views.customviews.FlowLayout;
 
 public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.MyViewHolder> implements Constants {
 

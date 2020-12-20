@@ -108,7 +108,7 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <www.kaznu.kz.projects.m2.views.FlowLayout
+                <www.kaznu.kz.projects.m2.views.customviews.FlowLayout
                     android:id="@+id/properties"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

@@ -25,7 +25,7 @@ import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
-import www.kaznu.kz.projects.m2.views.FlowLayout;
+import www.kaznu.kz.projects.m2.views.customviews.FlowLayout;
 
 public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder> implements Constants {
 

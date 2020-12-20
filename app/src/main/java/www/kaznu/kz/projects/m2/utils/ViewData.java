@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.views.FlowLayout;
+import www.kaznu.kz.projects.m2.views.customviews.FlowLayout;
 
 public class ViewData {
 

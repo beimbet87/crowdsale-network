@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:padding="@dimen/activity_margin"
-    tools:context=".activities.ProfileTypeActivity">
+    tools:context=".views.activities.ProfileTypeActivity">
 
     <TextView
         android:id="@+id/tv_choose_profile"

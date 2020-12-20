@@ -49,7 +49,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <www.kaznu.kz.projects.m2.views.FlowLayout
+        <www.kaznu.kz.projects.m2.views.customviews.FlowLayout
             android:id="@+id/list_search_properties"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

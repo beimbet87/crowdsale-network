@@ -150,7 +150,7 @@
                     android:layout_height="48dp"
                     android:background="@drawable/view_profile_button_background">
 
-                    <www.kaznu.kz.projects.m2.views.TextProgressBar
+                    <www.kaznu.kz.projects.m2.views.customviews.TextProgressBar
                         android:id="@+id/mf_progress_bar"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"

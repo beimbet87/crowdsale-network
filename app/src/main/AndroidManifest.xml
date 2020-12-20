@@ -25,6 +25,7 @@
         android:required="true" />
 
     <application
+        android:name=".M2Application"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,9 +35,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
 
-        <activity android:name=".activities.SearchIntroActivity" />
+        <activity android:name=".views.activities.SearchIntroActivity" />
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".views.activities.SplashActivity"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,48 +45,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".views.activities.LoginActivity"
             android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".activities.SlideActivity" />
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.ProfileInfoActivity" />
-        <activity android:name=".activities.CommentsRealtyActivity" />
-        <activity android:name=".activities.OfferAdminActivity" />
-        <activity android:name=".activities.ChangeDataActivity" />
-        <activity android:name=".activities.CompleteRegistrationActivity" />
-        <activity android:name=".activities.AboutUserActivity" />
-        <activity android:name=".activities.PaymentMethodsActivity" />
-        <activity android:name=".activities.ProfileTypeActivity" />
-        <activity android:name=".activities.VRExampleActivity" />
+        <activity android:name=".views.activities.SlideActivity" />
+        <activity android:name=".views.activities.ProfileActivity" />
+        <activity android:name=".views.activities.ProfileInfoActivity" />
+        <activity android:name=".views.activities.CommentsRealtyActivity" />
+        <activity android:name=".views.activities.OfferAdminActivity" />
+        <activity android:name=".views.activities.ChangeDataActivity" />
+        <activity android:name=".views.activities.CompleteRegistrationActivity" />
+        <activity android:name=".views.activities.AboutUserActivity" />
+        <activity android:name=".views.activities.PaymentMethodsActivity" />
+        <activity android:name=".views.activities.ProfileTypeActivity" />
+        <activity android:name=".views.activities.VRExampleActivity" />
         <activity
-            android:name=".activities.DiscussionActivity"
+            android:name=".views.activities.DiscussionActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <activity
-            android:name=".activities.DiscussionAdminActivity"
+            android:name=".views.activities.DiscussionAdminActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
-        <activity android:name=".activities.RealtyAddActivity" />
-        <activity android:name=".activities.RealtyEditActivity" />
-        <activity android:name=".activities.OfferActivity" />
+        <activity android:name=".views.activities.RealtyAddActivity" />
+        <activity android:name=".views.activities.RealtyEditActivity" />
+        <activity android:name=".views.activities.OfferActivity" />
         <activity
-            android:name=".activities.SearchActivity"
+            android:name=".views.activities.SearchActivity"
             android:theme="@style/Theme.Search"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".activities.SearchAddressActivity" />
+        <activity android:name=".views.activities.SearchAddressActivity" />
         <activity
-            android:name=".activities.IntroScreenActivity"
+            android:name=".views.activities.IntroScreenActivity"
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".activities.RealtyActivity" />
+        <activity android:name=".views.activities.RealtyActivity" />
         <activity
-            android:name=".activities.RegisterActivity"
-            android:parentActivityName=".activities.LoginActivity" />
+            android:name=".views.activities.RegisterActivity"
+            android:parentActivityName=".views.activities.LoginActivity" />
         <activity android:name=".MainActivity" />
 
-        <activity android:name=".activities.UploadAvatarActivity" />
+        <activity android:name=".views.activities.UploadAvatarActivity" />
 
-        <activity android:name=".activities.Add3DActivity" />
+        <activity android:name=".views.activities.Add3DActivity" />
 
         <service
             android:name=".services.SignalRService"

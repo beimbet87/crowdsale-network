@@ -55,7 +55,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/offers_progress"
+        android:id="@+id/pb_message_list"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:divider="@null"
         android:dividerHeight="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/offers_progress" />
+        app:layout_constraintTop_toBottomOf="@+id/pb_message_list" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

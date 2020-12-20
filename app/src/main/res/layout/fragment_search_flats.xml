@@ -49,7 +49,7 @@
         </LinearLayout>
 
         <ProgressBar
-            android:id="@+id/offers_progress"
+            android:id="@+id/pb_message_list"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

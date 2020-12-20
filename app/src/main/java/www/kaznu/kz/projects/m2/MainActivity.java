@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -24,7 +25,6 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
-import com.mikepenz.iconics.typeface.GenericFont;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
 
@@ -32,15 +32,15 @@ import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.api.searches.MySearches;
 import www.kaznu.kz.projects.m2.api.user.UserInfo;
-import www.kaznu.kz.projects.m2.fragments.AccountAdminFragment;
-import www.kaznu.kz.projects.m2.fragments.AccountFragment;
-import www.kaznu.kz.projects.m2.fragments.BookingFragment;
-import www.kaznu.kz.projects.m2.fragments.ListAdsAdminFragment;
-import www.kaznu.kz.projects.m2.fragments.MessagesAdminFragment;
-import www.kaznu.kz.projects.m2.fragments.MessagesFragment;
-import www.kaznu.kz.projects.m2.fragments.ScheduleAdminFragment;
-import www.kaznu.kz.projects.m2.fragments.SearchFlatsFragment;
-import www.kaznu.kz.projects.m2.fragments.SearchFragment;
+import www.kaznu.kz.projects.m2.views.fragments.AccountAdminFragment;
+import www.kaznu.kz.projects.m2.views.fragments.AccountFragment;
+import www.kaznu.kz.projects.m2.views.fragments.BookingFragment;
+import www.kaznu.kz.projects.m2.views.fragments.ListAdsAdminFragment;
+import www.kaznu.kz.projects.m2.views.fragments.MessageListFragment;
+import www.kaznu.kz.projects.m2.views.fragments.MessageListFragmentAdmin;
+import www.kaznu.kz.projects.m2.views.fragments.ScheduleAdminFragment;
+import www.kaznu.kz.projects.m2.views.fragments.SearchFlatsFragment;
+import www.kaznu.kz.projects.m2.views.fragments.SearchFragment;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Search;
 import www.kaznu.kz.projects.m2.models.User;
@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
@@ -170,19 +171,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                 break;
             case R.id.action_messages:
-
-//                Bundle bundle = new Bundle();
-//                if(gpsNetworkLocation != null) {
-//                    bundle.putDouble(Constants.LATITUDE, gpsNetworkLocation.getLatitude());
-//                    bundle.putDouble(Constants.LONGITUDE, gpsNetworkLocation.getLongitude());
-//                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "Ошибка получения текущего положения",
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//                fragment = new MapsFragment();
-//                fragment.setArguments(bundle);
-                fragment = new MessagesFragment();
+                fragment = new MessageListFragment();
+                break;
+            case R.id.action_messages_admin:
+                fragment = new MessageListFragmentAdmin();
                 break;
             case R.id.action_booking:
                 fragment = new BookingFragment();
@@ -193,16 +185,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.action_ads_admin:
                 fragment = new ListAdsAdminFragment();
                 break;
-            case R.id.action_messages_admin:
-                fragment = new MessagesAdminFragment();
-                break;
             case R.id.action_schedules_admin:
                 fragment = new ScheduleAdminFragment();
                 break;
             case R.id.action_account_admin:
                 fragment = new AccountAdminFragment();
                 break;
-            }
+        }
         return loadFragment(fragment);
     }
 

@@ -21,7 +21,7 @@ import www.kaznu.kz.projects.m2.models.Filter;
 import www.kaznu.kz.projects.m2.models.Search;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
-import www.kaznu.kz.projects.m2.views.FlowLayout;
+import www.kaznu.kz.projects.m2.views.customviews.FlowLayout;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

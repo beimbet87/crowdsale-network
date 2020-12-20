@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".activities.RealtyAddActivity">
+    tools:context=".views.activities.RealtyAddActivity">
 
     <include
         android:id="@+id/main_toolbar"
@@ -713,7 +713,7 @@
                     android:text="Отметьте, какие удобства есть в квартире:"
                     android:textColor="@color/color_primary_hint" />
 
-                <www.kaznu.kz.projects.m2.views.FlowLayout
+                <www.kaznu.kz.projects.m2.views.customviews.FlowLayout
                     android:id="@+id/realty_properties"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

@@ -20,8 +20,13 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.models.Tokens;
 
 public class Utils {
+
+    public static String getToken(Context context) {
+        return new Tokens(context).getAccessToken();
+    }
 
     public static String toUpper(String data) {
         return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();

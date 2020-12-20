@@ -307,7 +307,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <www.kaznu.kz.projects.m2.views.FlowLayout
+                    <www.kaznu.kz.projects.m2.views.customviews.FlowLayout
                         android:id="@+id/comfort_settings"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -331,7 +331,7 @@
                     android:text="Дополнительные параметры:"
                     android:textColor="@color/color_primary_hint" />
 
-                <www.kaznu.kz.projects.m2.views.FlowLayout
+                <www.kaznu.kz.projects.m2.views.customviews.FlowLayout
                     android:id="@+id/request_settings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -425,7 +425,7 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone">
 
-                        <www.kaznu.kz.projects.m2.views.DateView
+                        <www.kaznu.kz.projects.m2.views.customviews.DateView
                             android:id="@+id/calendar_view1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -524,7 +524,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <www.kaznu.kz.projects.m2.views.DatePickerView
+                    <www.kaznu.kz.projects.m2.views.customviews.DatePickerView
                         android:id="@+id/calendar_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

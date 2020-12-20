@@ -14,15 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.activities.DiscussionAdminActivity;
+import www.kaznu.kz.projects.m2.views.activities.DiscussionAdminActivity;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.BookingApplication;
-import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.ScheduleSection;
 
 public class BookingAdapterAdmin extends RecyclerView.Adapter<BookingAdapterAdmin.ViewHolder> implements Constants {
 
-    ArrayList<ScheduleSection> sectionList;
+    private ArrayList<ScheduleSection> sectionList;
 
     public BookingAdapterAdmin(ArrayList<ScheduleSection> sectionList) {
         this.sectionList = sectionList;
