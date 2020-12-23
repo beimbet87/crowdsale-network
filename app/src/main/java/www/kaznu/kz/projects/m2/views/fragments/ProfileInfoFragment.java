@@ -16,12 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.CommentsRealtyActivity;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 
 import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_USER_IMAGE_LINK;
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_USER_NAME;
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_USER_SURNAME;
 
 public class ProfileInfoFragment extends Fragment implements View.OnClickListener {
 
@@ -31,6 +36,8 @@ public class ProfileInfoFragment extends Fragment implements View.OnClickListene
     TextView tvStars, tvUserComments;
 
     CurrentUser currentUser;
+
+    private TinyDB data;
 
     @Override
     public void onClick(View v) {
@@ -64,14 +71,14 @@ public class ProfileInfoFragment extends Fragment implements View.OnClickListene
         tvStars = fv.findViewById(R.id.tv_stars);
         tvUserComments = fv.findViewById(R.id.tv_user_comments);
 
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("M2_USER_INFO", 0);
+        data = new TinyDB(requireContext());
 
-        String url = BASE_URL + sharedPreferences.getString("image", "");
+        String url = BASE_URL + data.getString(SHARED_USER_IMAGE_LINK);
 
-        Glide.with(requireContext()).load(url).into(ivAvatar);
+        Picasso.get().load(url).into(ivAvatar);
 
-        String fullName = sharedPreferences.getString("surname", "") + " " +
-                sharedPreferences.getString("name", "");
+        String fullName = data.getString(SHARED_USER_SURNAME) + " " +
+                data.getString(SHARED_USER_NAME);
 
         tvStars.setText(String.valueOf(new CurrentUser(requireContext()).getRateAverage()));
         tvUserComments.setText(String.valueOf(new CurrentUser(requireContext()).getRateCount()) +

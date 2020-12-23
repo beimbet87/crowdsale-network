@@ -24,8 +24,7 @@ public class ViewData {
     public void addTextData(String data, FlowLayout flowLayout, Context context,
                                    int padding0, int padding1) {
 
-        Logger Log = new Logger(context, Constants.TAG);
-        Log.d("ViewData --> " + isView);
+        Logger.d("ViewData --> " + isView);
         if(isView) {
             TextView textView = new TextView(context);
             textView.setTextSize(12);

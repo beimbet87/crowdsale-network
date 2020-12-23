@@ -84,8 +84,6 @@ public class PublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         void bind(Offers offers, Context context, int position, int num) {
 
-            Logger Log = new Logger(context, Constants.TAG);
-
             tvTitle.setText(offers.getRealty().getHeader());
             tvCount.setText(String.valueOf(offers.getSearches().size()));
             tvAddress.setText(offers.getRealty().getAddress());

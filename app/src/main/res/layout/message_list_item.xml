@@ -44,8 +44,9 @@
             android:layout_gravity="top"
             android:maxLines="1"
             android:text="User name"
+            android:ellipsize="end"
             android:textColor="@color/color_primary_dark"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -53,8 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLines="2"
+            android:ellipsize="end"
             android:text="@string/sample_message_text"
-            android:textColor="#6F6F6F"
+            android:textColor="@color/color_primary_hint"
             android:textSize="14sp" />
     </LinearLayout>
 

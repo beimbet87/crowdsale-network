@@ -76,8 +76,6 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
 
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
-        Logger Log = new Logger(this, TAG);
-
         Intent intent = getIntent();
 
         int contact = intent.getIntExtra("contact", 0);
@@ -143,7 +141,7 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                         conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
                             @Override
                             public void onComplete(int data, String message, ArrayList<Message> messages) {
-                                Log.d(messages.get(0).getMessage());
+                                Logger.d(messages.get(0).getMessage());
                                 mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
                                 mMessageAdapter.notifyDataSetChanged();
                                 mMessageRecycler.setAdapter(mMessageAdapter);
@@ -190,8 +188,8 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                 Double price = Double.parseDouble(s.toString());
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(diff, price)));
 
-                Log.d(calendar.getStartDate());
-                Log.d(calendar.getEndDate());
+                Logger.d(calendar.getStartDate());
+                Logger.d(calendar.getEndDate());
             }
 
             @Override

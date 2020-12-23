@@ -29,7 +29,6 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.MyViewHold
 
     Context context;
     private ArrayList<RateModel> comments;
-    Logger Log;
 
     OnCardClickListener onCardClickListener;
 
@@ -61,7 +60,6 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.MyViewHold
     public RatingAdapter(Context context, ArrayList<RateModel> comments){
         this.context = context;
         this.comments = comments;
-        Log = new Logger(context, TAG);
     }
 
     public RatingAdapter() {
@@ -86,12 +84,12 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.MyViewHold
             header = "Заголовок по умолчанию";
         }
 
-        Log.d(header);
+        Logger.d(header);
 
         holder.titles.setText(header);
 
         holder.ratingBar.setRating(comment.getStars());
-        Log.d(String.valueOf(comment.getStars()));
+        Logger.d(String.valueOf(comment.getStars()));
 
         holder.comment.setText(commentText);
 

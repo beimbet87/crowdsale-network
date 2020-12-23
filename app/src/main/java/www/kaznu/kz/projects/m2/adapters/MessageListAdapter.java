@@ -77,7 +77,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
             String header = chat.getTitle();
-            if(header.equals("")) {
+            if(header.equals("") || header == null || header.equals("null")) {
                 header = "Заголовок";
             }
 

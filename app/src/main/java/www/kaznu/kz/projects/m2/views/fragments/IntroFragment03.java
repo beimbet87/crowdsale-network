@@ -11,11 +11,12 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 
-public class IntroFragment03 extends Fragment implements View.OnClickListener {
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_IS_INTRO;
 
-    SharedPreferences introPreferences;
+public class IntroFragment03 extends Fragment implements View.OnClickListener {
 
     Button startButton;
 
@@ -43,11 +44,9 @@ public class IntroFragment03 extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btn_start) {
-            introPreferences = requireActivity().getSharedPreferences("M2_INTRO", 0);
 
-            SharedPreferences.Editor editor = introPreferences.edit();
-            editor.putBoolean("isIntro", false);
-            editor.apply();
+            TinyDB data = new TinyDB(requireContext());
+            data.putBoolean(SHARED_IS_INTRO, false);
 
             Intent intent = new Intent(requireContext(), LoginActivity.class);
             requireActivity().startActivity(intent);

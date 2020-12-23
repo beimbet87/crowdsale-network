@@ -20,6 +20,7 @@ import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.User;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class UserInfo implements Constants {
     private int resultCode;
@@ -28,7 +29,7 @@ public class UserInfo implements Constants {
     private String countryName;
     private Context context;
     private int count;
-    private String token;
+    private final String token;
 
     public interface CustomOnLoadListener {
         void onComplete(User data);
@@ -40,10 +41,12 @@ public class UserInfo implements Constants {
         this.listener = listener;
     }
 
-    public UserInfo(Context context, String token) {
+    public UserInfo(Context context, String t) {
         this.context = context;
         this.listener = null;
-        this.token = token;
+        this.token = t;
+
+        Logger.d(this.token);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this.context);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GET_USER_INFO, new Response.Listener<String>() {
@@ -72,7 +75,6 @@ public class UserInfo implements Constants {
                         data.setEmail(directory.getString("email"));
                         data.setPhone(directory.getString("phone"));
                         data.setCurrency(directory.getInt("currency"));
-                        data.setStars(directory.getInt("stars"));
                         data.setCountryCode(countryCode);
                         data.setCountryName(countryName);
 
@@ -83,14 +85,14 @@ public class UserInfo implements Constants {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("M2TAG", "Response catch: " + e.toString());
+                    Logger.e("Response catch: " + e.toString());
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("M2TAG", "Response error: " + error.toString());
+                Logger.e("Response error: " + error.toString());
                 error.printStackTrace();
             }
         }) {

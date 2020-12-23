@@ -54,8 +54,6 @@ import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
 
 public class ChangePhoneFragment extends Fragment implements View.OnClickListener {
 
-    private Logger Log;
-
     int userId;
 
     @Override
@@ -88,8 +86,6 @@ public class ChangePhoneFragment extends Fragment implements View.OnClickListene
         countriesSpinner.setSelection(0);
         EditText phoneNumber = fv.findViewById(R.id.et_phone_number);
         phoneNumber.addTextChangedListener(new PhoneTextFormatter(phoneNumber, "(###) ###-##-##"));
-
-        Log = new Logger(requireContext(), Constants.TAG);
 
         dataPasser.FromChangePhoneFragment("Смена телефона", 0);
 

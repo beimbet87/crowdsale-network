@@ -21,8 +21,6 @@ public class Properties implements Constants {
 
     public Properties(Context context) {
 
-        Logger Log = new Logger(context, TAG);
-
         TinyDB data = new TinyDB(context);
 
         realtyType = data.getListDirectory(SHARED_REALTY_TYPE, Directory.class);

@@ -182,15 +182,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         void bind(Search search, FlowLayout flow, Context context, int position, boolean isView, int num) {
 
-            Logger Log = new Logger(context, Constants.TAG);
-
             flowLayout.removeAllViews();
             flowLayout.addView(flow);
 
             tvTitle.setText(new StringBuilder().append("Поиск # ").append(search.getId()));
             tvCount.setText(String.valueOf(search.getCount()));
 
-            Log.d("ViewData --> " + position + " " + isView);
+            Logger.d("ViewData --> " + position + " " + isView);
 
         }
 

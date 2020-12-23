@@ -48,8 +48,6 @@ public class MessageListData implements Constants, Serializable {
 
     public MessageListData(Context context, int owner, String token) {
 
-        Logger log = new Logger(context, TAG);
-
         chats = new ArrayList<>();
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -93,10 +91,10 @@ public class MessageListData implements Constants, Serializable {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                log.d("Response catch: " + e.toString());
+                Logger.d("Response catch: " + e.toString());
             }
         }, error -> {
-            log.d("Response error: " + error.toString());
+            Logger.d("Response error: " + error.toString());
             error.printStackTrace();
         }) {
             @Override

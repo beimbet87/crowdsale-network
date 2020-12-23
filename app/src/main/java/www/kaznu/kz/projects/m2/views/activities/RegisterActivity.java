@@ -34,7 +34,6 @@ public class RegisterActivity extends AppCompatActivity implements
     public TextView title;
     Button backButton;
     int fragmentNumber = 0;
-    Logger Log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +47,12 @@ public class RegisterActivity extends AppCompatActivity implements
 
         backButton = toolbar.findViewById(R.id.toolbar_back);
 
-        Log = new Logger(this, Constants.TAG);
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         RegisterFragment01 registerFragment01 = new RegisterFragment01();
         ft.add(R.id.register_fragment, registerFragment01);
         ft.commit();
 
-        Log.d(String.valueOf(fragmentNumber));
+        Logger.d(String.valueOf(fragmentNumber));
     }
 
     @Override

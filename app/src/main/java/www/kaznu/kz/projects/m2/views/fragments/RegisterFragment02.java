@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
-import www.kaznu.kz.projects.m2.api.user.Token;
+import www.kaznu.kz.projects.m2.api.user.RegisterToken;
 
 public class RegisterFragment02 extends Fragment {
 
@@ -29,7 +29,7 @@ public class RegisterFragment02 extends Fragment {
     TextView btnLogin;
     EditText confirmNum01, confirmNum02, confirmNum03, confirmNum04;
     TextView tvPhoneNumber;
-    Token token;
+    RegisterToken registerToken;
 
     public RegisterFragment02() {
     }
@@ -157,9 +157,9 @@ public class RegisterFragment02 extends Fragment {
                     confirmNum03.getText().toString() +
                     confirmNum04.getText().toString();
 
-            token = new Token(requireContext(), requireActivity(), phone, code);
+            registerToken = new RegisterToken(requireContext(), requireActivity(), phone, code);
 
-            token.setOnLoadListener(token -> requireActivity().getSupportFragmentManager().beginTransaction()
+            registerToken.setOnLoadListener(token -> requireActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.register_fragment, new RegisterFragment03()).commit());
         });
 

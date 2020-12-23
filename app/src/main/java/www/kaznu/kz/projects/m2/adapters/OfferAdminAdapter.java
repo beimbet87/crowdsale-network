@@ -73,8 +73,6 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         this.p1 = p1;
 
         isSelected = new boolean[getItemCount()];
-
-        Log = new Logger(context, TAG);
     }
 
     @NonNull

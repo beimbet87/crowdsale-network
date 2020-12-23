@@ -31,7 +31,6 @@ public class CommentsRealtyActivity extends AppCompatActivity implements Comment
     public TextView title;
     Button backButton;
     int fragmentNumber = 0;
-    Logger Log;
 
     int realtyId;
 
@@ -47,16 +46,14 @@ public class CommentsRealtyActivity extends AppCompatActivity implements Comment
 
         intent = getIntent();
 
-        Log = new Logger(this, Constants.TAG);
-
         realtyId = intent.getIntExtra("ref_realty", -1);
 
         title = toolbar.findViewById(R.id.toolbar_title);
 
         if(realtyId == -1) {
 
-            Log.d("User rate section!");
-            Log.d("User ID: " + new CurrentUser(getApplicationContext()).getId());
+            Logger.d("User rate section!");
+            Logger.d("User ID: " + new CurrentUser(getApplicationContext()).getId());
 
             UserRate userRate = new UserRate(this, new CurrentUser(this).getId(),
                     intent.getIntExtra("as_owner", 0),
@@ -73,7 +70,7 @@ public class CommentsRealtyActivity extends AppCompatActivity implements Comment
                 }
             });
         } else {
-            Log.d("Realty rate section!");
+            Logger.d("Realty rate section!");
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             CommentsRealtyFragment realtyFragment = new CommentsRealtyFragment();
@@ -88,7 +85,7 @@ public class CommentsRealtyActivity extends AppCompatActivity implements Comment
 
         backButton.setOnClickListener(v -> finish());
 
-        Log.d(String.valueOf(fragmentNumber));
+        Logger.d(String.valueOf(fragmentNumber));
 
     }
 

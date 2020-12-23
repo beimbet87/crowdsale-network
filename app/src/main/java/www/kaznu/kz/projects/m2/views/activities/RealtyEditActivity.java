@@ -120,8 +120,6 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
     EditText etTotalArea, etLivingArea, etTotalFloors, etFloor;
     String totalArea = "0.0", livingArea = "0.0", price = "0.0", floor = "0", totalFloor = "0";
 
-    Logger Log;
-
     CurrentUser user;
 
     @Override
@@ -137,8 +135,6 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
         title = toolbar.findViewById(R.id.toolbar_title);
 
         btnBack = toolbar.findViewById(R.id.toolbar_back);
-
-        Log = new Logger(this, Constants.TAG);
 
         bitmaps = new ArrayList<>();
 
@@ -209,16 +205,16 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
         editedRealty = (Realty) intent.getSerializableExtra("realty");
 
         assert editedRealty != null;
-        Log.d("Realty ID: " + editedRealty.getId());
+        Logger.d("Realty ID: " + editedRealty.getId());
 
         images = intent.getStringArrayListExtra("images");
-        Log.d("Image size: " + images.size());
+        Logger.d("Image size: " + images.size());
 
         props = intent.getIntegerArrayListExtra("property");
-        Log.d("Property size: " + props.size());
+        Logger.d("Property size: " + props.size());
 
         offers = intent.getIntegerArrayListExtra("offers");
-        Log.d("Offers size: " + offers.size());
+        Logger.d("Offers size: " + offers.size());
 
         realtyId = editedRealty.getId();
 
@@ -244,7 +240,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
             cardView.addView(imageView);
             imageContainer.addView(cardView);
 
-            Log.d("Image #" + i + ": " + images.get(i));
+            Logger.d("Image #" + i + ": " + images.get(i));
         }
 
         etTotalArea.setText(String.valueOf(editedRealty.getArea()));
@@ -391,7 +387,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
 
 
                             }
-                            Log.d("Selected properties: " + propertyValues.size());
+                            Logger.d("Selected properties: " + propertyValues.size());
 
                             if (scBargain.isChecked()) {
                                 ArrayList<ConfigValue> offerValues = new ArrayList<>();
@@ -425,7 +421,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
         btnPublishRealty.setOnClickListener(v -> {
 
             for (int i = 0; i < selectedProperties.size(); i++) {
-                Log.d("Selected properties: " + selectedProperties.get(i));
+                Logger.d("Selected properties: " + selectedProperties.get(i));
             }
 
             if (realtyId > -1) {
@@ -546,7 +542,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
             }
         } else if (data != null) {
             btnAddress.setText(data.getStringExtra("address"));
-            Log.d(data.getStringExtra("address"));
+            Logger.d(data.getStringExtra("address"));
         }
     }
 
@@ -555,16 +551,16 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.sp_realty_type:
-                Log.d("Realty type: " + properties.getRealtyType().get(position).getCodeId());
+                Logger.d("Realty type: " + properties.getRealtyType().get(position).getCodeId());
                 break;
             case R.id.sp_rent_type:
-                Log.d("Rent type: " + properties.getDealType().get(position).getCodeId());
+                Logger.d("Rent type: " + properties.getDealType().get(position).getCodeId());
                 break;
             case R.id.sp_rent_period:
-                Log.d("Rent period: " + properties.getRentPeriod().get(position).getCodeId());
+                Logger.d("Rent period: " + properties.getRentPeriod().get(position).getCodeId());
                 break;
             case R.id.sp_rooms:
-                Log.d("Rooms: " + properties.getRooms().get(position).getCodeId());
+                Logger.d("Rooms: " + properties.getRooms().get(position).getCodeId());
                 break;
         }
     }

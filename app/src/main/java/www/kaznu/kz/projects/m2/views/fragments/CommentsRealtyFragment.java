@@ -33,8 +33,6 @@ public class CommentsRealtyFragment extends Fragment implements View.OnClickList
     ProgressBar progressBar;
     CurrentUser user;
 
-    Logger Log;
-
     @Override
     public void onClick(View v) {
 
@@ -65,8 +63,6 @@ public class CommentsRealtyFragment extends Fragment implements View.OnClickList
         lView = fv.findViewById(R.id.rv_comments);
 
         progressBar = fv.findViewById(R.id.comment_progress);
-
-        Log = new Logger(requireContext(), Constants.TAG);
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         lView.setItemAnimator(itemAnimator);

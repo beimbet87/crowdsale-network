@@ -45,7 +45,6 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
     private static final int PICK_IMAGE_REQUEST =1 ;
     private Bitmap bitmap;
     private String filePath;
-    private Logger Log;
     UserInfo userInfo;
     String imageLinks;
     int userId;
@@ -54,7 +53,7 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_upload_avatar);
         ivUploadAvatar = findViewById(R.id.iv_upload_avatar);
-        Log = new Logger(this, "M2TAG");
+
         SharedPreferences token = getSharedPreferences("M2_TOKEN", 0);
 
         userInfo = new UserInfo(this, token.getString("access_token", ""));
@@ -82,7 +81,7 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
                                 REQUEST_PERMISSIONS);
                     }
                 } else {
-                    Log.d("File chooser");
+                    Logger.d("File chooser");
                     showFileChooser();
                 }
             }
@@ -105,7 +104,7 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
             if (filePath != null) {
                 try {
 
-                    Log.d(String.valueOf(filePath));
+                    Logger.d(String.valueOf(filePath));
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), picUri);
                     uploadBitmap(bitmap);
                     ivUploadAvatar.setImageBitmap(bitmap);
@@ -164,7 +163,7 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d("Error: "+error.getMessage());
+                        Logger.d("Error: "+error.getMessage());
                     }
                 }) {
 

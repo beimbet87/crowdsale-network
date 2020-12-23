@@ -41,8 +41,6 @@ public class OfferActivity extends AppCompatActivity {
         setContentView(R.layout.activity_offer);
         Intent intent = getIntent();
 
-        Logger Log = new Logger(this, Constants.TAG);
-
         if(!intent.getBooleanExtra("is_search", false)) {
             SearchIntroFragment introFragment = new SearchIntroFragment();
 
@@ -80,8 +78,8 @@ public class OfferActivity extends AppCompatActivity {
         if (intent.getStringExtra("rooms") != null)
             addText(intent.getStringExtra("rooms"));
 
-        Log.d(intent.getIntExtra("realty_type_int", 5) + " <--- realty type");
-        Log.d(intent.getIntExtra("rent_period_int", 8) + " <--- rent period");
+        Logger.d(intent.getIntExtra("realty_type_int", 5) + " <--- realty type");
+        Logger.d(intent.getIntExtra("rent_period_int", 8) + " <--- rent period");
 
         Filter filter = new Filter();
         filter.setRealtyType(intent.getIntExtra("realty_type_int", 5));

@@ -39,8 +39,6 @@ public class ResponseMessage implements Constants {
 
     public ResponseMessage(Context context, Message message, String token) {
 
-        Logger Log = new Logger(context, TAG);
-
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         final String requestBody = message.getResponseBody();
@@ -56,7 +54,7 @@ public class ResponseMessage implements Constants {
                     resultMessage = root.getString("ResultMessage");
 
                     if (resultCode == 1) {
-                        Log.d("Send message is done!");
+                        Logger.d("Send message is done!");
                     }
 
                     if(listener != null) {
@@ -65,13 +63,13 @@ public class ResponseMessage implements Constants {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("Response catch: " + e.toString());
+                    Logger.d("Response catch: " + e.toString());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Response error: " + error.toString());
+                Logger.d("Response error: " + error.toString());
                 error.printStackTrace();
             }
         }) {

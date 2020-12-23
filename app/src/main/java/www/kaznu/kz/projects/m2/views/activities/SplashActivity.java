@@ -29,9 +29,6 @@ import www.kaznu.kz.projects.m2.utils.TinyDB;
 
 public class SplashActivity extends IntroActivity implements Constants {
 
-    SharedPreferences introPreferences;
-
-    Logger Log;
     String socketId;
     ProgressBar progressBar;
     Intent intent;
@@ -43,43 +40,43 @@ public class SplashActivity extends IntroActivity implements Constants {
     private final Runnable waitCallback = new Runnable() {
         @Override
         public void run() {
-            introPreferences = getSharedPreferences("M2_INTRO", 0);
 
             new RealtyType(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_REALTY_TYPE, data));
-            Log.d("TinyDB ---> Stored realty type data!");
+            Logger.d("TinyDB ---> Stored realty type data!");
 
             new RequestOffers(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_REQUEST_OFFERS, data));
-            Log.d("TinyDB ---> Stored request offers data!");
+            Logger.d("TinyDB ---> Stored request offers data!");
 
             new RealtyProperties(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_REALTY_PROPERTIES, data));
-            Log.d("TinyDB ---> Stored realty properties data!");
+            Logger.d("TinyDB ---> Stored realty properties data!");
 
             new DealType(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_DEAL_TYPE, data));
-            Log.d("TinyDB ---> Stored deal type data!");
+            Logger.d("TinyDB ---> Stored deal type data!");
 
             new RentPeriod(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_RENT_PERIOD, data));
-            Log.d("TinyDB ---> Stored rent period data!");
+            Logger.d("TinyDB ---> Stored rent period data!");
 
             new Countries(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_COUNTRIES, data));
-            Log.d("TinyDB ---> Stored countries data!");
+            Logger.d("TinyDB ---> Stored countries data!");
 
             new Currencies(context).setOnLoadListener(data ->
                     tinyDB.putListDirectory(SHARED_CURRENCIES, data));
-            Log.d("TinyDB ---> Stored currency data!");
+            Logger.d("TinyDB ---> Stored currency data!");
 
-            boolean isIntro = introPreferences.getBoolean("isIntro", true);
+            boolean isIntro = tinyDB.getBoolean(SHARED_IS_INTRO);
+
             if (isIntro) {
                 intent = new Intent(SplashActivity.this, IntroScreenActivity.class);
-                Log.d("Intent ---> IntroScreenActivity");
+                Logger.d("Intent ---> IntroScreenActivity");
             } else {
                 intent = new Intent(SplashActivity.this, LoginActivity.class);
-                Log.d("Intent ---> LoginActivity");
+                Logger.d("Intent ---> LoginActivity");
             }
 
             PusherOptions options = new PusherOptions();
@@ -90,7 +87,7 @@ public class SplashActivity extends IntroActivity implements Constants {
             pusher.connect(new ConnectionEventListener() {
                 @Override
                 public void onConnectionStateChange(ConnectionStateChange change) {
-                    Log.d("Pusher ---> State changed to " + change.getCurrentState() +
+                    Logger.d("Pusher ---> State changed to " + change.getCurrentState() +
                             " from " + change.getPreviousState());
 
                     socketId = pusher.getConnection().getSocketId();
@@ -100,7 +97,7 @@ public class SplashActivity extends IntroActivity implements Constants {
                     editor.putString("socket_id", socketId);
                     editor.apply();
 
-                    Log.d("Pusher ---> Socket ID: " + socketId);
+                    Logger.d("Pusher ---> Socket ID: " + socketId);
 
                     startActivity(intent);
                     finish();
@@ -108,8 +105,8 @@ public class SplashActivity extends IntroActivity implements Constants {
 
                 @Override
                 public void onError(String message, String code, Exception e) {
-                    Log.d("Pusher ---> Error message: " + message);
-                    Log.d("Pusher ---> Error code: " + code);
+                    Logger.d("Pusher ---> Error message: " + message);
+                    Logger.d("Pusher ---> Error code: " + code);
                 }
             }, ConnectionState.ALL);
         }
@@ -126,8 +123,6 @@ public class SplashActivity extends IntroActivity implements Constants {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-
-        Log = new Logger(this, "M2TAG");
 
         waitHandler.postDelayed(waitCallback, 4000);
 

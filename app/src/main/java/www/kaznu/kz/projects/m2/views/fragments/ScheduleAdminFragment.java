@@ -33,7 +33,6 @@ public class ScheduleAdminFragment extends Fragment {
     RecyclerView lView, acceptedLView;
 
     CurrentUser user;
-    Logger Log;
 
     TextView tvCurrentDate;
 
@@ -55,8 +54,6 @@ public class ScheduleAdminFragment extends Fragment {
         tvCurrentDate = rootView.findViewById(R.id.tv_date_now);
 
         tvCurrentDate.setText("СЕГОДНЯ - ".concat(Utils.getCurrentFullDate()));
-
-        Log = new Logger(requireContext(), Constants.TAG);
 
         ArrayList<ScheduleSection> result = user.getScheduleSection();
 

@@ -63,8 +63,6 @@ public class RealtyActivity extends IntroActivity {
 
     FlowLayout flowLayout;
 
-    Logger Log;
-
     ArrayList<Integer> properties = new ArrayList<>();
 
     Button btnBack;
@@ -97,8 +95,6 @@ public class RealtyActivity extends IntroActivity {
 
         btnBack = findViewById(R.id.toolbar_back);
 
-        Log = new Logger(this, Constants.TAG);
-
         Intent intent = getIntent();
         images = intent.getStringArrayListExtra("images");
         title = intent.getStringExtra("title");
@@ -114,7 +110,7 @@ public class RealtyActivity extends IntroActivity {
 
         ratingBar.setRating((float)intent.getIntExtra("stars", 0));
 
-        Log.d("Stars: " + String.valueOf(intent.getIntExtra("stars", 0)));
+        Logger.d("Stars: " + String.valueOf(intent.getIntExtra("stars", 0)));
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +148,7 @@ public class RealtyActivity extends IntroActivity {
             Glide.with(this).load(url).into(ivAvatar);
         }
         else {
-            Log.d("Avatar: " + intent.getStringExtra("avatar"));
+            Logger.d("Avatar: " + intent.getStringExtra("avatar"));
         }
         body = intent.getStringExtra("body");
         floor = intent.getIntExtra("floor", 1);
@@ -160,7 +156,7 @@ public class RealtyActivity extends IntroActivity {
         area = intent.getDoubleExtra("area", 0.0);
         livingSpace = intent.getDoubleExtra("livingspace", 0.0);
 
-        Log.d(images + "");
+        Logger.d(images + "");
 
         tvRealtyTitle.setText(title);
         tvAddress.setText(address);
@@ -191,8 +187,7 @@ public class RealtyActivity extends IntroActivity {
                 i.putExtra("contact", intent.getIntExtra("contact", 1));
                 i.putExtra("ref_realty", intent.getIntExtra("ref_realty", 45));
 
-                Logger Log = new Logger(getApplicationContext(), Constants.TAG);
-                Log.d(intent.getIntExtra("contact", 1) + "" + intent.getIntExtra("ref_realty", 45));
+                Logger.d(intent.getIntExtra("contact", 1) + "" + intent.getIntExtra("ref_realty", 45));
 
                 startActivity(i);
             }

@@ -66,9 +66,7 @@ public class UserRate implements Constants {
                     count = root.getInt("count");
                     average = root.getDouble("average");
 
-                    Logger Log = new Logger(context, TAG);
-
-                    Log.d("Result is: " + URL);
+                    Logger.d("Result is: " + URL);
 
                     if(resultCode == 0) {
                         JSONArray rateJSON = root.getJSONArray("rates");

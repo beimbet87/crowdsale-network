@@ -81,8 +81,6 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
     CheckBox chPrivacy;
     String totalArea = "0.0", livingArea = "0.0", price = "0.0", floor = "0", totalFloor = "0";
 
-    Logger Log;
-
     public RealtyAddFragment() {
 
     }
@@ -97,8 +95,6 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View fv = inflater.inflate(R.layout.fragment_add_realty, container, false);
-
-        Log = new Logger(requireContext(), Constants.TAG);
 
         add3d = fv.findViewById(R.id.add_3d);
 
@@ -260,16 +256,16 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.sp_realty_type:
-                Log.d("Realty type: " + properties.getRealtyType().get(position).getCodeId());
+                Logger.d("Realty type: " + properties.getRealtyType().get(position).getCodeId());
                 break;
             case R.id.sp_rent_type:
-                Log.d("Rent type: " + properties.getDealType().get(position).getCodeId());
+                Logger.d("Rent type: " + properties.getDealType().get(position).getCodeId());
                 break;
             case R.id.sp_rent_period:
-                Log.d("Rent period: " + properties.getRentPeriod().get(position).getCodeId());
+                Logger.d("Rent period: " + properties.getRentPeriod().get(position).getCodeId());
                 break;
             case R.id.sp_rooms:
-                Log.d("Rooms: " + properties.getRooms().get(position).getCodeId());
+                Logger.d("Rooms: " + properties.getRooms().get(position).getCodeId());
                 break;
         }
     }

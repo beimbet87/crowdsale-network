@@ -76,8 +76,6 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
-        Logger Log = new Logger(this, TAG);
-
         Intent intent = getIntent();
 
         int contact = intent.getIntExtra("contact", 0);
@@ -189,8 +187,8 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                 Double price = Double.parseDouble(s.toString());
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(diff, price)));
 
-                Log.d(calendar.getStartDate());
-                Log.d(calendar.getEndDate());
+                Logger.d(calendar.getStartDate());
+                Logger.d(calendar.getEndDate());
             }
 
             @Override

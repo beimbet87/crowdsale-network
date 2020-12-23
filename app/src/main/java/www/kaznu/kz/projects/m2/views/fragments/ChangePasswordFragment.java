@@ -54,8 +54,6 @@ import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
 
 public class ChangePasswordFragment extends Fragment implements View.OnClickListener {
 
-    private Logger Log;
-
     @Override
     public void onClick(View v) {
 
@@ -78,8 +76,6 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fv = inflater.inflate(R.layout.fragment_change_password, container, false);
-
-        Log = new Logger(requireContext(), Constants.TAG);
 
         dataPasser.FromChangePasswordFragment("Смена пароля", 2);
 

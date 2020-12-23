@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setContentView(R.layout.activity_main);
 
-        Logger Log = new Logger(this, Constants.TAG);
-
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationViewAdmin = findViewById(R.id.bottom_navigation_admin);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedProfileType = getSharedPreferences("M2_REG_INFO", 0);
         int profileType = sharedProfileType.getInt("profileType", 0);
 
-        Log.d(profileType + "");
+        Logger.d(profileType + "");
 
         if (profileType == 1) {
             bottomNavigationViewAdmin.setVisibility(View.VISIBLE);
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 editor.putString("phone", data.getPhone());
                 editor.putString("image", data.getImageLink());
                 editor.apply();
-                Log.d("User info: " + data.getName() + " " + data.getSurname());
+                Logger.d("User info: " + data.getName() + " " + data.getSurname());
             }
         });
 

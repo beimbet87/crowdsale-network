@@ -94,8 +94,8 @@ public class OfferFragment extends Fragment {
             realtyIntent.putExtra("ref_realty", offers.get(position).getRealty().getId());
             realtyIntent.putExtra("contact", offers.get(position).getOwner().getId());
             realtyIntent.putIntegerArrayListExtra("properties", offers.get(position).getProperties());
-            Logger Log = new Logger(requireContext(), Constants.TAG);
-            Log.d(offers.get(position).getOwner().getId() + "" + offers.get(position).getRealty().getId());
+
+            Logger.d(offers.get(position).getOwner().getId() + "" + offers.get(position).getRealty().getId());
 
             startActivity(realtyIntent);
         });

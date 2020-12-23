@@ -74,8 +74,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         this.price = price;
         this.padding0 = padding0;
         this.padding1 = padding1;
-
-        Log = new Logger(context, TAG);
     }
 
     public OfferAdapter() {

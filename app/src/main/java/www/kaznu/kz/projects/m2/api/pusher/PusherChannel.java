@@ -39,8 +39,6 @@ public class PusherChannel implements Constants {
 
     public PusherChannel(Context context, String socket_id, String token) {
 
-        Logger Log = new Logger(context, TAG);
-
         String params = "?socket_id=" + socket_id;
 
         authData = new AuthData();
@@ -63,7 +61,7 @@ public class PusherChannel implements Constants {
                     resultMessage = root.getString("ResultMessage");
 
                     if (resultCode == 1) {
-                        Log.d("Pusher channel is done!");
+                        Logger.d("Pusher channel is done!");
                     }
 
                     if(listener != null) {
@@ -72,13 +70,13 @@ public class PusherChannel implements Constants {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("Response catch: " + e.toString());
+                    Logger.d("Response catch: " + e.toString());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Response error: " + error.toString());
+                Logger.d("Response error: " + error.toString());
                 error.printStackTrace();
             }
         }) {

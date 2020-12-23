@@ -6,7 +6,8 @@ import android.content.Context;
 public interface Constants {
     String TAG = "M2TAG";
     String BASE_URL = "http://someproject-001-site1.itempurl.com/";
-    String URL_TOKEN = BASE_URL.concat("Register/token");
+    String URL_REGISTER_TOKEN = BASE_URL.concat("Register/token");
+    String URL_TOKEN = BASE_URL.concat("token");
     String URL_PHONE_REG = BASE_URL.concat("api/User/Registration");
     String URL_REGISTRATION_FORM = BASE_URL.concat("api/User/RegistrationForm");
     String URL_GET_REALTY_TYPE = BASE_URL.concat("api/Directory/getRealtyType");
@@ -88,4 +89,6 @@ public interface Constants {
     String SHARED_OWNER_BOOKING = "OWNER_BOOKING";
     String SHARED_OWNER_BOOKING_HISTORY = "OWNER_BOOKING_HISTORY";
     String SHARED_OWNER_MESSAGE_LIST = "OWNER_MESSAGE_LIST";
+
+    String SHARED_IS_INTRO = "IS_INTRO";
 }

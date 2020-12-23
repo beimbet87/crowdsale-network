@@ -22,8 +22,6 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     public TextView title;
     int fragments = 1;
 
-    Logger Log;
-
     CurrentUser user;
 
     @Override
@@ -32,7 +30,6 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment_methods);
 
         user = new CurrentUser(this);
-        Log = new Logger(this, Constants.TAG);
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);

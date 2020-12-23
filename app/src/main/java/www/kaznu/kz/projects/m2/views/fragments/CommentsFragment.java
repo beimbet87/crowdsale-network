@@ -28,8 +28,6 @@ public class CommentsFragment extends Fragment implements View.OnClickListener {
     ProgressBar progressBar;
     CurrentUser user;
 
-    Logger Log;
-
     @Override
     public void onClick(View v) {
 
@@ -60,8 +58,6 @@ public class CommentsFragment extends Fragment implements View.OnClickListener {
         lView = fv.findViewById(R.id.rv_comments);
 
         progressBar = fv.findViewById(R.id.comment_progress);
-
-        Log = new Logger(requireContext(), Constants.TAG);
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         lView.setItemAnimator(itemAnimator);

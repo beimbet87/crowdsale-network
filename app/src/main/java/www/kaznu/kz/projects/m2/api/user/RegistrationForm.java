@@ -44,8 +44,6 @@ public class RegistrationForm implements Constants {
 
         this.context = context;
 
-        Logger Log = new Logger(context, TAG);
-
         RequestQueue userRequestQueue = Volley.newRequestQueue(context);
 
         final String requestBody = user.getBody();

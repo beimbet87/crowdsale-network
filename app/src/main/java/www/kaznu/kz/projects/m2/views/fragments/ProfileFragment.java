@@ -75,7 +75,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private static final int REQUEST_PERMISSIONS = 100;
     private static final int PICK_IMAGE_REQUEST = 1;
-    private Logger Log;
     Calendar dateAndTime = Calendar.getInstance();
 
     CurrentUser currentUser;
@@ -121,8 +120,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         ivAvatar.setOnClickListener(this);
         llVerifyUser.setOnClickListener(this);
 
-        Log = new Logger(requireContext(), Constants.TAG);
-
         GenderTypeAdapter genderAdapter = new GenderTypeAdapter(requireContext());
         spGender.setAdapter(genderAdapter);
 
@@ -140,16 +137,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             spGender.setSelection(1);
         }
 
-        etUserBirthday.setText(Utils.parseDateWithDot(currentUser.getBirth()));
-
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
-        try {
-            Date date = format.parse(Utils.parseDateWithDot(currentUser.getBirth()));
-            assert date != null;
-            dateAndTime.setTime(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(currentUser.getBirth() != null && !currentUser.getBirth().equals("null")) {
+            etUserBirthday.setText(Utils.parseDateWithDot(currentUser.getBirth()));
+            try {
+                Date date = format.parse(Utils.parseDateWithDot(currentUser.getBirth()));
+                assert date != null;
+                dateAndTime.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         etUserPhone.setText(currentUser.getPhone());
@@ -245,7 +243,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(requireContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d("Error: " + error.getMessage());
+                        Logger.d("Error: " + error.getMessage());
                     }
                 }) {
 

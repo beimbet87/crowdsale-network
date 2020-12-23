@@ -46,8 +46,6 @@ public class Registration implements Constants {
 
         this.context = context;
 
-        Logger Log = new Logger(context, TAG);
-
         RequestQueue userRequestQueue = Volley.newRequestQueue(context);
         JSONObject jsonBody = new JSONObject();
         try {
@@ -83,7 +81,7 @@ public class Registration implements Constants {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d(error.toString());
+                    Logger.d(error.toString());
                     error.printStackTrace();
                 }
             }) {
@@ -102,8 +100,8 @@ public class Registration implements Constants {
                     Map<String, String> params = new HashMap<>();
                     params.put("countryCode", countryCode.getText().toString());
                     params.put("regIdentity", phoneNumber.getText().toString().replaceAll("[ \\-()]", ""));
-                    Log.d(countryCode.getText().toString());
-                    Log.d(phoneNumber.getText().toString().replaceAll("[ \\-()]", ""));
+                    Logger.d(countryCode.getText().toString());
+                    Logger.d(phoneNumber.getText().toString().replaceAll("[ \\-()]", ""));
                     return params;
                 }
 

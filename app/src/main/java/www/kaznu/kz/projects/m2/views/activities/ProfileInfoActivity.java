@@ -19,7 +19,6 @@ public class ProfileInfoActivity extends AppCompatActivity implements ProfileInf
     public TextView title;
     Button backButton, editButton;
     int fragmentNumber = 0;
-    Logger Log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +40,12 @@ public class ProfileInfoActivity extends AppCompatActivity implements ProfileInf
             startActivity(intent);
         });
 
-        Log = new Logger(this, Constants.TAG);
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ProfileInfoFragment profileFragment = new ProfileInfoFragment();
         ft.add(R.id.profile_info, profileFragment);
         ft.commit();
 
-        Log.d(String.valueOf(fragmentNumber));
+        Logger.d(String.valueOf(fragmentNumber));
 
     }
 

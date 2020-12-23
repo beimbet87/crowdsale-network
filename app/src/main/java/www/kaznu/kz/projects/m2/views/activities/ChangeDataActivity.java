@@ -23,7 +23,6 @@ public class ChangeDataActivity extends AppCompatActivity implements ChangePhone
     Button backButton;
     int fragmentNumber = 0;
     int fragment;
-    Logger Log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,6 @@ public class ChangeDataActivity extends AppCompatActivity implements ChangePhone
         backButton = toolbar.findViewById(R.id.toolbar_back);
 
         backButton.setOnClickListener(v -> finish());
-
-        Log = new Logger(this, Constants.TAG);
 
         Intent intent = getIntent();
 
@@ -64,7 +61,7 @@ public class ChangeDataActivity extends AppCompatActivity implements ChangePhone
         }
 
 
-        Log.d(String.valueOf(fragmentNumber));
+        Logger.d(String.valueOf(fragmentNumber));
 
     }
 

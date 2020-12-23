@@ -18,7 +18,6 @@ public class ProfileTypeActivity extends AppCompatActivity implements ProfileTyp
     public TextView title;
     Button backButton;
     int fragmentNumber = 0;
-    Logger Log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +33,12 @@ public class ProfileTypeActivity extends AppCompatActivity implements ProfileTyp
 
         backButton.setOnClickListener(v -> finish());
 
-        Log = new Logger(this, Constants.TAG);
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ProfileTypeFragment profileTypeFragment = new ProfileTypeFragment();
         ft.add(R.id.profile_type, profileTypeFragment);
         ft.commit();
 
-        Log.d(String.valueOf(fragmentNumber));
+        Logger.d(String.valueOf(fragmentNumber));
 
     }
 

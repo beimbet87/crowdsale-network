@@ -51,8 +51,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class SearchActivity extends AppCompatActivity implements MapsFragment.DataFromSearchArea, View.OnClickListener {
 
-    private Logger Log;
-
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
     boolean isRentOrBuy = true;
@@ -117,7 +115,6 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Log = new Logger(this, Constants.TAG);
         properties = new Properties(this);
 
         btnPolygons = findViewById(R.id.btn_polygons);
@@ -505,7 +502,7 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
 
         {
 
-            new Logger(this, Constants.TAG).d(propertiesInt.size() + " <---- size");
+            Logger.d(propertiesInt.size() + " <---- size");
             String loPrice = etCostLowerLimit.getText().toString();
             String upPrice = etCostUpperLimit.getText().toString();
 
@@ -586,7 +583,7 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
             gps.showSettingsAlert();
         }
 
-        Log.d("GPS ---> " + latitude + " " + longitude);
+        Logger.d("GPS ---> " + latitude + " " + longitude);
 
         Fragment fragment;
         Bundle bundle = new Bundle();

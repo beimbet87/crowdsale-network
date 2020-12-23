@@ -36,7 +36,6 @@ public class FilterOffers implements Constants {
     private Context context;
     private int resultCode;
     private String resultMessage;
-    private Logger Log;
 
     public interface CustomOnLoadListener {
         void onComplete(ArrayList<Offers> offers);
@@ -51,13 +50,12 @@ public class FilterOffers implements Constants {
     public FilterOffers(Context context, Filter filterData, String token) {
         this.context = context;
         offers = new ArrayList<>();
-        Log = new Logger(context, TAG);
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         final String requestBody = filterData.getBody();
 
-        Log.d("OffersBody: " + requestBody);
+        Logger.d("OffersBody: " + requestBody);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_FILTER_OFFERS, new Response.Listener<String>() {
             @Override
@@ -71,7 +69,7 @@ public class FilterOffers implements Constants {
 
                     JSONArray jsonOffers = root.getJSONArray("offers");
 
-                    Log.d("Offers: " + jsonOffers.toString());
+                    Logger.d("Offers: " + jsonOffers.toString());
 
                     for (int i = 0; i < jsonOffers.length(); i++) {
                         Offers data = new Offers();
@@ -125,7 +123,7 @@ public class FilterOffers implements Constants {
                         JSONArray jsonSearches = offer.getJSONArray("searches");
 
 
-                        Log.d("Search size ---> " + jsonSearches.length());
+                        Logger.d("Search size ---> " + jsonSearches.length());
 
                         for (int k = 0; k < jsonSearches.length(); k++) {
                             JSONObject jsonSearch = jsonSearches.getJSONObject(k);
@@ -289,7 +287,7 @@ public class FilterOffers implements Constants {
                     }
 
                     if (resultCode == 1) {
-                        Log.d("Filter Offers is done!");
+                        Logger.d("Filter Offers is done!");
                     }
 
                     if (listener != null) {
@@ -298,13 +296,13 @@ public class FilterOffers implements Constants {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("Response catch: " + e.toString());
+                    Logger.d("Response catch: " + e.toString());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Response error: " + error.toString());
+                Logger.d("Response error: " + error.toString());
                 error.printStackTrace();
             }
         }) {
