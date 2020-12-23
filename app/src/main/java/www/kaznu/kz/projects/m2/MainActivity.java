@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -28,39 +27,33 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
 
-import java.util.ArrayList;
-
-import www.kaznu.kz.projects.m2.api.searches.MySearches;
-import www.kaznu.kz.projects.m2.api.user.UserInfo;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.views.fragments.AccountAdminFragment;
 import www.kaznu.kz.projects.m2.views.fragments.AccountFragment;
 import www.kaznu.kz.projects.m2.views.fragments.BookingFragment;
-import www.kaznu.kz.projects.m2.views.fragments.ListAdsAdminFragment;
+import www.kaznu.kz.projects.m2.views.fragments.AdvertListFragment;
 import www.kaznu.kz.projects.m2.views.fragments.MessageListFragment;
 import www.kaznu.kz.projects.m2.views.fragments.MessageListFragmentAdmin;
 import www.kaznu.kz.projects.m2.views.fragments.ScheduleAdminFragment;
-import www.kaznu.kz.projects.m2.views.fragments.SearchFlatsFragment;
 import www.kaznu.kz.projects.m2.views.fragments.SearchFragment;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.Search;
-import www.kaznu.kz.projects.m2.models.User;
-import www.kaznu.kz.projects.m2.utils.Logger;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AccountFragment.DataFromAccountFragment, AccountAdminFragment.DataFromAccountAdminFragment {
+public class MainActivity extends AppCompatActivity implements
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        AccountFragment.DataFromAccountFragment,
+        AccountAdminFragment.DataFromAccountAdminFragment {
 
     public Location gpsNetworkLocation;
     private LocationManager locationManager;
     BottomNavigationView bottomNavigationView, bottomNavigationViewAdmin;
-    SharedPreferences token, sharedProfileType;
-    MySearches mySearches;
-
-    boolean isEmpty = false;
+    CurrentUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        user = new CurrentUser(this);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationViewAdmin = findViewById(R.id.bottom_navigation_admin);
@@ -70,12 +63,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         intDrawerLayoutAdmin(bottomNavigationViewAdmin);
         bottomNavigationViewAdmin.setVisibility(View.INVISIBLE);
 
-        sharedProfileType = getSharedPreferences("M2_REG_INFO", 0);
-        int profileType = sharedProfileType.getInt("profileType", 0);
-
-        Logger.d(profileType + "");
-
-        if (profileType == 1) {
+        if (user.isOwner()) {
             bottomNavigationViewAdmin.setVisibility(View.VISIBLE);
             bottomNavigationView.setVisibility(View.INVISIBLE);
             bottomNavigationViewAdmin.setSelectedItemId(R.id.action_account_admin);
@@ -92,24 +80,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //        badge.setBadgeTextColor(getResources().getColor(android.R.color.white));
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        token = getSharedPreferences("M2_TOKEN", 0);
-
-        mySearches = new MySearches(this, token.getString("access_token", ""));
-
-//        mySearches.setOnLoadListener(new MySearches.CustomOnLoadListener() {
-//            @Override
-//            public void onComplete(ArrayList<Search> searches) {
-//                if (searches.size() > 0) {
-//                    loadFragment(new SearchFlatsFragment());
-//                } else {
-//                    loadFragment(new SearchFragment());
-//                }
-//            }
-//        });
-
-        SharedPreferences token = getSharedPreferences("M2_TOKEN", 0);
-
-        UserInfo userInfo = new UserInfo(this, token.getString("access_token", ""));
 
 //        DeleteImage deleteImage = new DeleteImage(this, "~/Images/192.jpg", token.getString("access_token", ""));
 //
@@ -121,25 +91,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 ////                }
 //            }
 //        });
-
-        userInfo.setOnLoadListener(new UserInfo.CustomOnLoadListener() {
-            @Override
-            public void onComplete(User data) {
-                SharedPreferences userPreferences = getSharedPreferences("M2_USER_INFO", 0);
-                SharedPreferences.Editor editor = userPreferences.edit();
-                editor.putInt("id", data.getId());
-                editor.putInt("sex", data.getSex());
-                editor.putString("name", data.getName());
-                editor.putString("surname", data.getSurname());
-                editor.putString("birth", data.getBirth());
-                editor.putString("email", data.getEmail());
-                editor.putString("phone", data.getPhone());
-                editor.putString("image", data.getImageLink());
-                editor.apply();
-                Logger.d("User info: " + data.getName() + " " + data.getSurname());
-            }
-        });
-
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -149,24 +100,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (item.getItemId()) {
             case R.id.action_search:
-                mySearches.setOnLoadListener(new MySearches.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(ArrayList<Search> searches) {
-                        Log.d("M2TAG", "Search ID: " + searches.size());
-                        if (searches.size() > 0) {
-                            isEmpty = false;
-                        } else {
-                            isEmpty = true;
-                        }
-                    }
-                });
-
-                if (!isEmpty) {
-                    fragment = new SearchFlatsFragment();
-                } else {
-                    fragment = new SearchFragment();
-                }
-
+                fragment = new SearchFragment();
                 break;
             case R.id.action_messages:
                 fragment = new MessageListFragment();
@@ -181,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new AccountFragment();
                 break;
             case R.id.action_ads_admin:
-                fragment = new ListAdsAdminFragment();
+                fragment = new AdvertListFragment();
                 break;
             case R.id.action_schedules_admin:
                 fragment = new ScheduleAdminFragment();

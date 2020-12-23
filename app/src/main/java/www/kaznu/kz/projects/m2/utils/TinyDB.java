@@ -46,7 +46,9 @@ import com.google.gson.Gson;
 import www.kaznu.kz.projects.m2.models.BookingApplication;
 import www.kaznu.kz.projects.m2.models.Chat;
 import www.kaznu.kz.projects.m2.models.Directory;
+import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.RateModel;
+import www.kaznu.kz.projects.m2.models.Search;
 
 
 public class TinyDB {
@@ -389,6 +391,19 @@ public class TinyDB {
         return objects;
     }
 
+    public ArrayList<Offers> getListOfferModel(String key, Class<?> mClass) {
+        Gson gson = new Gson();
+
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<Offers> objects = new ArrayList<>();
+
+        for (String jObjString : objStrings) {
+            Offers value = gson.fromJson(jObjString, (Type) mClass);
+            objects.add(value);
+        }
+        return objects;
+    }
+
     public ArrayList<Chat> getListMessageModel(String key, Class<?> mClass) {
         Gson gson = new Gson();
 
@@ -397,6 +412,19 @@ public class TinyDB {
 
         for (String jObjString : objStrings) {
             Chat value = gson.fromJson(jObjString, (Type) mClass);
+            objects.add(value);
+        }
+        return objects;
+    }
+
+    public ArrayList<Search> getListSearchModel(String key, Class<?> mClass) {
+        Gson gson = new Gson();
+
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<Search> objects = new ArrayList<>();
+
+        for (String jObjString : objStrings) {
+            Search value = gson.fromJson(jObjString, (Type) mClass);
             objects.add(value);
         }
         return objects;
@@ -583,6 +611,26 @@ public class TinyDB {
     }
 
     public void putListBookingModel(String key, ArrayList<BookingApplication> objArray) {
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for (Object obj : objArray) {
+            objStrings.add(gson.toJson(obj));
+        }
+        putListString(key, objStrings);
+    }
+
+    public void putListSearchModel(String key, ArrayList<Search> objArray) {
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for (Object obj : objArray) {
+            objStrings.add(gson.toJson(obj));
+        }
+        putListString(key, objStrings);
+    }
+
+    public void putListOfferModel(String key, ArrayList<Offers> objArray) {
         checkForNullKey(key);
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<String>();

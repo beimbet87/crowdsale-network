@@ -20,12 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="@drawable/border_bottom"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp">
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tv_post_header"
@@ -63,7 +59,7 @@
 
 
                 <Button
-                    android:id="@+id/btn_create_post"
+                    android:id="@+id/btn_create_advert"
                     style="@style/Button.Style.LightBlue"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -88,7 +84,7 @@
                     android:text="ОПУБЛИКОВАННЫЕ ОБЪЯВЛЕНИЯ"
                     android:textColor="#808080"
                     android:textSize="13sp"
-                    app:layout_constraintTop_toBottomOf="@id/btn_create_post"
+                    app:layout_constraintTop_toBottomOf="@id/btn_create_advert"
                     tools:layout_editor_absoluteX="24dp" />
 
 

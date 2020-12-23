@@ -23,9 +23,9 @@ public class AdsAdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_ads_admin, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_advert_empty, container, false);
 
-        searchButton = rootView.findViewById(R.id.btn_add_ads);
+        searchButton = rootView.findViewById(R.id.btn_create_advert);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override

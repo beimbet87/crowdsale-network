@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -23,7 +22,6 @@ import www.kaznu.kz.projects.m2.adapters.MessageListAdapter;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.MessageList;
 import www.kaznu.kz.projects.m2.viewmodels.MessageListFragmentAdminViewModel;
-import www.kaznu.kz.projects.m2.views.activities.DiscussionActivity;
 import www.kaznu.kz.projects.m2.views.activities.DiscussionAdminActivity;
 
 public class MessageListFragmentAdmin extends Fragment {
@@ -32,6 +30,7 @@ public class MessageListFragmentAdmin extends Fragment {
     private ProgressBar mProgressBar;
     private MessageListAdapter mAdapter;
     private MessageListFragmentAdminViewModel mMessageListFragmentAdminViewModel;
+    private CurrentUser user;
 
     public MessageListFragmentAdmin() {
         // Required empty public constructor
@@ -41,28 +40,38 @@ public class MessageListFragmentAdmin extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_message_list, container, false);
+        ViewGroup root;
 
-        mRecyclerView = rootView.findViewById(R.id.rv_message_list);
-        mProgressBar = rootView.findViewById(R.id.pb_message_list);
+        user = new CurrentUser(requireContext());
 
-        return rootView;
+        if (user.getOwnerMessageList().size() > 0) {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_message_list, container, false);
+
+            mRecyclerView = root.findViewById(R.id.rv_message_list);
+            mProgressBar = root.findViewById(R.id.pb_message_list);
+        } else {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_message_empty, container, false);
+        }
+
+        return root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
-        mMessageListFragmentAdminViewModel.init();
+        if (user.getClientMessageList().size() > 0) {
+            mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
+            mMessageListFragmentAdminViewModel.init();
 
-        mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
-            @Override
-            public void onChanged(ArrayList<MessageList> messageLists) {
-                initRecyclerView(messageLists);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+            mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
+                @Override
+                public void onChanged(ArrayList<MessageList> messageLists) {
+                    initRecyclerView(messageLists);
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     private void initRecyclerView(ArrayList<MessageList> mData) {

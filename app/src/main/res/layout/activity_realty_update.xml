@@ -752,7 +752,7 @@
                 android:padding="16dp">
 
                 <Button
-                    android:id="@+id/btn_create_post"
+                    android:id="@+id/btn_create_advert"
                     style="@style/Button.Style.DarkBlue"
                     android:layout_width="0dp"
                     android:layout_height="48dp"

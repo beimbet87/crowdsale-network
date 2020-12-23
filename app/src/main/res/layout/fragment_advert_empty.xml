@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -9,12 +10,13 @@
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="64dp"
         android:orientation="vertical"
+        android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/post_title"
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="@drawable/border_bottom"
@@ -22,15 +24,14 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_post_header"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/booking"
-                android:textColor="@color/registerButtonColor"
+                android:layout_weight="1"
+                android:text="@string/advert_title"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="@dimen/header_text_size"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -41,30 +42,46 @@
             android:padding="16dp">
 
             <ImageView
+                android:id="@+id/search_avatar_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:contentDescription="@string/empty_booking_icon_description"
-                android:src="@drawable/ic_calendar" />
+                android:src="@drawable/ic_admin_ads" />
 
             <TextView
+                android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxLines="2"
-                android:text="@string/empty_booking_title"
+                android:gravity="center_horizontal"
+                android:text="@string/empty_advert_title"
                 android:textColor="@color/color_primary"
                 android:textSize="32sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_avatar_iv" />
 
             <TextView
+                android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:gravity="center"
-                android:text="@string/booking_empty_hint"
+                android:gravity="center_horizontal"
+                android:text="@string/empty_advert_hint"
                 android:textColor="@color/color_primary_hint"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+            <Button
+                android:id="@+id/btn_create_advert"
+                style="@style/Button.Style.LightBlue"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/create_advert" />
+
         </LinearLayout>
 
     </LinearLayout>

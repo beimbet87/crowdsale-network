@@ -35,7 +35,6 @@ import www.kaznu.kz.projects.m2.adapters.RoomsAdapter;
 import www.kaznu.kz.projects.m2.api.realty.RealtyPublish;
 import www.kaznu.kz.projects.m2.api.realty.RealtyUpdate;
 import www.kaznu.kz.projects.m2.api.realty.UpdateRealtyProperties;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.ConfigValue;
 import www.kaznu.kz.projects.m2.models.Properties;
 import www.kaznu.kz.projects.m2.models.Realty;
@@ -98,7 +97,7 @@ public class RealtyAddFragment extends Fragment implements AdapterView.OnItemSel
 
         add3d = fv.findViewById(R.id.add_3d);
 
-        btnCreateRealty = fv.findViewById(R.id.btn_create_post);
+        btnCreateRealty = fv.findViewById(R.id.btn_create_advert);
         btnPublishRealty = fv.findViewById(R.id.btn_publish_ads);
 
         spRentType = fv.findViewById(R.id.sp_rent_type);

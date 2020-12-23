@@ -32,6 +32,12 @@ public class CurrentUser implements Constants {
     private final ArrayList<BookingApplication> clientBooksHistory;
     private final ArrayList<BookingApplication> ownersBooksHistory;
 
+    private final ArrayList<Offers> publishedAdvertList;
+
+    private final ArrayList<Offers> unpublishedAdvertList;
+
+    private final ArrayList<Search> searchList;
+
     private final ArrayList<Chat> clientMessageList;
     private final ArrayList<Chat> ownerMessageList;
 
@@ -81,8 +87,13 @@ public class CurrentUser implements Constants {
         clientBooksHistory = data.getListBookingModel(SHARED_USER_BOOKING_HISTORY, BookingApplication.class);
         ownersBooksHistory = data.getListBookingModel(SHARED_OWNER_BOOKING_HISTORY, BookingApplication.class);
 
+        publishedAdvertList = data.getListOfferModel(SHARED_USER_PUBLISHED_ADVERT_LIST, Offers.class);
+        unpublishedAdvertList = data.getListOfferModel(SHARED_USER_UNPUBLISHED_ADVERT_LIST, Offers.class);
+
         clientMessageList = data.getListMessageModel(SHARED_USER_MESSAGE_LIST, Chat.class);
         ownerMessageList = data.getListMessageModel(SHARED_OWNER_MESSAGE_LIST, Chat.class);
+
+        searchList = data.getListSearchModel(SHARED_USER_SEARCH_LIST, Search.class);
 
         rateCountOwner = data.getInt(SHARED_OWNER_RATE_COUNT);
         rateAverageOwner = data.getDouble(SHARED_OWNER_RATE_AVERAGE);
@@ -219,11 +230,23 @@ public class CurrentUser implements Constants {
         return result;
     }
 
+    public ArrayList<Search> getSearchList() {
+        return searchList;
+    }
+
     public ArrayList<Chat> getClientMessageList() {
         return clientMessageList;
     }
 
     public ArrayList<Chat> getOwnerMessageList() {
         return ownerMessageList;
+    }
+
+    public ArrayList<Offers> getPublishedAdvertList() {
+        return publishedAdvertList;
+    }
+
+    public ArrayList<Offers> getUnpublishedAdvertList() {
+        return unpublishedAdvertList;
     }
 }

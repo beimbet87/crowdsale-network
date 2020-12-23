@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,11 @@ import www.kaznu.kz.projects.m2.api.book.ClientBookings;
 import www.kaznu.kz.projects.m2.api.book.OwnerBooking;
 import www.kaznu.kz.projects.m2.api.pusher.MessageListData;
 import www.kaznu.kz.projects.m2.api.rate.UserRate;
+import www.kaznu.kz.projects.m2.api.realty.UserApplications;
+import www.kaznu.kz.projects.m2.api.searches.MySearches;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.Offers;
+import www.kaznu.kz.projects.m2.models.Search;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
 
@@ -104,6 +109,30 @@ public class Token implements Constants {
                     ownerBooking.setOnLoadListener((bookings, history) -> {
                         data.putListBookingModel(SHARED_OWNER_BOOKING, bookings);
                         data.putListBookingModel(SHARED_OWNER_BOOKING_HISTORY, history);
+                    });
+
+                    MySearches searches = new MySearches(this.context, token);
+                    searches.setOnLoadListener(new MySearches.CustomOnLoadListener() {
+                        @Override
+                        public void onComplete(ArrayList<Search> searches) {
+                            data.putListSearchModel(SHARED_USER_SEARCH_LIST, searches);
+                        }
+                    });
+
+                    UserApplications published = new UserApplications(this.context, 1, token);
+                    published.setOnLoadListener(new UserApplications.CustomOnLoadListener() {
+                        @Override
+                        public void onComplete(ArrayList<Offers> offers) {
+                            data.putListOfferModel(SHARED_USER_PUBLISHED_ADVERT_LIST, offers);
+                        }
+                    });
+
+                    UserApplications unpublished = new UserApplications(this.context, 0, token);
+                    unpublished.setOnLoadListener(new UserApplications.CustomOnLoadListener() {
+                        @Override
+                        public void onComplete(ArrayList<Offers> offers) {
+                            data.putListOfferModel(SHARED_USER_UNPUBLISHED_ADVERT_LIST, offers);
+                        }
                     });
 
                     MessageListData clientMessageList = new MessageListData(this.context, 0, token);

@@ -23,14 +23,12 @@
 
             <TextView
                 android:id="@+id/textView12"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/booking"
-                android:textColor="@color/registerButtonColor"
+                android:text="@string/messages"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="@dimen/header_text_size"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -44,15 +42,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:contentDescription="@string/empty_booking_icon_description"
-                android:src="@drawable/ic_calendar" />
+                android:contentDescription="@string/empty_message_icon_description"
+                android:src="@drawable/ic_empty_message" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLines="2"
-                android:text="@string/empty_booking_title"
+                android:text="@string/empty_message_title"
                 android:textColor="@color/color_primary"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -62,11 +60,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:gravity="center"
-                android:text="@string/booking_empty_hint"
+                android:text="@string/empty_message_hint"
                 android:textColor="@color/color_primary_hint"
                 android:textSize="18sp" />
         </LinearLayout>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

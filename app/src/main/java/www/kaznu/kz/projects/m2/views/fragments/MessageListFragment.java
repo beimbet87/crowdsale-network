@@ -34,6 +34,7 @@ public class MessageListFragment extends Fragment {
     private ProgressBar mProgressBar;
     private MessageListAdapter mAdapter;
     private MessageListFragmentViewModel mMessageListFragmentViewModel;
+    private CurrentUser user;
 
     public MessageListFragment() {
         // Required empty public constructor
@@ -43,28 +44,37 @@ public class MessageListFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_message_list, container, false);
+        ViewGroup root;
 
-        mRecyclerView = rootView.findViewById(R.id.rv_message_list);
-        mProgressBar = rootView.findViewById(R.id.pb_message_list);
+        user = new CurrentUser(requireContext());
 
-        return rootView;
+        if (user.getClientMessageList().size() > 0) {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_message_list, container, false);
+            mRecyclerView = root.findViewById(R.id.rv_message_list);
+            mProgressBar = root.findViewById(R.id.pb_message_list);
+        } else {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_message_empty, container, false);
+        }
+
+        return root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mMessageListFragmentViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentViewModel.class);
-        mMessageListFragmentViewModel.init();
+        if (user.getClientMessageList().size() > 0) {
+            mMessageListFragmentViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentViewModel.class);
+            mMessageListFragmentViewModel.init();
 
-        mMessageListFragmentViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
-            @Override
-            public void onChanged(ArrayList<MessageList> messageLists) {
-                initRecyclerView(messageLists);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+            mMessageListFragmentViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
+                @Override
+                public void onChanged(ArrayList<MessageList> messageLists) {
+                    initRecyclerView(messageLists);
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     private void initRecyclerView(ArrayList<MessageList> mData) {

@@ -37,7 +37,7 @@
                         android:id="@+id/iv_profile_image"
                         android:layout_width="@dimen/profile_image_size"
                         android:layout_height="@dimen/profile_image_size"
-                        android:src="@drawable/avatar"
+                        android:src="@drawable/ic_default_avatar"
                         app:civ_border_width="0dp" />
                     <com.willy.ratingbar.ScaleRatingBar
                         android:id="@+id/rb_profile_rating"
@@ -63,10 +63,12 @@
 
                     <TextView
                         android:id="@+id/tv_profile_username"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
                         android:lineSpacingExtra="0dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:text="@string/profile_username"
                         android:textColor="@color/color_primary_dark"
                         android:textSize="@dimen/header_text_size"

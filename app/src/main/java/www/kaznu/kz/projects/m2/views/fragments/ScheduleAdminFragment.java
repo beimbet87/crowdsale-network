@@ -47,68 +47,32 @@ public class ScheduleAdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_schedule_admin, container, false);
+        ViewGroup root;
 
         user = new CurrentUser(requireContext());
 
-        tvCurrentDate = rootView.findViewById(R.id.tv_date_now);
+        if (user.getScheduleSection().size() > 0) {
 
-        tvCurrentDate.setText("СЕГОДНЯ - ".concat(Utils.getCurrentFullDate()));
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_schedule_admin, container, false);
 
-        ArrayList<ScheduleSection> result = user.getScheduleSection();
+            tvCurrentDate = root.findViewById(R.id.tv_date_now);
 
-//        ArrayList<BookingApplication> sectionData = new ArrayList<>();
-//
-//        for (int i = 1; i < user.getOwnersBooksHistory().size(); i++) {
-//
-//            String preDate = Utils.parseDateWithDot(user.getOwnersBooksHistory().get(i - 1).getTimeStart());
-//            String curDate = Utils.parseDateWithDot(user.getOwnersBooksHistory().get(i).getTimeStart());
-//
-//            if(preDate.equals(curDate)) {
-//                sectionData.add(user.getOwnersBooksHistory().get(i-1));
-//                Log.d("Compare -----> " + preDate + " and " + curDate);
-//
-//                if(i == user.getOwnersBooksHistory().size()-1) {
-//                    String sectionTitle = Utils.parseDateText(user.getOwnersBooksHistory().get(i-1).getTimeStart());
-//                    sectionData.add(user.getOwnersBooksHistory().get(i));
-//                    ScheduleSection data = new ScheduleSection(sectionTitle, sectionData);
-//                    result.add(data);
-//
-//                    Log.d("Section title: " + sectionTitle);
-//
-//                    for (int j = 0; j < sectionData.size(); j++) {
-//                        Log.d("Section data: " + Utils.parseDateWithoutYear(sectionData.get(j).getTimeStart()));
-//                    }
-//                    Log.d("Section date size -----> " + sectionData.size());
-//                    sectionData.clear();
-//                }
-//
-//            } else {
-//                String sectionTitle = Utils.parseDateText(user.getOwnersBooksHistory().get(i-1).getTimeStart());
-//                sectionData.add(user.getOwnersBooksHistory().get(i-1));
-//                ScheduleSection data = new ScheduleSection(sectionTitle, sectionData);
-//                result.add(data);
-//
-//                Log.d("Section title: " + sectionTitle);
-//
-//                for (int j = 0; j < sectionData.size(); j++) {
-//                    Log.d("Section data: " + Utils.parseDateWithoutYear(sectionData.get(j).getTimeStart()));
-//                }
-//                Log.d("Section date size -----> " + sectionData.size());
-//                sectionData.clear();
-//            }
-//        }
+            tvCurrentDate.setText("СЕГОДНЯ - ".concat(Utils.getCurrentFullDate()));
 
-        lView = rootView.findViewById(R.id.lv_accepted_booking_admin);
-        lView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            ArrayList<ScheduleSection> result = user.getScheduleSection();
 
-        lAdapter = new BookingAdapterAdmin(result);
+            lView = root.findViewById(R.id.lv_accepted_booking_admin);
+            lView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        lView.setAdapter(lAdapter);
+            lAdapter = new BookingAdapterAdmin(result);
 
-        return rootView;
+            lView.setAdapter(lAdapter);
+        } else {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_schedule_admin_empty, container, false);
+        }
+
+        return root;
     }
-
 
 
     @Override

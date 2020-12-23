@@ -140,7 +140,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
 
         addVR360 = findViewById(R.id.add_3d);
 
-        btnCreateRealty = findViewById(R.id.btn_create_post);
+        btnCreateRealty = findViewById(R.id.btn_create_advert);
         btnPublishRealty = findViewById(R.id.btn_publish_ads);
 
         spRentType = findViewById(R.id.sp_rent_type);

@@ -2,7 +2,6 @@ package www.kaznu.kz.projects.m2.api.user;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -20,6 +19,7 @@ import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 
 public class RegisterToken implements Constants {
 
@@ -39,18 +39,19 @@ public class RegisterToken implements Constants {
 
         this.context = context;
 
+        TinyDB data = new TinyDB(this.context);
+
         RequestQueue userRequestQueue = Volley.newRequestQueue(context);
 
         StringRequest userStringRequest = new StringRequest(Request.Method.POST, URL_REGISTER_TOKEN, response -> {
-            SharedPreferences tokenPreferences = activity.getSharedPreferences("M2_TOKEN", 0);
-            SharedPreferences.Editor editor = tokenPreferences.edit();
+
             try {
 
                 final JSONObject root = new JSONObject(response);
-                editor.putString("access_token", root.getString("access_token"));
-                editor.putString("token_type", root.getString("token_type"));
-                editor.putInt("expires_in", root.getInt("expires_in"));
-                editor.apply();
+
+                data.putString(SHARED_ACCESS_TOKEN, root.getString("access_token"));
+                data.putString(SHARED_TOKEN_TYPE, root.getString("token_type"));
+                data.putInt(SHARED_EXPIRES_IN, root.getInt("expires_in"));
 
                 if(listener != null) {
                     listener.onComplete(root.getString("access_token"));
