@@ -25,6 +25,7 @@ public class CurrentUser implements Constants {
     private final int currency;
     private final String countryCode;
     private final String countryName;
+    private final String deviceId;
     private final ArrayList<RateModel> rates;
     private final ArrayList<BookingApplication> clientBooks;
     private final ArrayList<BookingApplication> ownersBooks;
@@ -100,6 +101,8 @@ public class CurrentUser implements Constants {
         ratesOwner = data.getListRateModel(SHARED_OWNER_RATE, RateModel.class);
         owner = data.getBoolean(SHARED_IS_OWNER);
         complete = data.getBoolean(SHARED_USER_COMPLETE);
+
+        deviceId = data.getString(SHARED_DEVICE_ID);
     }
 
     public String getImageLink() {
@@ -248,5 +251,9 @@ public class CurrentUser implements Constants {
 
     public ArrayList<Offers> getUnpublishedAdvertList() {
         return unpublishedAdvertList;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
     }
 }

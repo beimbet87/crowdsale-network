@@ -19,6 +19,7 @@ import java.util.Map;
 
 import www.kaznu.kz.projects.m2.api.book.ClientBookings;
 import www.kaznu.kz.projects.m2.api.book.OwnerBooking;
+import www.kaznu.kz.projects.m2.api.pusher.DeviceID;
 import www.kaznu.kz.projects.m2.api.pusher.MessageListData;
 import www.kaznu.kz.projects.m2.api.rate.UserRate;
 import www.kaznu.kz.projects.m2.api.realty.UserApplications;
@@ -95,6 +96,14 @@ public class Token implements Constants {
                         data.putInt(SHARED_OWNER_RATE_COUNT, count);
                         data.putDouble(SHARED_OWNER_RATE_AVERAGE, average);
                         data.putListRateModel(SHARED_OWNER_RATE, rates);
+                    });
+
+                    new DeviceID(this.context, token).setOnLoadListener(new DeviceID.CustomOnLoadListener() {
+                        @Override
+                        public void onComplete(String message) {
+                            data.putString(SHARED_DEVICE_ID, message);
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
                     });
 
                     ClientBookings clientBookings = new ClientBookings(this.context, token);

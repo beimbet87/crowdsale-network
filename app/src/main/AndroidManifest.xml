@@ -89,7 +89,7 @@
         <activity android:name=".views.activities.Add3DActivity" />
 
         <service
-            android:name=".services.SignalRService"
+            android:name=".services.ShowNotificationService"
             android:enabled="true"
             android:exported="false" />
 

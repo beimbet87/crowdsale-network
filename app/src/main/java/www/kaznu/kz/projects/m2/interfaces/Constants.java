@@ -44,6 +44,9 @@ public interface Constants {
     String URL_RATE_REALTY = BASE_URL.concat("api/Rate/getRealyRate");
     String URL_RATE_USER = BASE_URL.concat("api/Rate/getUserRate");
 
+    String URL_PUSHER_SEND_NOTIFICATION = BASE_URL.concat("api/FBPush/SendNotification");
+    String URL_PUSHER_GET_DEVICE_ID = BASE_URL.concat("api/FBPush/getDeviceID");
+
     String SHARED_PUSHER = "SHARED_PUSHER_INFO";
 
     String SHARED_ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -80,6 +83,8 @@ public interface Constants {
     String SHARED_USER_SEARCH_LIST = "USER_SEARCH_LIST";
     String SHARED_USER_PUBLISHED_ADVERT_LIST = "USER_PUBLISHED_ADVERT_LIST";
     String SHARED_USER_UNPUBLISHED_ADVERT_LIST = "USER_UNPUBLISHED_ADVERT_LIST";
+
+    String SHARED_DEVICE_ID = "DEVICE_ID";
 
     String SHARED_USER_OWNER = "USER_IS_OWNER";
     String SHARED_USER_COMPLETE = "USER_IS_COMPLETE";

@@ -346,6 +346,9 @@
     <string name="photo_count">Количество фото:\n(обычно соответствует котоличеству комнат)</string>
     <string name="offer_price">330 000 ₸ / сутки</string>
 
+    <string name="pusher_app_id">0a0d35afd76319bf0b45</string>
+    <string name="pusher_app_key">8640a8f0befcab114411</string>
+
     <string name="room_coun_01">1</string>
     <string name="room_coun_02">2</string>
     <string name="room_coun_03">3</string>
