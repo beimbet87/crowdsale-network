@@ -81,8 +81,8 @@ public class SplashActivity extends IntroActivity implements Constants {
 
             PusherOptions options = new PusherOptions();
             options.setCluster("ap2");
-            options.buildUrl("8640a8f0befcab114411");
-            Pusher pusher = new Pusher("0a0d35afd76319bf0b45", options);
+            options.buildUrl(getString(R.string.pusher_app_key));
+            Pusher pusher = new Pusher(getString(R.string.pusher_app_id), options);
 
             pusher.connect(new ConnectionEventListener() {
                 @Override

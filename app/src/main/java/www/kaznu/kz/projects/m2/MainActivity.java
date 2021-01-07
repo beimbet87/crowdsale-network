@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -22,13 +24,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
-import com.pusher.pushnotifications.PushNotifications;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.PrivateChannel;
+import com.pusher.client.channel.PrivateChannelEventListener;
+import com.pusher.client.channel.PusherEvent;
+import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
+import com.pusher.client.util.HttpAuthorizer;
 
+import www.kaznu.kz.projects.m2.api.pusher.PusherChannel;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.AuthData;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.services.ShowNotificationService;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 import www.kaznu.kz.projects.m2.views.fragments.AccountAdminFragment;
 import www.kaznu.kz.projects.m2.views.fragments.AccountFragment;
 import www.kaznu.kz.projects.m2.views.fragments.BookingFragment;
@@ -38,10 +57,13 @@ import www.kaznu.kz.projects.m2.views.fragments.MessageListFragmentAdmin;
 import www.kaznu.kz.projects.m2.views.fragments.ScheduleAdminFragment;
 import www.kaznu.kz.projects.m2.views.fragments.SearchFragment;
 
+import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
+import static www.kaznu.kz.projects.m2.interfaces.Constants.URL_PUSHER_AUTH;
+
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         AccountFragment.DataFromAccountFragment,
-        AccountAdminFragment.DataFromAccountAdminFragment {
+        AccountAdminFragment.DataFromAccountAdminFragment, Constants {
 
     public Location gpsNetworkLocation;
     private LocationManager locationManager;
@@ -55,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         user = new CurrentUser(this);
+
+        Intent service = new Intent(this, ShowNotificationService.class);
+        service.putExtra("user_id", user.getId());
+        startService(service);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationViewAdmin = findViewById(R.id.bottom_navigation_admin);
@@ -74,24 +100,9 @@ public class MainActivity extends AppCompatActivity implements
             bottomNavigationView.setSelectedItemId(R.id.action_account);
         }
 
-//        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.action_messages);
-//        badge.setVisible(true);
-//        badge.setNumber(99);
-//        badge.setBackgroundColor(getResources().getColor(R.color.color_primary_error));
-//        badge.setBadgeTextColor(getResources().getColor(android.R.color.white));
+        showBadge(true, 2);
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-
-//        DeleteImage deleteImage = new DeleteImage(this, "~/Images/192.jpg", token.getString("access_token", ""));
-//
-//        deleteImage.setOnLoadListener(new DeleteImage.CustomOnLoadListener() {
-//            @Override
-//            public void onComplete(int data, String message) {
-////                if (data == 1) {
-////                    Toast.makeText(getApplicationContext(), "Image is deleted", Toast.LENGTH_LONG).show();
-////                }
-//            }
-//        });
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -277,6 +288,18 @@ public class MainActivity extends AppCompatActivity implements
             bottomNavigationView.setVisibility(View.VISIBLE);
             bottomNavigationViewAdmin.setVisibility(View.INVISIBLE);
             bottomNavigationView.setSelectedItemId(R.id.action_account);
+        }
+    }
+
+    private void showBadge(boolean isBadge, int number) {
+        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.action_messages);
+        if (isBadge) {
+            badge.setVisible(true);
+            badge.setNumber(number);
+            badge.setBackgroundColor(getColor(R.color.color_primary_error));
+            badge.setBadgeTextColor(getColor(android.R.color.white));
+        } else {
+            badge.setVisible(false);
         }
     }
 }

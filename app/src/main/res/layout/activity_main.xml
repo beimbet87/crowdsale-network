@@ -21,27 +21,29 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:foregroundGravity="center_vertical|center_horizontal"
         android:background="@android:color/white"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:theme="@style/Theme.MaterialComponents"
+        android:visibility="visible"
         app:itemIconTint="@drawable/bottom_nav_color"
         app:itemTextColor="@drawable/bottom_nav_color"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu"
-        android:visibility="visible"/>
+        app:menu="@menu/bottom_nav_menu" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_admin"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:foregroundGravity="center_vertical|center_horizontal"
         android:background="@drawable/bottom_gradient_background"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:theme="@style/Theme.MaterialComponents"
+        android:visibility="invisible"
         app:itemIconTint="@drawable/admin_bottom_nav_color"
         app:itemTextColor="@drawable/admin_bottom_nav_color"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu_admin"
-        android:visibility="invisible"/>
+        app:menu="@menu/bottom_nav_menu_admin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

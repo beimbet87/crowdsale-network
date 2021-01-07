@@ -102,7 +102,6 @@ public class Token implements Constants {
                         @Override
                         public void onComplete(String message) {
                             data.putString(SHARED_DEVICE_ID, message);
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                         }
                     });
 

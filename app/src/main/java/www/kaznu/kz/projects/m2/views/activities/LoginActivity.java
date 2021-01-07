@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.material.snackbar.Snackbar;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -19,7 +16,6 @@ import www.kaznu.kz.projects.m2.api.user.Token;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
 
 public class LoginActivity extends IntroActivity implements Constants {

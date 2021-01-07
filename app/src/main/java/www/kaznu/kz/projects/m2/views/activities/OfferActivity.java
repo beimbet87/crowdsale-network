@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.ToggleButton;
 import www.kaznu.kz.projects.m2.api.realty.FilterOffers;
+import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.views.fragments.OfferFragment;
 import www.kaznu.kz.projects.m2.views.fragments.SearchIntroFragment;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
@@ -29,8 +31,9 @@ public class OfferActivity extends AppCompatActivity {
 
     Button btnBack, btnHide;
     LinearLayout container, all_buttons;
-    SharedPreferences token;
     String price = null;
+
+    Tokens tokens;
 
     FlowLayout flowLayout;
 
@@ -40,6 +43,8 @@ public class OfferActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer);
         Intent intent = getIntent();
+
+        tokens = new Tokens(this);
 
         if(!intent.getBooleanExtra("is_search", false)) {
             SearchIntroFragment introFragment = new SearchIntroFragment();
@@ -105,10 +110,7 @@ public class OfferActivity extends AppCompatActivity {
         filter.setOffset(0);
         filter.setLimit(10);
 
-
-        token = getSharedPreferences("M2_TOKEN", 0);
-
-        FilterOffers filterOffers = new FilterOffers(this, filter, token.getString("access_token", ""));
+        FilterOffers filterOffers = new FilterOffers(this, filter, tokens.getAccessToken());
 
         filterOffers.setOnLoadListener(offers -> {
             if (offers.size() > 0) {

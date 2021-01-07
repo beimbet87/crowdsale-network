@@ -31,6 +31,7 @@ import www.kaznu.kz.projects.m2.api.pusher.RequestMessage;
 import www.kaznu.kz.projects.m2.api.pusher.SendMessage;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Message;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.views.customviews.DatePickerView;
@@ -53,7 +54,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
     TextView tvTotalPrice;
 
     SharedPreferences spToken, spPusher, spUser;
-    String token;
+    Tokens tokens;
     boolean isOwner;
 
     private RecyclerView mMessageRecycler;
@@ -66,6 +67,8 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
+
+        tokens = new Tokens(this);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -86,9 +89,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         spPusher = getSharedPreferences("M2_PUSHER_INFO", 0);
         spUser = getSharedPreferences("M2_USER_INFO", 0);
 
-        token = spToken.getString("access_token", "");
-
-        conversations = new Conversations(this, contact, refRealty, token);
+        conversations = new Conversations(this, contact, refRealty, tokens.getAccessToken());
 
         mMessageRecycler = findViewById(R.id.reyclerview_message_list);
 
@@ -129,14 +130,14 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                 message.setRefRealty(refRealty);
                 message.setMessage(etMessage.getText().toString());
 
-                conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
+                conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
 
                 etMessage.setText("");
-                sendMessage = new SendMessage(getApplicationContext(), message, token);
+                sendMessage = new SendMessage(getApplicationContext(), message, tokens.getAccessToken());
                 sendMessage.setOnLoadListener(new SendMessage.CustomOnLoadListener() {
                     @Override
                     public void onComplete(int code, String message) {
-                        conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
+                        conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
 
                         conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
                             @Override
@@ -209,12 +210,12 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                 message.setDateTo(Utils.parseDateDefault(calendar.getEndDate()));
                 message.setPrice(Double.parseDouble(etPrice.getText().toString()));
 
-                requestMessage = new RequestMessage(getApplicationContext(), message, token);
+                requestMessage = new RequestMessage(getApplicationContext(), message, tokens.getAccessToken());
 
                 requestMessage.setOnLoadListener(new RequestMessage.CustomOnLoadListener() {
                     @Override
                     public void onComplete(int code, String message) {
-                        conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
+                        conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
 
                         conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
                             @Override
