@@ -28,10 +28,17 @@ public class PusherChannel implements Constants, Authorizer {
     private String resultMessage;
     private String channelName;
     private final AuthData authData;
+    private String responseData;
 
     @Override
     public String authorize(String channelName, String socketId) throws AuthorizationFailureException {
-        return authData.getAuth();
+        try {
+            Logger.d(new JSONObject(responseData).getJSONObject("authData").toString());
+            return new JSONObject(responseData).getJSONObject("authData").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return responseData;
     }
 
     public interface CustomOnLoadListener {
@@ -55,6 +62,8 @@ public class PusherChannel implements Constants, Authorizer {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_PUSHER_AUTH.concat(params), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                responseData = response;
 
                 try {
                     final JSONObject root = new JSONObject(response);

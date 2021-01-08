@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 import www.kaznu.kz.projects.m2.api.pusher.PusherChannel;
 import www.kaznu.kz.projects.m2.api.user.RegistrationForm;
@@ -76,8 +77,7 @@ public class RegisterFragment05 extends Fragment implements Constants {
             registrationForm = new RegistrationForm(requireContext(), requireActivity(), user, token);
             registrationForm.setOnLoadListener((resultCode, resultMessage) -> {
                 if(resultCode == 1) {
-                    SharedPreferences socketIdPreferences = requireActivity().getSharedPreferences(SHARED_PUSHER, 0);
-                    PusherChannel channel = new PusherChannel(requireContext(), socketIdPreferences.getString("socket_id", ""), token);
+                    PusherChannel channel = new PusherChannel(requireContext(), new TinyDB(requireContext()).getString("socket_id"), token);
                     channel.setOnLoadListener(new PusherChannel.CustomOnLoadListener() {
                         @Override
                         public void onComplete(int data, String message, String channel, AuthData auth) {

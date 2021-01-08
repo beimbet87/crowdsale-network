@@ -22,6 +22,7 @@ import com.pusher.client.channel.PusherEvent;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
+import com.pusher.client.util.ConnectionFactory;
 import com.pusher.client.util.HttpAuthorizer;
 
 import java.util.HashMap;
@@ -35,10 +36,14 @@ import www.kaznu.kz.projects.m2.models.AuthData;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
+
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_PUSHER;
 
 public class ShowNotificationService extends Service {
     private final IBinder mBinder = new LocalBinder(); // Binder given to clients
+    private String channelName = null;
 
     NotificationManager nm;
 
@@ -57,12 +62,15 @@ public class ShowNotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         int result = super.onStartCommand(intent, flags, startId);
 
-        PusherChannel pusherChannel = new PusherChannel(getApplicationContext(), "", new Tokens(getApplicationContext()).getAccessToken());
+        String socketId = getSharedPreferences(SHARED_PUSHER, 0).getString("socket_id", "");
+
+        PusherChannel pusherChannel = new PusherChannel(getApplicationContext(), socketId, new Tokens(getApplicationContext()).getAccessToken());
 
         pusherChannel.setOnLoadListener(new PusherChannel.CustomOnLoadListener() {
             @Override
-            public void onComplete(int data, String message, String channelName, AuthData auth) {
-                Logger.d(channelName + " and " + auth.getAuth());
+            public void onComplete(int data, String message, String channel, AuthData auth) {
+                Logger.d(channel + " and " + auth.getAuth());
+                channelName = channel;
             }
         });
 
@@ -79,6 +87,32 @@ public class ShowNotificationService extends Service {
 
                     Logger.d("Socket ID ---> " + pusher.getConnection().getSocketId());
 
+                    Logger.d("Auth data ---> " + channelName);
+
+                    PrivateChannel channel = pusher.subscribePrivate(channelName, new PrivateChannelEventListener() {
+                        @Override
+                        public void onAuthenticationFailure(String message, Exception e) {
+                            Logger.d("Authentication Failure ---> " + message);
+                        }
+
+                        @Override
+                        public void onSubscriptionSucceeded(String channelName) {
+                            Logger.d("Channel name ---> " + channelName);
+                        }
+
+                        @Override
+                        public void onEvent(PusherEvent event) {
+                            showNotifications(event.getData());
+                        }
+                    });
+
+                    if (channel.isSubscribed()) {
+                        Logger.d("Subscribed");
+                    } else {
+                        Logger.d("Unsubscribed");
+                    }
+
+
                 } else {
                     Logger.d("Connecting");
                 }
@@ -87,51 +121,8 @@ public class ShowNotificationService extends Service {
             @Override
             public void onError(String message, String code, Exception e) {
                 Logger.d("Pusher ---> Error message: " + message);
-                Logger.d("Pusher ---> Error code: " + code);
             }
         }, ConnectionState.ALL);
-
-        pusher.connect();
-
-        PrivateChannel channel = pusher.subscribePrivate("private-chat-with154", new PrivateChannelEventListener() {
-            @Override
-            public void onAuthenticationFailure(String message, Exception e) {
-                Logger.d("Authentication Failure ---> " + message);
-            }
-
-            @Override
-            public void onSubscriptionSucceeded(String channelName) {
-                Logger.d("Channel name ---> " + channelName);
-            }
-
-            @Override
-            public void onEvent(PusherEvent event) {
-                showNotifications(event.getData());
-            }
-        });
-
-//        channel.bind("new_message", new PrivateChannelEventListener() {
-//            @Override
-//            public void onAuthenticationFailure(String message, Exception e) {
-//                Logger.d("Authentication Failure ---> " + message);
-//            }
-//
-//            @Override
-//            public void onSubscriptionSucceeded(String channelName) {
-//                Logger.d("Channel name ---> " + channelName);
-//            }
-//
-//            @Override
-//            public void onEvent(PusherEvent event) {
-//                showNotifications(event.getData());
-//            }
-//        });
-
-        if (channel.isSubscribed()) {
-            Logger.d("Subscribed");
-        } else {
-            Logger.d("Unsubscribed");
-        }
 
         return result;
     }
@@ -161,7 +152,6 @@ public class ShowNotificationService extends Service {
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
-        ;
 
         builder.setContentIntent(contentIntent);
 
