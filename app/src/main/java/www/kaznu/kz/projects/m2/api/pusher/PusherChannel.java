@@ -10,6 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.pusher.client.AuthorizationFailureException;
+import com.pusher.client.Authorizer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,11 +23,16 @@ import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.AuthData;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
-public class PusherChannel implements Constants {
+public class PusherChannel implements Constants, Authorizer {
     private int resultCode;
     private String resultMessage;
     private String channelName;
-    private AuthData authData;
+    private final AuthData authData;
+
+    @Override
+    public String authorize(String channelName, String socketId) throws AuthorizationFailureException {
+        return authData.getAuth();
+    }
 
     public interface CustomOnLoadListener {
         void onComplete(int data, String message, String channel, AuthData auth);
@@ -55,6 +62,7 @@ public class PusherChannel implements Constants {
                     JSONObject auth = root.getJSONObject("authData");
 
                     authData.setAuth(auth.getString("auth"));
+//                    authData.setChannelData(auth.getString("channel_data"));
 
                     channelName = root.getString("chanelName");
                     resultCode = root.getInt("ResultCode");
