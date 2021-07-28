@@ -25,6 +25,25 @@ public class Filter {
     private int offset = -1;
     private int limit = -1;
     private int refUser = -1;
+    private String cityName;
+    private String countryName;
+    private int refCity;
+    private int refCountry;
+    private double floreFrom;
+    private double floreTo;
+    private double areaFrom;
+    private double areaTo;
+    private double livingSpaceFrom;
+    private double livingSpaceTo;
+    private double kitchenSpaceFrom;
+    private double kitchenSpaceTo;
+    private double plotAreaFrom;
+    private double plotAreaTo;
+    private double adjTerritoryFrom;
+    private double energyConsTo;
+    private double industrialPremisesFrom;
+    private double warehouseFrom;
+    private double officeFrom;
 
     public ArrayList<Polygons> getPolygons() {
         return polygons;
@@ -86,12 +105,219 @@ public class Filter {
                 jsonBody.put("limit", this.getLimit());
             if(this.getRefUser() > 0)
                 jsonBody.put("refUser", this.getRefUser());
+
+            jsonBody.put("cityName", this.getCityName());
+            jsonBody.put("countryName", this.getCountryName());
+
+            if(this.getRefCity() > 0)
+                jsonBody.put("refCity", this.getRefCity());
+
+            if(this.getRefCountry() > 0)
+                jsonBody.put("refCountry", this.getRefCountry());
+
+            if(this.getFloreFrom() > 0.0)
+                jsonBody.put("floreFrom", this.getFloreFrom());
+
+            if(this.getFloreTo() > 0.0)
+                jsonBody.put("floreTo", this.getFloreTo());
+
+            if(this.getAreaFrom() > 0.0)
+                jsonBody.put("areaFrom", this.getAreaFrom());
+
+            if(this.getAreaTo() > 0.0)
+                jsonBody.put("areaTo", this.getAreaTo());
+
+            if(this.getLivingSpaceFrom() > 0.0)
+                jsonBody.put("livingSpaceFrom", this.getLivingSpaceFrom());
+
+            if(this.getLivingSpaceTo() > 0.0)
+                jsonBody.put("livingSpaceTo", this.getLivingSpaceTo());
+
+            if(this.getKitchenSpaceFrom() > 0.0)
+                jsonBody.put("kitchenSpaceFrom", this.getKitchenSpaceFrom());
+
+            if(this.getKitchenSpaceTo() > 0.0)
+                jsonBody.put("kitchenSpaceTo", this.getKitchenSpaceTo());
+
+            if(this.getPlotAreaFrom() > 0.0)
+                jsonBody.put("plotAreaFrom", this.getPlotAreaFrom());
+
+            if(this.getPlotAreaTo() > 0.0)
+                jsonBody.put("plotAreaTo", this.getPlotAreaTo());
+
+            if(this.getAdjTerritoryFrom() > 0.0)
+                jsonBody.put("adjTerritoryFrom", this.getAdjTerritoryFrom());
+
+            if(this.getEnergyConsTo() > 0.0)
+                jsonBody.put("energyConsTo", this.getEnergyConsTo());
+
+            if(this.getIndustrialPremisesFrom() > 0.0)
+                jsonBody.put("industrialPremisesFrom", this.getIndustrialPremisesFrom());
+
+            if(this.getWarehouseFrom() > 0.0)
+                jsonBody.put("warehouseFrom", this.getWarehouseFrom());
+
+            if(this.getOfficeFrom() > 0.0)
+                jsonBody.put("officeFrom", this.getOfficeFrom());
+
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("M2TAG", "Filter Error: " + e);
         }
 
         return jsonBody.toString();
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public int getRefCity() {
+        return refCity;
+    }
+
+    public void setRefCity(int refCity) {
+        this.refCity = refCity;
+    }
+
+    public int getRefCountry() {
+        return refCountry;
+    }
+
+    public void setRefCountry(int refCountry) {
+        this.refCountry = refCountry;
+    }
+
+    public double getFloreFrom() {
+        return floreFrom;
+    }
+
+    public void setFloreFrom(double floreFrom) {
+        this.floreFrom = floreFrom;
+    }
+
+    public double getFloreTo() {
+        return floreTo;
+    }
+
+    public void setFloreTo(double floreTo) {
+        this.floreTo = floreTo;
+    }
+
+    public double getAreaFrom() {
+        return areaFrom;
+    }
+
+    public void setAreaFrom(double areaFrom) {
+        this.areaFrom = areaFrom;
+    }
+
+    public double getAreaTo() {
+        return areaTo;
+    }
+
+    public void setAreaTo(double areaTo) {
+        this.areaTo = areaTo;
+    }
+
+    public double getLivingSpaceFrom() {
+        return livingSpaceFrom;
+    }
+
+    public void setLivingSpaceFrom(double livingSpaceFrom) {
+        this.livingSpaceFrom = livingSpaceFrom;
+    }
+
+    public double getLivingSpaceTo() {
+        return livingSpaceTo;
+    }
+
+    public void setLivingSpaceTo(double livingSpaceTo) {
+        this.livingSpaceTo = livingSpaceTo;
+    }
+
+    public double getKitchenSpaceFrom() {
+        return kitchenSpaceFrom;
+    }
+
+    public void setKitchenSpaceFrom(double kitchenSpaceFrom) {
+        this.kitchenSpaceFrom = kitchenSpaceFrom;
+    }
+
+    public double getKitchenSpaceTo() {
+        return kitchenSpaceTo;
+    }
+
+    public void setKitchenSpaceTo(double kitchenSpaceTo) {
+        this.kitchenSpaceTo = kitchenSpaceTo;
+    }
+
+    public double getPlotAreaFrom() {
+        return plotAreaFrom;
+    }
+
+    public void setPlotAreaFrom(double plotAreaFrom) {
+        this.plotAreaFrom = plotAreaFrom;
+    }
+
+    public double getPlotAreaTo() {
+        return plotAreaTo;
+    }
+
+    public void setPlotAreaTo(double plotAreaTo) {
+        this.plotAreaTo = plotAreaTo;
+    }
+
+    public double getAdjTerritoryFrom() {
+        return adjTerritoryFrom;
+    }
+
+    public void setAdjTerritoryFrom(double adjTerritoryFrom) {
+        this.adjTerritoryFrom = adjTerritoryFrom;
+    }
+
+    public double getEnergyConsTo() {
+        return energyConsTo;
+    }
+
+    public void setEnergyConsTo(double energyConsTo) {
+        this.energyConsTo = energyConsTo;
+    }
+
+    public double getIndustrialPremisesFrom() {
+        return industrialPremisesFrom;
+    }
+
+    public void setIndustrialPremisesFrom(double industrialPremisesFrom) {
+        this.industrialPremisesFrom = industrialPremisesFrom;
+    }
+
+    public double getWarehouseFrom() {
+        return warehouseFrom;
+    }
+
+    public void setWarehouseFrom(double warehouseFrom) {
+        this.warehouseFrom = warehouseFrom;
+    }
+
+    public double getOfficeFrom() {
+        return officeFrom;
+    }
+
+    public void setOfficeFrom(double officeFrom) {
+        this.officeFrom = officeFrom;
     }
 
     public void setPolygons(ArrayList<Polygons> polygons) {

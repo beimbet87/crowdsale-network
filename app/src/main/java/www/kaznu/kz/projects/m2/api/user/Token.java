@@ -159,13 +159,14 @@ public class Token implements Constants {
                 final JSONObject jsonRoot;
                 try {
                     jsonRoot = new JSONObject(response);
-                    Toast.makeText(this.context, jsonRoot.getString("error"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context, "Ошибка сервера", Toast.LENGTH_SHORT).show();
                 } catch (JSONException ex) {
+                    Toast.makeText(this.context, "Ошибка сервера", Toast.LENGTH_SHORT).show();
                     ex.printStackTrace();
                 }
                 e.printStackTrace();
             }
-        }, error -> Logger.e(error.toString())) {
+        }, error -> Toast.makeText(this.context, "Ошибка сервера", Toast.LENGTH_SHORT).show()) {
             @Override
             public String getBodyContentType() {
                 return "text/plain; charset=utf-8";

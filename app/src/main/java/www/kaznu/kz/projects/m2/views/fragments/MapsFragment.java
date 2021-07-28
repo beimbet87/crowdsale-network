@@ -89,8 +89,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+        if(location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
 
         return rootView;
     }

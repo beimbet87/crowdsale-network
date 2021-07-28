@@ -79,6 +79,9 @@ public class UpdateRealtyProperties implements Constants {
                     if (resultCode == 1) {
                         Log.d("M2TAG", "UpdateRealty Offers is done!");
                     }
+                    else {
+                        Log.d("M2TAG", "Result code: " + resultCode);
+                    }
 
                     if (listener != null) {
                         listener.onComplete(resultCode, resultMessage);

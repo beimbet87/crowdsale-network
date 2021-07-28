@@ -26,6 +26,16 @@ public class Realty implements Serializable {
     private String address;
     private int refCity;
     private int floorBuild;
+    private String cityName;
+    private String countryName;
+    private double kitchenSpace;
+    private double plotArea;
+    private double adjTerritory;
+    private double energyCons;
+    private double industrialPremises;
+    private double warehouse;
+    private double office;
+
 
     public String getBody() {
         JSONObject jsonBody = new JSONObject();
@@ -48,6 +58,14 @@ public class Realty implements Serializable {
             jsonBody.put("adress", this.getAddress());
             jsonBody.put("refCity", this.getRefCity());
             jsonBody.put("floorebuild", this.getFloorBuild());
+            jsonBody.put("cityName", this.getCityName());
+            jsonBody.put("countryName", this.getCountryName());
+            jsonBody.put("plotArea", this.getPlotArea());
+            jsonBody.put("adjTerritory", this.getAdjTerritory());
+            jsonBody.put("energyCons", this.getEnergyCons());
+            jsonBody.put("industrialPremises", this.getIndustrialPremises());
+            jsonBody.put("warehouse", this.getWarehouse());
+            jsonBody.put("office", this.getOffice());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -198,5 +216,77 @@ public class Realty implements Serializable {
 
     public void setFloorBuild(int floorBuild) {
         this.floorBuild = floorBuild;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public double getKitchenSpace() {
+        return kitchenSpace;
+    }
+
+    public void setKitchenSpace(double kitchenSpace) {
+        this.kitchenSpace = kitchenSpace;
+    }
+
+    public double getPlotArea() {
+        return plotArea;
+    }
+
+    public void setPlotArea(double plotArea) {
+        this.plotArea = plotArea;
+    }
+
+    public double getAdjTerritory() {
+        return adjTerritory;
+    }
+
+    public void setAdjTerritory(double adjTerritory) {
+        this.adjTerritory = adjTerritory;
+    }
+
+    public double getEnergyCons() {
+        return energyCons;
+    }
+
+    public void setEnergyCons(double energyCons) {
+        this.energyCons = energyCons;
+    }
+
+    public double getIndustrialPremises() {
+        return industrialPremises;
+    }
+
+    public void setIndustrialPremises(double industrialPremises) {
+        this.industrialPremises = industrialPremises;
+    }
+
+    public double getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(double warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public double getOffice() {
+        return office;
+    }
+
+    public void setOffice(double office) {
+        this.office = office;
     }
 }

@@ -36,7 +36,7 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="colorPrimary">@color/color_primary_button_intro</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/white</item>
         <item name="android:textColorHint">@color/color_primary_hint</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:statusBarColor">@color/color_primary_dark</item>

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -180,7 +181,7 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 long diff = 1;
-                if(calendar.getStartDate() != null && calendar.getEndDate() != null) {
+                if (calendar.getStartDate() != null && calendar.getEndDate() != null) {
                     diff = Utils.dateDiff(Utils.parseDateDefault(calendar.getStartDate()),
                             Utils.parseDateDefault(calendar.getEndDate()));
                 }
@@ -202,32 +203,39 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         btnSendBookingRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Message message = new Message();
-                message.setGuest(true);
-                message.setRefReceiver(contact);
-                message.setRefRealty(refRealty);
-                message.setDateFrom(Utils.parseDateDefault(calendar.getStartDate()));
-                message.setDateTo(Utils.parseDateDefault(calendar.getEndDate()));
-                message.setPrice(Double.parseDouble(etPrice.getText().toString()));
 
-                requestMessage = new RequestMessage(getApplicationContext(), message, tokens.getAccessToken());
+                if (!etPrice.getText().toString().equals("")) {
 
-                requestMessage.setOnLoadListener(new RequestMessage.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(int code, String message) {
-                        conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                    Message message = new Message();
+                    message.setGuest(true);
+                    message.setRefReceiver(contact);
+                    message.setRefRealty(refRealty);
+                    message.setDateFrom(Utils.parseDateDefault(calendar.getStartDate()));
+                    message.setDateTo(Utils.parseDateDefault(calendar.getEndDate()));
 
-                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
-                            @Override
-                            public void onComplete(int data, String message, ArrayList<Message> messages) {
-                                mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
-                                mMessageAdapter.notifyDataSetChanged();
-                                mMessageRecycler.setAdapter(mMessageAdapter);
-                            }
-                        });
-                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    }
-                });
+                    message.setPrice(Double.parseDouble(etPrice.getText().toString()));
+
+                    requestMessage = new RequestMessage(getApplicationContext(), message, tokens.getAccessToken());
+
+                    requestMessage.setOnLoadListener(new RequestMessage.CustomOnLoadListener() {
+                        @Override
+                        public void onComplete(int code, String message) {
+                            conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+
+                            conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                @Override
+                                public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                    mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+                                    mMessageAdapter.notifyDataSetChanged();
+                                    mMessageRecycler.setAdapter(mMessageAdapter);
+                                }
+                            });
+                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Введите цену!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

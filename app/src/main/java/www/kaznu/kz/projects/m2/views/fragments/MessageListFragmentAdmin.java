@@ -68,7 +68,9 @@ public class MessageListFragmentAdmin extends Fragment {
                 @Override
                 public void onChanged(ArrayList<MessageList> messageLists) {
                     initRecyclerView(messageLists);
-                    mAdapter.notifyDataSetChanged();
+                    if(mAdapter != null) {
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             });
         }
@@ -78,40 +80,48 @@ public class MessageListFragmentAdmin extends Fragment {
         showProgressBar();
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        mRecyclerView.setItemAnimator(itemAnimator);
 
-        mAdapter = new MessageListAdapter(mData);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mRecyclerView.setAdapter(mAdapter);
+        if (mRecyclerView != null) {
+            mRecyclerView.setItemAnimator(itemAnimator);
 
-        hideProgressBar();
+            mAdapter = new MessageListAdapter(mData);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new MessageListAdapter.ClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Intent intent = new Intent(getContext(), DiscussionAdminActivity.class);
-                intent.putExtra("contact", mData.get(position).getCompany());
-                intent.putExtra("ref_realty", mData.get(position).getRefRealty());
-                intent.putExtra("owner", true);
 
-                startActivity(intent);
-            }
+            hideProgressBar();
 
-            @Override
-            public void onItemLongClick(int position, View v) {
+            mAdapter.setOnItemClickListener(new MessageListAdapter.ClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    Intent intent = new Intent(getContext(), DiscussionAdminActivity.class);
+                    intent.putExtra("contact", mData.get(position).getCompany());
+                    intent.putExtra("ref_realty", mData.get(position).getRefRealty());
+                    intent.putExtra("owner", true);
 
-            }
-        });
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onItemLongClick(int position, View v) {
+
+                }
+            });
+        }
     }
 
     private void showProgressBar() {
-        mProgressBar.setIndeterminate(true);
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (mProgressBar != null) {
+            mProgressBar.setIndeterminate(true);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     private void hideProgressBar() {
-        mProgressBar.setIndeterminate(false);
-        mProgressBar.setVisibility(View.GONE);
+        if (mProgressBar != null) {
+            mProgressBar.setIndeterminate(false);
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override

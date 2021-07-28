@@ -45,7 +45,7 @@ public class RealtyProperties implements Constants {
         this.listener = null;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this.context);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GET_REALTY_PROPERTIES, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GET_REALTY_PROPERTIES.concat("?sectionID=1"), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

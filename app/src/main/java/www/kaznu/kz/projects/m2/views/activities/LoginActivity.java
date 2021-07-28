@@ -4,8 +4,11 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -23,6 +26,7 @@ public class LoginActivity extends IntroActivity implements Constants {
     Button btnLogin;
     EditText etUserName, etPassword;
     TinyDB data;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class LoginActivity extends IntroActivity implements Constants {
         etUserName = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
         btnLogin = findViewById(R.id.btn_login);
+        progressBar = findViewById(R.id.loader);
 
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -62,7 +67,10 @@ public class LoginActivity extends IntroActivity implements Constants {
 
             Token token = new Token(getApplicationContext(), etUserName.getText().toString(), etPassword.getText().toString());
 
+            progressBar.setVisibility(View.VISIBLE);
+
             token.setOnLoadListener(token1 -> {
+
                 Intent intent = new Intent(LoginActivity.this, ProfileTypeActivity.class);
                 startActivity(intent);
             });
@@ -73,6 +81,12 @@ public class LoginActivity extends IntroActivity implements Constants {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        progressBar.setVisibility(View.GONE);
+        super.onResume();
     }
 
     @Override
