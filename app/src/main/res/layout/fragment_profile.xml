@@ -271,10 +271,11 @@
 
                 <EditText
                     android:id="@+id/profile_description"
-                    style="@style/EditText.Style.Profile"
+                    style="@style/EditText.Style.ProfileMultiLine"
                     android:layout_width="match_parent"
                     android:layout_height="128dp"
-                    android:gravity="top"
+                    android:gravity="top|start"
+                    android:scrollHorizontally="false"
                     android:inputType="textMultiLine"
                     android:text="@string/about" />
             </LinearLayout>
