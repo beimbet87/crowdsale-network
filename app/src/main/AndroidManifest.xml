@@ -48,7 +48,7 @@
             android:name=".views.activities.LoginActivity"
             android:theme="@style/Theme.Transparent"
             android:isScrollContainer="true"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".views.activities.SlideActivity" />
         <activity android:name=".views.activities.ProfileActivity" />
         <activity android:name=".views.activities.ProfileInfoActivity" />
@@ -74,6 +74,7 @@
         <activity
             android:name=".views.activities.SearchActivity"
             android:theme="@style/Theme.Search"
+            android:isScrollContainer="true"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".views.activities.SearchAddressActivity" />
         <activity

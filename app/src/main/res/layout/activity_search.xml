@@ -54,6 +54,6 @@
         </FrameLayout>
     </RelativeLayout>
 
-    <include layout="@layout/search_properties"/>
+    <include layout="@layout/search_properties" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
