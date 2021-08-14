@@ -8,10 +8,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/round_button_background.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/round_button_background_gray.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_dot_selector.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_selected_dot.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_unselected_dot.xml" value="0.19907407407407407" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/activity_intro_screen.xml" value="0.15092592592592594" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_intro_01.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_intro_02.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_intro_03.xml" value="0.2234375" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/slider_item_fragment.xml" value="0.2234375" />
       </map>
     </option>
   </component>

@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center_vertical|center_horizontal"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/clock"
+        android:src="@drawable/m2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -28,7 +28,7 @@
         android:layout_marginTop="36dp"
         android:gravity="center_horizontal"
         android:paddingBottom="16dp"
-        android:text="@string/intro_title_03"
+        android:text="@string/intro_title_01"
         android:textAlignment="center"
         android:textColor="#ffffff"
         android:textSize="32sp"
@@ -45,7 +45,7 @@
         android:layout_marginTop="32dp"
         android:gravity="center_horizontal"
         android:paddingBottom="16dp"
-        android:text="@string/intro_description_03"
+        android:text="@string/intro_description_01"
         android:textAlignment="center"
         android:textColor="#ffffff"
         android:textSize="18sp"
@@ -53,45 +53,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_intro_header"
         tools:ignore="SmallSp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/btn_start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/round_button_background_gray" />
-
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/round_button_background_gray" />
-
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/round_button_background" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_start"
-        style="@style/Button.Style.Intro"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/intro_start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -417,4 +417,12 @@
         <item name="android:textColorSecondaryInverse">@color/color_primary_dark</item>
     </style>
 
+    <style name="Slider.Intro" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="tabPaddingStart">8dp</item>
+        <item name="tabPaddingEnd">8dp</item>
+    </style>
+
 </resources>

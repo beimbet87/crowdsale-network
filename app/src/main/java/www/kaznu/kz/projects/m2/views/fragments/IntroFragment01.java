@@ -37,8 +37,8 @@ public class IntroFragment01 extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_next) {
-            Utils.replaceFragment(requireActivity(), new IntroFragment02(), R.id.intro_fragment);
-        }
+//        if(v.getId() == R.id.btn_next) {
+//            Utils.replaceFragment(requireActivity(), new IntroFragment02(), R.id.intro_fragment);
+//        }
     }
 }
