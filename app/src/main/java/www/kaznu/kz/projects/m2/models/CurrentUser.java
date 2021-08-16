@@ -15,6 +15,7 @@ public class CurrentUser implements Constants {
     private final int id;
     private final int sex;
     private boolean owner;
+    private String password;
     private final String name;
     private final String surname;
     private final String birth;
@@ -68,6 +69,7 @@ public class CurrentUser implements Constants {
         data = new TinyDB(context);
         id = data.getInt(SHARED_USER_ID);
         sex = data.getInt(SHARED_USER_SEX);
+        password = data.getString(SHARED_USER_PASSWORD);
         name = data.getString(SHARED_USER_NAME);
         surname = data.getString(SHARED_USER_SURNAME);
         birth = data.getString(SHARED_USER_BIRTH);
@@ -103,6 +105,14 @@ public class CurrentUser implements Constants {
         complete = data.getBoolean(SHARED_USER_COMPLETE);
 
         deviceId = data.getString(SHARED_DEVICE_ID);
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getImageLink() {

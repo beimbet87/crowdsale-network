@@ -9,7 +9,9 @@ public interface Constants {
     String URL_REGISTER_TOKEN = BASE_URL.concat("Register/token");
     String URL_TOKEN = BASE_URL.concat("token");
     String URL_PHONE_REG = BASE_URL.concat("api/User/Registration");
+    String URL_REGISTRATION_AUTH = BASE_URL.concat("api/User/RegistrationAuth");
     String URL_REGISTRATION_FORM = BASE_URL.concat("api/User/RegistrationForm");
+    String URL_IDENTITY_CONFIRMATION = BASE_URL.concat("api/User/IdentityConfirmation");
     String URL_GET_REALTY_TYPE = BASE_URL.concat("api/Directory/getRealtyType");
     String URL_GET_REQUEST_OFFERS = BASE_URL.concat("api/Directory/getRequestOffers");
     String URL_GET_RENT_PERIOD = BASE_URL.concat("api/Directory/getRentPeriod");
@@ -83,6 +85,7 @@ public interface Constants {
     String SHARED_USER_SEARCH_LIST = "USER_SEARCH_LIST";
     String SHARED_USER_PUBLISHED_ADVERT_LIST = "USER_PUBLISHED_ADVERT_LIST";
     String SHARED_USER_UNPUBLISHED_ADVERT_LIST = "USER_UNPUBLISHED_ADVERT_LIST";
+    String SHARED_USER_PASSWORD = "USER_PASSWORD";
 
     String SHARED_DEVICE_ID = "DEVICE_ID";
 

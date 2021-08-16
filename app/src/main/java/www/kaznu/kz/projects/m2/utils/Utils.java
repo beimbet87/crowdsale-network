@@ -52,6 +52,23 @@ public class Utils {
         return str;
     }
 
+    public static String parseDateTo(String time) {
+        String inputPattern = "dd.MM.yyyy";
+        String outputPattern = "yyyy-MM-dd HH:mm:ss";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        String str = null;
+
+        try {
+            Date date = inputFormat.parse(time);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
     public static String parseDateWithDot(String date) {
         String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         String outputPattern = "dd.MM.yyyy";

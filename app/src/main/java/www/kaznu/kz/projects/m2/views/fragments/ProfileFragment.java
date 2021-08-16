@@ -49,6 +49,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.api.user.RegistrationForm;
+import www.kaznu.kz.projects.m2.api.user.UserInfo;
+import www.kaznu.kz.projects.m2.models.Tokens;
+import www.kaznu.kz.projects.m2.models.User;
 import www.kaznu.kz.projects.m2.views.activities.ChangeDataActivity;
 import www.kaznu.kz.projects.m2.adapters.GenderTypeAdapter;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
@@ -78,6 +82,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Calendar dateAndTime = Calendar.getInstance();
 
     CurrentUser currentUser;
+    User user;
+
+    RegistrationForm saveData;
 
     int userId;
 
@@ -100,6 +107,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         View fv = inflater.inflate(R.layout.fragment_profile, container, false);
 
         currentUser = new CurrentUser(requireContext());
+        user = new User();
 
         etUserName = fv.findViewById(R.id.profile_name);
         etUserSurname = fv.findViewById(R.id.profile_surname);
@@ -119,6 +127,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         etPassword.setOnClickListener(this);
         ivAvatar.setOnClickListener(this);
         llVerifyUser.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
 
         GenderTypeAdapter genderAdapter = new GenderTypeAdapter(requireContext());
         spGender.setAdapter(genderAdapter);
@@ -310,7 +319,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 showFileChooser();
                 break;
             case R.id.btn_save:
+                user.setName(etUserName.getText().toString());
+                user.setSurname(etUserSurname.getText().toString());
+                user.setBirth(Utils.parseDateTo(etUserBirthday.getText().toString()));
+                user.setEmail(etUserEmail.getText().toString());
+                user.setPassword(currentUser.getPassword());
+                if(spGender.getSelectedItemPosition() == 0) {
+                    user.setSex(1);
+                } else {
+                    user.setSex(0);
+                }
+                user.setDescription(etUserDescription.getText().toString());
+                user.setPhone(etUserPhone.getText().toString());
 
+                saveData = new RegistrationForm(requireContext(), requireActivity(), user, new Tokens(requireContext()).getAccessToken());
+                saveData.setOnLoadListener(new RegistrationForm.CustomOnLoadListener() {
+                    @Override
+                    public void onComplete(int resultCode, String resultMessage) {
+                        Toast.makeText(requireContext(), "Данные успешно сохранены!", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
         }
     }
@@ -321,7 +349,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            String monthString = String.valueOf(monthOfYear);
+            String monthString = String.valueOf(monthOfYear+1);
             if (monthString.length() == 1) {
                 monthString = "0" + monthString;
             }

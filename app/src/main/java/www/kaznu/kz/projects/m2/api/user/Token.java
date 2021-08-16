@@ -79,6 +79,7 @@ public class Token implements Constants {
                     data.putInt(SHARED_USER_STARS, user.getStars());
                     data.putString(SHARED_USER_COUNTRY_CODE, user.getCountryCode());
                     data.putString(SHARED_USER_COUNTRY_NAME, user.getCountryName());
+                    data.putString(SHARED_USER_PASSWORD, password);
 
                     Logger.d("User ---> Name: " + user.getName());
 

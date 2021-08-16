@@ -2,6 +2,8 @@ package www.kaznu.kz.projects.m2.api.user;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -21,10 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.User;
+import www.kaznu.kz.projects.m2.models.RegistrationStep1;
+import www.kaznu.kz.projects.m2.models.RegistrationStep2;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
-public class RegistrationForm implements Constants {
+public class IdentityConfirmation implements Constants {
 
     Context context;
     private int resultCode;
@@ -40,15 +43,13 @@ public class RegistrationForm implements Constants {
         this.listener = listener;
     }
 
-    public RegistrationForm(Context context, Activity activity, User user, String token) {
+    public IdentityConfirmation(Context context, Activity activity, RegistrationStep2 data, String token) {
 
         this.context = context;
 
         RequestQueue userRequestQueue = Volley.newRequestQueue(context);
-
-        final String requestBody = user.getBody();
-
-        StringRequest userStringRequest = new StringRequest(Request.Method.POST, URL_REGISTRATION_FORM, new Response.Listener<String>() {
+        final String requestBody = data.getBody();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_IDENTITY_CONFIRMATION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -57,8 +58,7 @@ public class RegistrationForm implements Constants {
                     resultCode = root.getInt("ResultCode");
                     resultMessage = root.getString("ResultMessage");
 
-                    Logger.d(user.getBirth());
-                    if (listener != null) {
+                    if(listener != null) {
                         listener.onComplete(resultCode, resultMessage);
                     }
 
@@ -70,7 +70,7 @@ public class RegistrationForm implements Constants {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                android.util.Log.e("LOG_RESPONSE", error.toString());
+                Logger.d(error.toString());
                 error.printStackTrace();
             }
         }) {
@@ -93,7 +93,6 @@ public class RegistrationForm implements Constants {
                 return params;
             }
 
-
             @Override
             public byte[] getBody() throws AuthFailureError {
                 try {
@@ -105,6 +104,6 @@ public class RegistrationForm implements Constants {
             }
         };
 
-        userRequestQueue.add(userStringRequest);
+        userRequestQueue.add(stringRequest);
     }
 }

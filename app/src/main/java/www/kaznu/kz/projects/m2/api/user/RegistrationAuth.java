@@ -2,6 +2,8 @@ package www.kaznu.kz.projects.m2.api.user;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -21,17 +23,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.User;
+import www.kaznu.kz.projects.m2.models.RegistrationStep1;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
-public class RegistrationForm implements Constants {
+public class RegistrationAuth implements Constants {
 
     Context context;
+    private int userID;
     private int resultCode;
     private String resultMessage;
 
     public interface CustomOnLoadListener {
-        void onComplete(int resultCode, String resultMessage);
+        void onComplete(int resultCode, String resultMessage, int userId);
     }
 
     public CustomOnLoadListener listener;
@@ -40,26 +43,24 @@ public class RegistrationForm implements Constants {
         this.listener = listener;
     }
 
-    public RegistrationForm(Context context, Activity activity, User user, String token) {
+    public RegistrationAuth(Context context, Activity activity, RegistrationStep1 data, String token) {
 
         this.context = context;
 
         RequestQueue userRequestQueue = Volley.newRequestQueue(context);
-
-        final String requestBody = user.getBody();
-
-        StringRequest userStringRequest = new StringRequest(Request.Method.POST, URL_REGISTRATION_FORM, new Response.Listener<String>() {
+        final String requestBody = data.getBody();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGISTRATION_AUTH, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     final JSONObject root = new JSONObject(response);
 
+                    userID = root.getInt("userId");
                     resultCode = root.getInt("ResultCode");
                     resultMessage = root.getString("ResultMessage");
 
-                    Logger.d(user.getBirth());
-                    if (listener != null) {
-                        listener.onComplete(resultCode, resultMessage);
+                    if(listener != null) {
+                        listener.onComplete(resultCode, resultMessage, userID);
                     }
 
                 } catch (JSONException e) {
@@ -70,7 +71,7 @@ public class RegistrationForm implements Constants {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                android.util.Log.e("LOG_RESPONSE", error.toString());
+                Logger.d(error.toString());
                 error.printStackTrace();
             }
         }) {
@@ -93,7 +94,6 @@ public class RegistrationForm implements Constants {
                 return params;
             }
 
-
             @Override
             public byte[] getBody() throws AuthFailureError {
                 try {
@@ -105,6 +105,6 @@ public class RegistrationForm implements Constants {
             }
         };
 
-        userRequestQueue.add(userStringRequest);
+        userRequestQueue.add(stringRequest);
     }
 }
