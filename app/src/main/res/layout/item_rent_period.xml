@@ -2,21 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="54dp"
+    android:elevation="0dp"
     android:paddingLeft="16dp"
     android:paddingTop="16dp"
     android:paddingRight="16dp"
-    android:paddingBottom="8dp"
-    android:elevation="0dp">
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/tv_rent_period"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingEnd="16dp"
         android:textColor="@color/color_primary_dark"
         android:textSize="16sp"
         android:textStyle="bold"
         tools:ignore="RtlSymmetry"
-        android:ellipsize="end"
         tools:text="Помесячно" />
 </RelativeLayout>

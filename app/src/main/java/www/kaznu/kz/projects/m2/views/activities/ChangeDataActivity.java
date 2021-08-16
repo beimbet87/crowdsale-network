@@ -13,11 +13,13 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.views.fragments.ChangeEmailFragment;
 import www.kaznu.kz.projects.m2.views.fragments.ChangePasswordFragment;
 import www.kaznu.kz.projects.m2.views.fragments.ChangePhoneFragment;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.views.fragments.ConfirmationEmailFragment;
+import www.kaznu.kz.projects.m2.views.fragments.ConfirmationPhoneFragment;
 
 public class ChangeDataActivity extends AppCompatActivity implements ChangePhoneFragment.DataFromChangePhoneFragment,
-        ChangeEmailFragment.DataFromChangeEmailFragment, ChangePasswordFragment.DataFromChangePasswordFragment {
+        ChangeEmailFragment.DataFromChangeEmailFragment, ChangePasswordFragment.DataFromChangePasswordFragment,
+        ConfirmationEmailFragment.DataFromConfirmationFragment, ConfirmationPhoneFragment.DataFromConfirmationPhoneFragment {
 
     public TextView title;
     Button backButton;
@@ -54,12 +56,16 @@ public class ChangeDataActivity extends AppCompatActivity implements ChangePhone
             ft.add(R.id.change_data, profileFragment);
             ft.commit();
         }
-        else {
+        else if(fragment == 2){
             ChangePasswordFragment profileFragment = new ChangePasswordFragment();
             ft.add(R.id.change_data, profileFragment);
             ft.commit();
         }
-
+        else if(fragment == 3){
+            ConfirmationEmailFragment confirmationFragment = new ConfirmationEmailFragment();
+            ft.add(R.id.change_data, confirmationFragment);
+            ft.commit();
+        }
 
         Logger.d(String.valueOf(fragmentNumber));
 
@@ -79,6 +85,18 @@ public class ChangeDataActivity extends AppCompatActivity implements ChangePhone
 
     @Override
     public void FromChangePhoneFragment(String data, int number) {
+        title.setText(data);
+        fragmentNumber = number;
+    }
+
+    @Override
+    public void FromConfirmationFragment(String data, int number) {
+        title.setText(data);
+        fragmentNumber = number;
+    }
+
+    @Override
+    public void FromConfirmationPhoneFragment(String data, int number) {
         title.setText(data);
         fragmentNumber = number;
     }

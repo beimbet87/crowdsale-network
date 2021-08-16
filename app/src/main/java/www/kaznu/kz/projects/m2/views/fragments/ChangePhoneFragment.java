@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -41,11 +42,15 @@ import java.util.Map;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.CountriesCustomAdapter;
 import www.kaznu.kz.projects.m2.adapters.GenderTypeAdapter;
+import www.kaznu.kz.projects.m2.api.user.RegistrationAuth;
 import www.kaznu.kz.projects.m2.api.user.UserInfo;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.PhoneTextFormatter;
+import www.kaznu.kz.projects.m2.models.RegistrationStep1;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.models.User;
 import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.utils.VolleyMultipartRequest;
 
@@ -55,6 +60,7 @@ import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
 public class ChangePhoneFragment extends Fragment implements View.OnClickListener {
 
     int userId;
+    Button btnGetCode;
 
     @Override
     public void onClick(View v) {
@@ -79,6 +85,8 @@ public class ChangePhoneFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         View fv = inflater.inflate(R.layout.fragment_change_phone, container, false);
 
+        btnGetCode = fv.findViewById(R.id.btn_get_code);
+
         Spinner countriesSpinner = fv.findViewById(R.id.countries_spinner);
 
         String[] countries = {"Казахстан", "Россия", "Франция", "Китай"};
@@ -86,6 +94,26 @@ public class ChangePhoneFragment extends Fragment implements View.OnClickListene
         countriesSpinner.setSelection(0);
         EditText phoneNumber = fv.findViewById(R.id.et_phone_number);
         phoneNumber.addTextChangedListener(new PhoneTextFormatter(phoneNumber, "(###) ###-##-##"));
+
+        btnGetCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegistrationStep1 data = new RegistrationStep1();
+                data.setRegIdentity("+7" + phoneNumber.getText().toString().replaceAll("[ \\-()]", ""));
+                data.setCountryCode("");
+                RegistrationAuth auth = new RegistrationAuth(requireContext(), requireActivity(), data, new Tokens(requireContext()).getAccessToken());
+                auth.setOnLoadListener(new RegistrationAuth.CustomOnLoadListener() {
+                    @Override
+                    public void onComplete(int resultCode, String resultMessage, int userId) {
+
+                        new TinyDB(requireContext()).putString("regIdentity", "+7" + phoneNumber.getText().toString().replaceAll("[ \\-()]", ""));
+
+                        requireActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.change_data, new ConfirmationPhoneFragment()).commit();
+                    }
+                });
+            }
+        });
 
         dataPasser.FromChangePhoneFragment("Смена телефона", 0);
 

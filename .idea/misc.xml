@@ -8,13 +8,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/round_button_background.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/round_button_background_gray.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_dot_selector.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_selected_dot.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_unselected_dot.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/activity_change.xml" value="0.14351851851851852" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/activity_intro_screen.xml" value="0.15092592592592594" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_confirmation.xml" value="0.2234375" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_confirmation_phone.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_intro_01.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_intro_02.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_intro_03.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_profile.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_profile.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/item_gender_type.xml" value="0.16927083333333334" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_register_02.xml" value="0.264" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/fragment_register_04.xml" value="0.14351851851851852" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/item_realty_type.xml" value="0.14722222222222223" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/item_rent_period.xml" value="0.14722222222222223" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/search_properties.xml" value="0.14722222222222223" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/slider_item_fragment.xml" value="0.2234375" />
       </map>
     </option>
   </component>

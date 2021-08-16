@@ -7,19 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.api.user.IdentityConfirmation;
 import www.kaznu.kz.projects.m2.api.user.RegistrationAuth;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.RegistrationStep1;
-import www.kaznu.kz.projects.m2.models.RegistrationStep2;
 import www.kaznu.kz.projects.m2.models.Tokens;
-import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 
 public class ChangeEmailFragment extends Fragment implements View.OnClickListener {
 
@@ -62,19 +58,10 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onComplete(int resultCode, String resultMessage, int userId) {
 
-                        Toast.makeText(requireContext(), userId + "", Toast.LENGTH_SHORT).show();
+                        new TinyDB(requireContext()).putString("regIdentity", etEmail.getText().toString());
 
-                        RegistrationStep2 data2 = new RegistrationStep2();
-                        data2.setUserIdentity(etEmail.getText().toString());
-                        data2.setAffirmationCode(userId);
-
-                        IdentityConfirmation confirm = new IdentityConfirmation(requireContext(), requireActivity(), data2, new Tokens(requireContext()).getAccessToken());
-                        confirm.setOnLoadListener(new IdentityConfirmation.CustomOnLoadListener() {
-                            @Override
-                            public void onComplete(int resultCode, String resultMessage) {
-                                Toast.makeText(requireContext(), "Email успешно изменен!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        requireActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.change_data, new ConfirmationEmailFragment()).commit();
                     }
                 });
             }
