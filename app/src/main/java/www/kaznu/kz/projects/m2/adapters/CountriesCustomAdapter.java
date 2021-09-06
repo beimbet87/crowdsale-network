@@ -8,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.models.Directory;
 
 public class CountriesCustomAdapter extends BaseAdapter {
     Context context;

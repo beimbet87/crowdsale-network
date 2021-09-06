@@ -15,7 +15,6 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.api.rate.UserRate;
 import www.kaznu.kz.projects.m2.views.fragments.CommentsFragment;
 import www.kaznu.kz.projects.m2.views.fragments.CommentsRealtyFragment;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.RateModel;
 import www.kaznu.kz.projects.m2.models.Tokens;

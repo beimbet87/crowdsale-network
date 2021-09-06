@@ -22,7 +22,6 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.views.activities.RealtyActivity;
 import www.kaznu.kz.projects.m2.adapters.OfferAdapter;
 import www.kaznu.kz.projects.m2.callbacks.SwipeToDeleteCallback;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.OfferDialog;
 import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;

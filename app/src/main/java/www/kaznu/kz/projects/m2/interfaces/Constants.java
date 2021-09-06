@@ -1,8 +1,5 @@
 package www.kaznu.kz.projects.m2.interfaces;
 
-import android.app.Activity;
-import android.content.Context;
-
 public interface Constants {
     String TAG = "M2TAG";
     String BASE_URL = "http://someproject-001-site1.itempurl.com/";

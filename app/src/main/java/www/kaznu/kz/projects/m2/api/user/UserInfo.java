@@ -1,7 +1,6 @@
 package www.kaznu.kz.projects.m2.api.user;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;

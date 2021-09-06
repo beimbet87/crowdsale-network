@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.views.fragments.ProfileTypeFragment;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class ProfileTypeActivity extends AppCompatActivity implements ProfileTypeFragment.DataFromProfileTypeFragment {

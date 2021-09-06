@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.BookOfferFromOwnerModel;
-import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.RateModel;
 
 public class RealtyRate implements Constants {

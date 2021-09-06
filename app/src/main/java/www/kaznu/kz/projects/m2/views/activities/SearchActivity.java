@@ -35,7 +35,6 @@ import www.kaznu.kz.projects.m2.ToggleButton;
 import www.kaznu.kz.projects.m2.adapters.RealtyTypeAdapter;
 import www.kaznu.kz.projects.m2.adapters.RentPeriodAdapter;
 import www.kaznu.kz.projects.m2.views.fragments.MapsFragment;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.Polygons;
 import www.kaznu.kz.projects.m2.models.Properties;

@@ -9,7 +9,6 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class IntroFragment02 extends Fragment implements View.OnClickListener {
 

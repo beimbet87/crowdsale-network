@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.views.fragments.ProfileInfoFragment;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class ProfileInfoActivity extends AppCompatActivity implements ProfileInfoFragment.DataFromProfileFragment {

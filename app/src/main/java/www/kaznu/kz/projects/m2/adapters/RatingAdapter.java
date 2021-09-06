@@ -17,10 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.api.RealtyProperties;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.Directory;
-import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.RateModel;
 import www.kaznu.kz.projects.m2.models.Realty;
 import www.kaznu.kz.projects.m2.utils.Logger;

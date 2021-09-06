@@ -9,7 +9,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -29,25 +28,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
-import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
-import com.pusher.client.channel.Channel;
-import com.pusher.client.channel.PrivateChannel;
-import com.pusher.client.channel.PrivateChannelEventListener;
-import com.pusher.client.channel.PusherEvent;
-import com.pusher.client.channel.SubscriptionEventListener;
-import com.pusher.client.connection.ConnectionEventListener;
-import com.pusher.client.connection.ConnectionState;
-import com.pusher.client.connection.ConnectionStateChange;
-import com.pusher.client.util.HttpAuthorizer;
 
-import www.kaznu.kz.projects.m2.api.pusher.PusherChannel;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.AuthData;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.services.ShowNotificationService;
-import www.kaznu.kz.projects.m2.utils.Logger;
-import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 import www.kaznu.kz.projects.m2.views.fragments.AccountAdminFragment;
 import www.kaznu.kz.projects.m2.views.fragments.AccountFragment;
 import www.kaznu.kz.projects.m2.views.fragments.BookingFragment;
@@ -56,9 +40,6 @@ import www.kaznu.kz.projects.m2.views.fragments.MessageListFragment;
 import www.kaznu.kz.projects.m2.views.fragments.MessageListFragmentAdmin;
 import www.kaznu.kz.projects.m2.views.fragments.ScheduleAdminFragment;
 import www.kaznu.kz.projects.m2.views.fragments.SearchFragment;
-
-import static www.kaznu.kz.projects.m2.interfaces.Constants.BASE_URL;
-import static www.kaznu.kz.projects.m2.interfaces.Constants.URL_PUSHER_AUTH;
 
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,

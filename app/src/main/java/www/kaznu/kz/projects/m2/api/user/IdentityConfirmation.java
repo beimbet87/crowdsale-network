@@ -2,8 +2,6 @@ package www.kaznu.kz.projects.m2.api.user;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -23,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.RegistrationStep1;
 import www.kaznu.kz.projects.m2.models.RegistrationStep2;
 import www.kaznu.kz.projects.m2.utils.Logger;
 

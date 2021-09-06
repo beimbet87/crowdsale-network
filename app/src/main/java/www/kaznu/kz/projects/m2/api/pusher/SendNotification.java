@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.Message;
 import www.kaznu.kz.projects.m2.models.Notification;
 import www.kaznu.kz.projects.m2.utils.Logger;
 

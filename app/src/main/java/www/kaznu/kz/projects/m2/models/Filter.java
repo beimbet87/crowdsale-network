@@ -2,8 +2,6 @@ package www.kaznu.kz.projects.m2.models;
 
 import android.util.Log;
 
-import com.google.gson.JsonArray;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

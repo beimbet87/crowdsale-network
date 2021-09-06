@@ -13,10 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
-
-import www.kaznu.kz.projects.m2.api.user.UserInfo;
 
 public class VolleyMultipartRequest extends Request<NetworkResponse> {
 

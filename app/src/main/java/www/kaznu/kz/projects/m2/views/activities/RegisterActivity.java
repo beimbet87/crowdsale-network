@@ -18,7 +18,6 @@ import www.kaznu.kz.projects.m2.views.fragments.RegisterFragment04;
 import www.kaznu.kz.projects.m2.views.fragments.RegisterFragment05;
 import www.kaznu.kz.projects.m2.views.fragments.RegisterFragment06;
 import www.kaznu.kz.projects.m2.views.fragments.RegisterFragment07;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class RegisterActivity extends AppCompatActivity implements

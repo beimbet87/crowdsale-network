@@ -6,11 +6,9 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.Looper;
 
 import androidx.core.app.NotificationCompat;
 
@@ -22,22 +20,13 @@ import com.pusher.client.channel.PusherEvent;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
-import com.pusher.client.util.ConnectionFactory;
-import com.pusher.client.util.HttpAuthorizer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import www.kaznu.kz.projects.m2.MainActivity;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.api.pusher.PusherChannel;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.AuthData;
-import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
-import www.kaznu.kz.projects.m2.utils.TinyDB;
-import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 
 import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_PUSHER;
 

@@ -12,9 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.views.fragments.PaymentCardFragment;
 import www.kaznu.kz.projects.m2.views.fragments.PaymentMethodFragment;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
-import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class PaymentMethodsActivity extends AppCompatActivity {
 

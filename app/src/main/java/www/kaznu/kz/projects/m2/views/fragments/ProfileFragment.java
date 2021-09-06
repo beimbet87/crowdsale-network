@@ -50,7 +50,6 @@ import java.util.Map;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.api.user.RegistrationForm;
-import www.kaznu.kz.projects.m2.api.user.UserInfo;
 import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.models.User;
 import www.kaznu.kz.projects.m2.views.activities.ChangeDataActivity;

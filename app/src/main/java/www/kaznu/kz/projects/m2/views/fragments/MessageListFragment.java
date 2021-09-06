@@ -2,7 +2,6 @@ package www.kaznu.kz.projects.m2.views.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -25,8 +23,6 @@ import www.kaznu.kz.projects.m2.models.MessageList;
 import www.kaznu.kz.projects.m2.viewmodels.MessageListFragmentViewModel;
 import www.kaznu.kz.projects.m2.adapters.MessageListAdapter;
 import www.kaznu.kz.projects.m2.views.activities.DiscussionActivity;
-
-import static www.kaznu.kz.projects.m2.interfaces.Constants.TAG;
 
 public class MessageListFragment extends Fragment {
 

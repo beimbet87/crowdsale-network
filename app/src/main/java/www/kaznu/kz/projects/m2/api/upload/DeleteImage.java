@@ -18,7 +18,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import www.kaznu.kz.projects.m2.api.realty.RealtyDelete;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 
 public class DeleteImage implements Constants {

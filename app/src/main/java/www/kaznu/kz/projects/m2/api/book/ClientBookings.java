@@ -22,7 +22,6 @@ import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.BookingApplication;
-import www.kaznu.kz.projects.m2.models.Directory;
 
 public class ClientBookings implements Constants {
     private int resultCode;

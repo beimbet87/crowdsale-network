@@ -1,7 +1,5 @@
 package www.kaznu.kz.projects.m2.models;
 
-import android.os.Parcelable;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

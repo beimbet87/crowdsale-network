@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.BookingApplication;
-import www.kaznu.kz.projects.m2.models.ScheduleSection;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class BookingItemAdapterAdmin extends RecyclerView.Adapter<BookingItemAdapterAdmin.ViewHolder> implements Constants {

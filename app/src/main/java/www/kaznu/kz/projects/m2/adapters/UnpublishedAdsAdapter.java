@@ -19,7 +19,6 @@ import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Filter;
 import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Properties;
-import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class UnpublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

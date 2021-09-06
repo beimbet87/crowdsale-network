@@ -18,11 +18,9 @@ import java.util.ArrayList;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.RatingAdapter;
 import www.kaznu.kz.projects.m2.api.rate.RealtyRate;
-import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.RateModel;
 import www.kaznu.kz.projects.m2.models.Tokens;
-import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class CommentsRealtyFragment extends Fragment implements View.OnClickListener {
 

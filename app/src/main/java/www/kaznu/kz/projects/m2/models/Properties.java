@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
 
 public class Properties implements Constants {
