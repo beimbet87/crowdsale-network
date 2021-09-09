@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "618437724659",
+    "firebase_url": "https://m2push.firebaseio.com",
+    "project_id": "m2push",
+    "storage_bucket": "m2push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618437724659:android:eca85650b9aa4394c02a86",
+        "android_client_info": {
+          "package_name": "kz.beked.m2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618437724659-aa17v6i9oe059q252hu24noa1cdrplj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.beked.m2",
+            "certificate_hash": "2b6be0fa7f79b4a428292e3bec5ae70287542960"
+          }
+        },
+        {
+          "client_id": "618437724659-kpo4s7iv0fsh31641u301hhvsml44l2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAonK_qUbsebyfF7n4KXO8RQLBMSVeyjsU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618437724659-kpo4s7iv0fsh31641u301hhvsml44l2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
