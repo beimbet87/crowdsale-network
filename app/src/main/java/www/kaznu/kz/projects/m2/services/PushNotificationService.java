@@ -38,4 +38,9 @@ public class PushNotificationService extends FirebaseMessagingService {
 
         super.onMessageReceived(remoteMessage);
     }
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+    }
 }

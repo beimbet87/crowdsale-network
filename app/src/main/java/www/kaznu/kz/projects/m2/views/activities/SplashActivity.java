@@ -2,18 +2,12 @@ package www.kaznu.kz.projects.m2.views.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
-import com.pusher.client.connection.ConnectionEventListener;
-import com.pusher.client.connection.ConnectionState;
-import com.pusher.client.connection.ConnectionStateChange;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.api.Countries;
@@ -79,36 +73,8 @@ public class SplashActivity extends IntroActivity implements Constants {
                 Logger.d("Intent ---> LoginActivity");
             }
 
-            PusherOptions options = new PusherOptions();
-            options.setCluster("ap2");
-            options.buildUrl(getString(R.string.pusher_app_key));
-            Pusher pusher = new Pusher(getString(R.string.pusher_app_id), options);
-
-            pusher.connect(new ConnectionEventListener() {
-                @Override
-                public void onConnectionStateChange(ConnectionStateChange change) {
-                    Logger.d("Pusher ---> State changed to " + change.getCurrentState() +
-                            " from " + change.getPreviousState());
-
-                    socketId = pusher.getConnection().getSocketId();
-
-                    SharedPreferences pusherPreferences = getSharedPreferences(SHARED_PUSHER, 0);
-                    SharedPreferences.Editor editor = pusherPreferences.edit();
-                    editor.putString("socket_id", socketId);
-                    editor.apply();
-
-                    Logger.d("Pusher ---> Socket ID: " + socketId);
-
-                    startActivity(intent);
-                    finish();
-                }
-
-                @Override
-                public void onError(String message, String code, Exception e) {
-                    Logger.d("Pusher ---> Error message: " + message);
-                    Logger.d("Pusher ---> Error code: " + code);
-                }
-            }, ConnectionState.ALL);
+            startActivity(intent);
+            finish();
         }
     };
 

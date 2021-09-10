@@ -34,7 +34,7 @@ import com.mikepenz.iconics.typeface.IIcon;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
-import www.kaznu.kz.projects.m2.services.ShowNotificationService;
+//import www.kaznu.kz.projects.m2.services.ShowNotificationService;
 import www.kaznu.kz.projects.m2.views.fragments.AccountAdminFragment;
 import www.kaznu.kz.projects.m2.views.fragments.AccountFragment;
 import www.kaznu.kz.projects.m2.views.fragments.BookingFragment;
@@ -78,10 +78,6 @@ public class MainActivity extends AppCompatActivity implements
                         Log.d(Constants.TAG, "Firebase token: " + token);
                     }
                 });
-
-        Intent service = new Intent(this, ShowNotificationService.class);
-        service.putExtra("user_id", user.getId());
-        startService(service);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationViewAdmin = findViewById(R.id.bottom_navigation_admin);

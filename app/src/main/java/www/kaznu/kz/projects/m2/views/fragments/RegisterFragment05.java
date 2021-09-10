@@ -15,12 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
-import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
-import www.kaznu.kz.projects.m2.api.pusher.PusherChannel;
 import www.kaznu.kz.projects.m2.api.user.RegistrationForm;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.AuthData;
 import www.kaznu.kz.projects.m2.models.User;
 
 public class RegisterFragment05 extends Fragment implements Constants {
@@ -36,6 +33,7 @@ public class RegisterFragment05 extends Fragment implements Constants {
     public RegisterFragment05() {
         // Required empty public constructor
     }
+
     public interface DataFromFragment05 {
         void FromFragment05(String data, int number);
     }
@@ -76,18 +74,13 @@ public class RegisterFragment05 extends Fragment implements Constants {
 
             registrationForm = new RegistrationForm(requireContext(), requireActivity(), user, token);
             registrationForm.setOnLoadListener((resultCode, resultMessage) -> {
-                if(resultCode == 1) {
-                    PusherChannel channel = new PusherChannel(requireContext(), new TinyDB(requireContext()).getString("socket_id"), token);
-                    channel.setOnLoadListener(new PusherChannel.CustomOnLoadListener() {
-                        @Override
-                        public void onComplete(int data, String message, String channel, AuthData auth) {
-                            Intent intent = new Intent(getActivity(), LoginActivity.class);
-                            requireActivity().startActivity(intent);
-                            requireActivity().finish();
-                            Toast.makeText(requireActivity().getApplicationContext(),
-                                    "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if (resultCode == 1) {
+
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    requireActivity().startActivity(intent);
+                    requireActivity().finish();
+                    Toast.makeText(requireActivity().getApplicationContext(),
+                            "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
 
                 }
             });

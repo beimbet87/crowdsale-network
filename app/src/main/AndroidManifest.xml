@@ -38,6 +38,7 @@
         <activity android:name=".views.activities.SearchIntroActivity" />
         <activity
             android:name=".views.activities.SplashActivity"
+            android:exported="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,8 +47,8 @@
         </activity>
         <activity
             android:name=".views.activities.LoginActivity"
-            android:theme="@style/Theme.Transparent"
             android:isScrollContainer="true"
+            android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".views.activities.SlideActivity" />
         <activity android:name=".views.activities.ProfileActivity" />
@@ -73,8 +74,8 @@
         <activity android:name=".views.activities.OfferActivity" />
         <activity
             android:name=".views.activities.SearchActivity"
-            android:theme="@style/Theme.Search"
             android:isScrollContainer="true"
+            android:theme="@style/Theme.Search"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".views.activities.SearchAddressActivity" />
         <activity
@@ -91,13 +92,10 @@
         <activity android:name=".views.activities.Add3DActivity" />
 
         <service
-            android:name=".services.ShowNotificationService"
-            android:enabled="true"
-            android:exported="false" />
-
-        <service android:name=".services.PushNotificationService" android:exported="false">
+            android:name=".services.PushNotificationService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
