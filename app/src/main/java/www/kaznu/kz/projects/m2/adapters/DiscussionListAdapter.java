@@ -1,6 +1,7 @@
 package www.kaznu.kz.projects.m2.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -23,6 +24,7 @@ import java.util.Date;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.interfaces.ILoadDiscussion;
 import www.kaznu.kz.projects.m2.models.Message;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.views.activities.DiscussionActivity;
@@ -35,18 +37,37 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_BOOKING_2 = 4;
     private static final int VIEW_TYPE_MESSAGE_BOOKING_3 = 5;
     private static final int VIEW_TYPE_MESSAGE_OFFER = 6;
+    private static final int VIEW_TYPE_MESSAGE_LOADING = 0;
 
     private Context mContext;
     private ArrayList<Message> mMessageList;
-    ProgressBar progressBar;
 
-    public interface onProgressBarListener {
-        void onProgressBar(int id, boolean isGone);
+    ILoadDiscussion loadDiscussion;
+    boolean isLoading = false;
+    Activity mActivity;
+
+    public DiscussionListAdapter(Context context, RecyclerView recyclerView, Activity activity, ArrayList<Message> messageList) {
+        mContext = context;
+        mActivity = activity;
+        mMessageList = messageList;
+
+        recyclerView.addRecyclerListener(new RecyclerView.RecyclerListener() {
+            @Override
+            public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+                if(!isLoading) {
+                    if(loadDiscussion != null) {
+                        loadDiscussion.onLoadDiscussions();
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+
+
     }
 
-    public DiscussionListAdapter(Context context, ArrayList<Message> messageList) {
-        mContext = context;
-        mMessageList = messageList;
+    public void setDiscussion(ILoadDiscussion loadDiscussion) {
+        this.loadDiscussion = loadDiscussion;
     }
 
     @Override
@@ -56,6 +77,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+
         Message message = mMessageList.get(position);
 
         if (message.getMessageType() == 1) {
@@ -64,7 +86,9 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             return VIEW_TYPE_MESSAGE_BOOKING_1;
         } else if (message.getMessageType() == 42) {
             return VIEW_TYPE_MESSAGE_BOOKING_2;
-        } else{
+        } else if (message.getMessageType() == 0) {
+            return VIEW_TYPE_MESSAGE_LOADING;
+        } else {
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
     }
@@ -90,10 +114,9 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_booking_to, parent, false);
             return new BookingMessageHolder(view);
-        }
-        else {
+        } else {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.activity_discussion, parent, false);
+                    .inflate(R.layout.loader_messages, parent, false);
             return new MainMessageHolder(view);
         }
     }
@@ -104,11 +127,10 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
         Message message = mMessageList.get(position);
         Message messagePrev;
 
-        if(position == getItemCount()-1) {
+        if (position == getItemCount() - 1) {
             messagePrev = mMessageList.get(position);
-        }
-        else {
-            messagePrev = mMessageList.get(position+1);
+        } else {
+            messagePrev = mMessageList.get(position + 1);
         }
 
         switch (holder.getItemViewType()) {
@@ -125,7 +147,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                 ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 42);
                 break;
             default:
-                ((MainMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), -1);
+                ((MainMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 0);
                 break;
         }
 
@@ -133,7 +155,6 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
 
     private static class SentMessageHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText, tvMessageDate;
-        ProgressBar progressBar;
 
         SentMessageHolder(View itemView, ViewGroup parent) {
             super(itemView);
@@ -141,7 +162,6 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             messageText = (TextView) itemView.findViewById(R.id.message_body);
             timeText = (TextView) itemView.findViewById(R.id.tv_time);
             tvMessageDate = (TextView) itemView.findViewById(R.id.tv_message_date);
-            progressBar = parent.findViewById(R.id.message_loader);
 
         }
 
@@ -150,15 +170,13 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             String date1 = Utils.parseDateWithDot(messagePrev.getCreated_at());
             Log.d(Constants.TAG, "SentMessageHolder: " + id + " " + count);
 
-            if(id < count-1) {
-                if(date0.compareToIgnoreCase(date1) == 0) {
+            if (id < count - 1) {
+                if (date0.compareToIgnoreCase(date1) == 0) {
                     tvMessageDate.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     tvMessageDate.setText(date0);
                 }
-            }
-            else {
+            } else {
                 tvMessageDate.setVisibility(View.VISIBLE);
                 tvMessageDate.setText(date0);
             }
@@ -175,7 +193,6 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                 e.printStackTrace();
             }
 
-//            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -215,8 +232,12 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
         }
 
         void bind(Message message, Message messagePrev, int id, int count, int type) {
-            progressBar.setVisibility(View.GONE);
+            progressBar.setIndeterminate(true);
         }
+    }
+
+    public void setLoaded() {
+        isLoading = false;
     }
 
     private static class BookingMessageHolder extends RecyclerView.ViewHolder {
@@ -246,27 +267,24 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
 
             Log.d(Constants.TAG, "BookingMessageHolder: " + id + " " + count);
 
-            if(id < count-1) {
-                if(date0.compareToIgnoreCase(date1) == 0) {
+            if (id < count - 1) {
+                if (date0.compareToIgnoreCase(date1) == 0) {
                     tvMessageDate.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     tvMessageDate.setText(date0);
                 }
-            }
-            else {
+            } else {
                 tvMessageDate.setVisibility(View.VISIBLE);
                 tvMessageDate.setText(date0);
             }
-            if(type == 21) {
+            if (type == 21) {
                 tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
                 tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
                 tvPrice.setText(Utils.parsePrice(message.getPrice()));
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 tvAlert.setText("Ожидает ответа хозяина");
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
-            }
-            else if(type == 42) {
+            } else if (type == 42) {
                 tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
                 tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
                 tvPrice.setText(Utils.parsePrice(message.getPrice()));
@@ -277,14 +295,15 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
             }
         }
+
     }
 
-    private void setTimeTextVisibility(long ts1, long ts2, TextView timeText){
+    private void setTimeTextVisibility(long ts1, long ts2, TextView timeText) {
 
-        if(ts2==0){
+        if (ts2 == 0) {
             timeText.setVisibility(View.VISIBLE);
             timeText.setText(ts1 + "");
-        }else {
+        } else {
             Calendar cal1 = Calendar.getInstance();
             Calendar cal2 = Calendar.getInstance();
             cal1.setTimeInMillis(ts1);
@@ -293,10 +312,10 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             boolean sameMonth = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                     cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
 
-            if(sameMonth){
+            if (sameMonth) {
                 timeText.setVisibility(View.GONE);
                 timeText.setText("");
-            }else {
+            } else {
                 timeText.setVisibility(View.VISIBLE);
                 timeText.setText(ts2 + "");
             }

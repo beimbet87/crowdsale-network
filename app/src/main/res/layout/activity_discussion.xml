@@ -60,14 +60,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ProgressBar
-                    android:id="@+id/message_loader"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="96dp"
-                    android:visibility="gone" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/reyclerview_message_list"
                     android:layout_width="match_parent"

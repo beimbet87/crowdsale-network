@@ -1,7 +1,9 @@
 package www.kaznu.kz.projects.m2.views.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,15 +66,16 @@ public class MessageListFragment extends Fragment {
             mMessageListFragmentViewModel.init();
 
             mMessageListFragmentViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onChanged(ArrayList<MessageList> messageLists) {
                     initRecyclerView(messageLists);
-                    mAdapter.notifyDataSetChanged();
                 }
             });
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView(ArrayList<MessageList> mData) {
         showProgressBar();
 
@@ -82,6 +85,13 @@ public class MessageListFragment extends Fragment {
         mAdapter = new MessageListAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         mRecyclerView.setAdapter(mAdapter);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
 
         hideProgressBar();
 

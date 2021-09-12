@@ -39,8 +39,8 @@
             android:id="@+id/pb_message_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-7dp"
-            android:layout_marginBottom="-7dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
             android:indeterminate="true"
             android:gravity="center_vertical"/>
 

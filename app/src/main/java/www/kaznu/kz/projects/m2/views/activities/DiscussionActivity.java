@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -32,20 +33,20 @@ import www.kaznu.kz.projects.m2.api.pusher.Conversations;
 import www.kaznu.kz.projects.m2.api.pusher.RequestMessage;
 import www.kaznu.kz.projects.m2.api.pusher.SendMessage;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.interfaces.ILoadDiscussion;
 import www.kaznu.kz.projects.m2.models.Message;
 import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.views.customviews.DatePickerView;
 
-public class DiscussionActivity extends AppCompatActivity implements Constants, DiscussionListAdapter.onProgressBarListener {
+public class DiscussionActivity extends AppCompatActivity implements Constants {
 
     LinearLayout linearLayout;
     Button btnBookingRequest, btnSendBookingRequest;
     Button btnCloseBooking;
     ImageView btnSendMessage;
     Button backButton;
-    ProgressBar progressBar;
 
     DatePickerView calendar;
     Conversations conversations;
@@ -65,8 +66,6 @@ public class DiscussionActivity extends AppCompatActivity implements Constants, 
 
     SimpleDateFormat sdf;
 
-
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +77,9 @@ public class DiscussionActivity extends AppCompatActivity implements Constants, 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        progressBar = findViewById(R.id.message_loader);
-        progressBar.setVisibility(View.GONE);
-        progressBar.bringToFront();
+//        progressBar = findViewById(R.id.message_loader);
+//        progressBar.setVisibility(View.GONE);
+//        progressBar.bringToFront();
 
         backButton = findViewById(R.id.toolbar_back);
         tvTotalPrice = findViewById(R.id.tv_total);
@@ -104,12 +103,23 @@ public class DiscussionActivity extends AppCompatActivity implements Constants, 
         mMessageRecycler = findViewById(R.id.reyclerview_message_list);
 
         conversations.setOnLoadListener((data, message, messages) -> {
-            mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+            mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setReverseLayout(true);
             mMessageRecycler.setLayoutManager(linearLayoutManager);
             mMessageRecycler.setAdapter(mMessageAdapter);
-//            progressBar.setVisibility(View.VISIBLE);
+            mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                @Override
+                public void onLoadDiscussions() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMessageAdapter.notifyDataSetChanged();
+//                            mMessageAdapter.setLoaded();
+                        }
+                    }, 1000);
+                }
+            });
         });
 
         linearLayout = findViewById(R.id.booking_request);
@@ -143,17 +153,30 @@ public class DiscussionActivity extends AppCompatActivity implements Constants, 
             sendMessage.setOnLoadListener((code, message1) -> {
                 conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
                 conversations.setOnLoadListener((data, message11, messages) -> {
-                    mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+                    mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages);
                     mMessageRecycler.setAdapter(mMessageAdapter);
-                    progressBar.setVisibility(View.VISIBLE);
-                    mMessageAdapter.notifyDataSetChanged();
+//                    progressBar.setVisibility(View.VISIBLE);
+
+                    mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                        @Override
+                        public void onLoadDiscussions() {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                }
+                            }, 1000);
+                        }
+                    });
+
                 });
             });
         });
 
         final BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             bottomSheetBehavior.setPeekHeight(0);
         }
 
@@ -221,14 +244,28 @@ public class DiscussionActivity extends AppCompatActivity implements Constants, 
                 requestMessage = new RequestMessage(getApplicationContext(), message, tokens.getAccessToken());
 
                 requestMessage.setOnLoadListener((code, message13) -> {
+
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
                     conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
 
                     conversations.setOnLoadListener((data, message12, messages) -> {
-                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                        mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+
+                        mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages);
                         mMessageRecycler.setAdapter(mMessageAdapter);
-                        progressBar.setVisibility(View.VISIBLE);
-                        mMessageAdapter.notifyDataSetChanged();
+//                        progressBar.setVisibility(View.VISIBLE);
+                        mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                            @Override
+                            public void onLoadDiscussions() {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mMessageAdapter.notifyDataSetChanged();
+//                                        mMessageAdapter.setLoaded();
+                                    }
+                                }, 1000);
+                            }
+                        });
                     });
                 });
             } else {
@@ -236,11 +273,5 @@ public class DiscussionActivity extends AppCompatActivity implements Constants, 
             }
         });
 
-    }
-
-    @Override
-    public void onProgressBar(int id, boolean isGone) {
-        if(isGone)
-            progressBar.setVisibility(View.GONE);
     }
 }
