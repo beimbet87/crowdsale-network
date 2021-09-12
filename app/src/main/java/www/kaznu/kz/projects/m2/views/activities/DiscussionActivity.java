@@ -1,5 +1,6 @@
 package www.kaznu.kz.projects.m2.views.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,9 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 import www.kaznu.kz.projects.m2.R;
@@ -37,13 +38,14 @@ import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.views.customviews.DatePickerView;
 
-public class DiscussionActivity extends AppCompatActivity implements Constants {
+public class DiscussionActivity extends AppCompatActivity implements Constants, DiscussionListAdapter.onProgressBarListener {
 
     LinearLayout linearLayout;
     Button btnBookingRequest, btnSendBookingRequest;
     Button btnCloseBooking;
     ImageView btnSendMessage;
     Button backButton;
+    ProgressBar progressBar;
 
     DatePickerView calendar;
     Conversations conversations;
@@ -63,6 +65,9 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
     SimpleDateFormat sdf;
 
+
+
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -72,6 +77,10 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         tokens = new Tokens(this);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        progressBar = findViewById(R.id.message_loader);
+        progressBar.setVisibility(View.GONE);
+        progressBar.bringToFront();
 
         backButton = findViewById(R.id.toolbar_back);
         tvTotalPrice = findViewById(R.id.tv_total);
@@ -94,15 +103,13 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
         mMessageRecycler = findViewById(R.id.reyclerview_message_list);
 
-        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
-            @Override
-            public void onComplete(int data, String message, ArrayList<Message> messages) {
-                mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                linearLayoutManager.setReverseLayout(true);
-                mMessageRecycler.setLayoutManager(linearLayoutManager);
-                mMessageRecycler.setAdapter(mMessageAdapter);
-            }
+        conversations.setOnLoadListener((data, message, messages) -> {
+            mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+            linearLayoutManager.setReverseLayout(true);
+            mMessageRecycler.setLayoutManager(linearLayoutManager);
+            mMessageRecycler.setAdapter(mMessageAdapter);
+//            progressBar.setVisibility(View.VISIBLE);
         });
 
         linearLayout = findViewById(R.id.booking_request);
@@ -119,58 +126,56 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         etPrice.setText("");
         tvTotalPrice.setText("");
 
-        btnSendMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSendMessage.setOnClickListener(v -> {
 
-                String currentDate = sdf.format(new Date());
+//            String currentDate = sdf.format(new Date());
 
-                Message message = new Message();
+            Message message = new Message();
 
-                message.setRefReceiver(contact);
-                message.setRefRealty(refRealty);
-                message.setMessage(etMessage.getText().toString());
+            message.setRefReceiver(contact);
+            message.setRefRealty(refRealty);
+            message.setMessage(etMessage.getText().toString());
 
+            conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+
+            etMessage.setText("");
+            sendMessage = new SendMessage(getApplicationContext(), message, tokens.getAccessToken());
+            sendMessage.setOnLoadListener((code, message1) -> {
                 conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
-
-                etMessage.setText("");
-                sendMessage = new SendMessage(getApplicationContext(), message, tokens.getAccessToken());
-                sendMessage.setOnLoadListener(new SendMessage.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(int code, String message) {
-                        conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
-
-                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
-                            @Override
-                            public void onComplete(int data, String message, ArrayList<Message> messages) {
-                                mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
-                                mMessageAdapter.notifyDataSetChanged();
-                                mMessageRecycler.setAdapter(mMessageAdapter);
-                            }
-                        });
-                    }
+                conversations.setOnLoadListener((data, message11, messages) -> {
+                    mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+                    mMessageRecycler.setAdapter(mMessageAdapter);
+                    progressBar.setVisibility(View.VISIBLE);
+                    mMessageAdapter.notifyDataSetChanged();
                 });
+            });
+        });
+
+        final BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            bottomSheetBehavior.setPeekHeight(0);
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setPeekHeight(0);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
             }
         });
 
-        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        bottomSheetBehavior.setPeekHeight(1);
-        btnBookingRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
+        btnBookingRequest.setOnClickListener(v -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED));
 
         etPrice.setEnabled(true);
 
-        btnCloseBooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }
-        });
+        btnCloseBooking.setOnClickListener(v -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED));
 
         etPrice.addTextChangedListener(new TextWatcher() {
             @Override
@@ -200,44 +205,42 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         });
 
 
-        btnSendBookingRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSendBookingRequest.setOnClickListener(v -> {
 
-                if (!etPrice.getText().toString().equals("")) {
+            if (!etPrice.getText().toString().equals("")) {
 
-                    Message message = new Message();
-                    message.setGuest(true);
-                    message.setRefReceiver(contact);
-                    message.setRefRealty(refRealty);
-                    message.setDateFrom(Utils.parseDateDefault(calendar.getStartDate()));
-                    message.setDateTo(Utils.parseDateDefault(calendar.getEndDate()));
+                Message message = new Message();
+                message.setGuest(true);
+                message.setRefReceiver(contact);
+                message.setRefRealty(refRealty);
+                message.setDateFrom(Utils.parseDateDefault(calendar.getStartDate()));
+                message.setDateTo(Utils.parseDateDefault(calendar.getEndDate()));
 
-                    message.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                message.setPrice(Double.parseDouble(etPrice.getText().toString()));
 
-                    requestMessage = new RequestMessage(getApplicationContext(), message, tokens.getAccessToken());
+                requestMessage = new RequestMessage(getApplicationContext(), message, tokens.getAccessToken());
 
-                    requestMessage.setOnLoadListener(new RequestMessage.CustomOnLoadListener() {
-                        @Override
-                        public void onComplete(int code, String message) {
-                            conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                requestMessage.setOnLoadListener((code, message13) -> {
+                    conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
 
-                            conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
-                                @Override
-                                public void onComplete(int data, String message, ArrayList<Message> messages) {
-                                    mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
-                                    mMessageAdapter.notifyDataSetChanged();
-                                    mMessageRecycler.setAdapter(mMessageAdapter);
-                                }
-                            });
-                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                        }
+                    conversations.setOnLoadListener((data, message12, messages) -> {
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), messages);
+                        mMessageRecycler.setAdapter(mMessageAdapter);
+                        progressBar.setVisibility(View.VISIBLE);
+                        mMessageAdapter.notifyDataSetChanged();
                     });
-                } else {
-                    Toast.makeText(getApplicationContext(), "Введите цену!", Toast.LENGTH_SHORT).show();
-                }
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), "Введите цену!", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    @Override
+    public void onProgressBar(int id, boolean isGone) {
+        if(isGone)
+            progressBar.setVisibility(View.GONE);
     }
 }

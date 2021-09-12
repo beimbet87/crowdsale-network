@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/booking_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:background="@drawable/filter_layout_background"
     android:orientation="vertical"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/filter_layout_background">
 
         <LinearLayout
@@ -24,16 +21,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:paddingStart="12dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="Запрос на бронирование"
+                    android:text="@string/request_booking_text"
                     android:textColor="@color/color_primary_dark"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -56,7 +56,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Выберите свободные даты:"
+                    android:text="@string/select_date_text"
                     android:textColor="@color/color_primary_hint" />
 
                 <LinearLayout
@@ -80,19 +80,11 @@
 
                 <EditText
                     android:id="@+id/tv_price_per_day"
+                    style="@style/EditText.Style.Price"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginEnd="6dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/intro_input_phone_background"
-                    android:hint="Стоимость в сутки …"
-                    android:padding="10dp"
-                    android:paddingStart="18dp"
-                    android:inputType="phone"
-                    android:enabled="false"
-                    android:textColor="@color/color_primary_dark"
-                    android:textColorHint="#7F7F7F"
-                    android:textSize="14sp" />
+                    android:hint="@string/price_per_day_text" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -114,7 +106,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="16dp"
                         android:gravity="center_vertical"
-                        android:text="Итоговая сумма:"
+                        android:text="@string/final_price_text"
                         android:textColor="@color/color_primary_hint"
                         android:textSize="13sp" />
 
@@ -123,7 +115,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="1 600 000 ₸"
+                        android:text="@string/default_total_price_text"
                         android:textColor="@color/color_primary"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -132,19 +124,15 @@
 
             <Button
                 android:id="@+id/btn_send_booking_request"
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/Button.Style.DarkBlue"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/button_background_dark_blue"
                 android:padding="8dp"
-                android:text="Отправить запрос"
-                android:textAllCaps="false"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:text="@string/send_request_text" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

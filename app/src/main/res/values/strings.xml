@@ -415,5 +415,11 @@
     <string name="empty_advert_hint">Нажмите кнопку создать объявление, чтобы разместить информацию о Вашей недвижимости.</string>
     <string name="create_advert">Создать объявление</string>
     <string name="advert_title">Мои объявления</string>
+    <string name="request_booking_text">Запрос на бронирование</string>
+    <string name="send_request_text">Отправить запрос</string>
+    <string name="price_per_day_text">Стоимость в сутки …</string>
+    <string name="select_date_text">Выберите свободные даты:</string>
+    <string name="final_price_text">Итоговая сумма:</string>
+    <string name="default_total_price_text">1 600 000 ₸</string>
 
 </resources>

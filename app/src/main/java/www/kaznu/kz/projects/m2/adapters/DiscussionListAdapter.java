@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Message;
 import www.kaznu.kz.projects.m2.utils.Utils;
+import www.kaznu.kz.projects.m2.views.activities.DiscussionActivity;
 
 public class DiscussionListAdapter extends RecyclerView.Adapter {
 
@@ -36,6 +38,11 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
     private ArrayList<Message> mMessageList;
+    ProgressBar progressBar;
+
+    public interface onProgressBarListener {
+        void onProgressBar(int id, boolean isGone);
+    }
 
     public DiscussionListAdapter(Context context, ArrayList<Message> messageList) {
         mContext = context;
@@ -70,7 +77,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
         if (viewType == VIEW_TYPE_MESSAGE_SENT) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_to, parent, false);
-            return new SentMessageHolder(view);
+            return new SentMessageHolder(view, parent);
         } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_from, parent, false);
@@ -84,7 +91,11 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                     .inflate(R.layout.message_booking_to, parent, false);
             return new BookingMessageHolder(view);
         }
-        return null;
+        else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.activity_discussion, parent, false);
+            return new MainMessageHolder(view);
+        }
     }
 
     // Passes the message object to a ViewHolder so that the contents can be bound to UI.
@@ -113,18 +124,25 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             case VIEW_TYPE_MESSAGE_BOOKING_2:
                 ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 42);
                 break;
+            default:
+                ((MainMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), -1);
+                break;
         }
+
     }
 
     private static class SentMessageHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText, tvMessageDate;
+        ProgressBar progressBar;
 
-        SentMessageHolder(View itemView) {
+        SentMessageHolder(View itemView, ViewGroup parent) {
             super(itemView);
 
             messageText = (TextView) itemView.findViewById(R.id.message_body);
             timeText = (TextView) itemView.findViewById(R.id.tv_time);
             tvMessageDate = (TextView) itemView.findViewById(R.id.tv_message_date);
+            progressBar = parent.findViewById(R.id.message_loader);
+
         }
 
         void bind(Message message, Message messagePrev, int id, int count, int type) {
@@ -157,6 +175,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                 e.printStackTrace();
             }
 
+//            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -167,8 +186,8 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
         ReceivedMessageHolder(View itemView) {
             super(itemView);
 
-            messageText = (TextView) itemView.findViewById(R.id.message_body);
-            timeText = (TextView) itemView.findViewById(R.id.tv_time);
+            messageText = itemView.findViewById(R.id.message_body);
+            timeText = itemView.findViewById(R.id.tv_time);
             profileImage = itemView.findViewById(R.id.message_avatar);
         }
 
@@ -183,7 +202,20 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+    }
 
+    private static class MainMessageHolder extends RecyclerView.ViewHolder {
+        ProgressBar progressBar;
+
+        MainMessageHolder(View itemView) {
+            super(itemView);
+
+            progressBar = itemView.findViewById(R.id.message_loader);
+        }
+
+        void bind(Message message, Message messagePrev, int id, int count, int type) {
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -191,6 +223,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
         TextView tvDateFrom, tvDateTo, tvPrice, tvTotalPrice, timeText;
         TextView tvAlert, tvMessageDate;
         Button btnCancel;
+        ProgressBar progressBar;
 
         BookingMessageHolder(View itemView) {
             super(itemView);
@@ -203,6 +236,7 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             tvAlert = itemView.findViewById(R.id.tv_alert);
             tvMessageDate = itemView.findViewById(R.id.tv_message_date);
             btnCancel = itemView.findViewById(R.id.btn_cancel);
+            progressBar = itemView.findViewById(R.id.message_loader);
         }
 
         @SuppressLint("ResourceAsColor")

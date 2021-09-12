@@ -302,13 +302,25 @@
     </style>
 
     <style name="EditText.Style.Price" parent="Widget.AppCompat.EditText">
-        <item name="background">@drawable/intro_input_phone_background</item>
+        <item name="android:background">@drawable/intro_input_phone_background</item>
         <item name="android:padding">10dp</item>
         <item name="android:paddingStart">18dp</item>
         <item name="android:textColor">@color/color_primary_dark</item>
         <item name="android:textColorHint">@color/color_primary_hint</item>
         <item name="android:textSize">16sp</item>
         <item name="android:inputType">phone</item>
+    </style>
+
+    <style name="EditText.Style.Message" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/send_background</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">60dp</item>
+        <item name="android:textColor">@color/color_primary_dark</item>
+        <item name="android:textColorHint">@color/color_primary_hint</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="EditText.Style.Email" parent="Widget.AppCompat.EditText">

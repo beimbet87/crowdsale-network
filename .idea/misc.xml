@@ -26,6 +26,24 @@
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/item_rent_period.xml" value="0.14722222222222223" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/search_properties.xml" value="0.14722222222222223" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/slider_item_fragment.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/drawable/button_background_send.xml" value="0.24375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/drawable/filter_layout_background.xml" value="0.24375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/drawable/intro_input_phone_background.xml" value="0.24375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout-v21/activity_search.xml" value="0.17037037037037037" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_discussion.xml" value="0.15808170515097691" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_search.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_search_intro.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/booking_request.xml" value="0.1" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_booking.xml" value="0.14907407407407408" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_maps.xml" value="0.17037037037037037" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_offer.xml" value="0.14907407407407408" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_booking.xml" value="0.21388888888888888" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_booking_to.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/offer_dialog.xml" value="0.14907407407407408" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/offer_list_item.xml" value="0.14907407407407408" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/toolbar.xml" value="0.21910112359550563" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/toolbar_search.xml" value="0.2234375" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24375" />
       </map>
     </option>
