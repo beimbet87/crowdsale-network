@@ -7,6 +7,7 @@ public interface Constants {
     String URL_TOKEN = BASE_URL.concat("token");
     String URL_PHONE_REG = BASE_URL.concat("api/User/Registration");
     String URL_REGISTRATION_AUTH = BASE_URL.concat("api/User/RegistrationAuth");
+    String URL_SET_DEVICE_ID = BASE_URL.concat("api/FireBaseApi/SetDeviceID");
     String URL_REGISTRATION_FORM = BASE_URL.concat("api/User/RegistrationForm");
     String URL_IDENTITY_CONFIRMATION = BASE_URL.concat("api/User/IdentityConfirmation");
     String URL_GET_REALTY_TYPE = BASE_URL.concat("api/Directory/getRealtyType");
