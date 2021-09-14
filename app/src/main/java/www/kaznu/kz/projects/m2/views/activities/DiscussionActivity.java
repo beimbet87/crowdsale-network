@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import www.kaznu.kz.projects.m2.MainActivity;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.DiscussionListAdapter;
 import www.kaznu.kz.projects.m2.api.pusher.Conversations;
@@ -84,7 +86,15 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         backButton = findViewById(R.id.toolbar_back);
         tvTotalPrice = findViewById(R.id.tv_total);
 
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("fragment", "message_list");
+                startActivity(intent);
+            }
+        });
 
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
@@ -273,5 +283,18 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
             }
         });
 
+    }
+
+    private boolean loadFragment(Fragment fragment) {
+
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
+            return true;
+        }
+        return false;
     }
 }

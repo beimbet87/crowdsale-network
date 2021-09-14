@@ -16,15 +16,13 @@ import www.kaznu.kz.projects.m2.repositories.MessageListFragmentRepository;
 public class MessageListFragmentViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<MessageList>> mMessageList;
-    private final CurrentUser currentUser;
     private MessageListFragmentRepository mMessageListFragmentRepository;
 
     public MessageListFragmentViewModel(@NonNull Application application) {
         super(application);
-        currentUser = new CurrentUser(application.getApplicationContext());
     }
 
-    public void init() {
+    public void init(CurrentUser currentUser) {
         if (mMessageList != null) {
             return;
         }

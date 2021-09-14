@@ -32,6 +32,8 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.typeface.IIcon;
 
+import java.util.Objects;
+
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 //import www.kaznu.kz.projects.m2.services.ShowNotificationService;
@@ -95,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements
             bottomNavigationView.setVisibility(View.VISIBLE);
             bottomNavigationViewAdmin.setVisibility(View.INVISIBLE);
             bottomNavigationView.setSelectedItemId(R.id.action_account);
+        }
+
+        Intent intent = getIntent();
+
+        if(Objects.equals(intent.getStringExtra("fragment"), "message_list")) {
+            bottomNavigationView.setSelectedItemId(R.id.action_messages);
         }
 
         showBadge(true, 2);
