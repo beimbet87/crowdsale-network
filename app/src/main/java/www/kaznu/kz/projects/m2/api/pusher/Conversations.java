@@ -84,7 +84,7 @@ public class Conversations implements Constants {
                     resultMessage = root.getString("ResultMessage");
 
                     if (resultCode == 1) {
-                        Logger.d("Pusher channel is done!");
+                        Logger.d("Conversations: " + jsonChats);
                     }
 
                     if(listener != null) {
