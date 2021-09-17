@@ -120,170 +120,174 @@ public class FilterOffers implements Constants {
 
                         ArrayList<Search> searches = new ArrayList<>();
 
-                        JSONArray jsonSearches = offer.getJSONArray("searches");
+                        if(!offer.isNull("searches")) {
+                            JSONArray jsonSearches = offer.getJSONArray("searches");
 
+                            Logger.d("Search size ---> " + jsonSearches.length());
 
-                        Logger.d("Search size ---> " + jsonSearches.length());
+                            for (int k = 0; k < jsonSearches.length(); k++) {
+                                JSONObject jsonSearch = jsonSearches.getJSONObject(k);
+                                Search search = new Search();
+                                search.setRefUser(jsonSearch.getInt("refUser"));
+                                search.setStatus(jsonSearch.getInt("status"));
+                                search.setCount(jsonSearch.getInt("count"));
+                                search.setId(jsonSearch.getInt("id"));
 
-                        for (int k = 0; k < jsonSearches.length(); k++) {
-                            JSONObject jsonSearch = jsonSearches.getJSONObject(k);
-                            Search search = new Search();
-                            search.setRefUser(jsonSearch.getInt("refUser"));
-                            search.setStatus(jsonSearch.getInt("status"));
-                            search.setCount(jsonSearch.getInt("count"));
-                            search.setId(jsonSearch.getInt("id"));
+                                Filter filter = new Filter();
 
-                            Filter filter = new Filter();
+                                JSONObject jsonFilter = jsonSearch.getJSONObject("filter");
 
-                            JSONObject jsonFilter = jsonSearch.getJSONObject("filter");
+                                if (!jsonFilter.isNull("polygone")) {
+                                    JSONArray polygon = jsonFilter.getJSONArray("polygone");
+                                    ArrayList<Polygons> polygons = new ArrayList<>();
+                                    for (int p = 0; p < polygon.length(); p++) {
+                                        JSONObject jsonPolygon = polygon.getJSONObject(p);
+                                        Polygons location = new Polygons();
+                                        location.setLongitude(jsonPolygon.getDouble("longitude"));
+                                        location.setLatitude(jsonPolygon.getDouble("latitude"));
 
-                            if (!jsonFilter.isNull("polygone")) {
-                                JSONArray polygon = jsonFilter.getJSONArray("polygone");
-                                ArrayList<Polygons> polygons = new ArrayList<>();
-                                for (int p = 0; p < polygon.length(); p++) {
-                                    JSONObject jsonPolygon = polygon.getJSONObject(p);
-                                    Polygons location = new Polygons();
-                                    location.setLongitude(jsonPolygon.getDouble("longitude"));
-                                    location.setLatitude(jsonPolygon.getDouble("latitude"));
+                                        polygons.add(location);
+                                    }
 
-                                    polygons.add(location);
+                                    filter.setPolygons(polygons);
+                                }
+                                else {
+                                    filter.setPolygons(null);
                                 }
 
-                                filter.setPolygons(polygons);
-                            }
-                            else {
-                                filter.setPolygons(null);
-                            }
-
-                            if(!jsonFilter.isNull("transactionType")) {
-                                filter.setTransactionType(jsonFilter.getInt("transactionType"));
-                            } else {
-                                filter.setTransactionType(0);
-                            }
-
-                            if(!jsonFilter.isNull("realtyType")) {
-                                filter.setRealtyType(jsonFilter.getInt("realtyType"));
-                            }
-                            else {
-                                filter.setRealtyType(0);
-                            }
-
-                            if(!jsonFilter.isNull("roomCount")) {
-                                ArrayList<Integer> rooms = new ArrayList<>();
-                                JSONArray jsonRooms = jsonFilter.getJSONArray("roomCount");
-
-                                for (int r = 0; r < jsonRooms.length(); r++) {
-                                    rooms.add(jsonRooms.getInt(r));
+                                if(!jsonFilter.isNull("transactionType")) {
+                                    filter.setTransactionType(jsonFilter.getInt("transactionType"));
+                                } else {
+                                    filter.setTransactionType(0);
                                 }
 
-                                filter.setRoomCount(rooms);
-                            } else {
-                                filter.setRoomCount(null);
-                            }
-
-                            if(!jsonFilter.isNull("costLowerLimit")) {
-                                filter.setCostLowerLimit(jsonFilter.getDouble("costLowerLimit"));
-                            } else {
-                                filter.setCostLowerLimit(0.0);
-                            }
-
-                            if(!jsonFilter.isNull("costUpperLimit")) {
-                                filter.setCostUpperLimit(jsonFilter.getDouble("costUpperLimit"));
-                            } else {
-                                filter.setCostUpperLimit(0.0);
-                            }
-
-                            if(!jsonFilter.isNull("offersOptionsId")) {
-                                ArrayList<Integer> offersOptionsId = new ArrayList<>();
-                                JSONArray jsonOffersOptionId = jsonFilter.getJSONArray("offersOptionsId");
-
-                                for (int o = 0; o < jsonOffersOptionId.length(); o++) {
-                                    offersOptionsId.add(jsonOffersOptionId.getInt(o));
+                                if(!jsonFilter.isNull("realtyType")) {
+                                    filter.setRealtyType(jsonFilter.getInt("realtyType"));
+                                }
+                                else {
+                                    filter.setRealtyType(0);
                                 }
 
-                                filter.setOffersOptionsId(offersOptionsId);
-                            } else {
-                                filter.setOffersOptionsId(null);
-                            }
+                                if(!jsonFilter.isNull("roomCount")) {
+                                    ArrayList<Integer> rooms = new ArrayList<>();
+                                    JSONArray jsonRooms = jsonFilter.getJSONArray("roomCount");
 
-                            if(!jsonFilter.isNull("propertiesID")) {
-                                ArrayList<Integer> propertiesId = new ArrayList<>();
-                                JSONArray jsonPropertiesId = jsonFilter.getJSONArray("propertiesID");
+                                    for (int r = 0; r < jsonRooms.length(); r++) {
+                                        rooms.add(jsonRooms.getInt(r));
+                                    }
 
-                                for (int p = 0; p < jsonPropertiesId.length(); p++) {
-                                    propertiesId.add(jsonPropertiesId.getInt(p));
+                                    filter.setRoomCount(rooms);
+                                } else {
+                                    filter.setRoomCount(null);
                                 }
 
-                                filter.setPropertiesId(propertiesId);
-                            } else {
-                                filter.setPropertiesId(null);
+                                if(!jsonFilter.isNull("costLowerLimit")) {
+                                    filter.setCostLowerLimit(jsonFilter.getDouble("costLowerLimit"));
+                                } else {
+                                    filter.setCostLowerLimit(0.0);
+                                }
+
+                                if(!jsonFilter.isNull("costUpperLimit")) {
+                                    filter.setCostUpperLimit(jsonFilter.getDouble("costUpperLimit"));
+                                } else {
+                                    filter.setCostUpperLimit(0.0);
+                                }
+
+                                if(!jsonFilter.isNull("offersOptionsId")) {
+                                    ArrayList<Integer> offersOptionsId = new ArrayList<>();
+                                    JSONArray jsonOffersOptionId = jsonFilter.getJSONArray("offersOptionsId");
+
+                                    for (int o = 0; o < jsonOffersOptionId.length(); o++) {
+                                        offersOptionsId.add(jsonOffersOptionId.getInt(o));
+                                    }
+
+                                    filter.setOffersOptionsId(offersOptionsId);
+                                } else {
+                                    filter.setOffersOptionsId(null);
+                                }
+
+                                if(!jsonFilter.isNull("propertiesID")) {
+                                    ArrayList<Integer> propertiesId = new ArrayList<>();
+                                    JSONArray jsonPropertiesId = jsonFilter.getJSONArray("propertiesID");
+
+                                    for (int p = 0; p < jsonPropertiesId.length(); p++) {
+                                        propertiesId.add(jsonPropertiesId.getInt(p));
+                                    }
+
+                                    filter.setPropertiesId(propertiesId);
+                                } else {
+                                    filter.setPropertiesId(null);
+                                }
+
+                                if(!jsonFilter.isNull("rentPeriod")) {
+                                    filter.setRentPeriod(jsonFilter.getInt("rentPeriod"));
+                                } else {
+                                    filter.setRentPeriod(0);
+                                }
+                                if(!jsonFilter.isNull("startTime")) {
+                                    filter.setStartDate(jsonFilter.getString("startTime"));
+                                } else {
+                                    filter.setStartDate(null);
+                                }
+                                if(!jsonFilter.isNull("endTime")) {
+                                    filter.setEndDate(jsonFilter.getString("endTime"));
+                                } else {
+                                    filter.setEndDate(null);
+                                }
+                                if(!jsonFilter.isNull("offset")) {
+                                    filter.setOffset(jsonFilter.getInt("offset"));
+                                } else {
+                                    filter.setOffset(0);
+                                }
+                                if(!jsonFilter.isNull("limit")) {
+                                    filter.setLimit(jsonFilter.getInt("limit"));
+                                } else {
+                                    filter.setLimit(0);
+                                }
+                                if(!jsonFilter.isNull("refUser")) {
+                                    filter.setRefUser(jsonFilter.getInt("refUser"));
+                                } else {
+                                    filter.setRefUser(0);
+                                }
+
+                                search.setFilter(filter);
+                                searches.add(search);
                             }
 
-                            if(!jsonFilter.isNull("rentPeriod")) {
-                                filter.setRentPeriod(jsonFilter.getInt("rentPeriod"));
-                            } else {
-                                filter.setRentPeriod(0);
-                            }
-                            if(!jsonFilter.isNull("startTime")) {
-                                filter.setStartDate(jsonFilter.getString("startTime"));
-                            } else {
-                                filter.setStartDate(null);
-                            }
-                            if(!jsonFilter.isNull("endTime")) {
-                                filter.setEndDate(jsonFilter.getString("endTime"));
-                            } else {
-                                filter.setEndDate(null);
-                            }
-                            if(!jsonFilter.isNull("offset")) {
-                                filter.setOffset(jsonFilter.getInt("offset"));
-                            } else {
-                                filter.setOffset(0);
-                            }
-                            if(!jsonFilter.isNull("limit")) {
-                                filter.setLimit(jsonFilter.getInt("limit"));
-                            } else {
-                                filter.setLimit(0);
-                            }
-                            if(!jsonFilter.isNull("refUser")) {
-                                filter.setRefUser(jsonFilter.getInt("refUser"));
-                            } else {
-                                filter.setRefUser(0);
+                            data.setSearches(searches);
+
+                            ArrayList<Integer> offersOptionsId = new ArrayList<>();
+                            JSONArray jsonOffersOptionsId = offer.getJSONArray("offersOptionsId");
+
+                            for (int k = 0; k < jsonOffersOptionsId.length(); k++) {
+                                offersOptionsId.add(jsonOffersOptionsId.getInt(k));
                             }
 
-                            search.setFilter(filter);
-                            searches.add(search);
+                            data.setOffersOptionsId(offersOptionsId);
+
+                            ArrayList<Integer> properties = new ArrayList<>();
+                            JSONArray jsonProperties = offer.getJSONArray("properties");
+
+                            for (int k = 0; k < jsonProperties.length(); k++) {
+                                properties.add(jsonProperties.getInt(k));
+                            }
+
+                            data.setProperties(properties);
+
+                            ArrayList<String> imagesLink = new ArrayList<>();
+                            JSONArray jsonImages = offer.getJSONArray("imagesLink");
+
+                            for (int k = 0; k < jsonImages.length(); k++) {
+                                imagesLink.add(jsonImages.getString(k));
+                            }
+
+                            data.setImagesLink(imagesLink);
+
+                            offers.add(data);
                         }
-
-                        data.setSearches(searches);
-
-                        ArrayList<Integer> offersOptionsId = new ArrayList<>();
-                        JSONArray jsonOffersOptionsId = offer.getJSONArray("offersOptionsId");
-
-                        for (int k = 0; k < jsonOffersOptionsId.length(); k++) {
-                            offersOptionsId.add(jsonOffersOptionsId.getInt(k));
+                        else {
+                            Logger.d("Searches are null");
                         }
-
-                        data.setOffersOptionsId(offersOptionsId);
-
-                        ArrayList<Integer> properties = new ArrayList<>();
-                        JSONArray jsonProperties = offer.getJSONArray("properties");
-
-                        for (int k = 0; k < jsonProperties.length(); k++) {
-                            properties.add(jsonProperties.getInt(k));
-                        }
-
-                        data.setProperties(properties);
-
-                        ArrayList<String> imagesLink = new ArrayList<>();
-                        JSONArray jsonImages = offer.getJSONArray("imagesLink");
-
-                        for (int k = 0; k < jsonImages.length(); k++) {
-                            imagesLink.add(jsonImages.getString(k));
-                        }
-
-                        data.setImagesLink(imagesLink);
-
-                        offers.add(data);
                     }
 
                     if (resultCode == 1) {

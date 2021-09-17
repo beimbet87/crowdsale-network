@@ -23,6 +23,7 @@ public class Realty implements Serializable {
     private String age;
     private String address;
     private int refCity;
+    private int refCountry;
     private int floorBuild;
     private String cityName;
     private String countryName;
@@ -35,6 +36,14 @@ public class Realty implements Serializable {
     private double office;
 
 
+    public int getRefCountry() {
+        return refCountry;
+    }
+
+    public void setRefCountry(int refCountry) {
+        this.refCountry = refCountry;
+    }
+
     public String getBody() {
         JSONObject jsonBody = new JSONObject();
         try {
@@ -42,6 +51,7 @@ public class Realty implements Serializable {
             jsonBody.put("rentPeriod", this.getRentPeriod());
             jsonBody.put("id", this.getId());
             jsonBody.put("floor", this.getFloor());
+            jsonBody.put("floorebuild", this.getFloorBuild());
             jsonBody.put("header", this.getHeader());
             jsonBody.put("description", this.getDescription());
             jsonBody.put("longitude", this.getLongitude());
@@ -55,9 +65,10 @@ public class Realty implements Serializable {
             jsonBody.put("age", this.getAge());
             jsonBody.put("adress", this.getAddress());
             jsonBody.put("refCity", this.getRefCity());
-            jsonBody.put("floorebuild", this.getFloorBuild());
-            jsonBody.put("cityName", this.getCityName());
+            jsonBody.put("refСountry", this.getRefCity()); //
+            jsonBody.put("cityName", this.getRefCountry());
             jsonBody.put("countryName", this.getCountryName());
+            jsonBody.put("kitchenSpace", this.getKitchenSpace()); //
             jsonBody.put("plotArea", this.getPlotArea());
             jsonBody.put("adjTerritory", this.getAdjTerritory());
             jsonBody.put("energyCons", this.getEnergyCons());

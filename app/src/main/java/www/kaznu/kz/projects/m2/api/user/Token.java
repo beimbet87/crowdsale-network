@@ -1,7 +1,10 @@
 package www.kaznu.kz.projects.m2.api.user;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -9,6 +12,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import www.kaznu.kz.projects.m2.api.SetDeviceID;
 import www.kaznu.kz.projects.m2.api.book.ClientBookings;
 import www.kaznu.kz.projects.m2.api.book.OwnerBooking;
 import www.kaznu.kz.projects.m2.api.pusher.DeviceID;
@@ -66,6 +73,7 @@ public class Token implements Constants {
                 data.putInt(SHARED_EXPIRES_IN, jsonRoot.getInt("expires_in"));
                 Logger.d("Access ---> Token: " + token);
                 new UserInfo(this.context, token).setOnLoadListener(user -> {
+                    Logger.d("Access ---> Token: " + user.getId());
                     data.putInt(SHARED_USER_ID, user.getId());
                     data.putInt(SHARED_USER_SEX, user.getSex());
                     data.putString(SHARED_USER_NAME, user.getName());
@@ -99,13 +107,12 @@ public class Token implements Constants {
                         data.putListRateModel(SHARED_OWNER_RATE, rates);
                     });
 
-                    new DeviceID(this.context, token).setOnLoadListener(new DeviceID.CustomOnLoadListener() {
-                        @Override
-                        public void onComplete(String message) {
-                            data.putString(SHARED_DEVICE_ID, message);
-                        }
-                    });
-
+//                    new DeviceID(this.context, token).setOnLoadListener(new DeviceID.CustomOnLoadListener() {
+//                        @Override
+//                        public void onComplete(String message) {
+//                            data.putString(SHARED_DEVICE_ID, message);
+//                        }
+//                    });
                     ClientBookings clientBookings = new ClientBookings(this.context, token);
 
                     clientBookings.setOnLoadListener((bookings, history) -> {
@@ -149,6 +156,28 @@ public class Token implements Constants {
 
                     MessageListData ownerMessageList = new MessageListData(this.context, 1, token);
                     ownerMessageList.setOnLoadListener((code, message, chats) -> data.putListMessageModel(SHARED_OWNER_MESSAGE_LIST, chats));
+
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                @Override
+                                public void onComplete(@NonNull Task<String> task) {
+                                    if (!task.isSuccessful()) {
+                                        Log.d(Constants.TAG, "Fetching FCM registration token failed", task.getException());
+                                        return;
+                                    }
+
+                                    Log.d(Constants.TAG, "Starting set device id");
+                                    new SetDeviceID(context, task.getResult(), token).setOnLoadListener(new SetDeviceID.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(int resultCode, String resultMessage) {
+                                            if (resultCode == 1)
+                                                data.putBoolean(SHARED_FIREBASE_TOKEN, true);
+                                        }
+                                    });
+                                    // Log and toast
+                                    Log.d(Constants.TAG, "Firebase token: " + token);
+                                }
+                            });
                 });
 
                 if(listener != null) {

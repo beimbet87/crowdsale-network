@@ -12,14 +12,13 @@
         android:id="@+id/tv_choose_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Придумайте пароль"
         android:textColor="@color/registerTextColor"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_profiles_description"
@@ -93,7 +92,7 @@
         android:id="@+id/btn_next"
         style="@style/Button.Style.DarkBlue"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="48dp"
         android:text="@string/intro_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

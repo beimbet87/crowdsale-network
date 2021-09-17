@@ -51,6 +51,10 @@ public class Filter {
         JSONObject jsonBody = new JSONObject();
 
         try {
+
+            jsonBody.put("countryName", this.getCountryName());
+            jsonBody.put("cityName", this.getCityName());
+
             if (this.getPolygons().size() > 0) {
                 JSONArray jsonPolygons = new JSONArray();
                 for (int i = 0; i < this.getPolygons().size(); i++) {
@@ -104,8 +108,6 @@ public class Filter {
             if(this.getRefUser() > 0)
                 jsonBody.put("refUser", this.getRefUser());
 
-            jsonBody.put("cityName", this.getCityName());
-            jsonBody.put("countryName", this.getCountryName());
 
             if(this.getRefCity() > 0)
                 jsonBody.put("refCity", this.getRefCity());

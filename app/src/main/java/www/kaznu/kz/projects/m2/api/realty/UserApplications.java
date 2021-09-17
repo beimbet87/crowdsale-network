@@ -62,7 +62,7 @@ public class UserApplications implements Constants {
 
                     JSONArray jsonOffers = root.getJSONArray("offers");
 
-//                    Log.d("M2TAG", "Offers: " + jsonOffers.toString());
+                    Log.d("M2TAG", "Offers: " + jsonOffers.toString());
 
                     for (int i = 0; i < jsonOffers.length(); i++) {
                         Offers data = new Offers();

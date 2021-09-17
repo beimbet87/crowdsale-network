@@ -1,5 +1,6 @@
 package www.kaznu.kz.projects.m2.views.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -45,6 +46,7 @@ public class AdvertListFragment extends Fragment {
 
     ProgressBar progressBar;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -135,6 +137,7 @@ public class AdvertListFragment extends Fragment {
         return root;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

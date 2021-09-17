@@ -3,6 +3,7 @@ package www.kaznu.kz.projects.m2.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,6 +13,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 
@@ -30,7 +34,7 @@ public class SetDeviceID implements Constants {
     }
 
 
-    public SetDeviceID(Context context, String token) {
+    public SetDeviceID(Context context, String token, String auth_token) {
         this.listener = null;
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -64,6 +68,17 @@ public class SetDeviceID implements Constants {
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 return super.parseNetworkResponse(response);
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "bearer " + auth_token);
+
+                return params;
             }
         };
         requestQueue.add(stringRequest);

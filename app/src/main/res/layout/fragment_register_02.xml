@@ -152,7 +152,7 @@
         android:id="@+id/btn_next"
         style="@style/Button.Style.DarkBlue"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:text="@string/intro_next"
         app:layout_constraintEnd_toEndOf="parent"

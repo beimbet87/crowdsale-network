@@ -67,13 +67,16 @@ public class UserInfo implements Constants {
                         data.setId(directory.getInt("id"));
                         data.setSex(directory.getInt("sex"));
                         data.setStars(directory.getInt("stars"));
-                        data.setCurrency(directory.getInt("currency"));
+                        if(directory.isNull("currency")) {
+                            data.setCurrency(0);
+                        } else {
+                            data.setCurrency(directory.getInt("currency"));
+                        }
                         data.setName(directory.getString("name"));
                         data.setSurname(directory.getString("surname"));
                         data.setBirth(directory.getString("birth"));
                         data.setEmail(directory.getString("email"));
                         data.setPhone(directory.getString("phone"));
-                        data.setCurrency(directory.getInt("currency"));
                         data.setCountryCode(countryCode);
                         data.setCountryName(countryName);
 

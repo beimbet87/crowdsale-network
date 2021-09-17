@@ -45,7 +45,7 @@ public class RealtyUpdate implements Constants {
 
         realty.setId(realtyid);
 
-        Log.d("M2TAG", realty.getBody());
+        Log.d("M2TAG", "Realty Update: " + realty.getBody());
 
         final String requestBody = realty.getBody();
 
@@ -65,6 +65,9 @@ public class RealtyUpdate implements Constants {
 
                     if (resultCode == 1) {
                         Log.d("M2TAG", "Realty completely created");
+                    }
+                    else {
+                        Log.d("M2TAG", "Realty creation error");
                     }
 
                 } catch (JSONException e) {

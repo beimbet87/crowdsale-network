@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 import www.kaznu.kz.projects.m2.api.user.RegistrationForm;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
@@ -25,7 +26,6 @@ public class RegisterFragment05 extends Fragment implements Constants {
     Button btnRegister;
     EditText etFirstName, etLastName, etDateOfBirth;
 
-    SharedPreferences temp;
     String token;
 
     RegistrationForm registrationForm;
@@ -53,35 +53,37 @@ public class RegisterFragment05 extends Fragment implements Constants {
         etLastName = root.findViewById(R.id.et_reg_lname);
         etDateOfBirth = root.findViewById(R.id.et_reg_dateofbirth);
 
+        TinyDB data = new TinyDB(requireContext());
+
         dataPasser.FromFragment05("Основная информация", 4);
 
         btnRegister.setOnClickListener(v -> {
 
             User user = new User();
-            SharedPreferences spToken = requireActivity().getSharedPreferences("M2_TOKEN", 0);
-            token = spToken.getString("access_token", "");
+            token = data.getString(SHARED_ACCESS_TOKEN);
 
-            temp = requireActivity().getSharedPreferences("M2_REG_INFO", 0);
-
-            user.setPhone(temp.getString("phone", ""));
+            user.setPhone(data.getString(SHARED_REG_IDENTITY));
             user.setName(etFirstName.getText().toString());
             user.setSurname(etLastName.getText().toString());
             user.setBirth(etDateOfBirth.getText().toString());
-            user.setPassword(temp.getString("password", ""));
-            user.setProfileType(temp.getInt("profileType", 1));
+            user.setPassword(data.getString(SHARED_PASSWORD));
+            user.setProfileType(data.getInt(SHARED_PROFILE_TYPE));
             user.setSex(1);
             user.setDescription("");
 
             registrationForm = new RegistrationForm(requireContext(), requireActivity(), user, token);
             registrationForm.setOnLoadListener((resultCode, resultMessage) -> {
                 if (resultCode == 1) {
-
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     requireActivity().startActivity(intent);
                     requireActivity().finish();
                     Toast.makeText(requireActivity().getApplicationContext(),
                             "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
 
+                }
+                else {
+                    Toast.makeText(requireActivity().getApplicationContext(),
+                            "Ошибка при регистраций!", Toast.LENGTH_SHORT).show();
                 }
             });
         });

@@ -24,6 +24,7 @@ import java.util.Map;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 
 public class Registration implements Constants {
 
@@ -46,16 +47,17 @@ public class Registration implements Constants {
 
         this.context = context;
 
+        TinyDB data = new TinyDB(this.context);
+
         RequestQueue userRequestQueue = Volley.newRequestQueue(context);
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("countryCode", countryCode.getText().toString());
             jsonBody.put("regIdentity", phoneNumber.getText().toString().replaceAll("[ \\-()]", ""));
-            SharedPreferences userPreferences = activity.getSharedPreferences("M2_REG_INFO", 0);
-            SharedPreferences.Editor editor = userPreferences.edit();
-            editor.putString("countryCode", countryCode.getText().toString());
-            editor.putString("regIdentity", countryCode.getText().toString() + phoneNumber.getText().toString());
-            editor.apply();
+
+            data.putString(SHARED_COUNTRY_CODE, countryCode.getText().toString());
+            data.putString(SHARED_REG_IDENTITY, countryCode.getText().toString() + phoneNumber.getText().toString());
+
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_PHONE_REG, new Response.Listener<String>() {
                 @Override

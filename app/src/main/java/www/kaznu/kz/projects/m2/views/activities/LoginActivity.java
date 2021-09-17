@@ -4,11 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -57,6 +64,9 @@ public class LoginActivity extends IntroActivity implements Constants {
         btnLogin = findViewById(R.id.btn_login);
         progressBar = findViewById(R.id.loader);
 
+        etUserName.setText(data.getString(SHARED_USER_PHONE));
+        etPassword.setText(data.getString(SHARED_USER_PASSWORD));
+
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
@@ -69,7 +79,6 @@ public class LoginActivity extends IntroActivity implements Constants {
             progressBar.setVisibility(View.VISIBLE);
 
             token.setOnLoadListener(token1 -> {
-
                 Intent intent = new Intent(LoginActivity.this, ProfileTypeActivity.class);
                 startActivity(intent);
             });

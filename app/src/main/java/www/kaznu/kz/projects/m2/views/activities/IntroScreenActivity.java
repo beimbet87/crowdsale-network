@@ -9,14 +9,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.SliderPagerAdapter;
+import www.kaznu.kz.projects.m2.api.SetDeviceID;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
 

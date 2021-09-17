@@ -70,7 +70,6 @@ public class MySearches implements Constants {
                         search.setRefUser(jsonSearch.getInt("refUser"));
                         search.setStatus(jsonSearch.getInt("status"));
                         search.setCount(jsonSearch.getInt("count"));
-                        search.setCity(jsonSearch.getString("city"));
                         search.setId(jsonSearch.getInt("id"));
 
                         Filter filter = new Filter();

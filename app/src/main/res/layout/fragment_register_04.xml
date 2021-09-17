@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:padding="@dimen/activity_margin"
-    tools:context=".views.activities.RegisterActivity">
+    tools:context=".views.activities.ProfileTypeActivity">
 
     <TextView
         android:id="@+id/tv_choose_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выберите профиль"
+        android:text="@string/choose_profile"
         android:textColor="@color/registerTextColor"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -25,75 +25,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Режим можно будет сменить в любой момент в разделе профиль"
+        android:text="@string/guest_description"
         android:textColor="#7F7F7F"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_choose_profile" />
 
-    <LinearLayout
-        android:id="@+id/linear_profiles"
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
+        android:checkedButton="@+id/rb_guest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/tv_profiles_description">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/rb_guest"
+            style="@style/RadioButton.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="true"
+            android:text="@string/title_guest" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="@dimen/between_objects"
+            android:text="@string/description_guest"
+            android:textColor="#7F7F7F"
+            android:textSize="14sp" />
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checkedButton="@+id/rb_guest">
+        <RadioButton
+            android:id="@+id/rb_master"
+            style="@style/RadioButton.Style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:text="@string/title_master" />
 
-                <RadioButton
-                    android:id="@+id/rb_guest"
-                    style="@style/RadioButton.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Режим гостя" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginBottom="@dimen/between_objects"
-                    android:text="Вы ищите квартиру для посуточной или помесячной аренды или покупки"
-                    android:textColor="#7F7F7F"
-                    android:textSize="14sp" />
-
-                <RadioButton
-                    android:id="@+id/rb_master"
-                    style="@style/RadioButton.Style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:checked="true"
-                    android:text="Режим хозяина" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="Вы владелец недвижимости, агент или риелтор и хотите сдать посуточно или помесячно или продать квартиру"
-                    android:textColor="#7F7F7F"
-                    android:textSize="14sp" />
-            </RadioGroup>
-
-        </LinearLayout>
-
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/description_master"
+            android:textColor="#7F7F7F"
+            android:textSize="14sp" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/btn_next"
         style="@style/Button.Style.DarkBlue"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="48dp"
         android:text="@string/intro_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

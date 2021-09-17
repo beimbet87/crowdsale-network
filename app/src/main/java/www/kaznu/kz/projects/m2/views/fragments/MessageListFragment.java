@@ -65,6 +65,51 @@ public class MessageListFragment extends Fragment {
             clientMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
                 @Override
                 public void onComplete(int code, String message, ArrayList<Chat> chats) {
+                    if (chats.size() > 0) {
+                        Log.d(Constants.TAG, chats.get(0).getCount() + " messages");
+                        TinyDB data = new TinyDB(requireContext());
+                        data.putListMessageModel(SHARED_USER_MESSAGE_LIST, chats);
+
+                        user = new CurrentUser(requireContext());
+
+                        Log.d(Constants.TAG, user.getClientMessageList().get(0).getCount() + " messages");
+
+                        if (user.getClientMessageList().size() > 0) {
+                            mMessageListFragmentViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentViewModel.class);
+                            mMessageListFragmentViewModel.init(user);
+
+                            mMessageListFragmentViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @Override
+                                public void onChanged(ArrayList<MessageList> messageLists) {
+                                    Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " messages");
+                                    initRecyclerView(messageLists);
+                                }
+
+                            });
+                        }
+                    }
+                }
+            });
+
+        } else {
+            root = (ViewGroup) inflater.inflate(R.layout.fragment_message_empty, container, false);
+        }
+
+        Log.d(Constants.TAG, "onCreateView");
+
+        return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MessageListData clientMessageList = new MessageListData(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
+        clientMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
+            @Override
+            public void onComplete(int code, String message, ArrayList<Chat> chats) {
+                if (chats.size() > 0) {
                     Log.d(Constants.TAG, chats.get(0).getCount() + " messages");
                     TinyDB data = new TinyDB(requireContext());
                     data.putListMessageModel(SHARED_USER_MESSAGE_LIST, chats);
@@ -87,47 +132,6 @@ public class MessageListFragment extends Fragment {
 
                         });
                     }
-                }
-            });
-
-        } else {
-            root = (ViewGroup) inflater.inflate(R.layout.fragment_message_empty, container, false);
-        }
-
-        Log.d(Constants.TAG, "onCreateView");
-
-        return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        MessageListData clientMessageList = new MessageListData(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
-        clientMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
-            @Override
-            public void onComplete(int code, String message, ArrayList<Chat> chats) {
-                Log.d(Constants.TAG, chats.get(0).getCount() + " messages");
-                TinyDB data = new TinyDB(requireContext());
-                data.putListMessageModel(SHARED_USER_MESSAGE_LIST, chats);
-
-                user = new CurrentUser(requireContext());
-
-                Log.d(Constants.TAG, user.getClientMessageList().get(0).getCount() + " messages");
-
-                if (user.getClientMessageList().size() > 0) {
-                    mMessageListFragmentViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentViewModel.class);
-                    mMessageListFragmentViewModel.init(user);
-
-                    mMessageListFragmentViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
-                        @SuppressLint("NotifyDataSetChanged")
-                        @Override
-                        public void onChanged(ArrayList<MessageList> messageLists) {
-                            Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " messages");
-                            initRecyclerView(messageLists);
-                        }
-
-                    });
                 }
             }
         });
@@ -155,12 +159,11 @@ public class MessageListFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         mRecyclerView.setAdapter(mAdapter);
 
-        for(int i = 0; i < mAdapter.getItemCount(); i++) {
+        for (int i = 0; i < mAdapter.getItemCount(); i++) {
             mAdapter.notifyItemChanged(i);
             mRecyclerView.refreshDrawableState();
         }
         mRecyclerView.invalidate();
-
 
 
         hideProgressBar();

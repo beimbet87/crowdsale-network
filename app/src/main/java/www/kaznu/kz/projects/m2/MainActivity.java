@@ -64,23 +64,6 @@ public class MainActivity extends AppCompatActivity implements
 
         user = new CurrentUser(this);
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
-
-                        // Get new FCM registration token
-                        String token = task.getResult();
-
-                        // Log and toast
-                        Log.d(Constants.TAG, "Firebase token: " + token);
-                    }
-                });
-
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationViewAdmin = findViewById(R.id.bottom_navigation_admin);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);

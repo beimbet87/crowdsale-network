@@ -297,6 +297,9 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
                         });
 
                     }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Объявление не создано", Toast.LENGTH_LONG).show();
+                    }
                 });
             });
         });
