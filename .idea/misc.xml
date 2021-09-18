@@ -30,6 +30,7 @@
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/message_booking_to.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/search_properties.xml" value="0.14722222222222223" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/slider_item_fragment.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_offer.xml" value="0.2234375" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_profile_type.xml" value="0.14444444444444443" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_advert_empty.xml" value="0.2234375" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_advert_list.xml" value="0.2234375" />
@@ -41,6 +42,9 @@
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_05.xml" value="0.20925925925925926" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_06.xml" value="0.20925925925925926" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_07.xml" value="0.20925925925925926" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/offer_dialog.xml" value="0.1935185185185185" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/search_dialog.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/search_properties.xml" value="0.1935185185185185" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24375" />
       </map>
     </option>
