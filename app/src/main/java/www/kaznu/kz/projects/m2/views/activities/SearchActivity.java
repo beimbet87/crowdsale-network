@@ -498,7 +498,6 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         }
 
         btnSearch.setOnClickListener(v ->
-
         {
 
             Logger.d(propertiesInt.size() + " <---- size");
@@ -632,6 +631,7 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == ALL_PERMISSIONS_RESULT) {
             for (Object perms : permissionsToRequest) {
                 if (hasPermission((String) perms)) {
