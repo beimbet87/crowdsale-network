@@ -72,23 +72,33 @@ public class MainActivity extends AppCompatActivity implements
         intDrawerLayoutAdmin(bottomNavigationViewAdmin);
         bottomNavigationViewAdmin.setVisibility(View.INVISIBLE);
 
+        Intent intent = getIntent();
+
         if (user.isOwner()) {
             bottomNavigationViewAdmin.setVisibility(View.VISIBLE);
             bottomNavigationView.setVisibility(View.INVISIBLE);
-            bottomNavigationViewAdmin.setSelectedItemId(R.id.action_account_admin);
+
+            if(intent.getStringExtra("fragment") != null) {
+                Log.d(Constants.TAG, Objects.requireNonNull(intent.getStringExtra("fragment")));
+            }
+
+            if (Objects.equals(intent.getStringExtra("fragment"), "message_admin_list")) {
+                bottomNavigationViewAdmin.setSelectedItemId(R.id.action_messages_admin);
+            } else {
+                bottomNavigationViewAdmin.setSelectedItemId(R.id.action_account_admin);
+            }
         } else {
             bottomNavigationView.setVisibility(View.VISIBLE);
             bottomNavigationViewAdmin.setVisibility(View.INVISIBLE);
-            bottomNavigationView.setSelectedItemId(R.id.action_account);
+
+            if(Objects.equals(intent.getStringExtra("fragment"), "message_list")) {
+                bottomNavigationView.setSelectedItemId(R.id.action_messages);
+            } else {
+                bottomNavigationView.setSelectedItemId(R.id.action_account);
+            }
         }
 
-        Intent intent = getIntent();
-
-        if(Objects.equals(intent.getStringExtra("fragment"), "message_list")) {
-            bottomNavigationView.setSelectedItemId(R.id.action_messages);
-        }
-
-        showBadge(true, 2);
+//        showBadge(true, 2);
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
     }

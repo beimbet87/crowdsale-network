@@ -13,7 +13,7 @@ import www.kaznu.kz.projects.m2.models.MessageList;
 public class MessageListFragmentAdminRepository implements Constants, IMessageList {
 
     private static MessageListFragmentAdminRepository instance;
-    private final ArrayList<MessageList> dataSet = new ArrayList<>();
+    private ArrayList<MessageList> dataSet;
 
     public static MessageListFragmentAdminRepository getInstance() {
         if(instance == null) {
@@ -32,7 +32,7 @@ public class MessageListFragmentAdminRepository implements Constants, IMessageLi
 
     private void setMessageList(CurrentUser user) {
         ArrayList<Chat> data = user.getOwnerMessageList();
-
+        dataSet = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             String image = BASE_URL + data.get(i).getImageLink();
             String title = data.get(i).getCompanyName();

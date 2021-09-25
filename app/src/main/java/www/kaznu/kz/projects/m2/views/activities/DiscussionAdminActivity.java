@@ -1,8 +1,10 @@
 package www.kaznu.kz.projects.m2.views.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,7 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,13 +28,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import www.kaznu.kz.projects.m2.MainActivity;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.DiscussionAdminListAdapter;
 import www.kaznu.kz.projects.m2.api.pusher.Conversations;
 import www.kaznu.kz.projects.m2.api.pusher.RequestMessage;
 import www.kaznu.kz.projects.m2.api.pusher.SendMessage;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.interfaces.ILoadDiscussion;
 import www.kaznu.kz.projects.m2.models.Message;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.views.customviews.DatePickerView;
@@ -52,8 +59,7 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
     EditText etMessage, etPrice;
     TextView tvTotalPrice;
 
-    SharedPreferences spToken, spPusher, spUser;
-    String token;
+    Tokens tokens;
     boolean isOwner;
 
     private RecyclerView mMessageRecycler;
@@ -61,18 +67,29 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
 
     SimpleDateFormat sdf;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_admin);
 
+        tokens = new Tokens(this);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         backButton = findViewById(R.id.toolbar_back);
         tvTotalPrice = findViewById(R.id.tv_total);
 
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("fragment", "message_admin_list");
+                startActivity(intent);
+            }
+        });
 
         sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
@@ -82,25 +99,28 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
         int refRealty = intent.getIntExtra("ref_realty", 0);
         isOwner = intent.getBooleanExtra("owner", false);
 
-        spToken = getSharedPreferences("M2_TOKEN", 0);
-        spPusher = getSharedPreferences("M2_PUSHER_INFO", 0);
-        spUser = getSharedPreferences("M2_USER_INFO", 0);
-
-        token = spToken.getString("access_token", "");
-
-        conversations = new Conversations(this, contact, refRealty, token);
+        conversations = new Conversations(this, contact, refRealty, tokens.getAccessToken());
 
         mMessageRecycler = findViewById(R.id.reyclerview_message_list);
 
-        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
-            @Override
-            public void onComplete(int data, String message, ArrayList<Message> messages) {
-                mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                linearLayoutManager.setReverseLayout(true);
-                mMessageRecycler.setLayoutManager(linearLayoutManager);
-                mMessageRecycler.setAdapter(mMessageAdapter);
-            }
+        conversations.setOnLoadListener((data, message, messages) -> {
+            mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+            linearLayoutManager.setReverseLayout(true);
+            mMessageRecycler.setLayoutManager(linearLayoutManager);
+            mMessageRecycler.setAdapter(mMessageAdapter);
+            mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                @Override
+                public void onLoadDiscussions() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMessageAdapter.notifyDataSetChanged();
+//                            mMessageAdapter.setLoaded();
+                        }
+                    }, 1000);
+                }
+            });
         });
 
         linearLayout = findViewById(R.id.booking_request);
@@ -117,44 +137,71 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
         etPrice.setText("");
         tvTotalPrice.setText("");
 
-        btnSendMessage.setOnClickListener(new View.OnClickListener() {
+        btnSendMessage.setOnClickListener(v -> {
+
+//            String currentDate = sdf.format(new Date());
+
+            Message message = new Message();
+
+            message.setRefReceiver(contact);
+            message.setRefRealty(refRealty);
+            message.setMessage(etMessage.getText().toString());
+
+            conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+
+            etMessage.setText("");
+            sendMessage = new SendMessage(getApplicationContext(), message, tokens.getAccessToken());
+            sendMessage.setOnLoadListener(new SendMessage.CustomOnLoadListener() {
+                @Override
+                public void onComplete(int code, String message) {
+                    conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+
+                    conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                        @Override
+                        public void onComplete(int data, String message, ArrayList<Message> messages) {
+                            Logger.d(messages.get(0).getMessage());
+                            mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
+                            mMessageAdapter.notifyDataSetChanged();
+                            mMessageRecycler.setAdapter(mMessageAdapter);
+
+                            mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                @Override
+                                public void onLoadDiscussions() {
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                        }
+                                    }, 1000);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        final BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            bottomSheetBehavior.setPeekHeight(0);
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onClick(View v) {
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setPeekHeight(0);
+                }
+            }
 
-                String currentDate = sdf.format(new Date());
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
 
-                Message message = new Message();
-
-                message.setRefReceiver(contact);
-                message.setRefRealty(refRealty);
-                message.setMessage(etMessage.getText().toString());
-
-                conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
-
-                etMessage.setText("");
-                sendMessage = new SendMessage(getApplicationContext(), message, token);
-                sendMessage.setOnLoadListener(new SendMessage.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(int code, String message) {
-                        conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
-
-                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
-                            @Override
-                            public void onComplete(int data, String message, ArrayList<Message> messages) {
-                                Logger.d(messages.get(0).getMessage());
-                                mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
-                                mMessageAdapter.notifyDataSetChanged();
-                                mMessageRecycler.setAdapter(mMessageAdapter);
-                            }
-                        });
-                    }
-                });
             }
         });
 
-        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        bottomSheetBehavior.setPeekHeight(1);
         btnBookingRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,9 +246,9 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
         });
 
 
-        btnSendBookingRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSendBookingRequest.setOnClickListener(v -> {
+
+            if (!etPrice.getText().toString().equals("")) {
                 Message message = new Message();
                 message.setGuest(true);
                 message.setRefReceiver(contact);
@@ -210,24 +257,36 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                 message.setDateTo(Utils.parseDateDefault(calendar.getEndDate()));
                 message.setPrice(Double.parseDouble(etPrice.getText().toString()));
 
-                requestMessage = new RequestMessage(getApplicationContext(), message, token);
+                requestMessage = new RequestMessage(getApplicationContext(), message, tokens.getAccessToken());
 
-                requestMessage.setOnLoadListener(new RequestMessage.CustomOnLoadListener() {
-                    @Override
-                    public void onComplete(int code, String message) {
-                        conversations = new Conversations(getApplicationContext(), contact, refRealty, token);
+                requestMessage.setOnLoadListener((code, message1) -> {
 
-                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                    conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+
+                    conversations.setOnLoadListener((data, message11, messages) -> {
+                        mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
+                        mMessageAdapter.notifyDataSetChanged();
+                        mMessageRecycler.setAdapter(mMessageAdapter);
+
+                        mMessageAdapter.setDiscussion(new ILoadDiscussion() {
                             @Override
-                            public void onComplete(int data, String message, ArrayList<Message> messages) {
-                                mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
-                                mMessageAdapter.notifyDataSetChanged();
-                                mMessageRecycler.setAdapter(mMessageAdapter);
+                            public void onLoadDiscussions() {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mMessageAdapter.notifyDataSetChanged();
+//                                        mMessageAdapter.setLoaded();
+                                    }
+                                }, 1000);
                             }
                         });
-                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    }
+                    });
                 });
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Введите цену!", Toast.LENGTH_SHORT).show();
             }
         });
 

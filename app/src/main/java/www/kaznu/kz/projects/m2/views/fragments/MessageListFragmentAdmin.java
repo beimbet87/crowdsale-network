@@ -1,7 +1,11 @@
 package www.kaznu.kz.projects.m2.views.fragments;
 
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_USER_ADMIN_MESSAGE_LIST;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +23,13 @@ import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.MessageListAdapter;
+import www.kaznu.kz.projects.m2.api.pusher.MessageListData;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.models.Chat;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.MessageList;
+import www.kaznu.kz.projects.m2.models.Tokens;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.viewmodels.MessageListFragmentAdminViewModel;
 import www.kaznu.kz.projects.m2.views.activities.DiscussionAdminActivity;
 
@@ -49,98 +58,160 @@ public class MessageListFragmentAdmin extends Fragment {
 
             mRecyclerView = root.findViewById(R.id.rv_message_list);
             mProgressBar = root.findViewById(R.id.pb_message_list);
+
+            MessageListData adminMessageList = new MessageListData(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
+            adminMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
+                @Override
+                public void onComplete(int code, String message, ArrayList<Chat> chats) {
+                    if (chats.size() > 0) {
+                        Log.d(Constants.TAG, chats.get(0).getCount() + " admin messages");
+                        TinyDB data = new TinyDB(requireContext());
+                        data.putListMessageModel(SHARED_USER_ADMIN_MESSAGE_LIST, chats);
+
+                        user = new CurrentUser(requireContext());
+
+                        Log.d(Constants.TAG, user.getClientMessageList().get(0).getCount() + " admin messages");
+
+                        if (user.getClientMessageList().size() > 0) {
+                            mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
+                            mMessageListFragmentAdminViewModel.init(user);
+
+                            mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @Override
+                                public void onChanged(ArrayList<MessageList> messageLists) {
+                                    Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " admin messages");
+                                    initRecyclerView(messageLists);
+                                }
+
+                            });
+                        }
+                    }
+                }
+            });
+
         } else {
             root = (ViewGroup) inflater.inflate(R.layout.fragment_message_empty, container, false);
         }
 
+        Log.d(Constants.TAG, "onCreateView");
+
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MessageListData adminMessageList = new MessageListData(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
+        adminMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
+            @Override
+            public void onComplete(int code, String message, ArrayList<Chat> chats) {
+                if (chats.size() > 0) {
+                    Log.d(Constants.TAG, chats.get(0).getCount() + " admin messages");
+                    TinyDB data = new TinyDB(requireContext());
+                    data.putListMessageModel(SHARED_USER_ADMIN_MESSAGE_LIST, chats);
+
+                    user = new CurrentUser(requireContext());
+
+                    Log.d(Constants.TAG, user.getClientMessageList().get(0).getCount() + " messages");
+
+                    if (user.getClientMessageList().size() > 0) {
+                        mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
+                        mMessageListFragmentAdminViewModel.init(user);
+
+                        mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
+                            @SuppressLint("NotifyDataSetChanged")
+                            @Override
+                            public void onChanged(ArrayList<MessageList> messageLists) {
+                                Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " messages");
+                                initRecyclerView(messageLists);
+                            }
+
+                        });
+                    }
+                }
+            }
+        });
+
+        Log.d(Constants.TAG, "onResume");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (user.getClientMessageList().size() > 0) {
-            mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
-            mMessageListFragmentAdminViewModel.init();
-
-            mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
-                @Override
-                public void onChanged(ArrayList<MessageList> messageLists) {
-                    initRecyclerView(messageLists);
-                    if(mAdapter != null) {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
+        Log.d(Constants.TAG, "onActivityCreated");
     }
 
     private void initRecyclerView(ArrayList<MessageList> mData) {
         showProgressBar();
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        mRecyclerView.setItemAnimator(itemAnimator);
 
-        if (mRecyclerView != null) {
-            mRecyclerView.setItemAnimator(itemAnimator);
+        mAdapter = null;
+        mAdapter = new MessageListAdapter(mData);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mRecyclerView.setAdapter(mAdapter);
 
-            mAdapter = new MessageListAdapter(mData);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-            mRecyclerView.setAdapter(mAdapter);
-
-
-            hideProgressBar();
-
-            mAdapter.setOnItemClickListener(new MessageListAdapter.ClickListener() {
-                @Override
-                public void onItemClick(int position, View v) {
-                    Intent intent = new Intent(getContext(), DiscussionAdminActivity.class);
-                    intent.putExtra("contact", mData.get(position).getCompany());
-                    intent.putExtra("ref_realty", mData.get(position).getRefRealty());
-                    intent.putExtra("owner", true);
-
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onItemLongClick(int position, View v) {
-
-                }
-            });
+        for (int i = 0; i < mAdapter.getItemCount(); i++) {
+            mAdapter.notifyItemChanged(i);
+            mRecyclerView.refreshDrawableState();
         }
+        mRecyclerView.invalidate();
+
+        hideProgressBar();
+
+        mAdapter.setOnItemClickListener(new MessageListAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Intent intent = new Intent(getContext(), DiscussionAdminActivity.class);
+                intent.putExtra("contact", mData.get(position).getCompany());
+                intent.putExtra("ref_realty", mData.get(position).getRefRealty());
+                intent.putExtra("owner", true);
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+
+            }
+        });
     }
 
     private void showProgressBar() {
-        if (mProgressBar != null) {
-            mProgressBar.setIndeterminate(true);
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
+        mProgressBar.setIndeterminate(true);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {
-        if (mProgressBar != null) {
-            mProgressBar.setIndeterminate(false);
-            mProgressBar.setVisibility(View.GONE);
-        }
+        mProgressBar.setIndeterminate(false);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(Constants.TAG, "onStart");
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(Constants.TAG, "onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Log.d(Constants.TAG, "onStop");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(Constants.TAG, "onDestroy");
     }
 }

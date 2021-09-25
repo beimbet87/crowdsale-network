@@ -5,16 +5,13 @@ import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_USER_MESSAGE_
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -58,6 +55,7 @@ public class MessageListFragment extends Fragment {
 
         if (user.getClientMessageList().size() > 0) {
             root = (ViewGroup) inflater.inflate(R.layout.fragment_message_list, container, false);
+
             mRecyclerView = root.findViewById(R.id.rv_message_list);
             mProgressBar = root.findViewById(R.id.pb_message_list);
 
@@ -139,14 +137,12 @@ public class MessageListFragment extends Fragment {
         Log.d(Constants.TAG, "onResume");
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         Log.d(Constants.TAG, "onActivityCreated");
     }
-
 
     private void initRecyclerView(ArrayList<MessageList> mData) {
         showProgressBar();

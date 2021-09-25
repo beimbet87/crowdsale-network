@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +58,6 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
     EditText etMessage, etPrice;
     TextView tvTotalPrice;
 
-    SharedPreferences spToken, spPusher, spUser;
     Tokens tokens;
     boolean isOwner;
 
@@ -78,10 +76,6 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         tokens = new Tokens(this);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-//        progressBar = findViewById(R.id.message_loader);
-//        progressBar.setVisibility(View.GONE);
-//        progressBar.bringToFront();
 
         backButton = findViewById(R.id.toolbar_back);
         tvTotalPrice = findViewById(R.id.tv_total);
@@ -103,10 +97,6 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         int contact = intent.getIntExtra("contact", 0);
         int refRealty = intent.getIntExtra("ref_realty", 0);
         isOwner = intent.getBooleanExtra("owner", false);
-
-        spToken = getSharedPreferences("M2_TOKEN", 0);
-        spPusher = getSharedPreferences("M2_PUSHER_INFO", 0);
-        spUser = getSharedPreferences("M2_USER_INFO", 0);
 
         conversations = new Conversations(this, contact, refRealty, tokens.getAccessToken());
 

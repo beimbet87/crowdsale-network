@@ -24,6 +24,7 @@ import java.util.Date;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.interfaces.ILoadDiscussion;
 import www.kaznu.kz.projects.m2.models.Message;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
@@ -42,10 +43,15 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
     private ArrayList<Message> mMessageList;
+    ILoadDiscussion loadDiscussion;
 
     public DiscussionAdminListAdapter(Context context, ArrayList<Message> messageList) {
         mContext = context;
         mMessageList = messageList;
+    }
+
+    public void setDiscussion(ILoadDiscussion loadDiscussion) {
+        this.loadDiscussion = loadDiscussion;
     }
 
     @Override
