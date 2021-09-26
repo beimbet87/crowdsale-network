@@ -13,6 +13,7 @@
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_dot_selector.xml" value="0.19907407407407407" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_selected_dot.xml" value="0.19907407407407407" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/drawable/slider_unselected_dot.xml" value="0.19907407407407407" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout-v21/activity_search.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/activity_change.xml" value="0.14351851851851852" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/activity_discussion.xml" value="0.13333333333333333" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/activity_intro_screen.xml" value="0.15092592592592594" />
@@ -28,27 +29,9 @@
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/item_rent_period.xml" value="0.14722222222222223" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/loader_messages.xml" value="0.264" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/message_booking_to.xml" value="0.2234375" />
+        <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/message_from.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/search_properties.xml" value="0.14722222222222223" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/slider_item_fragment.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_offer.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/activity_profile_type.xml" value="0.14444444444444443" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_advert_empty.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_advert_list.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_message_list.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_messages_admin.xml" value="0.19074074074074074" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_offer.xml" value="0.10677083333333333" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_profile_type.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_02.xml" value="0.20925925925925926" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_03.xml" value="0.20925925925925926" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_04.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_05.xml" value="0.20925925925925926" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_06.xml" value="0.20925925925925926" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/fragment_register_07.xml" value="0.20925925925925926" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/offer_dialog.xml" value="0.1935185185185185" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/search_dialog.xml" value="0.2234375" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/search_properties.xml" value="0.1935185185185185" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
-        <entry key="..\:/projects/androidm2/app/app/src/main/res/menu/bottom_nav_menu_admin.xml" value="0.1" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24375" />
       </map>
     </option>

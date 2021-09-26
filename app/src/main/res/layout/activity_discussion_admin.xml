@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
-                    android:paddingBottom="48dp"/>
+                    android:paddingBottom="48dp" />
 
                 <include layout="@layout/message_booking_admin" />
             </FrameLayout>
@@ -74,6 +74,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="72dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/border_top"
             android:gravity="center_vertical"
             android:orientation="horizontal"

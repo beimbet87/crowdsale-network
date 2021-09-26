@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +38,11 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_BOOKING_1 = 3;
     private static final int VIEW_TYPE_MESSAGE_BOOKING_2 = 4;
     private static final int VIEW_TYPE_MESSAGE_BOOKING_3 = 5;
-    private static final int VIEW_TYPE_MESSAGE_OFFER = 6;
+    private static final int VIEW_TYPE_MESSAGE_BOOKING_4 = 6;
+    private static final int VIEW_TYPE_MESSAGE_BOOKING_5 = 7;
+    private static final int VIEW_TYPE_MESSAGE_BOOKING_6 = 8;
+    private static final int VIEW_TYPE_MESSAGE_BOOKING_7 = 9;
+    private static final int VIEW_TYPE_MESSAGE_BOOKING_8 = 10;
     private static final int VIEW_TYPE_MESSAGE_LOADING = 0;
 
     private Context mContext;
@@ -80,12 +86,26 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
 
         Message message = mMessageList.get(position);
 
-        if (message.getMessageType() == 1) {
+        if (message.getMessageType() == 1 && message.isMine()) {
             return VIEW_TYPE_MESSAGE_SENT;
-        } else if (message.getMessageType() == 21) {
+        } else if (message.getMessageType() == 1 && !message.isMine()) {
+            return VIEW_TYPE_MESSAGE_RECEIVED;
+        } else if (message.getMessageType() == 21 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_1;
-        } else if (message.getMessageType() == 42) {
+        } else if (message.getMessageType() == 31 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_2;
+        } else if (message.getMessageType() == 42 && !message.isMine()) {
+            return VIEW_TYPE_MESSAGE_BOOKING_3;
+        } else if (message.getMessageType() == 22 && message.isMine()) {
+            return VIEW_TYPE_MESSAGE_BOOKING_4;
+        } else if (message.getMessageType() == 51 && !message.isMine()) {
+            return VIEW_TYPE_MESSAGE_BOOKING_5;
+        } else if (message.getMessageType() == 71 && !message.isMine()) {
+            return VIEW_TYPE_MESSAGE_BOOKING_6;
+        } else if (message.getMessageType() == 72 && !message.isMine()) {
+            return VIEW_TYPE_MESSAGE_BOOKING_7;
+        } else if (message.getMessageType() == 52 && !message.isMine()) {
+            return VIEW_TYPE_MESSAGE_BOOKING_8;
         } else if (message.getMessageType() == 0) {
             return VIEW_TYPE_MESSAGE_LOADING;
         } else {
@@ -216,6 +236,12 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                 Date date = format.parse(message.getCreated_at());
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 timeText.setText(dateFormat.format(date));
+                if(!message.getImage().matches("null")) {
+                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(profileImage);
+                    Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
+                } else {
+                    profileImage.setImageResource(R.drawable.ic_default_avatar);
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
