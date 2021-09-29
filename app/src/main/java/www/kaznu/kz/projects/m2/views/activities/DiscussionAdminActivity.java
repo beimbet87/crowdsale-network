@@ -104,7 +104,7 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
         mMessageRecycler = findViewById(R.id.reyclerview_message_list);
 
         conversations.setOnLoadListener((data, message, messages) -> {
-            mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
+            mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages, refRealty);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setReverseLayout(true);
             mMessageRecycler.setLayoutManager(linearLayoutManager);
@@ -160,7 +160,7 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                         @Override
                         public void onComplete(int data, String message, ArrayList<Message> messages) {
                             Logger.d(messages.get(0).getMessage());
-                            mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
+                            mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages, refRealty);
                             mMessageAdapter.notifyDataSetChanged();
                             mMessageRecycler.setAdapter(mMessageAdapter);
 
@@ -245,12 +245,11 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
             }
         });
 
-
         btnSendBookingRequest.setOnClickListener(v -> {
 
             if (!etPrice.getText().toString().equals("")) {
                 Message message = new Message();
-                message.setGuest(true);
+                message.setGuest(false);
                 message.setRefReceiver(contact);
                 message.setRefRealty(refRealty);
                 message.setDateFrom(Utils.parseDateDefault(calendar.getStartDate()));
@@ -266,7 +265,7 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                     conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
 
                     conversations.setOnLoadListener((data, message11, messages) -> {
-                        mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages);
+                        mMessageAdapter = new DiscussionAdminListAdapter(getApplicationContext(), messages, refRealty);
                         mMessageAdapter.notifyDataSetChanged();
                         mMessageRecycler.setAdapter(mMessageAdapter);
 

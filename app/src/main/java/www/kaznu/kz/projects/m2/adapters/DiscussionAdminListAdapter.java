@@ -1,7 +1,10 @@
 package www.kaznu.kz.projects.m2.adapters;
 
+import static com.yandex.runtime.Runtime.getApplicationContext;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +13,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -23,14 +28,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.api.pusher.RequestMessage;
+import www.kaznu.kz.projects.m2.api.pusher.ResponseMessage;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.interfaces.ILoadDiscussion;
 import www.kaznu.kz.projects.m2.models.Message;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
 
-    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+    private static final int VIEW_TYPE_MESSAGE_SENT = 1; // Send message from admin to guest
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
     private static final int VIEW_TYPE_MESSAGE_BOOKING_1 = 3;
     private static final int VIEW_TYPE_MESSAGE_BOOKING_2 = 4;
@@ -44,10 +52,19 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private ArrayList<Message> mMessageList;
     ILoadDiscussion loadDiscussion;
+    public int refRealty;
 
-    public DiscussionAdminListAdapter(Context context, ArrayList<Message> messageList) {
+    public DiscussionAdminListAdapter(Context context, ArrayList<Message> messageList, int refRealty) {
         mContext = context;
         mMessageList = messageList;
+        this.refRealty = refRealty;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void update(ArrayList<Message> data) {
+        mMessageList.clear();
+        mMessageList.addAll(data);
+        notifyDataSetChanged();
     }
 
     public void setDiscussion(ILoadDiscussion loadDiscussion) {
@@ -65,21 +82,28 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
 
         if (message.getMessageType() == 1 && message.isMine()) {
             return VIEW_TYPE_MESSAGE_SENT;
-        } else if (message.getMessageType() == 1 && !message.isMine()) {
+        }
+        else if (message.getMessageType() == 1 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_RECEIVED;
-        } else if (message.getMessageType() == 21 && !message.isMine()) {
+        }
+        else if (message.getMessageType() == 21 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_1;
-        } else if (message.getMessageType() == 31 && !message.isMine()) {
+        }
+        else if (message.getMessageType() == 31 && message.isMine() ||
+                message.getMessageType() == 32 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_2;
         } else if (message.getMessageType() == 42 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_3;
-        } else if (message.getMessageType() == 22 && message.isMine()) {
+        } else if (message.getMessageType() == 41 && message.isMine()) {
+            return VIEW_TYPE_MESSAGE_BOOKING_5;
+        }
+        else if (message.getMessageType() == 22 && message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_4;
         } else if (message.getMessageType() == 51 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_5;
         } else if (message.getMessageType() == 71 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_6;
-        } else if (message.getMessageType() == 72 && !message.isMine()) {
+        } else if (message.getMessageType() == 72 && message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_7;
         } else if (message.getMessageType() == 52 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_8;
@@ -97,17 +121,20 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_to_admin, parent, false);
             return new SentMessageHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
+        }
+        else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_from_admin, parent, false);
             return new ReceivedMessageHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_1) {
+        }
+        else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_1) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_offer_from_admin, parent, false);
             return new BookingMessageHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_2) {
+        }
+        else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_2) {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.message_offer_from_admin_02, parent, false);
+                    .inflate(R.layout.message_offer_from_admin_accept, parent, false);
             return new BookingMessageHolder02(view);
         } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_3) {
             view = LayoutInflater.from(parent.getContext())
@@ -119,7 +146,7 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
             return new BookingMessageHolder04(view);
         } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_5) {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.message_offer_from_admin_04, parent, false);
+                    .inflate(R.layout.message_booking_to_admin, parent, false);
             return new BookingMessageHolder05(view);
         } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_6) {
             view = LayoutInflater.from(parent.getContext())
@@ -167,10 +194,10 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 ((BookingMessageHolder03) holder).bind(message, messagePrev, position, getItemCount(), 42);
                 break;
             case VIEW_TYPE_MESSAGE_BOOKING_4:
-                ((BookingMessageHolder04) holder).bind(message, messagePrev, position, getItemCount(), 22);
+                ((BookingMessageHolder04) holder).bind(message, messagePrev, position, getItemCount(), 22, refRealty);
                 break;
             case VIEW_TYPE_MESSAGE_BOOKING_5:
-                ((BookingMessageHolder05) holder).bind(message, messagePrev, position, getItemCount(), 51);
+                ((BookingMessageHolder05) holder).bind(message, messagePrev, position, getItemCount(), 41);
                 break;
             case VIEW_TYPE_MESSAGE_BOOKING_6:
                 ((BookingMessageHolder06) holder).bind(message, messagePrev, position, getItemCount(), 71);
@@ -330,23 +357,23 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
     }
 
     private static class BookingMessageHolder02 extends RecyclerView.ViewHolder {
-        TextView tvDateFrom, tvDateTo, tvPrice, tvTotalPrice, timeText;
-        TextView tvAlert, tvMessageDate;
-        Button btnCancel;
-        ImageView ivAvatar;
+//        TextView tvDateFrom, tvDateTo, tvPrice, tvTotalPrice, timeText;
+        TextView tvAlert, tvMessageDate, timeText;
+//        Button btnCancel;
+//        ImageView ivAvatar;
 
         BookingMessageHolder02(View itemView) {
             super(itemView);
 
-            tvDateFrom = itemView.findViewById(R.id.tv_date_from);
-            tvDateTo = itemView.findViewById(R.id.tv_date_to);
-            tvPrice = itemView.findViewById(R.id.tv_price);
-            tvTotalPrice = itemView.findViewById(R.id.tv_total_price);
+//            tvDateFrom = itemView.findViewById(R.id.tv_date_from);
+//            tvDateTo = itemView.findViewById(R.id.tv_date_to);
+//            tvPrice = itemView.findViewById(R.id.tv_price);
+//            tvTotalPrice = itemView.findViewById(R.id.tv_total_price);
             timeText = itemView.findViewById(R.id.tv_time);
-            tvAlert = itemView.findViewById(R.id.tv_alert);
+//            tvAlert = itemView.findViewById(R.id.tv_alert);
             tvMessageDate = itemView.findViewById(R.id.tv_message_date);
-            btnCancel = itemView.findViewById(R.id.btn_cancel);
-            ivAvatar = itemView.findViewById(R.id.message_avatar);
+//            btnCancel = itemView.findViewById(R.id.btn_cancel);
+//            ivAvatar = itemView.findViewById(R.id.message_avatar);
         }
 
         @SuppressLint("ResourceAsColor")
@@ -367,18 +394,30 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 tvMessageDate.setText(date0);
             }
             if (type == 31) {
-                tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
-                tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
-                tvPrice.setText(Utils.parsePrice(message.getPrice()));
-                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
+//                tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
+//                tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
+//                tvPrice.setText(Utils.parsePrice(message.getPrice()));
+//                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
-                if(!message.getImage().matches("null")) {
-                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
-                    Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
-                } else {
-                    ivAvatar.setImageResource(R.drawable.ic_default_avatar);
+//                if(!message.getImage().matches("null")) {
+//                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+//                    Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
+//                } else {
+//                    ivAvatar.setImageResource(R.drawable.ic_default_avatar);
+//                }
+            } else if (type == 32) {
+//                tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
+//                tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
+//                tvPrice.setText(Utils.parsePrice(message.getPrice()));
+//                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
+                    timeText.setText(Utils.parseTime(message.getCreated_at()));
+//                if(!message.getImage().matches("null")) {
+//                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+//                    Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
+//                } else {
+//                    ivAvatar.setImageResource(R.drawable.ic_default_avatar);
+//                }
                 }
-            }
         }
     }
 
@@ -435,12 +474,90 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private static class BookingMessageHolder04 extends RecyclerView.ViewHolder {
+    public static class BookingMessageHolder04 extends RecyclerView.ViewHolder {
         TextView tvDateFrom, tvDateTo, tvPrice, tvTotalPrice, timeText;
         TextView tvAlert, tvMessageDate;
         Button btnCancel;
 
         BookingMessageHolder04(View itemView) {
+
+            super(itemView);
+            tvDateFrom = itemView.findViewById(R.id.tv_date_from);
+            tvDateTo = itemView.findViewById(R.id.tv_date_to);
+            tvPrice = itemView.findViewById(R.id.tv_price);
+            tvTotalPrice = itemView.findViewById(R.id.tv_total_price);
+            timeText = itemView.findViewById(R.id.tv_time);
+            tvAlert = itemView.findViewById(R.id.tv_alert);
+            tvMessageDate = itemView.findViewById(R.id.tv_message_date);
+            btnCancel = itemView.findViewById(R.id.btn_cancel);
+
+        }
+
+        @SuppressLint("ResourceAsColor")
+        void bind(Message message, Message messagePrev, int id, int count, int type, int refRealty) {
+            String date0 = Utils.parseDateWithDot(message.getCreated_at());
+            String date1 = Utils.parseDateWithDot(messagePrev.getCreated_at());
+
+            Log.d(Constants.TAG, "BookingMessageHolder: " + id + " " + count);
+
+            if (id < count - 1) {
+                if (date0.compareToIgnoreCase(date1) == 0) {
+                    tvMessageDate.setVisibility(View.GONE);
+                } else {
+                    tvMessageDate.setText(date0);
+                }
+            } else {
+                tvMessageDate.setVisibility(View.VISIBLE);
+                tvMessageDate.setText(date0);
+            }
+            if (type == 22) {
+                tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
+                tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
+                tvPrice.setText(Utils.parsePrice(message.getPrice()));
+                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
+                timeText.setText(Utils.parseTime(message.getCreated_at()));
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Log.d(Constants.TAG, refRealty + "");
+                        Message data = new Message();
+                        data.setGuest(false);
+                        data.setAccept(0);
+                        data.setIdBook(message.getIdBook());
+                        data.setRefReceiver(message.getRefReceiver());
+                        data.setRefRealty(refRealty);
+
+                        ResponseMessage responseMessage = new ResponseMessage(v.getContext(), data, new Tokens(v.getContext()).getAccessToken());
+
+                        responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                            @Override
+                            public void onComplete(int code, String message1) {
+                                Toast.makeText(v.getContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            } else if (type == 41) {
+                tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
+                tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
+                tvPrice.setText(Utils.parsePrice(message.getPrice()));
+                tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
+                timeText.setText(Utils.parseTime(message.getCreated_at()));
+                btnCancel.setVisibility(View.GONE);
+                tvAlert.setVisibility(View.VISIBLE);
+                tvAlert.setText("Вы отменили запрос");
+            }
+        }
+    }
+
+    private static class BookingMessageHolder05 extends RecyclerView.ViewHolder {
+        TextView tvDateFrom, tvDateTo, tvPrice, tvTotalPrice, timeText;
+        TextView tvAlert, tvMessageDate;
+        Button btnCancel;
+
+        BookingMessageHolder05(View itemView) {
             super(itemView);
 
             tvDateFrom = itemView.findViewById(R.id.tv_date_from);
@@ -476,59 +593,16 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
                 tvPrice.setText(Utils.parsePrice(message.getPrice()));
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
-            }
-        }
-    }
-
-    private static class BookingMessageHolder05 extends RecyclerView.ViewHolder {
-        TextView tvDateFrom, tvDateTo, tvPrice, tvTotalPrice, timeText;
-        TextView tvAlert, tvMessageDate;
-        Button btnCancel;
-        ImageView ivAvatar;
-
-        BookingMessageHolder05(View itemView) {
-            super(itemView);
-
-            tvDateFrom = itemView.findViewById(R.id.tv_date_from);
-            tvDateTo = itemView.findViewById(R.id.tv_date_to);
-            tvPrice = itemView.findViewById(R.id.tv_price);
-            tvTotalPrice = itemView.findViewById(R.id.tv_total_price);
-            timeText = itemView.findViewById(R.id.tv_time);
-            tvAlert = itemView.findViewById(R.id.tv_alert);
-            tvMessageDate = itemView.findViewById(R.id.tv_message_date);
-            btnCancel = itemView.findViewById(R.id.btn_cancel);
-            ivAvatar = itemView.findViewById(R.id.message_avatar);
-        }
-
-        @SuppressLint("ResourceAsColor")
-        void bind(Message message, Message messagePrev, int id, int count, int type) {
-            String date0 = Utils.parseDateWithDot(message.getCreated_at());
-            String date1 = Utils.parseDateWithDot(messagePrev.getCreated_at());
-
-            Log.d(Constants.TAG, "BookingMessageHolder: " + id + " " + count);
-
-            if (id < count - 1) {
-                if (date0.compareToIgnoreCase(date1) == 0) {
-                    tvMessageDate.setVisibility(View.GONE);
-                } else {
-                    tvMessageDate.setText(date0);
-                }
-            } else {
-                tvMessageDate.setVisibility(View.VISIBLE);
-                tvMessageDate.setText(date0);
-            }
-            if (type == 51) {
+            } else if (type == 41) {
                 tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
                 tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
                 tvPrice.setText(Utils.parsePrice(message.getPrice()));
                 tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
-                if(!message.getImage().matches("null")) {
-                    Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
-                    Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
-                } else {
-                    ivAvatar.setImageResource(R.drawable.ic_default_avatar);
-                }
+                btnCancel.setVisibility(View.GONE);
+                tvAlert.setVisibility(View.VISIBLE);
+                tvAlert.setTextColor(Color.parseColor("#BA0952"));
+                tvAlert.setText("Вы отменили запрос");
             }
         }
     }
@@ -677,5 +751,11 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
             }
 
         }
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClick(Context context, Message message, String token);
+
     }
 }

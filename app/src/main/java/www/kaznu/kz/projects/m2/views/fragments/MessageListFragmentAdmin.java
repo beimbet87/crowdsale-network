@@ -1,5 +1,6 @@
 package www.kaznu.kz.projects.m2.views.fragments;
 
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_OWNER_MESSAGE_LIST;
 import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_USER_ADMIN_MESSAGE_LIST;
 
 import android.annotation.SuppressLint;
@@ -103,20 +104,20 @@ public class MessageListFragmentAdmin extends Fragment {
     public void onResume() {
         super.onResume();
 
-        MessageListData adminMessageList = new MessageListData(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
+        MessageListData adminMessageList = new MessageListData(requireContext(), 1, new Tokens(requireContext()).getAccessToken());
         adminMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
             @Override
             public void onComplete(int code, String message, ArrayList<Chat> chats) {
                 if (chats.size() > 0) {
                     Log.d(Constants.TAG, chats.get(0).getCount() + " admin messages");
                     TinyDB data = new TinyDB(requireContext());
-                    data.putListMessageModel(SHARED_USER_ADMIN_MESSAGE_LIST, chats);
+                    data.putListMessageModel(SHARED_OWNER_MESSAGE_LIST, chats);
 
                     user = new CurrentUser(requireContext());
 
-                    Log.d(Constants.TAG, user.getClientMessageList().get(0).getCount() + " messages");
+                    Log.d(Constants.TAG, user.getOwnerMessageList().get(0).getCount() + " messages");
 
-                    if (user.getClientMessageList().size() > 0) {
+                    if (user.getOwnerMessageList().size() > 0) {
                         mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
                         mMessageListFragmentAdminViewModel.init(user);
 
@@ -130,6 +131,9 @@ public class MessageListFragmentAdmin extends Fragment {
 
                         });
                     }
+                }
+                else {
+                    Log.d(Constants.TAG, "Loading ...");
                 }
             }
         });

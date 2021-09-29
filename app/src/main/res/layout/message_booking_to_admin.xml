@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Предложение бронирования"
+                android:text="Предложение аренды"
                 android:textColor="@color/color_primary_dark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -156,7 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Ожидает ответа хозяина"
+            android:text="Ожидает ответа гостя"
             android:textColor="@color/color_primary_dark"
             android:textSize="14sp"
             android:textStyle="bold" />

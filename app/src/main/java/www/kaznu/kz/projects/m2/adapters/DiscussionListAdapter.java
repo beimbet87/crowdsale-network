@@ -33,7 +33,7 @@ import www.kaznu.kz.projects.m2.views.activities.DiscussionActivity;
 
 public class DiscussionListAdapter extends RecyclerView.Adapter {
 
-    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+    private static final int VIEW_TYPE_MESSAGE_SENT = 1; // Send message from guest to admin
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
     private static final int VIEW_TYPE_MESSAGE_BOOKING_1 = 3;
     private static final int VIEW_TYPE_MESSAGE_BOOKING_2 = 4;
@@ -88,15 +88,18 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
 
         if (message.getMessageType() == 1 && message.isMine()) {
             return VIEW_TYPE_MESSAGE_SENT;
-        } else if (message.getMessageType() == 1 && !message.isMine()) {
+        }
+        else if (message.getMessageType() == 1 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_RECEIVED;
-        } else if (message.getMessageType() == 21 && !message.isMine()) {
+        }
+        else if (message.getMessageType() == 21 && message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_1;
-        } else if (message.getMessageType() == 31 && !message.isMine()) {
+        }
+        else if (message.getMessageType() == 31 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_2;
         } else if (message.getMessageType() == 42 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_3;
-        } else if (message.getMessageType() == 22 && message.isMine()) {
+        } else if (message.getMessageType() == 22 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_4;
         } else if (message.getMessageType() == 51 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_5;
@@ -106,9 +109,10 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             return VIEW_TYPE_MESSAGE_BOOKING_7;
         } else if (message.getMessageType() == 52 && !message.isMine()) {
             return VIEW_TYPE_MESSAGE_BOOKING_8;
-        } else if (message.getMessageType() == 0) {
-            return VIEW_TYPE_MESSAGE_LOADING;
-        } else {
+        }
+//        else if (message.getMessageType() == 0) {
+//            return VIEW_TYPE_MESSAGE_LOADING; }
+        else {
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
     }
@@ -122,22 +126,50 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_to, parent, false);
             return new SentMessageHolder(view, parent);
-        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
+        }
+        else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_from, parent, false);
             return new ReceivedMessageHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_1) {
+        }
+        else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_1) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_booking_to, parent, false);
             return new BookingMessageHolder(view);
-        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_2) {
+        }
+        else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_2) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.message_offer_from, parent, false);
+            return new BookingMessageHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_3) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.message_offer_from, parent, false);
+            return new BookingMessageHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_4) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.message_offer_from, parent, false);
+            return new BookingMessageHolder04(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_5) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.message_offer_from, parent, false);
+            return new BookingMessageHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_6) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.message_offer_from, parent, false);
+            return new BookingMessageHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_7) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.message_offer_from, parent, false);
+            return new BookingMessageHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_BOOKING_8) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_booking_to, parent, false);
             return new BookingMessageHolder(view);
-        } else {
+        }
+        else {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.loader_messages, parent, false);
-            return new MainMessageHolder(view);
+                    .inflate(R.layout.message_from, parent, false);
+            return new ReceivedMessageHolder(view);
         }
     }
 
@@ -164,10 +196,28 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                 ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 21);
                 break;
             case VIEW_TYPE_MESSAGE_BOOKING_2:
+                ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 31);
+                break;
+            case VIEW_TYPE_MESSAGE_BOOKING_3:
                 ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 42);
                 break;
+            case VIEW_TYPE_MESSAGE_BOOKING_4:
+                ((BookingMessageHolder04) holder).bind(message, messagePrev, position, getItemCount(), 22);
+                break;
+            case VIEW_TYPE_MESSAGE_BOOKING_5:
+                ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 52);
+                break;
+            case VIEW_TYPE_MESSAGE_BOOKING_6:
+                ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 71);
+                break;
+            case VIEW_TYPE_MESSAGE_BOOKING_7:
+                ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 72);
+                break;
+            case VIEW_TYPE_MESSAGE_BOOKING_8:
+                ((BookingMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 52);
+                break;
             default:
-                ((MainMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 0);
+                ((ReceivedMessageHolder) holder).bind(message, messagePrev, position, getItemCount(), 1);
                 break;
         }
 
@@ -319,6 +369,68 @@ public class DiscussionListAdapter extends RecyclerView.Adapter {
                 tvAlert.setTextColor(Color.parseColor("#BA0952"));
                 btnCancel.setVisibility(View.GONE);
                 timeText.setText(Utils.parseTime(message.getCreated_at()));
+            }
+        }
+
+    }
+
+    private static class BookingMessageHolder04 extends RecyclerView.ViewHolder {
+        TextView tvDateFrom, tvDateTo, tvPrice, tvTotalPrice, timeText;
+        TextView tvAlert, tvMessageDate;
+        Button btnCancel;
+        ImageView ivAvatar;
+
+        BookingMessageHolder04(View itemView) {
+            super(itemView);
+
+            tvDateFrom = itemView.findViewById(R.id.tv_date_from);
+            tvDateTo = itemView.findViewById(R.id.tv_date_to);
+            tvPrice = itemView.findViewById(R.id.tv_price);
+            tvTotalPrice = itemView.findViewById(R.id.tv_total_price);
+            timeText = itemView.findViewById(R.id.tv_time);
+            tvAlert = itemView.findViewById(R.id.tv_alert);
+            tvMessageDate = itemView.findViewById(R.id.tv_message_date);
+            btnCancel = itemView.findViewById(R.id.btn_cancel);
+            ivAvatar = itemView.findViewById(R.id.message_avatar);
+        }
+
+        @SuppressLint("ResourceAsColor")
+        void bind(Message message, Message messagePrev, int id, int count, int type) {
+            String date0 = Utils.parseDateWithDot(message.getCreated_at());
+            String date1 = Utils.parseDateWithDot(messagePrev.getCreated_at());
+
+            Log.d(Constants.TAG, "BookingMessageHolder: " + id + " " + count);
+
+            if (id < count - 1) {
+                if (date0.compareToIgnoreCase(date1) == 0) {
+                    tvMessageDate.setVisibility(View.GONE);
+                } else {
+                    tvMessageDate.setText(date0);
+                }
+            } else {
+                tvMessageDate.setVisibility(View.VISIBLE);
+                tvMessageDate.setText(date0);
+            }
+
+            tvDateFrom.setText(Utils.parseDateText(message.getDateFrom()));
+            tvDateTo.setText(Utils.parseDateText(message.getDateTo()));
+            tvPrice.setText(Utils.parsePrice(message.getPrice()));
+            tvTotalPrice.setText(Utils.parsePrice(Utils.totalPrice(Utils.dateDiff(message.getDateFrom(), message.getDateTo()), message.getPrice())));
+            timeText.setText(Utils.parseTime(message.getCreated_at()));
+
+            if (type == 21) {
+                tvAlert.setText("Ожидает ответа хозяина");
+            } else if (type == 42) {
+                tvAlert.setText("Отменен Вами");
+                tvAlert.setTextColor(Color.parseColor("#BA0952"));
+                btnCancel.setVisibility(View.GONE);
+            }
+
+            if(!message.getImage().matches("null")) {
+                Picasso.get().load(Constants.BASE_URL.concat("Images/").concat(message.getImage())).into(ivAvatar);
+                Log.d(Constants.TAG, Constants.BASE_URL.concat("Images/").concat(message.getImage()));
+            } else {
+                ivAvatar.setImageResource(R.drawable.ic_default_avatar);
             }
         }
 

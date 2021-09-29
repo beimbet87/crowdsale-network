@@ -32,6 +32,20 @@
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/message_from.xml" value="0.2234375" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/search_properties.xml" value="0.14722222222222223" />
         <entry key="..\:/Projects/androidm2/app/app/src/main/res/layout/slider_item_fragment.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_booking.xml" value="0.17222222222222222" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_booking_admin.xml" value="0.1925925925925926" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_booking_to.xml" value="0.2101851851851852" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_booking_to_admin.xml" value="0.2101851851851852" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_from_admin.xml" value="0.1925925925925926" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from.xml" value="0.4" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin.xml" value="0.4" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_02.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_03.xml" value="0.536" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_04.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_05.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_06.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_07.xml" value="0.2234375" />
+        <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_accept.xml" value="0.264" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24375" />
       </map>
     </option>

@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.views.activities.DiscussionActivity;
+import www.kaznu.kz.projects.m2.views.activities.DiscussionAdminActivity;
 
 public class PushNotificationService extends FirebaseMessagingService {
 
@@ -31,24 +32,29 @@ public class PushNotificationService extends FirebaseMessagingService {
         String text = remoteMessage.getNotification().getBody();
         int contact = 0;
         int refRealty = 0;
-        boolean isOwner;
+        boolean isOwner = false;
         JSONObject data = new JSONObject(remoteMessage.getData());
         try {
             contact = data.getInt("contact");
             refRealty = data.getInt("refRealty");
-            isOwner = false;
+            isOwner = data.getBoolean("isowner");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
         final String CHANNEL_ID = "NOTIFICATION";
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Intent notifyIntent = new Intent(this, DiscussionActivity.class);
+
+            Intent notifyIntent;
+            if(isOwner) {
+                notifyIntent = new Intent(this, DiscussionAdminActivity.class);
+            } else {
+                notifyIntent = new Intent(this, DiscussionActivity.class);
+            }
             notifyIntent.putExtra("contact", contact);
             notifyIntent.putExtra("ref_realty", refRealty);
-            notifyIntent.putExtra("owner", false);
+            notifyIntent.putExtra("owner", isOwner);
             notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             @SuppressLint("UnspecifiedImmutableFlag") PendingIntent notifyPendingIntent = PendingIntent.getActivity(
