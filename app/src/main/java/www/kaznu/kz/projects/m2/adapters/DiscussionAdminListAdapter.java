@@ -490,7 +490,6 @@ public class DiscussionAdminListAdapter extends RecyclerView.Adapter {
             tvAlert = itemView.findViewById(R.id.tv_alert);
             tvMessageDate = itemView.findViewById(R.id.tv_message_date);
             btnCancel = itemView.findViewById(R.id.btn_cancel);
-
         }
 
         @SuppressLint("ResourceAsColor")
