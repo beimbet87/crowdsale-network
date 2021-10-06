@@ -6,24 +6,24 @@
 
 
     <TextView
-        style="@style/TextView.Style.Hint"
         android:id="@+id/tv_message_date"
+        style="@style/TextView.Style.Hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="6dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_background_gray"
-        android:layout_gravity="center_horizontal"
-        android:text="13.12.2020"/>
+        android:padding="6dp"
+        android:text="13.12.2020" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/message_to_admin"
+        android:background="@drawable/message_to"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -33,11 +33,11 @@
             android:paddingBottom="16dp">
 
             <TextView
-                android:id="@+id/message_body"
+                android:id="@+id/tv_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Предложение аренды"
+                android:text="Запрос на бронирование"
                 android:textColor="@color/color_primary_dark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="14 дек 2020"
                     android:textColor="@color/color_primary_dark"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="15 дек 2020"
                     android:textColor="@color/color_primary_dark"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:text="400 000 ₸"
                     android:textColor="@color/color_primary_dark"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:text="400 000 ₸"
                     android:textColor="@color/color_primary_dark"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -156,17 +156,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Ожидает ответа гостя"
+            android:text="Ожидает ответа хозяина"
             android:textColor="@color/color_primary_dark"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btn_cancel"
-            style="@style/Button.Style.Discussion.Blue"
+            android:id="@+id/btn_to_owner_cancel"
+            style="@style/Button.Style.Blue"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginTop="14dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
             android:text="Отмена" />
 
         <TextView

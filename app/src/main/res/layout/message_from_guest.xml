@@ -24,7 +24,7 @@
         android:layout_marginBottom="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/message_avatar"
+            android:id="@+id/iv_profile_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
@@ -38,7 +38,7 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/message_body"
+                android:id="@+id/tv_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Здравствуйте, сделаю вам скидку - 10%. Что скажете?"

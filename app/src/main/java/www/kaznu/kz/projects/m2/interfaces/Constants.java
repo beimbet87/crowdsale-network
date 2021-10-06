@@ -107,4 +107,21 @@ public interface Constants {
     String SHARED_OWNER_MESSAGE_LIST = "OWNER_MESSAGE_LIST";
 
     String SHARED_IS_INTRO = "IS_INTRO";
+
+    int MESSAGE_TYPE_SENT             = 1;
+    int MESSAGE_TYPE_RECEIVED         = 2;
+    int MESSAGE_TYPE_REQUEST_GUEST    = 21;
+    int MESSAGE_TYPE_REQUEST_OWNER    = 22;
+    int MESSAGE_TYPE_ACCEPTED_GUEST   = 32;
+    int MESSAGE_TYPE_ACCEPTED_OWNER   = 31;
+    int MESSAGE_TYPE_REJECTED_GUEST   = 42;
+    int MESSAGE_TYPE_REJECTED_OWNER   = 41;
+    int MESSAGE_TYPE_PAYMENT          = 51;
+    int MESSAGE_TYPE_PAYMENT_ACCEPTED = 52;
+    int MESSAGE_TYPE_FINISH           = 6;
+    int MESSAGE_TYPE_RATE_USER        = 73;
+    int MESSAGE_TYPE_RATE_REALTY      = 71;
+    int MESSAGE_TYPE_RATE_FINISHED    = 72;
+    int MESSAGE_TYPE_DEPRECATED       = 9;
+
 }

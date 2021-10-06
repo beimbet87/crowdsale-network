@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -38,7 +39,6 @@ public class MessageListFragmentAdmin extends Fragment {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private MessageListAdapter mAdapter;
     private MessageListFragmentAdminViewModel mMessageListFragmentAdminViewModel;
     private CurrentUser user;
 
@@ -47,7 +47,7 @@ public class MessageListFragmentAdmin extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         ViewGroup root;
@@ -61,32 +61,23 @@ public class MessageListFragmentAdmin extends Fragment {
             mProgressBar = root.findViewById(R.id.pb_message_list);
 
             MessageListData adminMessageList = new MessageListData(requireContext(), 0, new Tokens(requireContext()).getAccessToken());
-            adminMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
-                @Override
-                public void onComplete(int code, String message, ArrayList<Chat> chats) {
-                    if (chats.size() > 0) {
-                        Log.d(Constants.TAG, chats.get(0).getCount() + " admin messages");
-                        TinyDB data = new TinyDB(requireContext());
-                        data.putListMessageModel(SHARED_USER_ADMIN_MESSAGE_LIST, chats);
+            adminMessageList.setOnLoadListener((code, message, chats) -> {
+                if (chats.size() > 0) {
+                    TinyDB data = new TinyDB(requireContext());
+                    data.putListMessageModel(SHARED_USER_ADMIN_MESSAGE_LIST, chats);
 
-                        user = new CurrentUser(requireContext());
+                    user = new CurrentUser(requireContext());
 
-                        Log.d(Constants.TAG, user.getClientMessageList().get(0).getCount() + " admin messages");
+                    Log.d(Constants.TAG, user.getClientMessageList().get(0).getCount() + " admin messages");
 
-                        if (user.getClientMessageList().size() > 0) {
-                            mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
-                            mMessageListFragmentAdminViewModel.init(user);
+                    if (user.getClientMessageList().size() > 0) {
+                        mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
+                        mMessageListFragmentAdminViewModel.init(user);
 
-                            mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
-                                @SuppressLint("NotifyDataSetChanged")
-                                @Override
-                                public void onChanged(ArrayList<MessageList> messageLists) {
-                                    Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " admin messages");
-                                    initRecyclerView(messageLists);
-                                }
-
-                            });
-                        }
+                        mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), messageLists -> {
+                            Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " admin messages");
+                            initRecyclerView(messageLists);
+                        });
                     }
                 }
             });
@@ -105,36 +96,28 @@ public class MessageListFragmentAdmin extends Fragment {
         super.onResume();
 
         MessageListData adminMessageList = new MessageListData(requireContext(), 1, new Tokens(requireContext()).getAccessToken());
-        adminMessageList.setOnLoadListener(new MessageListData.CustomOnLoadListener() {
-            @Override
-            public void onComplete(int code, String message, ArrayList<Chat> chats) {
-                if (chats.size() > 0) {
-                    Log.d(Constants.TAG, chats.get(0).getCount() + " admin messages");
-                    TinyDB data = new TinyDB(requireContext());
-                    data.putListMessageModel(SHARED_OWNER_MESSAGE_LIST, chats);
+        adminMessageList.setOnLoadListener((code, message, chats) -> {
+            if (chats.size() > 0) {
+                Log.d(Constants.TAG, chats.get(0).getCount() + " admin messages");
+                TinyDB data = new TinyDB(requireContext());
+                data.putListMessageModel(SHARED_OWNER_MESSAGE_LIST, chats);
 
-                    user = new CurrentUser(requireContext());
+                user = new CurrentUser(requireContext());
 
-                    Log.d(Constants.TAG, user.getOwnerMessageList().get(0).getCount() + " messages");
+                Log.d(Constants.TAG, user.getOwnerMessageList().get(0).getCount() + " messages");
 
-                    if (user.getOwnerMessageList().size() > 0) {
-                        mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
-                        mMessageListFragmentAdminViewModel.init(user);
+                if (user.getOwnerMessageList().size() > 0) {
+                    mMessageListFragmentAdminViewModel = new ViewModelProvider(requireActivity()).get(MessageListFragmentAdminViewModel.class);
+                    mMessageListFragmentAdminViewModel.init(user);
 
-                        mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), new Observer<ArrayList<MessageList>>() {
-                            @SuppressLint("NotifyDataSetChanged")
-                            @Override
-                            public void onChanged(ArrayList<MessageList> messageLists) {
-                                Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " messages");
-                                initRecyclerView(messageLists);
-                            }
-
-                        });
-                    }
+                    mMessageListFragmentAdminViewModel.getMessageList().observe(getViewLifecycleOwner(), messageLists -> {
+                        Log.d(Constants.TAG, messageLists.get(0).getMessageCount() + " messages");
+                        initRecyclerView(messageLists);
+                    });
                 }
-                else {
-                    Log.d(Constants.TAG, "Loading ...");
-                }
+            }
+            else {
+                Log.d(Constants.TAG, "Loading ...");
             }
         });
 
@@ -154,7 +137,7 @@ public class MessageListFragmentAdmin extends Fragment {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         mRecyclerView.setItemAnimator(itemAnimator);
 
-        mAdapter = null;
+        MessageListAdapter mAdapter = null;
         mAdapter = new MessageListAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         mRecyclerView.setAdapter(mAdapter);

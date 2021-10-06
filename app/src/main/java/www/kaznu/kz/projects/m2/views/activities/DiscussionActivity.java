@@ -2,11 +2,11 @@ package www.kaznu.kz.projects.m2.views.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import www.kaznu.kz.projects.m2.MainActivity;
@@ -32,7 +33,9 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.DiscussionListAdapter;
 import www.kaznu.kz.projects.m2.api.pusher.Conversations;
 import www.kaznu.kz.projects.m2.api.pusher.RequestMessage;
+import www.kaznu.kz.projects.m2.api.pusher.ResponseMessage;
 import www.kaznu.kz.projects.m2.api.pusher.SendMessage;
+import www.kaznu.kz.projects.m2.interfaces.ClickListener;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.interfaces.ILoadDiscussion;
 import www.kaznu.kz.projects.m2.models.Message;
@@ -103,7 +106,136 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
         mMessageRecycler = findViewById(R.id.reyclerview_message_list);
 
         conversations.setOnLoadListener((data, message, messages) -> {
-            mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages);
+            mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages, refRealty, new ClickListener() {
+                @Override
+                public void onClick(int index, int buttonId) {
+                    if(buttonId == R.id.btn_to_owner_cancel) {
+                        Log.d(Constants.TAG, refRealty + "");
+                        Message data = new Message();
+                        data.setGuest(true);
+                        data.setAccept(0);
+                        data.setIdBook(messages.get(index).getIdBook());
+                        data.setRefReceiver(messages.get(index).getRefReceiver());
+                        data.setRefRealty(refRealty);
+
+                        ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                        responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                            @Override
+                            public void onComplete(int code, String message1) {
+                                Toast.makeText(getApplicationContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+
+                                conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                    @Override
+                                    public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                        mMessageAdapter.update(messages);
+                                    }
+                                });
+
+                                mMessageAdapter.notifyDataSetChanged();
+                                mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                    @Override
+                                    public void onLoadDiscussions() {
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                            }
+                                        }, 1000);
+                                    }
+                                });
+                            }
+                        });
+                    } else if(buttonId == R.id.btn_from_owner_cancel) {
+
+                        Message data = new Message();
+                        data.setGuest(true);
+                        data.setAccept(0);
+                        data.setIdBook(messages.get(index).getIdBook());
+                        data.setRefReceiver(messages.get(index).getRefSender());
+                        data.setRefRealty(refRealty);
+
+                        ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                        responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                            @Override
+                            public void onComplete(int code, String message1) {
+                                Toast.makeText(getApplicationContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+
+                                conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                    @Override
+                                    public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                        mMessageAdapter.update(messages);
+                                    }
+                                });
+
+                                mMessageAdapter.notifyDataSetChanged();
+                                mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                    @Override
+                                    public void onLoadDiscussions() {
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                            }
+                                        }, 1000);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else if(buttonId == R.id.btn_from_owner_accept) {
+
+                        Message data = new Message();
+                        data.setGuest(true);
+                        data.setAccept(1);
+                        data.setIdBook(messages.get(index).getIdBook());
+                        data.setRefReceiver(messages.get(index).getRefSender());
+                        data.setRefRealty(refRealty);
+
+                        ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                        responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                            @Override
+                            public void onComplete(int code, String message1) {
+                                Toast.makeText(getApplicationContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+
+                                conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                    @Override
+                                    public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                        mMessageAdapter.update(messages);
+                                    }
+                                });
+
+                                mMessageAdapter.notifyDataSetChanged();
+                                mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                    @Override
+                                    public void onLoadDiscussions() {
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                            }
+                                        }, 1000);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setReverseLayout(true);
             mMessageRecycler.setLayoutManager(linearLayoutManager);
@@ -153,7 +285,136 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
             sendMessage.setOnLoadListener((code, message1) -> {
                 conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
                 conversations.setOnLoadListener((data, message11, messages) -> {
-                    mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages);
+                    mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages, refRealty, new ClickListener() {
+                        @Override
+                        public void onClick(int index, int buttonId) {
+                            if(buttonId == R.id.btn_to_owner_cancel) {
+                                Log.d(Constants.TAG, refRealty + "");
+                                Message data = new Message();
+                                data.setGuest(true);
+                                data.setAccept(0);
+                                data.setIdBook(messages.get(index).getIdBook());
+                                data.setRefReceiver(messages.get(index).getRefReceiver());
+                                data.setRefRealty(refRealty);
+
+                                ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                                responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                                    @Override
+                                    public void onComplete(int code, String message1) {
+                                        Toast.makeText(getApplicationContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+
+                                        conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                            @Override
+                                            public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                                mMessageAdapter.update(messages);
+                                            }
+                                        });
+
+                                        mMessageAdapter.notifyDataSetChanged();
+                                        mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                        mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                            @Override
+                                            public void onLoadDiscussions() {
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                                    }
+                                                }, 1000);
+                                            }
+                                        });
+                                    }
+                                });
+                            } else if(buttonId == R.id.btn_from_owner_cancel) {
+
+                                Message data = new Message();
+                                data.setGuest(true);
+                                data.setAccept(0);
+                                data.setIdBook(messages.get(index).getIdBook());
+                                data.setRefReceiver(messages.get(index).getRefSender());
+                                data.setRefRealty(refRealty);
+
+                                ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                                responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                                    @Override
+                                    public void onComplete(int code, String message1) {
+                                        Toast.makeText(getApplicationContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+
+                                        conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                            @Override
+                                            public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                                mMessageAdapter.update(messages);
+                                            }
+                                        });
+
+                                        mMessageAdapter.notifyDataSetChanged();
+                                        mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                        mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                            @Override
+                                            public void onLoadDiscussions() {
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                                    }
+                                                }, 1000);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                            else if(buttonId == R.id.btn_from_owner_accept) {
+
+                                Message data = new Message();
+                                data.setGuest(true);
+                                data.setAccept(1);
+                                data.setIdBook(messages.get(index).getIdBook());
+                                data.setRefReceiver(messages.get(index).getRefSender());
+                                data.setRefRealty(refRealty);
+
+                                ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                                responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                                    @Override
+                                    public void onComplete(int code, String message1) {
+                                        Toast.makeText(getApplicationContext(), "Удачно забронировано", Toast.LENGTH_SHORT).show();
+
+                                        conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                        conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                            @Override
+                                            public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                                mMessageAdapter.update(messages);
+                                            }
+                                        });
+
+                                        mMessageAdapter.notifyDataSetChanged();
+                                        mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                        mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                            @Override
+                                            public void onLoadDiscussions() {
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                                    }
+                                                }, 1000);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    });
                     mMessageRecycler.setAdapter(mMessageAdapter);
 //                    progressBar.setVisibility(View.VISIBLE);
 
@@ -251,7 +512,136 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
 
                     conversations.setOnLoadListener((data, message12, messages) -> {
 
-                        mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages);
+                        mMessageAdapter = new DiscussionListAdapter(getApplicationContext(), mMessageRecycler, this, messages, refRealty, new ClickListener() {
+                            @Override
+                            public void onClick(int index, int buttonId) {
+                                if(buttonId == R.id.btn_to_owner_cancel) {
+                                    Log.d(Constants.TAG, refRealty + "");
+                                    Message data = new Message();
+                                    data.setGuest(true);
+                                    data.setAccept(0);
+                                    data.setIdBook(messages.get(index).getIdBook());
+                                    data.setRefReceiver(messages.get(index).getRefReceiver());
+                                    data.setRefRealty(refRealty);
+
+                                    ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                                    responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(int code, String message1) {
+                                            Toast.makeText(getApplicationContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+
+                                            conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                            conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                                @Override
+                                                public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                                    mMessageAdapter.update(messages);
+                                                }
+                                            });
+
+                                            mMessageAdapter.notifyDataSetChanged();
+                                            mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                            mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                                @Override
+                                                public void onLoadDiscussions() {
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                                        }
+                                                    }, 1000);
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else if(buttonId == R.id.btn_from_owner_cancel) {
+
+                                    Message data = new Message();
+                                    data.setGuest(false);
+                                    data.setAccept(0);
+                                    data.setIdBook(messages.get(index).getIdBook());
+                                    data.setRefReceiver(messages.get(index).getRefReceiver());
+                                    data.setRefRealty(refRealty);
+
+                                    ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                                    responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(int code, String message1) {
+                                            Toast.makeText(getApplicationContext(), "Удачно отменено", Toast.LENGTH_SHORT).show();
+
+                                            conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                            conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                                @Override
+                                                public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                                    mMessageAdapter.update(messages);
+                                                }
+                                            });
+
+                                            mMessageAdapter.notifyDataSetChanged();
+                                            mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                            mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                                @Override
+                                                public void onLoadDiscussions() {
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                                        }
+                                                    }, 1000);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                                else if(buttonId == R.id.btn_from_owner_accept) {
+
+                                    Message data = new Message();
+                                    data.setGuest(false);
+                                    data.setAccept(1);
+                                    data.setIdBook(messages.get(index).getIdBook());
+                                    data.setRefReceiver(messages.get(index).getRefReceiver());
+                                    data.setRefRealty(refRealty);
+
+                                    ResponseMessage responseMessage = new ResponseMessage(getApplicationContext(), data, new Tokens(getApplicationContext()).getAccessToken());
+
+                                    responseMessage.setOnLoadListener(new ResponseMessage.CustomOnLoadListener() {
+                                        @Override
+                                        public void onComplete(int code, String message1) {
+                                            Toast.makeText(getApplicationContext(), "Удачно забронировано", Toast.LENGTH_SHORT).show();
+
+                                            conversations = new Conversations(getApplicationContext(), contact, refRealty, tokens.getAccessToken());
+                                            conversations.setOnLoadListener(new Conversations.CustomOnLoadListener() {
+                                                @Override
+                                                public void onComplete(int data, String message, ArrayList<Message> messages) {
+                                                    mMessageAdapter.update(messages);
+                                                }
+                                            });
+
+                                            mMessageAdapter.notifyDataSetChanged();
+                                            mMessageRecycler.setAdapter(mMessageAdapter);
+
+                                            mMessageAdapter.setDiscussion(new ILoadDiscussion() {
+                                                @Override
+                                                public void onLoadDiscussions() {
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            mMessageAdapter.notifyDataSetChanged();
+//                                    mMessageAdapter.setLoaded();
+                                                        }
+                                                    }, 1000);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
                         mMessageRecycler.setAdapter(mMessageAdapter);
 //                        progressBar.setVisibility(View.VISIBLE);
                         mMessageAdapter.setDiscussion(new ILoadDiscussion() {

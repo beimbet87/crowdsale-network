@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/tv_message_date"
         style="@style/TextView.Style.Hint"
@@ -26,7 +25,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/message_avatar"
+            android:id="@+id/iv_profile_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
@@ -35,39 +34,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/message_to"
+            android:background="@drawable/message_from"
             android:orientation="vertical"
             android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="@drawable/border_message_bottom"
                 android:paddingBottom="16dp">
 
                 <TextView
-                    android:id="@+id/message_body"
+                    android:id="@+id/tv_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Запрос бронирования"
+                    android:text="Предложение аренды:"
                     android:textColor="@color/color_primary_dark"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:text="Внимательно проверьте даты и стоимость!"
-                    android:textColor="@color/color_primary_dark"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/border_message_bottom"
                 android:orientation="horizontal"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp">
@@ -76,21 +66,24 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/border_message_start"
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/TextView.Style.Hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Дата заезда:" />
+                        android:text="Дата заезда:"
+                        android:textColor="@color/color_primary_dark"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_date_from"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="14 дек 2020"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="14sp" />
+                        android:textColor="@color/color_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -102,18 +95,20 @@
                     android:paddingStart="16dp">
 
                     <TextView
-                        style="@style/TextView.Style.Hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Дата выезда:" />
+                        android:text="Дата выезда:"
+                        android:textColor="@color/color_primary_dark"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_date_to"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="15 дек 2020"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="14sp" />
+                        android:textColor="@color/color_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -122,29 +117,34 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/border_message_bottom"
                 android:orientation="horizontal"
                 android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingBottom="16dp"
+                android:layout_marginBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/border_message_start"
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/TextView.Style.Hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Стоимость в сутки:" />
+                        android:text="Стоимость в сутки:"
+                        android:textColor="@color/color_primary_dark"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="400 000 ₸"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="14sp" />
+                        android:textColor="@color/color_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -156,18 +156,20 @@
                     android:paddingStart="16dp">
 
                     <TextView
-                        style="@style/TextView.Style.Hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Итоговая сумма:" />
+                        android:text="Итоговая сумма:"
+                        android:textColor="@color/color_primary_dark"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="400 000 ₸"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="14sp" />
+                        android:text="1 530 000 ₸"
+                        android:textColor="@color/color_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -182,45 +184,43 @@
                 android:textColor="@color/color_primary_dark"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
+
                 <Button
-                    android:id="@+id/btn_accept"
+                    android:id="@+id/btn_from_owner_accept"
                     style="@style/Button.Style.Discussion.Blue"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="36dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
                     android:text="Принять" />
 
                 <Button
-                    android:id="@+id/btn_decline"
+                    android:id="@+id/btn_from_owner_cancel"
                     style="@style/Button.Style.Discussion.Blue"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="36dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     android:text="Отклонить" />
 
             </LinearLayout>
-
 
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="13:52"
                 android:textColor="#7F7F7F"
                 android:textSize="13sp" />
 
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

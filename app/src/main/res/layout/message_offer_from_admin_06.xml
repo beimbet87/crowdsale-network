@@ -34,7 +34,7 @@
             android:paddingBottom="16dp">
 
             <TextView
-                android:id="@+id/message_body"
+                android:id="@+id/tv_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

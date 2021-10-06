@@ -50,8 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Поставьте оценку и напишите отзыв гостю
-"
+                    android:text="Поздравляем!"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -61,19 +60,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="Мы стараемся, чтобы гости соблюдали ваши требования!
-"
+                    android:text="Успешно бронировано! Информация добавлено в Ваш раздел бронирования."
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/btn_comment"
+                android:id="@+id/btn_goto_booking"
                 style="@style/Button.Style.Comment"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_marginTop="14dp"
-                android:text="Оставить отзыв" />
+                android:text="Перейти в бронирование" />
 
             <TextView
                 android:id="@+id/tv_time"
