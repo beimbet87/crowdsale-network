@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
@@ -37,7 +38,7 @@ public class AccountFragment extends Fragment implements Constants,
     }
 
     public interface DataFromAccountFragment {
-        public void FromAccountFragment(boolean isMode);
+        void FromAccountFragment(boolean isMode);
     }
 
     SwitchCompat userMode;
@@ -153,7 +154,7 @@ public class AccountFragment extends Fragment implements Constants,
     DataFromAccountFragment dataPasser;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         dataPasser = (DataFromAccountFragment) context;
     }

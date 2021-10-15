@@ -45,10 +45,6 @@ public class ScheduleAdminFragment extends Fragment {
 
             root = (ViewGroup) inflater.inflate(R.layout.fragment_schedule_admin, container, false);
 
-            tvCurrentDate = root.findViewById(R.id.tv_date_now);
-
-            tvCurrentDate.setText("СЕГОДНЯ - ".concat(Utils.getCurrentFullDate()));
-
             ArrayList<ScheduleSection> result = user.getScheduleSection();
 
             lView = root.findViewById(R.id.lv_accepted_booking_admin);

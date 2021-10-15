@@ -39,15 +39,12 @@ public class BookingFragment extends Fragment {
             lView = root.findViewById(R.id.lv_accepted_booking);
             acceptedLView = root.findViewById(R.id.lv_booking_history);
 
-            lAdapter = new BookingAdapter(requireContext(), user.getOwnersBooks());
-            acceptedLAdapter = new BookingAdapter(requireContext(), user.getOwnersBooksHistory());
+            lAdapter = new BookingAdapter(requireContext(), user.getClientBooks());
+            acceptedLAdapter = new BookingAdapter(requireContext(), user.getClientBooksHistory());
 
             lView.setAdapter(lAdapter);
 
-            lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                }
+            lView.setOnItemClickListener((adapterView, view, i, l) -> {
             });
 
             acceptedLView.setAdapter(acceptedLAdapter);

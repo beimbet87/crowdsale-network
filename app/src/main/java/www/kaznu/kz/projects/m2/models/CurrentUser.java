@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
@@ -214,6 +215,16 @@ public class CurrentUser implements Constants {
     public ArrayList<ScheduleSection> getScheduleSection() {
         ArrayList<ScheduleSection> result = new ArrayList<>();
         ArrayList<BookingApplication> items = new ArrayList<>();
+
+        for (int i = 0; i < getOwnersBooks().size(); i++) {
+
+            String sectionTitle = "СЕГОДНЯ - ".concat(Utils.getCurrentFullDate());
+            items.add(getOwnersBooks().get(i));
+            ScheduleSection data = new ScheduleSection(sectionTitle, items);
+            result.add(data);
+            items = new ArrayList<>();
+        }
+
 
         for (int i = 1; i < getOwnersBooksHistory().size(); i++) {
 

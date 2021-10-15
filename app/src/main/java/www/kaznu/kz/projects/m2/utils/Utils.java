@@ -212,6 +212,8 @@ public class Utils {
         try {
             startDate = dateFormat.parse(start);
             endDate = dateFormat.parse(end);
+            assert startDate != null;
+            assert endDate != null;
             numberOfDays = getUnitBetweenDates(startDate, endDate);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -233,11 +235,7 @@ public class Utils {
                 .setMessage("Вы действительно хотите выйти?")
                 .setCancelable(false)
 
-                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        activity.finish();
-                    }
-                })
+                .setPositiveButton("Да", (dialog, id) -> activity.finish())
                 .setNegativeButton("Нет", null)
                 .show();
     }

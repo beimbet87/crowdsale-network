@@ -44,42 +44,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_bottom"
-                    android:paddingStart="16dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_date_now"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="СЕГОДНЯ - 4 мая 2020"
-                        android:textAllCaps="false"
-                        android:textColor="@color/color_primary_hint"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_bottom"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Сегодня событий нет"
-                        android:textAllCaps="false"
-                        android:textColor="@color/color_primary_dark"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/lv_accepted_booking_admin"
                     android:layout_width="match_parent"
