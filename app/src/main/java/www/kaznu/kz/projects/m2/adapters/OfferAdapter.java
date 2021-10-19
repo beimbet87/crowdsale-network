@@ -60,10 +60,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
             super(itemView);
 
             titles = itemView.findViewById(R.id.tv_title);
-            address = itemView.findViewById(R.id.tv_message_title);
+            address = itemView.findViewById(R.id.tv_address);
             price = itemView.findViewById(R.id.tv_price);
             ratingBar = itemView.findViewById(R.id.rating_stars);
-            icon = itemView.findViewById(R.id.iv_icon);
+            icon = itemView.findViewById(R.id.iv_avatar);
             flowLayout = itemView.findViewById(R.id.offer_properties);
         }
     }

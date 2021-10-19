@@ -1,5 +1,6 @@
 package www.kaznu.kz.projects.m2.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class SearchAddressAdapter extends RecyclerView.Adapter<SearchAddressAdap
         return predictions.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setPredictions(List<AutocompletePrediction> predictions) {
         this.predictions.clear();
         this.predictions.addAll(predictions);

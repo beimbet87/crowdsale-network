@@ -21,7 +21,7 @@ import www.kaznu.kz.projects.m2.utils.Utils;
 public class BookingItemAdapterAdmin extends RecyclerView.Adapter<BookingItemAdapterAdmin.ViewHolder> implements Constants {
 
     ArrayList<BookingApplication> items;
-    private static BookingItemAdapterAdmin.ClickListener clickListener;
+    private static ClickListener clickListener;
 
     public BookingItemAdapterAdmin(ArrayList<BookingApplication> items) {
         this.items = items;
@@ -75,9 +75,9 @@ public class BookingItemAdapterAdmin extends RecyclerView.Adapter<BookingItemAda
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            tvTitle = itemView.findViewById(R.id.tv_message_title);
+            tvTitle = itemView.findViewById(R.id.tv_address);
             tvDate = itemView.findViewById(R.id.tv_date_interval);
-            ivIcon = itemView.findViewById(R.id.iv_icon);
+            ivIcon = itemView.findViewById(R.id.iv_avatar);
         }
 
         @Override
@@ -92,7 +92,7 @@ public class BookingItemAdapterAdmin extends RecyclerView.Adapter<BookingItemAda
         }
     }
 
-    public void setOnItemClickListener(BookingItemAdapterAdmin.ClickListener clickListener) {
+    public void setOnItemClickListener(ClickListener clickListener) {
         BookingItemAdapterAdmin.clickListener = clickListener;
     }
 

@@ -21,6 +21,7 @@ public interface Constants {
     String URL_GET_CLIENT_BOOKINGS = BASE_URL.concat("api/Book/getClientBookings");
     String URL_GET_OWNER_BOOKING = BASE_URL.concat("api/Book/getOwnerBooking");
     String URL_FILTER_OFFERS = BASE_URL.concat("api/Realty/filterOffers");
+    String URL_GET_OFFER_BY_ID = BASE_URL.concat("api/Realty/getOfferById");
     String URL_GET_RELEVANT_OFFERS = BASE_URL.concat("api/Realty/getRelevantOffers");
     String URL_RESERVE_NEW_REALTY = BASE_URL.concat("api/Realty/reservNewReality");
     String URL_UPDATE_REALTY = BASE_URL.concat("api/Realty/update");

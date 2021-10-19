@@ -235,6 +235,16 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                         });
                     }
                 }
+
+                @Override
+                public void onItemClick(int position, View v) {
+
+                }
+
+                @Override
+                public void onItemLongClick(int position, View v) {
+
+                }
             });
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -421,6 +431,16 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                                             }
                                         });
                                     }
+                                }
+
+                                @Override
+                                public void onItemClick(int position, View v) {
+
+                                }
+
+                                @Override
+                                public void onItemLongClick(int position, View v) {
+
                                 }
                             });
 
@@ -657,6 +677,16 @@ public class DiscussionAdminActivity extends AppCompatActivity implements Consta
                                         }
                                     });
                                 }
+                            }
+
+                            @Override
+                            public void onItemClick(int position, View v) {
+
+                            }
+
+                            @Override
+                            public void onItemLongClick(int position, View v) {
+
                             }
                         });
                         mMessageAdapter.notifyDataSetChanged();

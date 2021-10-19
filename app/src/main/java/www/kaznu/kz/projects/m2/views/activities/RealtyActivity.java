@@ -1,8 +1,10 @@
 package www.kaznu.kz.projects.m2.views.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,9 +32,11 @@ import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.ImageAdapter;
 import www.kaznu.kz.projects.m2.api.RealtyProperties;
 import www.kaznu.kz.projects.m2.api.rate.RealtyRate;
+import www.kaznu.kz.projects.m2.api.user.UserInfoWithID;
 import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.models.RateModel;
 import www.kaznu.kz.projects.m2.models.Tokens;
+import www.kaznu.kz.projects.m2.models.User;
 import www.kaznu.kz.projects.m2.services.GPSTracker;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
@@ -73,7 +78,7 @@ public class RealtyActivity extends IntroActivity {
         setContentView(R.layout.activity_realty);
         linearLayout = findViewById(R.id.realty_info);
         tvRealtyTitle = findViewById(R.id.realty_title);
-        tvAddress = findViewById(R.id.tv_message_title);
+        tvAddress = findViewById(R.id.tv_address);
         tvPrice = findViewById(R.id.tv_price);
         tvOwner = findViewById(R.id.tv_name);
         tvBody = findViewById(R.id.tv_body);
@@ -205,10 +210,18 @@ public class RealtyActivity extends IntroActivity {
         btnRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(RealtyActivity.this, DiscussionActivity.class);
-                i.putExtra("contact", intent.getIntExtra("contact", 1));
-                i.putExtra("ref_realty", intent.getIntExtra("ref_realty", 45));
-                startActivity(i);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(),android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    new UserInfoWithID(getApplicationContext(), Integer.toString(intent.getIntExtra("contact", 1)), new Tokens(getApplicationContext()).getAccessToken()).setOnLoadListener(new UserInfoWithID.CustomOnLoadListener() {
+                        @Override
+                        public void onComplete(User data) {
+                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + data.getPhone()));
+                            startActivity(intent);
+                        }
+                    });
+
+                }
             }
         });
 
@@ -320,7 +333,6 @@ public class RealtyActivity extends IntroActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(RealtyActivity.this, OfferActivity.class);
-        startActivity(intent);
+        finish();
     }
 }

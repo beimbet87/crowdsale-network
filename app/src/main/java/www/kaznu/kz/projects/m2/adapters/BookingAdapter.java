@@ -1,97 +1,105 @@
 package www.kaznu.kz.projects.m2.adapters;
 
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.interfaces.ClickListener;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.BookingApplication;
+import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
-public class BookingAdapter extends BaseAdapter {
+public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHolder> implements Constants {
 
-    Context context;
-    private ArrayList<BookingApplication> booking;
+    private final ArrayList<BookingApplication> booking;
+    private static ClickListener listener;
 
-    public BookingAdapter(Context context, ArrayList<BookingApplication> booking){
-        //super(context, R.layout.single_list_app_item, utilsArrayList);
-        this.context = context;
+    public BookingAdapter(ArrayList<BookingApplication> booking){
         this.booking = booking;
     }
 
-    public BookingAdapter() {
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.booking_list_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return booking.size();
-    }
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        BookingApplication data = booking.get(position);
+        String address = data.getAddress();
 
-    @Override
-    public Object getItem(int i) {
-        return i;
-    }
+        Logger.d("Address is: " + address);
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-
-        ViewHolder viewHolder;
-
-        final View result;
-
-        if (convertView == null) {
-
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.booking_list_item, parent, false);
-            viewHolder.address = convertView.findViewById(R.id.tv_message_title);
-            viewHolder.date = convertView.findViewById(R.id.tv_last_message);
-            viewHolder.icon = convertView.findViewById(R.id.iv_icon);
-
-
-            result=convertView;
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
+        if(data.getAddress() == null || data.getAddress().equals("") || data.getAddress().equals("null")) {
+            address = "Адрес по умолчанию";
         }
 
         StringBuilder date = new StringBuilder();
-        date.append(Utils.parseDateWithDot(booking.get(position).getTimeStart())).append(" - ");
-        date.append(Utils.parseDateWithDot(booking.get(position).getTimeEnd()));
+        date.append(Utils.parseDateWithoutYear(data.getTimeStart())).append(" - ");
+        date.append(Utils.parseDateWithoutYear(data.getTimeEnd()));
 
-        viewHolder.address.setText(booking.get(position).getAddress());
-        viewHolder.date.setText(date);
-        Picasso.get().load(Constants.BASE_URL.concat(booking.get(position).getLinkImage())).into(viewHolder.icon);
+        holder.tvAddress.setText(address);
+        holder.tvDate.setText(date);
 
-        return convertView;
+        if(data.getLinkImage().equals("")) {
+            holder.ivAvatar.setImageResource(R.drawable.default_appartment);
+        } else {
+            String url = BASE_URL + data.getLinkImage();
+            Picasso.get().load(url).into(holder.ivAvatar);
+        }
+
+        Logger.d("Booking list size: " + getItemCount());
     }
 
-    private static class ViewHolder {
-
-        TextView address;
-        TextView date;
-        ImageView icon;
-
+    @Override
+    public int getItemCount() {
+        return booking.size();
     }
 
+    public void setOnClickListener(ClickListener listener) {
+        BookingAdapter.listener = listener;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+
+        TextView tvAddress, tvDate;
+        ImageView ivAvatar;
+
+        public ViewHolder(@NonNull View root) {
+            super(root);
+
+            root.setOnClickListener(this);
+            root.setOnLongClickListener(this);
+
+            tvAddress = root.findViewById(R.id.tv_address);
+            tvDate = root.findViewById(R.id.tv_date);
+            ivAvatar = root.findViewById(R.id.iv_avatar);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onItemClick(getAbsoluteAdapterPosition(), view);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            listener.onItemLongClick(getAbsoluteAdapterPosition(), view);
+            return false;
+        }
+    }
 }

@@ -55,8 +55,7 @@ public class ClientBookings implements Constants {
     public void setOnLoadListener(CustomOnLoadListener listener) {
         this.listener = listener;
     }
-
-
+    
     public ClientBookings(Context context, String token) {
 
         this.activeBookings = new ArrayList<>();

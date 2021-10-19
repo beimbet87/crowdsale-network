@@ -67,11 +67,11 @@ public class UnpublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             itemView.setOnLongClickListener(this);
 
             tvTitle = itemView.findViewById(R.id.tv_title);
-            tvAddress = itemView.findViewById(R.id.tv_message_title);
+            tvAddress = itemView.findViewById(R.id.tv_address);
             tvCount = itemView.findViewById(R.id.tv_message_count);
             tvPrice = itemView.findViewById(R.id.tv_price);
             tvRooms = itemView.findViewById(R.id.tv_rooms);
-            ivIcon = itemView.findViewById(R.id.iv_icon);
+            ivIcon = itemView.findViewById(R.id.iv_avatar);
         }
 
         void bind(Offers offers, Context context, int position, int num) {

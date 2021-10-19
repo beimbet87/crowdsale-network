@@ -235,6 +235,16 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                         });
                     }
                 }
+
+                @Override
+                public void onItemClick(int position, View v) {
+
+                }
+
+                @Override
+                public void onItemLongClick(int position, View v) {
+
+                }
             });
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setReverseLayout(true);
@@ -413,6 +423,16 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                                     }
                                 });
                             }
+                        }
+
+                        @Override
+                        public void onItemClick(int position, View v) {
+
+                        }
+
+                        @Override
+                        public void onItemLongClick(int position, View v) {
+
                         }
                     });
                     mMessageRecycler.setAdapter(mMessageAdapter);
@@ -640,6 +660,16 @@ public class DiscussionActivity extends AppCompatActivity implements Constants {
                                         }
                                     });
                                 }
+                            }
+
+                            @Override
+                            public void onItemClick(int position, View v) {
+
+                            }
+
+                            @Override
+                            public void onItemLongClick(int position, View v) {
+
                             }
                         });
                         mMessageRecycler.setAdapter(mMessageAdapter);

@@ -62,10 +62,10 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            userName = itemView.findViewById(R.id.tv_message_title);
-            messages = itemView.findViewById(R.id.tv_last_message);
+            userName = itemView.findViewById(R.id.tv_address);
+            messages = itemView.findViewById(R.id.tv_date);
             messageCounts = itemView.findViewById(R.id.tv_message_count);
-            icon = itemView.findViewById(R.id.iv_icon);
+            icon = itemView.findViewById(R.id.iv_avatar);
         }
 
         void bind(MessageList chat) {

@@ -42,15 +42,16 @@ import www.kaznu.kz.projects.m2.adapters.LatLngAdapter;
 import www.kaznu.kz.projects.m2.adapters.SearchAddressAdapter;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.GeocodingResult;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class SearchAddressActivity extends AppCompatActivity {
 
     Button btnClose;
     EditText etAddress;
     RecyclerView listView;
-    private Handler handler = new Handler();
-    private SearchAddressAdapter adapter = new SearchAddressAdapter();
-    private Gson gson = new GsonBuilder()
+    private final Handler handler = new Handler();
+    private final SearchAddressAdapter adapter = new SearchAddressAdapter();
+    private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LatLng.class, new LatLngAdapter())
             .create();
 
@@ -98,7 +99,7 @@ public class SearchAddressActivity extends AppCompatActivity {
                 // Start a new place prediction request in 300 ms
                 handler.postDelayed(() -> {
                     getPlacePredictions(s.toString());
-                }, 300);
+                }, 1000);
             }
 
             @Override
@@ -116,6 +117,8 @@ public class SearchAddressActivity extends AppCompatActivity {
 
             final String url = "https://maps.googleapis.com/maps/api/geocode/json?place_id=%s&key=%s";
             final String requestURL = String.format(url, place.getPlaceId(), apiKey);
+
+            Logger.d(requestURL);
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, requestURL, null,
                     response -> {
@@ -174,7 +177,7 @@ public class SearchAddressActivity extends AppCompatActivity {
             progressBar.setIndeterminate(false);
             if (exception instanceof ApiException) {
                 ApiException apiException = (ApiException) exception;
-                Log.e(Constants.TAG, "Place not found: " + apiException.getStatusCode());
+                Log.d(Constants.TAG, "Place not found: " + apiException.getStatusCode());
             }
         });
     }

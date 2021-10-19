@@ -50,7 +50,7 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.MyViewHold
             titles = itemView.findViewById(R.id.tv_name_title);
             comment = itemView.findViewById(R.id.tv_comment);
             ratingBar = itemView.findViewById(R.id.rating_stars);
-            icon = itemView.findViewById(R.id.iv_icon);
+            icon = itemView.findViewById(R.id.iv_avatar);
         }
     }
 

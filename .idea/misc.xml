@@ -47,9 +47,16 @@
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_07.xml" value="0.2234375" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/layout/message_offer_from_admin_accept.xml" value="0.264" />
         <entry key="..\:/projects/androidm2/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/activity_offer.xml" value="0.16770833333333332" />
+        <entry key="app/src/main/res/layout/activity_realty.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/booking_list_admin_header.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/booking_list_admin_item.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/booking_list_item.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/fragment_about_profile.xml" value="0.3734375" />
+        <entry key="app/src/main/res/layout/fragment_booking.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/fragment_schedule_admin.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/fragment_schedule_admin_empty.xml" value="0.3734375" />
+        <entry key="app/src/main/res/layout/item_services.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/message_accepted_guest.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/message_accepted_owner.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/message_booking.xml" value="0.3734375" />
@@ -71,6 +78,7 @@
         <entry key="app/src/main/res/layout/message_request_to_guest.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/message_request_to_owner.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/message_to.xml" value="0.3734375" />
+        <entry key="app/src/main/res/layout/search_by_address.xml" value="0.31979166666666664" />
       </map>
     </option>
   </component>
