@@ -29,6 +29,7 @@ public interface Constants {
     String URL_UPDATE_REALTY_OFFERS = BASE_URL.concat("api/Realty/updateRealtyOffers");
     String URL_REALTY_USER_APPLICATIONS = BASE_URL.concat("api/Realty/UserAplications");
     String URL_GET_MY_SEARCHES = BASE_URL.concat("api/Search/getMySearches");
+    String URL_GET_SEARCHES_FOR_REALTY_OWNER = BASE_URL.concat("api/Search/getSearchesForRealtyOwner");
     String URL_SET_SEARCH_PUBLIC = BASE_URL.concat("api/Search/setSearchPublic");
     String URL_POST_IMAGE = BASE_URL.concat("api/Upload/PostImage");
     String URL_DELETE_IMAGE = BASE_URL.concat("api/Upload/deleteImage");
