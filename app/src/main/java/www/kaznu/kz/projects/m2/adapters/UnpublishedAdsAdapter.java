@@ -67,7 +67,7 @@ public class UnpublishedAdsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             itemView.setOnLongClickListener(this);
 
             tvTitle = itemView.findViewById(R.id.tv_title);
-            tvAddress = itemView.findViewById(R.id.tv_address);
+            tvAddress = itemView.findViewById(R.id.tv_fullname);
             tvCount = itemView.findViewById(R.id.tv_message_count);
             tvPrice = itemView.findViewById(R.id.tv_price);
             tvRooms = itemView.findViewById(R.id.tv_rooms);

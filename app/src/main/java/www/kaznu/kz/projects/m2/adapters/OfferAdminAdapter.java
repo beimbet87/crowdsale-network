@@ -14,21 +14,22 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.ScaleRatingBar;
 
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
-import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.Realty;
+import www.kaznu.kz.projects.m2.models.RealtySearch;
 import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.views.customviews.FlowLayout;
 
 public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.MyViewHolder> implements Constants {
 
     Context context;
-    private ArrayList<CurrentUser> users;
+    private ArrayList<RealtySearch> searches;
     boolean [] isSelected;
     int p0, p1;
     Logger Log;
@@ -66,9 +67,9 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         }
     }
 
-    public OfferAdminAdapter(Context context, ArrayList<CurrentUser> users, int p0, int p1) {
+    public OfferAdminAdapter(Context context, ArrayList<RealtySearch> users, int p0, int p1) {
         this.context = context;
-        this.users = users;
+        this.searches = users;
         this.p0 = p0;
         this.p1 = p1;
 
@@ -84,14 +85,12 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull OfferAdminAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OfferAdminAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        CurrentUser user = this.users.get(position);
+        RealtySearch search = this.searches.get(position);
         holder.offerPanel.setVisibility(View.GONE);
 
-
-
-        String header = user.getName();
+        String header = search.getName().concat(" ").concat(search.getSurname());
 //        String cost = Utils.parsePrice((double) Math.round(user.getCost()));
 
         if (header.isEmpty() || header.equals("null")) {
@@ -99,13 +98,35 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         }
 
         holder.titles.setText(header);
-        addText("От 230 000 ₸ до 270 000 ₸", holder.flowLayout, context, p0, p1);
-        addText("01.02.2020-11.02.2020", holder.flowLayout, context, p0, p1);
-        addText("2,3 - комнатная", holder.flowLayout, context, p0, p1);
 
-        holder.ratingBar.setRating(user.getStars());
+        StringBuilder rooms = new StringBuilder();
 
-        holder.icon.setImageResource(R.drawable.ic_default_avatar);
+        for (int i = 0; i < search.getFilter().getRoomCount().size(); i++) {
+            rooms.append(search.getFilter().getRoomCount().get(i));
+            if(i != search.getFilter().getRoomCount().size() - 1) {
+                rooms.append(", ");
+            }
+        }
+
+        rooms.append(" - комнатная");
+
+        String price = "От " + search.getFilter().getCostLowerLimit() + " ₸ до " +
+                    search.getFilter().getCostUpperLimit() + " ₸";
+
+        addText(price, holder.flowLayout, context, p0, p1);
+        String rentPeriod = search.getFilter().getStartDate() + "-" +
+                search.getFilter().getEndDate();
+        addText(rentPeriod, holder.flowLayout, context, p0, p1);
+        addText(rooms.toString(), holder.flowLayout, context, p0, p1);
+
+        holder.ratingBar.setRating(5);
+
+        if(search.getUserImageUrl().equals("")) {
+            holder.icon.setImageResource(R.drawable.ic_default_avatar);
+        } else {
+            String url = BASE_URL + search.getUserImageUrl();
+            Picasso.get().load(url).into(holder.icon);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,13 +143,13 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
 
     @Override
     public int getItemCount() {
-        if (users != null)
-            return users.size();
+        if (searches != null)
+            return searches.size();
         return 0;
     }
 
     public void removeItem(int position) {
-        users.remove(position);
+        searches.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -137,8 +158,8 @@ public class OfferAdminAdapter extends RecyclerView.Adapter<OfferAdminAdapter.My
         notifyItemInserted(position);
     }
 
-    public ArrayList<CurrentUser> getData() {
-        return users;
+    public ArrayList<RealtySearch> getData() {
+        return searches;
     }
 
     public String getRooms(int rooms) {

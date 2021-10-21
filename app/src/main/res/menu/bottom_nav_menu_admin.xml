@@ -24,6 +24,13 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_search_admin"
+        android:enabled="true"
+        android:icon="@drawable/ic_agenda"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_account_admin"
         android:enabled="true"
         android:icon="@drawable/ic_person"

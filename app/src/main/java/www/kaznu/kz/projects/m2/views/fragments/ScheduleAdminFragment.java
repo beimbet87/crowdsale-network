@@ -15,8 +15,12 @@ import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.BookingAdapterAdmin;
+import www.kaznu.kz.projects.m2.api.searches.SearchesForOwnersRealty;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.models.RealtySearch;
 import www.kaznu.kz.projects.m2.models.ScheduleSection;
+import www.kaznu.kz.projects.m2.models.Tokens;
+import www.kaznu.kz.projects.m2.utils.Logger;
 import www.kaznu.kz.projects.m2.utils.Utils;
 
 public class ScheduleAdminFragment extends Fragment {
@@ -54,6 +58,7 @@ public class ScheduleAdminFragment extends Fragment {
             lAdapter = new BookingAdapterAdmin(result);
 
             lView.setAdapter(lAdapter);
+
         } else {
             root = (ViewGroup) inflater.inflate(R.layout.fragment_schedule_admin_empty, container, false);
         }

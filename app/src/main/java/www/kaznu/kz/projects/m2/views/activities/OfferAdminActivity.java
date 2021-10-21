@@ -17,10 +17,14 @@ import java.util.Objects;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.adapters.OfferAdminAdapter;
+import www.kaznu.kz.projects.m2.api.searches.SearchesForOwnersRealty;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
 import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
+import www.kaznu.kz.projects.m2.models.RealtySearch;
+import www.kaznu.kz.projects.m2.models.Tokens;
 import www.kaznu.kz.projects.m2.models.User;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class OfferAdminActivity extends AppCompatActivity {
 
@@ -42,28 +46,29 @@ public class OfferAdminActivity extends AppCompatActivity {
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
 
-        for (int i = 0; i < 2; i++) {
-            CurrentUser user = new CurrentUser(getApplicationContext());
-            users.add(user);
-        }
-
-        adapter = new OfferAdminAdapter(getApplicationContext(), users, getResources().getDimensionPixelSize(R.dimen.padding_top_bottom),
-                getResources().getDimensionPixelSize(R.dimen.padding_left_right));
-        rvOffers.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rvOffers.setAdapter(adapter);
-        progressBar.setIndeterminate(false);
-        progressBar.setVisibility(View.GONE);
-        adapter.setOnCardClickListner(new OfferAdminAdapter.OnCardClickListner() {
+        new SearchesForOwnersRealty(this, new Tokens(this).getAccessToken()).setOnLoadListener(new SearchesForOwnersRealty.CustomOnLoadListener() {
             @Override
-            public void OnCardClicked(View view, int position) {
-                for (int i = 0; i < adapter.getItemCount(); i++) {
-                    LinearLayout offerPanel = Objects.requireNonNull(rvOffers.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.offer_panel);
-                    if (i == position) {
-                        offerPanel.setVisibility(View.VISIBLE);
-                    } else {
-                        offerPanel.setVisibility(View.GONE);
-                    }
-                }
+            public void onComplete(ArrayList<RealtySearch> searches) {
+                Logger.d("Search data: " + searches.toString());
+                adapter = new OfferAdminAdapter(getApplicationContext(), searches, getResources().getDimensionPixelSize(R.dimen.padding_top_bottom),
+                        getResources().getDimensionPixelSize(R.dimen.padding_left_right));
+                rvOffers.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                rvOffers.setAdapter(adapter);
+                progressBar.setIndeterminate(false);
+                progressBar.setVisibility(View.GONE);
+//                adapter.setOnCardClickListner(new OfferAdminAdapter.OnCardClickListner() {
+//                    @Override
+//                    public void OnCardClicked(View view, int position) {
+//                        for (int i = 0; i < adapter.getItemCount(); i++) {
+//                            LinearLayout offerPanel = Objects.requireNonNull(rvOffers.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.offer_panel);
+//                            if (i == position) {
+//                                offerPanel.setVisibility(View.VISIBLE);
+//                            } else {
+//                                offerPanel.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    }
+//                });
             }
         });
 

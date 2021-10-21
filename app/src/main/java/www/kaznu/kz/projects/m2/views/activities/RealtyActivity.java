@@ -16,7 +16,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -78,7 +77,7 @@ public class RealtyActivity extends IntroActivity {
         setContentView(R.layout.activity_realty);
         linearLayout = findViewById(R.id.realty_info);
         tvRealtyTitle = findViewById(R.id.realty_title);
-        tvAddress = findViewById(R.id.tv_address);
+        tvAddress = findViewById(R.id.tv_fullname);
         tvPrice = findViewById(R.id.tv_price);
         tvOwner = findViewById(R.id.tv_name);
         tvBody = findViewById(R.id.tv_body);

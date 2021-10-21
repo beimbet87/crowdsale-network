@@ -174,7 +174,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            tvTitle = itemView.findViewById(R.id.tv_address);
+            tvTitle = itemView.findViewById(R.id.tv_fullname);
             flowLayout = itemView.findViewById(R.id.list_search_properties);
             tvCount = itemView.findViewById(R.id.tv_count);
         }

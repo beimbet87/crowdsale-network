@@ -75,8 +75,8 @@ public class BookingItemAdapterAdmin extends RecyclerView.Adapter<BookingItemAda
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            tvTitle = itemView.findViewById(R.id.tv_address);
-            tvDate = itemView.findViewById(R.id.tv_date_interval);
+            tvTitle = itemView.findViewById(R.id.tv_fullname);
+            tvDate = itemView.findViewById(R.id.tv_address);
             ivIcon = itemView.findViewById(R.id.iv_avatar);
         }
 

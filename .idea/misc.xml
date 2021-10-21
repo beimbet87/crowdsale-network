@@ -56,6 +56,10 @@
         <entry key="app/src/main/res/layout/fragment_booking.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/fragment_schedule_admin.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/fragment_schedule_admin_empty.xml" value="0.3734375" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/fragment_search_admin.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/fragment_searches_admin.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/fragment_searches_admin_empty.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/item_services.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/message_accepted_guest.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/message_accepted_owner.xml" value="0.3734375" />
@@ -78,7 +82,10 @@
         <entry key="app/src/main/res/layout/message_request_to_guest.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/message_request_to_owner.xml" value="0.3734375" />
         <entry key="app/src/main/res/layout/message_to.xml" value="0.3734375" />
+        <entry key="app/src/main/res/layout/realty_searches_admin_item.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/search_by_address.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu_admin.xml" value="0.31979166666666664" />
       </map>
     </option>
   </component>

@@ -1,6 +1,5 @@
 package www.kaznu.kz.projects.m2.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +85,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
             root.setOnClickListener(this);
             root.setOnLongClickListener(this);
 
-            tvAddress = root.findViewById(R.id.tv_address);
+            tvAddress = root.findViewById(R.id.tv_fullname);
             tvDate = root.findViewById(R.id.tv_date);
             ivAvatar = root.findViewById(R.id.iv_avatar);
         }

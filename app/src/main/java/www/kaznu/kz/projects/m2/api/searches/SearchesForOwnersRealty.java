@@ -23,17 +23,19 @@ import java.util.Map;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Filter;
 import www.kaznu.kz.projects.m2.models.Polygons;
+import www.kaznu.kz.projects.m2.models.RealtySearch;
 import www.kaznu.kz.projects.m2.models.Search;
+import www.kaznu.kz.projects.m2.utils.Logger;
 
 public class SearchesForOwnersRealty implements Constants {
 
-    private ArrayList<Search> searches;
+    private ArrayList<RealtySearch> searches;
     private Context context;
     private int resultCode;
     private String resultMessage;
 
     public interface CustomOnLoadListener {
-        void onComplete(ArrayList<Search> searches);
+        void onComplete(ArrayList<RealtySearch> searches);
     }
 
     public CustomOnLoadListener listener;
@@ -42,7 +44,7 @@ public class SearchesForOwnersRealty implements Constants {
         this.listener = listener;
     }
 
-    public ArrayList<Search> getSearches() {
+    public ArrayList<RealtySearch> getSearches() {
         return this.searches;
     }
 
@@ -52,7 +54,7 @@ public class SearchesForOwnersRealty implements Constants {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GET_MY_SEARCHES, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GET_SEARCHES_FOR_REALTY_OWNER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -65,12 +67,17 @@ public class SearchesForOwnersRealty implements Constants {
                     JSONArray jsonSearches = root.getJSONArray("searches");
 
                     for (int k = 0; k < jsonSearches.length(); k++) {
+
                         JSONObject jsonSearch = jsonSearches.getJSONObject(k);
-                        Search search = new Search();
+                        RealtySearch search = new RealtySearch();
+                        search.setRefSearch(jsonSearch.getInt("refSearch"));
+                        search.setRefRealty(jsonSearch.getInt("refRealty"));
                         search.setRefUser(jsonSearch.getInt("refUser"));
                         search.setStatus(jsonSearch.getInt("status"));
-                        search.setCount(jsonSearch.getInt("count"));
-                        search.setId(jsonSearch.getInt("id"));
+                        search.setName(jsonSearch.getString("name"));
+                        search.setSurname(jsonSearch.getString("surname"));
+                        search.setAddress(jsonSearch.getString("adress"));
+                        search.setUserImageUrl(jsonSearch.getString("userImageUrl"));
 
                         Filter filter = new Filter();
 
@@ -167,7 +174,7 @@ public class SearchesForOwnersRealty implements Constants {
                     }
 
                     if (resultCode == 1) {
-                        Log.d("M2TAG", "Filter Offers is done!");
+                        Logger.d("Filter Offers is done!");
                     }
 
                     if (listener != null) {
@@ -176,13 +183,13 @@ public class SearchesForOwnersRealty implements Constants {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("M2TAG", "Response catch: " + e.toString());
+                    Logger.d("Response catch: " + e.toString());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("M2TAG", "Response error: " + error.toString());
+                Logger.d("Response error: " + error.toString());
                 error.printStackTrace();
             }
         }) {

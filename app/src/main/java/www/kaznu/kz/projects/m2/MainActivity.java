@@ -45,6 +45,7 @@ import www.kaznu.kz.projects.m2.views.fragments.MessageListFragment;
 import www.kaznu.kz.projects.m2.views.fragments.MessageListFragmentAdmin;
 import www.kaznu.kz.projects.m2.views.fragments.ScheduleAdminFragment;
 import www.kaznu.kz.projects.m2.views.fragments.SearchFragment;
+import www.kaznu.kz.projects.m2.views.fragments.SearchesAdminFragment;
 
 public class MainActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
@@ -133,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.action_account_admin:
                 fragment = new AccountAdminFragment();
                 break;
+            case R.id.action_search_admin:
+                fragment = new SearchesAdminFragment();
+                break;
         }
         return loadFragment(fragment);
     }
@@ -156,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements
                 CommunityMaterial.Icon.cmd_clipboard_text,
                 CommunityMaterial.Icon2.cmd_message_processing,
                 CommunityMaterial.Icon.cmd_calendar_check,
+                CommunityMaterial.Icon.cmd_calendar_search,
                 CommunityMaterial.Icon.cmd_account
         };
 
