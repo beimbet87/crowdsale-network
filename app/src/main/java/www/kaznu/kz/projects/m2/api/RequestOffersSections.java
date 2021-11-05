@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import www.kaznu.kz.projects.m2.interfaces.Constants;
 import www.kaznu.kz.projects.m2.models.Directory;
 
-public class RealtyProperties implements Constants {
+public class RequestOffersSections implements Constants {
     private int resultCode;
     private String resultMessage;
     private Context context;
@@ -38,14 +38,13 @@ public class RealtyProperties implements Constants {
         this.listener = listener;
     }
 
-
-    public RealtyProperties(Context context, String sectionId) {
+    public RequestOffersSections(Context context, String realtyTypeId) {
         this.context = context;
         this.directories = new ArrayList<>();
         this.listener = null;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this.context);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GET_REALTY_PROPERTIES.concat("?sectionID=").concat(sectionId), new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GET_REQUEST_OFFERS_SECTIONS.concat("?realtyTypeId=").concat(realtyTypeId), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

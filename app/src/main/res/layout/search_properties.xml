@@ -121,6 +121,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_rooms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_bottom"
@@ -224,7 +225,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="Предложите вашу цену за сутки:"
+                    android:text="Предложите вашу цену:"
                     android:textColor="@color/color_primary_hint" />
 
                 <LinearLayout

@@ -56,7 +56,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         holder.tvDate.setText(date);
 
         if(data.getLinkImage().equals("")) {
-            holder.ivAvatar.setImageResource(R.drawable.default_appartment);
+           // holder.ivAvatar.setImageResource(R.drawable.default_appartment);
         } else {
             String url = BASE_URL + data.getLinkImage();
             Picasso.get().load(url).into(holder.ivAvatar);

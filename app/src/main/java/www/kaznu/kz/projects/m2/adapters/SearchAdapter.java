@@ -116,7 +116,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (search.getFilter().getPropertiesId().size() > 0) {
                 for (int ip = 0; ip < search.getFilter().getPropertiesId().size(); ip++) {
-                    RealtyProperties realtyProperties = new RealtyProperties(context);
+                    RealtyProperties realtyProperties = new RealtyProperties(context, "4");
                     final int temp = search.getFilter().getPropertiesId().get(ip);
                     realtyProperties.setOnLoadListener(data -> {
                         for (int idx = 0; idx < data.size(); idx++) {

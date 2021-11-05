@@ -80,6 +80,7 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
     private Properties properties;
 
     LinearLayout llMonthly;
+    LinearLayout llRooms;
     LinearLayout llRangedDate;
     LinearLayout linearLayout, polygonEdit, layoutRentPeriod, layoutRealtyType;
 
@@ -166,6 +167,8 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
 
         disableDrawable = android.R.color.transparent;
         enableDrawable = R.drawable.button_background_light_blue;
+
+        llRooms = findViewById(R.id.ll_rooms);
 
         toToggle(btnRoom01, isRoom01);
         toToggle(btnRoom02, isRoom02);
@@ -284,6 +287,13 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 realtyTypeText = properties.getRealtyType().get(position).getValue();
                 realtyTypeInt = properties.getRealtyType().get(position).getCodeId();
+
+                if(position > 1) {
+                    llRooms.setVisibility(View.GONE);
+                }
+                else {
+                    llRooms.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -383,14 +393,14 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
                     case 0:
                     case 2:
                         isMonthly = true;
-                        titlePrice.setText("Предложите вашу цену за месяц:");
+                        titlePrice.setText("Предложите вашу цену:");
                         llMonthly.setVisibility(View.VISIBLE);
                         llRangedDate.setVisibility(View.GONE);
                         break;
                     case 1:
                         isMonthly = false;
                         llMonthly.setVisibility(View.GONE);
-                        titlePrice.setText("Предложите вашу цену за сутки:");
+                        titlePrice.setText("Предложите вашу цену:");
                         llRangedDate.setVisibility(View.VISIBLE);
 
                         break;

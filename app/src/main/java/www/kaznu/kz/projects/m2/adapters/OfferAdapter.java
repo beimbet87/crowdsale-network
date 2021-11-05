@@ -88,7 +88,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull OfferAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OfferAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Realty realty = this.offers.get(position).getRealty();
 
         String header = realty.getHeader();
@@ -110,7 +110,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
 
         if(this.offers.get(position).getProperties().size() > 0) {
             for (i = 0; i < this.offers.get(position).getProperties().size(); i++) {
-                RealtyProperties realtyProperties = new RealtyProperties(context);
+                RealtyProperties realtyProperties = new RealtyProperties(context, "4");
                 final int temp = this.offers.get(position).getProperties().get(i);
                 realtyProperties.setOnLoadListener(new RealtyProperties.CustomOnLoadListener() {
                     @Override

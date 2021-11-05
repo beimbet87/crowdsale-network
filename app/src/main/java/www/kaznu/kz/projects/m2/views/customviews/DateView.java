@@ -12,6 +12,8 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -277,7 +279,7 @@ public class DateView extends LinearLayout
             {
                 // if it is today, set it to blue/bold
                 ((TextView)view).setTypeface(null, Typeface.BOLD);
-                ((TextView)view).setBackground(getResources().getDrawable(R.drawable.selected_date));
+                ((TextView)view).setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.selected_date, null));
                 ((TextView)view).setTextColor(getResources().getColor(android.R.color.white));
             }
 

@@ -125,7 +125,7 @@ public class RealtyActivity extends IntroActivity {
 
         if(properties.size() > 0) {
             for (int i = 0; i < properties.size(); i++) {
-                RealtyProperties realtyProperties = new RealtyProperties(this);
+                RealtyProperties realtyProperties = new RealtyProperties(this, "4");
                 final int temp = properties.get(i);
                 realtyProperties.setOnLoadListener(new RealtyProperties.CustomOnLoadListener() {
                     @Override

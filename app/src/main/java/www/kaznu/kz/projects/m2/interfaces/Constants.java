@@ -12,6 +12,7 @@ public interface Constants {
     String URL_IDENTITY_CONFIRMATION = BASE_URL.concat("api/User/IdentityConfirmation");
     String URL_GET_REALTY_TYPE = BASE_URL.concat("api/Directory/getRealtyType");
     String URL_GET_REQUEST_OFFERS = BASE_URL.concat("api/Directory/getRequestOffers");
+    String URL_GET_REQUEST_OFFERS_SECTIONS = BASE_URL.concat("api/Directory/getRequestOffersSections");
     String URL_GET_RENT_PERIOD = BASE_URL.concat("api/Directory/getRentPeriod");
     String URL_GET_REALTY_PROPERTIES = BASE_URL.concat("api/Directory/getRealtyProperties");
     String URL_GET_DEAL_TYPE = BASE_URL.concat("api/Directory/getDealType");
