@@ -306,7 +306,7 @@
     <string name="search_start">Начать поиск</string>
     <string name="discussion">Обсуждение</string>
     <string name="message_hint">Напишите что-нибудь…</string>
-    <string name="country_coude">+7</string>
+    <string name="country_code">+7</string>
     <string name="enter_phone">(XXX) XXX-XX-XX</string>
     <string name="current_position">current position</string>
 

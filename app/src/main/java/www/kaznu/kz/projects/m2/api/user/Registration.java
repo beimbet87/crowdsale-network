@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -84,6 +85,8 @@ public class Registration implements Constants {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Logger.d(error.toString());
+                    Toast.makeText(activity.getApplicationContext(), "Connection Error: " + error.toString(), Toast.LENGTH_SHORT)
+                            .show();
                     error.printStackTrace();
                 }
             }) {

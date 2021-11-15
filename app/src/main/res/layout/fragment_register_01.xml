@@ -75,14 +75,16 @@
 
             <EditText
                 android:id="@+id/country_code"
-                android:layout_width="64dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:paddingEnd="24dp"
                 android:background="@drawable/delimeter_spinner"
                 android:enabled="false"
+                android:inputType="text"
                 android:paddingStart="24dp"
-                android:text="@string/country_coude"
+                android:hint="@string/country_code"
                 android:textColor="@color/color_primary_dark"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -92,7 +94,6 @@
                 android:id="@+id/et_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:autofillHints=""
                 android:background="@android:color/transparent"
                 android:digits="0123456789+()-"
                 android:hint="@string/enter_phone"
@@ -146,6 +147,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:indeterminate="true"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView7"

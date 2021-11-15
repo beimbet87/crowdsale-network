@@ -1,5 +1,7 @@
 package www.kaznu.kz.projects.m2.views.fragments;
 
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_REG_IDENTITY;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,16 +14,19 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.interfaces.Constants;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 import www.kaznu.kz.projects.m2.api.user.RegisterToken;
 
-public class RegisterFragment02 extends Fragment {
+public class RegisterFragment02 extends Fragment implements Constants {
 
     String code;
 
@@ -30,6 +35,7 @@ public class RegisterFragment02 extends Fragment {
     EditText confirmNum01, confirmNum02, confirmNum03, confirmNum04;
     TextView tvPhoneNumber;
     RegisterToken registerToken;
+    private ProgressBar mProgressBar;
 
     public RegisterFragment02() {
     }
@@ -55,6 +61,11 @@ public class RegisterFragment02 extends Fragment {
         confirmNum02 = fv.findViewById(R.id.et_confirm_02);
         confirmNum03 = fv.findViewById(R.id.et_confirm_03);
         confirmNum04 = fv.findViewById(R.id.et_confirm_04);
+
+        mProgressBar = fv.findViewById(R.id.pb_loading);
+
+        mProgressBar.setIndeterminate(false);
+        mProgressBar.setVisibility(View.GONE);
 
         dataPasser.FromFragment02("Регистрация", 1);
 
@@ -144,14 +155,19 @@ public class RegisterFragment02 extends Fragment {
 
         tvPhoneNumber = fv.findViewById(R.id.phone_tv);
 
-        SharedPreferences temp;
-        temp = requireActivity().getSharedPreferences("M2_REG_INFO", 0);
+        // Must change
 
-        final String phone = temp.getString("regIdentity", "");
+        TinyDB data = new TinyDB(requireContext());
+
+        final String phone = data.getString(SHARED_REG_IDENTITY);
 
         tvPhoneNumber.setText(phone);
 
         btnNext.setOnClickListener(v -> {
+
+            mProgressBar.setIndeterminate(true);
+            mProgressBar.setVisibility(View.VISIBLE);
+
             code = confirmNum01.getText().toString() +
                     confirmNum02.getText().toString() +
                     confirmNum03.getText().toString() +
@@ -159,8 +175,12 @@ public class RegisterFragment02 extends Fragment {
 
             registerToken = new RegisterToken(requireContext(), requireActivity(), phone, code);
 
-            registerToken.setOnLoadListener(token -> requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.register_fragment, new RegisterFragment03()).commit());
+            registerToken.setOnLoadListener(token -> {
+                mProgressBar.setIndeterminate(false);
+                mProgressBar.setVisibility(View.GONE);
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.register_fragment, new RegisterFragment03()).commit();
+            });
         });
 
         return fv;

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,8 @@ public class RegisterFragment05 extends Fragment implements Constants {
     EditText etFirstName, etLastName, etDateOfBirth;
 
     String token;
+
+    private ProgressBar mProgressBar;
 
     RegistrationForm registrationForm;
 
@@ -53,11 +56,19 @@ public class RegisterFragment05 extends Fragment implements Constants {
         etLastName = root.findViewById(R.id.et_reg_lname);
         etDateOfBirth = root.findViewById(R.id.et_reg_dateofbirth);
 
+        mProgressBar = root.findViewById(R.id.pb_loading);
+
+        mProgressBar.setIndeterminate(false);
+        mProgressBar.setVisibility(View.GONE);
+
         TinyDB data = new TinyDB(requireContext());
 
         dataPasser.FromFragment05("Основная информация", 4);
 
         btnRegister.setOnClickListener(v -> {
+
+            mProgressBar.setIndeterminate(true);
+            mProgressBar.setVisibility(View.VISIBLE);
 
             User user = new User();
             token = data.getString(SHARED_ACCESS_TOKEN);
@@ -85,6 +96,9 @@ public class RegisterFragment05 extends Fragment implements Constants {
                     Toast.makeText(requireActivity().getApplicationContext(),
                             "Ошибка при регистраций!", Toast.LENGTH_SHORT).show();
                 }
+
+                mProgressBar.setIndeterminate(false);
+                mProgressBar.setVisibility(View.GONE);
             });
         });
 

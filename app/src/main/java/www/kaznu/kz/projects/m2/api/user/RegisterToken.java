@@ -2,6 +2,7 @@ package www.kaznu.kz.projects.m2.api.user;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -37,6 +38,8 @@ public class RegisterToken implements Constants {
 
     public RegisterToken(Context context, Activity activity, String phone, String code) {
 
+        Logger.d("Phone: " + phone.replaceAll("[ \\-()]", "") + " and code: " + code);
+
         this.context = context;
 
         TinyDB data = new TinyDB(this.context);
@@ -59,10 +62,14 @@ public class RegisterToken implements Constants {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                Toast.makeText(activity.getApplicationContext(), "JSON Error: " + e.toString(), Toast.LENGTH_SHORT)
+                        .show();
                 Logger.d("Response error: " + e.toString());
             }
         }, error -> {
             Logger.d("Response error 2: " + error.toString());
+            Toast.makeText(activity.getApplicationContext(), "Connection Error: " + error.toString(), Toast.LENGTH_SHORT)
+                    .show();
             VolleyLog.d("M2TAG", error.getMessage());
             error.printStackTrace();
         }) {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ public class RegisterFragment03 extends Fragment {
     EditText etRegPassword, etRegRePassword;
     TextView tvError;
     String regPassword, reRegPassword;
+
+    private ProgressBar mProgressBar;
 
     public RegisterFragment03() {
         // Required empty public constructor
@@ -47,11 +50,20 @@ public class RegisterFragment03 extends Fragment {
         etRegRePassword = fv.findViewById(R.id.et_reg_repassword);
         tvError = fv.findViewById(R.id.tv_error);
 
+        mProgressBar = fv.findViewById(R.id.pb_loading);
+
+        mProgressBar.setIndeterminate(false);
+        mProgressBar.setVisibility(View.GONE);
+
         TinyDB data = new TinyDB(requireContext());
 
         dataPasser.FromFragment03("Завершение регистрации", 2);
 
         nextButton.setOnClickListener(v -> {
+
+            mProgressBar.setIndeterminate(true);
+            mProgressBar.setVisibility(View.VISIBLE);
+
             regPassword = etRegPassword.getText().toString();
             reRegPassword = etRegRePassword.getText().toString();
 
@@ -60,9 +72,15 @@ public class RegisterFragment03 extends Fragment {
 
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.register_fragment, new RegisterFragment04()).commit();
+
+                mProgressBar.setIndeterminate(false);
+                mProgressBar.setVisibility(View.GONE);
             } else {
                 tvError.setText("Пароли не совпадают");
                 etRegRePassword.setBackgroundResource(R.drawable.intro_input_phone_error_background);
+
+                mProgressBar.setIndeterminate(false);
+                mProgressBar.setVisibility(View.GONE);
             }
         });
 

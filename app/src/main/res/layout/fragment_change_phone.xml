@@ -106,7 +106,7 @@
                                 android:background="@drawable/delimeter_spinner"
                                 android:enabled="false"
                                 android:paddingStart="24dp"
-                                android:text="@string/country_coude"
+                                android:text="@string/country_code"
                                 android:textColor="@color/color_primary_dark"
                                 android:textSize="16sp"
                                 android:textStyle="normal"

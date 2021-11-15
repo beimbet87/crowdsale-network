@@ -10,14 +10,22 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.models.Directory;
 import www.kaznu.kz.projects.m2.views.activities.LoginActivity;
 import www.kaznu.kz.projects.m2.adapters.CountriesAdapter;
 import www.kaznu.kz.projects.m2.api.Countries;
@@ -31,6 +39,7 @@ public class RegisterFragment01 extends Fragment {
     CheckBox cbTermOfUse;
     TextView tvLogin;
     Registration registration;
+    private ProgressBar mProgressBar;
 
     public RegisterFragment01() {
         // Required empty public constructor
@@ -54,16 +63,49 @@ public class RegisterFragment01 extends Fragment {
         countryCode = root.findViewById(R.id.country_code);
         tvLogin = root.findViewById(R.id.login_tv);
         cbTermOfUse = root.findViewById(R.id.cb_term_of_use);
+        mProgressBar = root.findViewById(R.id.pb_loading);
+
+        mProgressBar.setIndeterminate(false);
+        mProgressBar.setVisibility(View.GONE);
 
         dataPasser.FromFragment01("Регистрация", 0);
 
         Spinner countriesSpinner = root.findViewById(R.id.countries_spinner);
 
-        Countries countries = new Countries(requireActivity().getApplicationContext());
+        ArrayList<Directory> countryCodes = new ArrayList<>();
 
-        countries.setOnLoadListener(data -> {
-            countriesSpinner.setAdapter(new CountriesAdapter(requireActivity().getApplicationContext(), data));
-            countriesSpinner.setSelection(0);
+        Directory kz = new Directory();
+        kz.setCodeId(7);
+        kz.setCodeStr("+7");
+        kz.setValue("Казахстан ");
+        countryCodes.add(0, kz);
+
+        Directory ru = new Directory();
+        ru.setCodeId(8);
+        ru.setCodeStr("+7");
+        ru.setValue("Россия");
+        countryCodes.add(1, ru);
+
+        Directory kg = new Directory();
+        kg.setCodeId(9);
+        kg.setCodeStr("+996");
+        kg.setValue("Кыргызстан");
+        countryCodes.add(2, kg);
+
+
+        countriesSpinner.setAdapter(new CountriesAdapter(requireActivity().getApplicationContext(), countryCodes));
+        countriesSpinner.setSelection(0);
+
+        countriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                countryCode.setText(countryCodes.get(position).getCodeStr());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
 
         phoneNumber.addTextChangedListener(new PhoneTextFormatter(phoneNumber, "(###) ###-##-##"));
@@ -75,7 +117,11 @@ public class RegisterFragment01 extends Fragment {
 
         getCodeButton.setOnClickListener(v -> {
 
-            if (cbTermOfUse.isChecked()) {
+            if (cbTermOfUse.isChecked() && !phoneNumber.getText().toString().equals("")) {
+
+                mProgressBar.setIndeterminate(true);
+                mProgressBar.setVisibility(View.VISIBLE);
+
                 registration = new Registration(requireContext(), requireActivity(), countryCode, phoneNumber);
 
                 registration.setOnLoadListener((resultCode, resultMessage, userID) -> {
@@ -86,9 +132,12 @@ public class RegisterFragment01 extends Fragment {
                         Toast.makeText(getContext(), "Номер телефона уже существует", Toast.LENGTH_SHORT)
                                 .show();
                     }
+
+                    mProgressBar.setIndeterminate(false);
+                    mProgressBar.setVisibility(View.GONE);
                 });
             } else {
-                Toast.makeText(getContext(), "Подтвердите Ваше согласие", Toast.LENGTH_SHORT)
+                Toast.makeText(getContext(), "Подтвердите Ваше согласие или введите номер телефона", Toast.LENGTH_SHORT)
                         .show();
             }
         });
