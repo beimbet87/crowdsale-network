@@ -292,6 +292,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_bottom"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:padding="12dp">
 
                 <TextView
