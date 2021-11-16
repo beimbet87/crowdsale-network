@@ -29,28 +29,28 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:text="@string/support_text"
-        android:textAllCaps="true"
-        android:textColor="@color/color_primary_splash_hint"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SmallSp" />
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingBottom="16dp"-->
+<!--        android:text="@string/support_text"-->
+<!--        android:textAllCaps="true"-->
+<!--        android:textColor="@color/color_primary_splash_hint"-->
+<!--        android:textSize="10sp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/textView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:ignore="SmallSp" />-->
 
-    <ImageView
-        android:id="@+id/textView"
-        android:layout_width="165dp"
-        android:layout_height="39dp"
-        android:layout_marginBottom="32dp"
-        android:contentDescription="@string/support_company"
-        android:src="@drawable/logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/textView"-->
+<!--        android:layout_width="165dp"-->
+<!--        android:layout_height="39dp"-->
+<!--        android:layout_marginBottom="32dp"-->
+<!--        android:contentDescription="@string/support_company"-->
+<!--        android:src="@drawable/logo"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
