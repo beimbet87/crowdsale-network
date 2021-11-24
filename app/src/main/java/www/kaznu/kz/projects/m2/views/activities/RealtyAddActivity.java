@@ -462,7 +462,7 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         assert cursor != null;
         cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
 
         return path;

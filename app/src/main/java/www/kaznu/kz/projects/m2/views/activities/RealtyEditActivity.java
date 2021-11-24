@@ -2,6 +2,7 @@ package www.kaznu.kz.projects.m2.views.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -28,6 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
@@ -43,6 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import www.kaznu.kz.projects.m2.MainActivity;
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.ToggleButton;
 import www.kaznu.kz.projects.m2.adapters.RealtyTypeAdapter;
@@ -65,6 +68,7 @@ import www.kaznu.kz.projects.m2.utils.Utils;
 import www.kaznu.kz.projects.m2.utils.VolleyMultipartRequest;
 import www.kaznu.kz.projects.m2.utils.VolleyMultipartRequest.DataPart;
 import www.kaznu.kz.projects.m2.views.customviews.FlowLayout;
+import www.kaznu.kz.projects.m2.views.fragments.AdvertListFragment;
 
 public class RealtyEditActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -602,7 +606,7 @@ public class RealtyEditActivity extends AppCompatActivity implements AdapterView
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         assert cursor != null;
         cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
 
         return path;

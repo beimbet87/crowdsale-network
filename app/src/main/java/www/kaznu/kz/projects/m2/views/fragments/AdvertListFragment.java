@@ -20,7 +20,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import www.kaznu.kz.projects.m2.R;
+import www.kaznu.kz.projects.m2.api.realty.UserApplications;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
+import www.kaznu.kz.projects.m2.models.Tokens;
+import www.kaznu.kz.projects.m2.utils.Logger;
+import www.kaznu.kz.projects.m2.utils.TinyDB;
 import www.kaznu.kz.projects.m2.views.activities.OfferAdminActivity;
 import www.kaznu.kz.projects.m2.views.activities.RealtyAddActivity;
 import www.kaznu.kz.projects.m2.views.activities.RealtyEditActivity;
@@ -30,6 +34,7 @@ import www.kaznu.kz.projects.m2.models.Offers;
 import www.kaznu.kz.projects.m2.models.Realty;
 
 import static android.app.Activity.RESULT_OK;
+import static www.kaznu.kz.projects.m2.interfaces.Constants.SHARED_USER_PUBLISHED_ADVERT_LIST;
 
 public class AdvertListFragment extends Fragment {
 
@@ -45,6 +50,9 @@ public class AdvertListFragment extends Fragment {
     UnpublishedAdsAdapter laUnpublished;
 
     ProgressBar progressBar;
+    CurrentUser user;
+    ArrayList<Offers> published;
+    ArrayList<Offers> unpublished;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -52,10 +60,8 @@ public class AdvertListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         ViewGroup root;
-        ArrayList<Offers> published;
-        ArrayList<Offers> unpublished;
 
-        CurrentUser user = new CurrentUser(requireContext());
+        user = new CurrentUser(requireContext());
 
         if (user.getPublishedAdvertList().size() > 0 || user.getUnpublishedAdvertList().size() > 0) {
             root = (ViewGroup) inflater.inflate(R.layout.fragment_advert_list, container, false);
@@ -72,12 +78,19 @@ public class AdvertListFragment extends Fragment {
             progressBar = root.findViewById(R.id.post_progress);
             progressBar.setIndeterminate(true);
             progressBar.setVisibility(View.VISIBLE);
+
             laPublished = new PublishedAdsAdapter(requireContext(), published);
 
             lvPublished.setLayoutManager(new LinearLayoutManager(requireContext()));
             lvPublished.setAdapter(laPublished);
-            laPublished.notifyDataSetChanged();
+//            laPublished.notifyDataSetChanged();
             lvPublished.setItemViewCacheSize(16);
+
+            for (int i = 0; i < laPublished.getItemCount(); i++) {
+                laPublished.notifyItemChanged(i);
+                lvPublished.refreshDrawableState();
+            }
+            lvPublished.invalidate();
 
             laPublished.setOnItemClickListener(new PublishedAdsAdapter.ClickListener() {
                 @Override
@@ -102,8 +115,7 @@ public class AdvertListFragment extends Fragment {
             lvUnpublished.setAdapter(laUnpublished);
             laUnpublished.notifyDataSetChanged();
             lvUnpublished.setItemViewCacheSize(16);
-            progressBar.setIndeterminate(false);
-            progressBar.setVisibility(View.GONE);
+
             laUnpublished.setOnItemClickListener(new UnpublishedAdsAdapter.ClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
@@ -121,6 +133,7 @@ public class AdvertListFragment extends Fragment {
 
                 }
             });
+
 
         } else {
             root = (ViewGroup) inflater.inflate(R.layout.fragment_advert_empty, container, false);
@@ -150,19 +163,51 @@ public class AdvertListFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Logger.d("AdvertList on ViewCreated");
+
+        if (user.getPublishedAdvertList().size() > 0) {
+            UserApplications published = new UserApplications(getContext(), 1, new Tokens(getContext()).getAccessToken());
+            published.setOnLoadListener(new UserApplications.CustomOnLoadListener() {
+                @Override
+                public void onComplete(ArrayList<Offers> offers) {
+                    TinyDB data = new TinyDB(requireContext());
+                    data.putListOfferModel(SHARED_USER_PUBLISHED_ADVERT_LIST, offers);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Logger.d("AdvertList on ActivityCreated");
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 //        laPublished.notifyDataSetChanged();
+        Logger.d("AdvertList on Start");
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Logger.d("AdvertList on Stop");
+
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onResume() {
         super.onResume();
+
+        progressBar.setIndeterminate(false);
+        progressBar.setVisibility(View.GONE);
+
+        Logger.d("AdvertList on Resume");
 
     }
 }
