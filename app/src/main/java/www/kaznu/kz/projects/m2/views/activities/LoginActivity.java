@@ -1,11 +1,14 @@
 package www.kaznu.kz.projects.m2.views.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -37,7 +40,20 @@ public class LoginActivity extends IntroActivity implements Constants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS, WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         setContentView(R.layout.activity_login);
+
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener
+                (new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+
+                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                            hideNavigationBar();
+                        }
+                    }
+                });
 
         data = new TinyDB(this);
 
@@ -67,6 +83,9 @@ public class LoginActivity extends IntroActivity implements Constants {
         etUserName.setText(data.getString(SHARED_USER_PHONE));
         etPassword.setText(data.getString(SHARED_USER_PASSWORD));
 
+        closeKeyboard();
+
+
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
@@ -85,6 +104,35 @@ public class LoginActivity extends IntroActivity implements Constants {
         });
     }
 
+    private void hideNavigationBar() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    private void closeKeyboard()
+    {
+        // this will give us the view
+        // which is currently focus
+        // in this layout
+        View view = this.getCurrentFocus();
+
+        // if nothing is currently
+        // focus then this will protect
+        // the app from crash
+        if (view != null) {
+
+            // now assign the system
+            // service to InputMethodManager
+            InputMethodManager manager
+                    = (InputMethodManager)
+                    getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+            manager
+                    .hideSoftInputFromWindow(
+                            view.getWindowToken(), 0);
+        }
+    }
 
     @Override
     protected void onStop() {

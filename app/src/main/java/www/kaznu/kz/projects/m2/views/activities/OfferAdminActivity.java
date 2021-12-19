@@ -56,9 +56,9 @@ public class OfferAdminActivity extends AppCompatActivity {
                 rvOffers.setAdapter(adapter);
                 progressBar.setIndeterminate(false);
                 progressBar.setVisibility(View.GONE);
-//                adapter.setOnCardClickListner(new OfferAdminAdapter.OnCardClickListner() {
-//                    @Override
-//                    public void OnCardClicked(View view, int position) {
+                adapter.setOnCardClickListner(new OfferAdminAdapter.OnCardClickListner() {
+                    @Override
+                    public void OnCardClicked(View view, int position) {
 //                        for (int i = 0; i < adapter.getItemCount(); i++) {
 //                            LinearLayout offerPanel = Objects.requireNonNull(rvOffers.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.offer_panel);
 //                            if (i == position) {
@@ -67,8 +67,15 @@ public class OfferAdminActivity extends AppCompatActivity {
 //                                offerPanel.setVisibility(View.GONE);
 //                            }
 //                        }
-//                    }
-//                });
+
+//                        Intent intent = new Intent(getApplicationContext(), DiscussionActivity.class);
+//                        intent.putExtra("contact", mData.get(position).getCompany());
+//                        intent.putExtra("ref_realty", mData.get(position).getRefRealty());
+//                        intent.putExtra("owner", false);
+
+//                        startActivity(intent);
+                    }
+                });
             }
         });
 
