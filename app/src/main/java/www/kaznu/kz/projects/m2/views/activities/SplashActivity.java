@@ -7,6 +7,10 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 
 import java.util.ArrayList;
@@ -112,6 +116,8 @@ public class SplashActivity extends IntroActivity implements Constants {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        hideSystemBars();
+
         context = this;
 
         tinyDB = new TinyDB(this);
@@ -127,5 +133,19 @@ public class SplashActivity extends IntroActivity implements Constants {
     protected void onDestroy() {
         waitHandler.removeCallbacks(waitCallback);
         super.onDestroy();
+    }
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
     }
 }

@@ -22,6 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -114,6 +117,8 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        hideSystemBars();
 
         properties = new Properties(this);
 
@@ -330,8 +335,28 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
         }
 
         final BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        bottomSheetBehavior.setPeekHeight(1);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            bottomSheetBehavior.setPeekHeight(0);
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setPeekHeight(0);
+                }
+                else if(newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+
+                Logger.d("STATE: " + newState);
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
 
         etSearchPlace.setOnClickListener(v ->
 
@@ -1027,5 +1052,19 @@ public class SearchActivity extends AppCompatActivity implements MapsFragment.Da
     @Override
     public void onClick(View v) {
 
+    }
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
     }
 }

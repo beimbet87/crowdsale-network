@@ -13,6 +13,9 @@ import android.widget.ViewAnimator;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,6 +70,8 @@ public class SearchAddressActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_by_address);
+
+        hideSystemBars();
 
         apiKey = getString(R.string.google_maps_key);
         Places.initialize(this, apiKey);
@@ -188,5 +193,19 @@ public class SearchAddressActivity extends AppCompatActivity {
                 .setMessage("Geocoding result:\n" + result.geometry.location)
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
+    }
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
     }
 }

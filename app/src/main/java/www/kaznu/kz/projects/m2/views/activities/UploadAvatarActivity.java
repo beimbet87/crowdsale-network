@@ -1,6 +1,7 @@
 package www.kaznu.kz.projects.m2.views.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -52,6 +56,8 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_upload_avatar);
+
+        hideSystemBars();
         ivUploadAvatar = findViewById(R.id.iv_upload_avatar);
 
         SharedPreferences token = getSharedPreferences("M2_TOKEN", 0);
@@ -132,7 +138,7 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
 
         return path;
@@ -188,5 +194,19 @@ public class UploadAvatarActivity extends AppCompatActivity implements Constants
 
         //adding the request to volley
         Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    }
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
     }
 }

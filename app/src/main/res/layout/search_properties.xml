@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/search_properties"
     android:layout_width="match_parent"
-    android:layout_height="770dp"
+    android:layout_height="775dp"
     android:layout_margin="0dp"
     android:background="@drawable/bottomsheet_layout_background"
     android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
     android:padding="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/filter_layout_background"
-        android:fitsSystemWindows="true">
+        android:background="@drawable/filter_layout_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_bottom"
                 android:paddingStart="12dp"
-                android:paddingTop="0dp"
+                android:paddingTop="12dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="12dp">
 

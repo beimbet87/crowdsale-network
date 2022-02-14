@@ -35,6 +35,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
@@ -120,6 +123,9 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_realty_add);
+
+        hideSystemBars();
+
         user = new CurrentUser(this);
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
@@ -506,5 +512,19 @@ public class RealtyAddActivity extends AppCompatActivity implements AdapterView.
 
         //adding the request to volley
         Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    }
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
     }
 }

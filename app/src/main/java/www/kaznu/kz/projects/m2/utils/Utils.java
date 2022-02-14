@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.view.ContextThemeWrapper;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 

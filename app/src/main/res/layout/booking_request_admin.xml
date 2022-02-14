@@ -5,9 +5,11 @@
     android:id="@+id/booking_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="0dp"
     android:background="@drawable/filter_layout_background"
     android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.core.widget.NestedScrollView
@@ -85,11 +87,11 @@
                     android:layout_marginEnd="6dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/intro_input_phone_background"
+                    android:enabled="false"
                     android:hint="Стоимость в сутки …"
+                    android:inputType="phone"
                     android:padding="10dp"
                     android:paddingStart="18dp"
-                    android:inputType="phone"
-                    android:enabled="false"
                     android:textColor="@color/color_primary_dark"
                     android:textColorHint="#7F7F7F"
                     android:textSize="14sp" />

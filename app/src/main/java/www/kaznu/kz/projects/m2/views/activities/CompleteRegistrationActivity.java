@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import www.kaznu.kz.projects.m2.R;
 import www.kaznu.kz.projects.m2.models.CurrentUser;
@@ -25,6 +28,8 @@ public class CompleteRegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_registration);
+
+        hideSystemBars();
 
         btnBack = findViewById(R.id.toolbar_back);
         btnPaymentMethods = findViewById(R.id.payment_methods);
@@ -64,6 +69,20 @@ public class CompleteRegistrationActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
     }
 
     @Override

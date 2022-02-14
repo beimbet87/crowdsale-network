@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -75,6 +78,9 @@ public class RealtyActivity extends IntroActivity {
         setFullscreen(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_realty);
+
+        hideSystemBars();
+
         linearLayout = findViewById(R.id.realty_info);
         tvRealtyTitle = findViewById(R.id.realty_title);
         tvAddress = findViewById(R.id.tv_fullname);
@@ -327,6 +333,21 @@ public class RealtyActivity extends IntroActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
     }
 
     @Override
